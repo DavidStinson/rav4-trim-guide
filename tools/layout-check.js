@@ -25,9 +25,9 @@ window.layoutCheck = function layoutCheck(){
   if(nav && W >= 1024 && nav.scrollWidth > nav.clientWidth + 1)
     fails.push(`section nav overflows at ${W}px: ${nav.scrollWidth}px of links in ${nav.clientWidth}px`);
 
-  // 3. When four cards fit (wide desktop), all four show and no arrows appear. A slider with a
-  //    data-sl-max cap (the package cards) is checked in 6 instead.
-  if(W >= 1280) sliders.filter(sl => !sl.dataset.slMax).forEach((sl, i) => {
+  // 3. On a wide desktop, every slider shows all four trims side by side with no arrows, the package
+  //    ladders and priority cards included, so the reader compares four without clicking.
+  if(W >= 1280) sliders.forEach((sl, i) => {
     const items = [...sl.querySelector('.sl-track').children];
     if(!items.length) return;
     const out = items.filter(el => el.classList.contains('sl-out')).length;
@@ -52,28 +52,27 @@ window.layoutCheck = function layoutCheck(){
   if(document.documentElement.scrollWidth > W + 1)
     fails.push(`page is ${document.documentElement.scrollWidth}px wide at ${W}px viewport`);
 
-  // 6. Sliders with a data-sl-max cap (the package cards and the priority cards) never show more
-  //    cards than the cap, and their cards are the same width. On a wide screen, the cap's worth
-  //    show with an arrow for the rest, and the arrow brings the last card in. The priority cards
-  //    only show once a priority is picked, so pick one for the check and put it back after.
+  // 6. The package ladders and priority cards need room: their cards are never narrower than their
+  //    data-sl-col minimum, and they share one width. Where four don't fit (laptop widths below 1280),
+  //    an arrow shows and brings the last card in. The priority cards only show once a priority is
+  //    picked, so pick one for the check and put it back after.
   const chip = document.querySelector('#chips [data-id="price"]');
   const chipWasOn = chip?.getAttribute('aria-pressed') === 'true';
   if(chip && !chipWasOn) chip.click();
-  const capped = ['#pkGrid', '#scores'].map(id => [id, document.querySelector(id)?.closest('[data-sl]')]);
+  const roomy = ['#pkGrid', '#scores'].map(id => [id, document.querySelector(id)?.closest('[data-sl]')]);
   const widths = {};
-  capped.forEach(([id, sl]) => {
+  roomy.forEach(([id, sl]) => {
     if(!sl || !visible(sl)) { fails.push(`no visible ${id} slider`); return; }
-    const max = +sl.dataset.slMax;
-    if(!max) { fails.push(`${id} slider has no data-sl-max`); return; }
+    const minCol = +sl.dataset.slCol;
+    if(!minCol) { fails.push(`${id} slider has no data-sl-col minimum card width`); return; }
     const items = [...sl.querySelector('.sl-track').children];
-    const shown = () => items.filter(el => !el.classList.contains('sl-out')).length;
-    if(shown() > max) fails.push(`${id} slider shows ${shown()} cards at ${W}px; at most ${max}`);
-    const minW = Math.min(...items.filter(el => !el.classList.contains('sl-out')).map(el => el.getBoundingClientRect().width));
+    const shownEls = () => items.filter(el => !el.classList.contains('sl-out'));
+    const minW = Math.min(...shownEls().map(el => el.getBoundingClientRect().width));
     widths[id] = minW;
-    if(W >= 1000 && minW < 260) fails.push(`${id} cards are ${Math.round(minW)}px wide at ${W}px; expected at least 260`);
-    if(W >= 1280){
+    if(minW < Math.min(minCol, W - 120) - 1) fails.push(`${id} cards are ${Math.round(minW)}px wide at ${W}px; expected at least ${minCol}`);
+    if(W >= 1000 && W < 1280){
       const next = sl.querySelector('.sl-next');
-      if(shown() !== max || !next || !visible(next)) fails.push(`${id} slider at ${W}px: ${shown()} cards and ${next && visible(next) ? 'a' : 'no'} next arrow; expected ${max} and an arrow`);
+      if(shownEls().length >= items.length || !next || !visible(next)) fails.push(`${id} slider at ${W}px: ${shownEls().length} of ${items.length} cards and ${next && visible(next) ? 'a' : 'no'} next arrow; expected some hidden behind an arrow`);
       else {
         next.click();
         if(items[items.length-1].classList.contains('sl-out')) fails.push(`${id} slider at ${W}px: the next arrow didn't bring the last card into view`);
