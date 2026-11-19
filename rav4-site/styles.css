@@ -70,10 +70,10 @@ img{max-width:100%;height:auto;display:block}
 .theme-btn{border:1px solid var(--rule);background:var(--card);color:var(--ink);border-radius:999px;width:40px;height:40px;cursor:pointer;flex:none;font-size:18px}
 
 /* ---------- hero: the road ---------- */
-.hero{padding-top:56px}
-.hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:800;letter-spacing:-.025em;max-width:16ch}
+.hero{padding-top:40px}
+.hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:800;letter-spacing:-.025em;text-wrap:balance}
 .hero .lede{margin-top:18px}
-.road{position:relative;margin-top:44px;background:var(--asphalt);color:#fff;border-radius:28px 28px 0 0;padding:40px 0 34px;overflow:hidden}
+.road{position:relative;margin-top:32px;background:var(--asphalt);color:#fff;border-radius:28px 28px 0 0;padding:32px 0 34px;overflow:hidden}
 /* The lane line runs the full width of the road, behind the cars. */
 .road::before{content:"";position:absolute;left:0;right:0;top:156px;height:6px;background:repeating-linear-gradient(90deg,var(--lane) 0 46px,transparent 46px 82px);opacity:.9}
 .road .sl{--sl-bg:var(--asphalt);--sl-ink:#fff}
@@ -125,6 +125,8 @@ section{padding:104px 0 0}
 .sl-in{display:flex;flex-direction:column;align-items:center;gap:8px;margin:auto 0}
 /* In a slider taller than the screen (packages), the arrow stays near the middle of the screen while it scrolls past. */
 .sl.tall .sl-in{position:sticky;top:calc(50vh - 60px);bottom:calc(50vh - 60px)}
+/* In the hero the arrow sits level with the car photos, clear of the names, prices and price chips. */
+.road .sl-in{margin:36px 0 auto}
 .sl-next{right:-8px;background:linear-gradient(90deg,color-mix(in srgb,var(--sl-bg) 10%,transparent),var(--sl-bg) 62%)}
 .sl-prev{left:-8px;background:linear-gradient(270deg,color-mix(in srgb,var(--sl-bg) 10%,transparent),var(--sl-bg) 62%)}
 .sl-arrow{width:48px;height:48px;border-radius:50%;background:var(--lane);color:#222;display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.22);transition:transform .15s}
