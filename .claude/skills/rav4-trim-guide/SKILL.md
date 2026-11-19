@@ -22,7 +22,7 @@ Top-level `const`s are shared across these scripts (classic scripts share one gl
 
 1. Write or change the check in `tools/` and run it **red**: `npm run check -- --quick --no-shots` (about 20 s).
 2. Change the site.
-3. `npm run check` until it prints ALL PASS (about 60 s, every year, width and dark mode).
+3. `npm run check` until it prints ALL PASS (about 80 s, every year, width and dark mode).
 4. For anything visible, `node tools/shoot.mjs` and read the section screenshots in `.check/sections/`.
 5. Commit by type (Conventional Commits).
 

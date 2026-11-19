@@ -4,7 +4,7 @@
 
 1. takes a full-page screenshot to `.check/shots/<year>@<width>[-dark].png` (transitions frozen, every photo loaded);
 2. runs axe with the WCAG 2.2 A and AA rules;
-3. injects and runs the in-page checks: `layoutCheck()`, `yearCheck(year)`, `await photoCheck()`, and once `photoFilesCheck()`;
+3. injects and runs the in-page checks: `layoutCheck()`, `yearCheck(year)`, `await photoCheck()`, `await readingCheck()` (last, because it scrolls), and once `photoFilesCheck()`;
 4. records every page error, `console.error` and failed file load.
 
 Results land in `.check/results.json`; the exit code is 1 on any failure. Options: `--quick` (2027 at 390 and 1400 plus dark), `--no-shots`, `--root <dir>` (check a worktree with that worktree's own check files), `--page <path>`.
@@ -13,9 +13,10 @@ Results land in `.check/results.json`; the exit code is 1 on any failure. Option
 
 | File | Guards |
 |---|---|
-| `tools/layout-check.js` | sliders, nav fit, card counts per width, overflow: things that break at one width only |
+| `tools/layout-check.js` | sliders (side arrows, and trim tabs where one card fits), nav fit, card counts per width, overflow, the hero's first screen, the priority picker before a pick, step-up links: things that break at one width only |
 | `tools/year-check.js` | the facts per year: prices, totals, mpg, charging math, paint codes, which trims have what, fine print that was removed on purpose |
 | `tools/photo-check.js` | every photo opens larger, has 1x and 2x copies, alt text, fits the expanded view; every copy exists at the width `photos.js` lists |
+| `tools/reading-check.js` | what an older reader notices: an open zero in prices, text size (16px, and 17px for sentences on a laptop), the section nav highlight, labels inside drawings, the pinned spec header, line length |
 
 Each exposes a function on `window` that returns a list of failure strings; an empty list passes. A failure string names the thing, what it is, and what was expected, so it reads as a bug report on its own.
 
@@ -29,4 +30,10 @@ Selectors in the checks follow the page: when a redesign moves or renames an ele
 
 ## When a check fails
 
-Read the failure text first; it says what was expected. For layout failures, open the matching screenshot in `.check/shots/`. For flaky-looking failures, rerun once: photo loads can be slow. A 39 px difference at the "Only show differences" toggle at 1100 px is known screenshot jitter, so pass `--max 0.001` to `shot-diff.mjs` when proving a change is invisible.
+Read the failure text first; it says what was expected. For layout failures, open the matching screenshot in `.check/shots/`. For flaky-looking failures, rerun once: photo loads can be slow, and a Google Fonts file that fails to load (`ERR_SOCKET_NOT_CONNECTED`) also fails the open-zero check. A 39 px difference at the "Only show differences" toggle at 1100 px is known screenshot jitter, so pass `--max 0.001` to `shot-diff.mjs` when proving a change is invisible.
+
+## Writing a check that holds
+
+- Judge what renders, not what the markup says. `visible()` in `layout-check.js` goes by computed `display` and boxes: a `hidden` element that a component's `display` rule still shows counts as visible (the base `[hidden]{display:none!important}` rule exists because one did).
+- A check that opens a dialog, clicks or moves focus waits for the page to settle before it returns. The lightbox hands focus back to its photo button a task after closing, and that scroll once landed under the reading check's section-nav jump.
+- Measure line length in characters per line, not `ch`: this body face's zero is wide, so `68ch` still runs about 90 characters. The site caps notes at `36em`.

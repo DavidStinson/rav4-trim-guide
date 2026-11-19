@@ -24,7 +24,7 @@ The checks need Node (24 or later) and a one-time `npm install` and `npx playwri
 npm run check
 ```
 
-It opens a headless browser for both model years at 390, 700, 1100, 1400 and 1500 px wide, plus 1400 px in dark mode, and in each runs the WCAG 2.2 AA accessibility rules (axe), `tools/layout-check.js`, `tools/year-check.js` and `tools/photo-check.js`. Errors the page throws or logs and files that fail to load count as failures. It prints ALL PASS or each failure, writes `.check/results.json`, saves a full-page screenshot of each run in `.check/shots/`, and exits 1 on any failure. `-- --quick` checks 2027 at two widths in about 20 seconds.
+It opens a headless browser for both model years at 390, 700, 1100, 1400 and 1500 px wide, plus 1400 px in dark mode, and in each runs the WCAG 2.2 AA accessibility rules (axe), `tools/layout-check.js`, `tools/year-check.js`, `tools/photo-check.js` and `tools/reading-check.js`. Errors the page throws or logs and files that fail to load count as failures. It prints ALL PASS or each failure, writes `.check/results.json`, saves a full-page screenshot of each run in `.check/shots/`, and exits 1 on any failure. `-- --quick` checks 2027 at two widths in about 20 seconds.
 
 The photo check confirms that every photo has alt text, opens larger when clicked, has a copy sharp enough for a 2x screen, and shows its full-size copy in the expanded view without overflowing the screen. Once per run it also confirms that every photo's three copies exist at the widths `photos.js` lists and that each full-size copy is as large as its source allows.
 
