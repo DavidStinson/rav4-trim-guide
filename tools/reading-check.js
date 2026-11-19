@@ -56,8 +56,8 @@ window.readingCheck = async function readingCheck(){
     const stale = [...nav.querySelectorAll('a.on, a[aria-current]')].map(a => a.textContent.trim());
     if(stale.length) fails.push(`section nav still highlights "${stale.join('", "')}" at the top of the page`);
   }
-  // 2b. Labels drawn inside a picture (SVG text) shrink with it; on a laptop they stay at least 14px.
-  //     (On a phone a drawing can't hold 14px labels; meaningful captions belong in HTML under it.)
+  // 4. Labels drawn inside a picture (SVG text) shrink with it; on a laptop they stay at least 14px.
+  //    (On a phone a drawing can't hold 14px labels; meaningful captions belong in HTML under it.)
   const tiny = new Map();
   if(innerWidth >= 901) document.querySelectorAll('svg text').forEach(t => {
     if(!t.getClientRects().length || t.closest('[hidden], [aria-hidden="true"]:not(svg)') || !t.textContent.trim()) return;
@@ -67,7 +67,7 @@ window.readingCheck = async function readingCheck(){
   });
   if(tiny.size) fails.push(`picture labels under 14px on screen: ${[...tiny].slice(0, 5).map(([k, v]) => `${k} "${v}"`).join('; ')}`);
 
-  // 3. On a wide screen the spec table keeps its header row (trim names and prices) on screen while
+  // 5. On a wide screen the spec table keeps its header row (trim names and prices) on screen while
   //    you read down a long category, pinned just under the sticky section nav.
   //    Use the tallest open category so the table runs well past the bottom of the screen.
   const table = innerWidth > 760 && [...document.querySelectorAll('#specList details[open] .spec-table')]
@@ -87,7 +87,7 @@ window.readingCheck = async function readingCheck(){
     await settle();
   }
 
-  // 4. Running text keeps a readable measure: a paragraph, list item, caption or note averages at most
+  // 6. Running text keeps a readable measure: a paragraph, list item, caption or note averages at most
   //    85 characters a line, so the eye finds the start of the next line. (Table cells are exempt; their
   //    width comes from the table.)
   const wide = new Map();
