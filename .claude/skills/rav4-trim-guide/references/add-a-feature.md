@@ -1,0 +1,47 @@
+# Adding a feature: worked example
+
+The head-up display row, end to end. Every feature row follows this shape.
+
+## 1. Find the facts
+
+Toyota's comparison page for each model and year says, per trim, whether the feature is standard, optional (and in which package, at what price), or missing. The build tool's "Requires Changes" prompts say which packages a package drags in. For the HUD in 2027 the comparison pages show it missing on the XLE Premium and XSE, a $600 option on the Limited, and part of the Driver Assist Package on the Plug-in XSE. Write down the source for the footer.
+
+## 2. Write the check, run it red
+
+In `tools/year-check.js`, add the next numbered block at the end (the number below is illustrative). The `pills(id)` helper, defined in block 9, returns the pill states of `#f-<id>` in trim order (XLE Premium, XSE, Limited, Plug-in XSE):
+
+```js
+// 12. Head-up display: optional on the Limited ($600 alone) and the Plug-in XSE (Driver Assist
+//     Package, $2,865 with what it requires), per Toyota's 2027 comparison pages.
+if(pills('hud').join() !== 'no,no,opt,opt') fails.push(`head-up display marks ${pills('hud').join()}; expected no,no,opt,opt`);
+```
+
+`npm run check -- --quick --no-shots` fails, because the row doesn't exist yet.
+
+## 3. Add the row to `FEATURES` in `rav4-site/data.js`
+
+```js
+{id:'hud', group:'Safety and driver help', name:'Speed shown on the windshield',
+ aka:'10-in. Color Head-Up Display (HUD) with Road Sign Assist',
+ what:'Your speed, the speed limit and navigation arrows are projected onto the windshield...',
+ why:`Keeps your eyes on the road. One catch: ...`,
+ trims:[['no'],['no'],['opt','Stand-alone option: $600'],['opt','Comes with the Driver Assist Package ($2,865 with the packages it requires)']],
+ visual:'hudDemo'},
+```
+
+- `name` is the buyer's words; `aka` is Toyota's name.
+- `trims` is in trim order. Each entry is `[state, note?]` with state `std`, `opt` or `no`; the note says how to get it or what the trim has instead.
+- Text that differs by year reads `F` (`${F.year}`), never a hard-coded year.
+- `group` must match an existing group name; the feature list and group nav are built from it.
+
+## 4. Optional: a visual
+
+Either `img:'<photo name>', cap:'<caption>'` for a photo (see `photos.md`), or `visual:'<name>'` with a `VIS.<name> = ()=>({html, below?, init?})` entry in `rav4-site/visuals.js`. `html` sits beside the text, `below` under the row, and `init(root)` runs after the row is in the page.
+
+## 5. Green, look, commit
+
+`npm run check` to ALL PASS, `node tools/shoot.mjs` and read the section image that holds the row, then commit the check (`test:`) and the row (`feat:`) separately.
+
+## The shape
+
+check block in `year-check.js` (red) -> `FEATURES` entry in `data.js` -> optional `VIS` entry or photo -> source in the footer if new -> check green -> screenshot -> two commits.

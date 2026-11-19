@@ -1,7 +1,7 @@
-// Photo checks for rav4-site. The harness runs them in the page; they're async because they load images.
+// Photo checks for rav4-site. `npm run check` runs them in the page; they're async because they load images.
 // photoCheck(): at this width, every photo opens larger when clicked and is sharp on a 2x screen.
 // photoFilesCheck(): every copy of every photo exists at the width the page says, and each full-size
-//   copy is as large as its source allows. The harness runs it once.
+//   copy is as large as its source allows. `npm run check` runs it once.
 
 // The width of each source photo after cropping, taken from the sources themselves, not from the page:
 // Toyota's build-tool renders come at most 4000px wide (cropped to the car, the seats' screen or the

@@ -1,4 +1,4 @@
-// Model-year checks for rav4-site. Run in the page after it loads (the harness does this):
+// Model-year checks for rav4-site. Run in the page after it loads (`npm run check` does this):
 // `yearCheck(2026)` returns a list of failures for the page loaded with ?year=2026; empty means pass.
 // The expected numbers below are copied from Toyota's comparison pages, not from the page's own data,
 // so a typo in YEAR_FACTS fails here. Every price on the page includes Toyota's $1,595 destination fee,
