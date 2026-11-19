@@ -202,20 +202,20 @@ window.yearCheck = function yearCheck(year){
   const styleWant = white.flatMap(w=>[`img/colors/ext-${w}.webp`, `img/colors/rear-${w}.webp`]);
   if(styleSrc.join() !== styleWant.join()) fails.push(`styling photos ${styleSrc.join(', ')}; expected ${styleWant.join(', ')}`);
 
-  // 11. The priority legend explains "Not listed" only while a card shows it (the 2026 Plug-in's
-  //     driver-assist row does).
-  const chip = id=>document.querySelector(`#chips [data-id="${id}"]`);
-  const nlLegend = ()=>{ const el = document.querySelector('#picker .legend .pill.nl'); return !!el && el.getClientRects().length>0; };
-  const nlShown = ()=>!!document.querySelector('#scores .pill.nl');
-  const wasOn = chip('safety')?.getAttribute('aria-pressed')==='true';
-  if(!chip('safety')) fails.push('no "safety" priority chip');
-  else {
-    if(!wasOn) chip('safety').click();
-    if(nlLegend() !== nlShown()) fails.push(`priority legend ${nlLegend()?'shows':'hides'} "Not listed" while the cards ${nlShown()?'use':"don't use"} it`);
-    if(nlShown() !== (year===2026)) fails.push(`priority cards ${nlShown()?'use':"don't use"} "Not listed" in ${year}`);
-    if(!wasOn) chip('safety').click();
-    if(nlLegend() !== nlShown()) fails.push('priority legend "Not listed" out of step after clearing the chip');
-  }
+  // 11. Toyota's 2026 launch announcement lists the XSE's driver-assist features for the Plug-in too,
+  //     so the bundle is included on the Plug-in in both years and "Not listed" is gone from
+  //     everything above the spec list (which still uses it for gaps in Toyota's spec pages).
+  if(pills('assist').join() !== 'opt,std,std,std') fails.push(`driver-assist bundle marks ${pills('assist').join()}; expected opt,std,std,std`);
+  const notes = [...document.querySelectorAll('#f-assist .avail .note')].map(n=>txt(n));
+  if(notes.length > 1) fails.push(`driver-assist bundle has notes beyond the XLE Premium's package: ${notes.join(' | ')}`);
+  const above = [...document.querySelectorAll('main > section')].filter(s=>!['specs','dealer'].includes(s.id));
+  above.forEach(s=>{ if(s.querySelector('.pill.nl')) fails.push(`"Not listed" pill in #${s.id}`); });
+  const chipSafety = document.querySelector('#chips [data-id="safety"]');
+  const wasOn = chipSafety?.getAttribute('aria-pressed')==='true';
+  if(chipSafety && !wasOn) chipSafety.click();
+  if(document.querySelector('#scores .pill.nl')) fails.push('priority cards show "Not listed" for the driver-assist bundle');
+  if(chipSafety && !wasOn) chipSafety.click();
+  if(/Driver Monitor|driver-assist bundle/.test(txt(document.querySelector('#checklist')))) fails.push('dealer checklist still asks about the Plug-in driver-assist bundle');
 
   return fails;
 };
