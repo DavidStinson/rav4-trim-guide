@@ -667,7 +667,7 @@ function mergeSpecs(raw){
       if(!rows.length) return '';
       const open = term || openState[cat.cat]!==false;
       return `<details class="spec-cat" data-cat="${esc(cat.cat)}" ${open?'open':''}><summary>${esc(cat.cat)} <span class="n">${(n=>n+(n===1?' row':' rows'))(rows.filter(r=>!r.startsWith('<tr class="sub"')).length)}</span></summary>
-        <table class="spec-table"><thead><tr><th>Feature</th>${TRIMS.map(t=>`<th class="t" style="color:${t.color}">${t.name}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></details>`;
+        <table class="spec-table"><thead><tr><th scope="col">Feature</th>${TRIMS.map(t=>`<th class="t" scope="col" style="--c:${t.color}"><span class="tn">${t.name}</span><span class="tp">from ${money(START[t.id])}</span></th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></details>`;
     }).join('') || `<p class="lede">No rows match “${esc(term)}”. Try a shorter word, or turn off “Only show differences”.</p>`;
     count.textContent = `${shown} row${shown===1?'':'s'}`;
   }
@@ -731,6 +731,8 @@ function mergeSpecs(raw){
 /* ===================== SECTION NAV ===================== */
 (function(){
   const nav=$('.nav'), links=[...nav.querySelectorAll('a')];
+  // Sticky things below the section nav (the spec table's trim header) pin at its height, which changes as it wraps.
+  const bar=$('.subnav'); new ResizeObserver(()=>document.documentElement.style.setProperty('--stick',bar.offsetHeight+'px')).observe(bar);
   const still=matchMedia('(prefers-reduced-motion: reduce)');
   const edges=()=>{
     nav.classList.toggle('more-l', nav.scrollLeft>2);
