@@ -196,14 +196,15 @@ const PKG = (()=>{
     const p = PACKAGES[t.id];
     const rungs = p.ladder.map((k,i)=>{
       const before = p.ladder.slice(0,i);
-      const req = before.length ? `Also requires the ${before.length===1?'package':before.length+' packages'} above: ${money(before.reduce((a,b)=>a+b.price,0)+k.price)} together` : '';
+      // What this package really costs: it can only be added with every package above it.
+      const req = before.length ? `${money(before.reduce((a,b)=>a+b.price,0)+k.price)} with the ${before.length===1?'one':before.length} above it` : '';
       return `<li class="rung" data-i="${i+1}"><button type="button" aria-pressed="false">
         <span class="knob" aria-hidden="true"></span><span class="pn">${esc(k.name)}</span><span class="pp">+${money(k.price)}</span>
         <span class="pc">${k.gets.map(([,txt])=>esc(txt)).join(', ')}</span>
         ${req?`<span class="req">${req}</span>`:''}</button></li>`;
     }).join('');
     return `<article class="pk" style="--c:${t.color}" data-t="${t.id}">
-      <div class="pk-head"><h3>${t.name}</h3><p>Starts at ${money(p.base)}</p></div>
+      <div class="pk-head"><h3>${t.name}</h3></div>
       <ol class="ladder" aria-label="${t.name} packages, in the order Toyota requires them">
         <li class="rung base on" data-i="0"><button type="button" aria-pressed="true"><span class="knob" aria-hidden="true"></span><span class="pn">No packages</span><span class="pp">${money(p.base)}</span><span class="pc">Everything listed as included for the ${t.name}.</span></button></li>
         ${rungs}
@@ -393,7 +394,10 @@ const PKG = (()=>{
 
   // Text that names a year-specific fact: <span data-f="key">.
   const TEXT = {year:String(F.year), range:String(F.range), specGaps:F.specGaps, sources:F.sources,
-    ...Object.fromEntries(TRIM_IDS.map(id=>['price.'+id, money(START[id])]))};
+    ...Object.fromEntries(TRIM_IDS.map(id=>['price.'+id, money(START[id])])),
+    // Each step up, as the hero chips and step-up headings name it: the Plug-in is the XSE with a plug,
+    // so its step is from the Hybrid XSE, not from the Limited beside it.
+    ...Object.fromEntries([['xse','xle'],['ltd','xse'],['phv','xse']].map(([to,from])=>['step.'+to, money(START[to]-START[from])]))};
   document.querySelectorAll('[data-f]').forEach(el=>{
     const k = el.dataset.f;
     if(Object.hasOwn(TEXT,k)) el.textContent = TEXT[k]; else console.error('No year fact named', k);
