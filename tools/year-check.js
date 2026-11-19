@@ -35,6 +35,23 @@ window.yearCheck = function yearCheck(year){
     if(m) fails.push(`price caveat repeated outside the hero note: "${m[0]}"`);
   });
 
+  // 2c. No "as of" dates in the page itself; the sources in the footer carry them.
+  const mainText = document.querySelector('main').innerText;
+  const dated = mainText.match(/.{0,50}\b(January|February|March|April|May|June|July|August|September|October|November|December)\b.{0,30}/);
+  if(dated) fails.push(`dated fine print above the footer: "${dated[0]}"`);
+
+  // 2d. Fine print trimmed from the sections: no package note, only the daylight tip under the
+  //     colors, no build-tool or source notes in the captions and calculators, and the Edmunds
+  //     photo credit lives in the footer.
+  if(document.querySelector('#packages .pk-note')) fails.push('packages still has its small-print note');
+  const cpNote = txt(document.querySelector('#colors .pk-note')).trim();
+  if(cpNote !== 'Paint looks different in daylight, so see it in person before you decide.') fails.push(`colors note reads "${cpNote}"`);
+  [/build[- ]tool/i, /Illustration:/, /Photo: Edmunds/, /AAA|EnergySage/].forEach(re=>{
+    const m = mainText.match(new RegExp('.{0,50}'+re.source+'.{0,30}', re.flags));
+    if(m) fails.push(`fine print still in the page: "${m[0]}"`);
+  });
+  if(!/Edmunds/.test(txt(document.querySelector('footer')))) fails.push('footer should credit the Edmunds backup-camera photo');
+
   // 3. The "what's different" panel shows only for 2026.
   const panel = document.querySelector('#yearDiff');
   const shown = !!panel && !panel.hidden && panel.getClientRects().length>0;
