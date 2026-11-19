@@ -46,6 +46,8 @@ img{max-width:100%;height:auto;display:block}
 .lede{font-size:21px;color:var(--ink-2);max-width:62ch}
 .muted{color:var(--ink-2)}
 .small{font-size:17px}
+/* Notes, steps and fine print that sit in wide panels keep a readable line: about 80 characters (em, not ch: this face's zero is wide). */
+.small.muted,.chg-need,.checklist small,footer p{max-width:36em}
 
 /* ---------- top bar, then the section nav that sticks under it ---------- */
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
@@ -529,7 +531,6 @@ section{padding:104px 0 0}
 .print-btn{font:inherit;font-weight:700;font-size:17px;border:0;background:var(--ink);color:var(--paper);border-radius:12px;padding:12px 20px;cursor:pointer;margin-top:20px}
 
 footer{margin-top:96px;padding:36px 0 60px;border-top:1px solid var(--rule);font-size:17px;color:var(--ink-2)}
-footer p{max-width:80ch}
 
 @media print{
   .topbar,.subnav,.tools,.year-switch,.picker,.print-btn,.seg,.theme-btn,.zoom .zi,.lb{display:none!important}
