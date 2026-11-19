@@ -260,5 +260,16 @@ window.layoutCheck = function layoutCheck(){
   }
   wasPicked.forEach(c => c.click());
 
+
+  // 13. Step-up items: one with a write-up further down is a link that looks like one (a visible "more"
+  //     cue at its end); one without a write-up is plain text, never a link that jumps somewhere unrelated.
+  const stepLinks = [...document.querySelectorAll('.steps .gain a')];
+  const nowhere = stepLinks.filter(a => { const h = a.getAttribute('href') || ''; return !h.startsWith('#f-') || !document.querySelector(h); });
+  if(nowhere.length) fails.push(`${nowhere.length} step-up item(s) link to no feature write-up (e.g. "${(nowhere[0].querySelector('b')?.textContent || '').trim()}" -> ${nowhere[0].getAttribute('href')})`);
+  const noCue = stepLinks.filter(a => { const c = a.querySelector('.go'); return !c || !visible(c) || c.getBoundingClientRect().right < a.getBoundingClientRect().right - 40; });
+  if(noCue.length) fails.push(`${noCue.length} step-up links show no "more" cue at their end, so they don't look tappable`);
+  const lede = document.querySelector('#steps .lede, .steps')?.closest('section')?.querySelector('.lede');
+  if(lede && /tap any item/i.test(lede.textContent)) fails.push('step-ups intro says "Tap any item" but only some items have more to read');
+
   return fails;
 };
