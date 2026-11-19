@@ -30,6 +30,10 @@ window.photoCheck = async function photoCheck(){
   const W = innerWidth;
   for(const img of photos()){
     const name = img.getAttribute('src');
+    // A description for screen readers, and only real attributes (a broken template leaks words in as attributes).
+    if(!img.alt.trim()) fails.push(`photo ${name} has no alt text`);
+    const odd = [...img.attributes].map(a => a.name).filter(n => !/^(src|srcset|sizes|alt|loading|decoding|class|id|width|height|style|data-[\w-]+|aria-[\w-]+)$/.test(n));
+    if(odd.length) fails.push(`photo ${name} has stray attributes: ${odd.join(' ')}`);
     if(!img.closest('button.zoom') || !img.dataset.full){ fails.push(`photo ${name} can't be opened larger at ${W}px`); continue; }
     const copies = (img.getAttribute('srcset') || '').split(',').map(s => parseInt(s.trim().split(/\s+/)[1])).filter(Boolean);
     if(copies.length < 2){ fails.push(`photo ${name} has no 1x and 2x copies (srcset "${img.getAttribute('srcset') || ''}")`); continue; }
