@@ -128,7 +128,6 @@ section{padding:88px 0 0}
   display:flex;flex-direction:column;align-items:center;padding:0 4px;
   color:var(--sl-ink);font:700 14px/1.15 Overpass,sans-serif;text-align:center}
 .sl-btn[hidden]{display:none}
-.pill[hidden]{display:none}
 .sl-in{display:flex;flex-direction:column;align-items:center;gap:8px;margin:auto 0}
 /* In a slider taller than the screen (packages), the arrow stays near the middle of the screen while it scrolls past. */
 .sl.tall .sl-in{position:sticky;top:calc(50vh - 60px);bottom:calc(50vh - 60px)}
@@ -590,7 +589,6 @@ footer p{max-width:80ch}
         <span class="pill std">Included</span>
         <span class="pill opt">Optional extra cost</span>
         <span class="pill no">Not offered</span>
-        <span class="pill nl" id="nlLegend" hidden>Not listed by Toyota</span>
       </div>
       <div class="sl" data-sl data-sl-max="3" id="scoresSl"><div class="sl-view"><div class="sl-track scores" id="scores" aria-live="polite"></div></div></div>
       <p class="empty-note" id="emptyNote">Pick a few priorities above to see how the four compare.</p>
@@ -717,7 +715,7 @@ footer p{max-width:80ch}
 
 <footer>
   <div class="wrap">
-    <p><span data-f="sources">Features, prices and fuel economy come from Toyota's 2027 RAV4 comparison page for the XLE Premium AWD (4444), XSE AWD (4530) and Limited AWD (4534), and its 2027 RAV4 Plug-in Hybrid comparison page for the XSE (4550), as published in November 2026. Package and paint prices come from Toyota's online build tool in the same month. Items the Plug-in page leaves out were checked against Toyota's 2027 RAV4 press release (November 5, 2026) and Toyota Canada's 2026 RAV4 Plug-in Hybrid product summary, which is also the source of the Plug-in's battery size.</span> The fuel-cost calculator starts from AAA's Montgomery County, Texas gas average (November 16, 2026, as reported by KPRC Click2Houston) and EnergySage's Montgomery County electricity rate (October 2026). The photo of the XLE Premium's backup camera screen is from Edmunds. Appliance wattages in the outage calculator are typical figures, not measurements. Photos are Toyota's own images; the side-by-side comparisons come from the build tool, and some other photos show different trims or options. The backup camera photo is from Edmunds, and the screen-size comparison is a drawing. Feature descriptions are written for this page, not taken from Toyota. Always confirm equipment on the window sticker of the specific car you're looking at, since dealers often add packages.</p>
+    <p><span data-f="sources">Features, prices and fuel economy come from Toyota's 2027 RAV4 comparison page for the XLE Premium AWD (4444), XSE AWD (4530) and Limited AWD (4534), and its 2027 RAV4 Plug-in Hybrid comparison page for the XSE (4550), as published in November 2026. Package and paint prices come from Toyota's online build tool in the same month. Items the Plug-in page leaves out were checked against Toyota's 2027 RAV4 press release (November 5, 2026) and Toyota Canada's 2026 RAV4 Plug-in Hybrid product summary, which is also the source of the Plug-in's battery size. Toyota's 2026 RAV4 launch press release lists the XSE's extra driver-assist features (Front Cross-Traffic Alert, Lane Change Assist and Traffic Jam Assist) for both the Hybrid and the Plug-in, so the Plug-in XSE is marked as having the whole bundle.</span> The fuel-cost calculator starts from AAA's Montgomery County, Texas gas average (November 16, 2026, as reported by KPRC Click2Houston) and EnergySage's Montgomery County electricity rate (October 2026). The photo of the XLE Premium's backup camera screen is from Edmunds. Appliance wattages in the outage calculator are typical figures, not measurements. Photos are Toyota's own images; the side-by-side comparisons come from the build tool, and some other photos show different trims or options. The backup camera photo is from Edmunds, and the screen-size comparison is a drawing. Feature descriptions are written for this page, not taken from Toyota. Always confirm equipment on the window sticker of the specific car you're looking at, since dealers often add packages.</p>
   </div>
 </footer>
 
@@ -753,9 +751,6 @@ const YEAR_FACTS = {
     trials:{remote:'5 years', drive:'3 months'},
     xleAssist:'XLE Premium Driver Assist Package',
     notes:{
-      assistPhv:['std','Toyota’s 2027 announcement confirms Lane Change Assist and Traffic Jam Assist. Ask the dealer to confirm the other two.'],
-      assistPhvCell:'Lane Change Assist and Traffic Jam Assist, per Toyota’s 2027 announcement. Toyota doesn’t say about the other two.',
-      checkAssist:['On the Plug-in XSE, confirm Front Cross-Traffic Alert and Driver Monitor.','Toyota says every XSE has Lane Change Assist and Traffic Jam Assist, but its Plug-in page doesn’t mention the two helpers that come with them on the Hybrid XSE.'],
       seaPhv:'All three. Toyota’s Plug-in page leaves out Safe Exit Alert, but its 2027 announcement lists it on every RAV4.',
       material:'Toyota’s Plug-in page uses the vaguer name “Mixed Media”, but Toyota’s 2027 announcement and Toyota Canada both describe the same suede and SofTex mix.',
       consolePhv:'Toyota lists Snow, Normal and EV buttons here, and the Trail mode under the engine',
@@ -763,7 +758,7 @@ const YEAR_FACTS = {
       batteryPhv:'A much larger lithium-ion battery (22.7 kWh, per Toyota Canada). Toyota’s US page doesn’t give its voltage.',
     },
     specGaps:'Where Toyota’s 2027 RAV4 announcement or Toyota Canada fills a gap, the row says so.',
-    sources:'Features, prices and fuel economy come from Toyota\'s 2027 RAV4 comparison page for the XLE Premium AWD (4444), XSE AWD (4530) and Limited AWD (4534), and its 2027 RAV4 Plug-in Hybrid comparison page for the XSE (4550), as published in November 2026. Package and paint prices come from Toyota\'s online build tool in the same month. Items the Plug-in page leaves out were checked against Toyota\'s 2027 RAV4 press release (November 5, 2026) and Toyota Canada\'s 2026 RAV4 Plug-in Hybrid product summary, which is also the source of the Plug-in\'s battery size.',
+    sources:'Features, prices and fuel economy come from Toyota\'s 2027 RAV4 comparison page for the XLE Premium AWD (4444), XSE AWD (4530) and Limited AWD (4534), and its 2027 RAV4 Plug-in Hybrid comparison page for the XSE (4550), as published in November 2026. Package and paint prices come from Toyota\'s online build tool in the same month. Items the Plug-in page leaves out were checked against Toyota\'s 2027 RAV4 press release (November 5, 2026) and Toyota Canada\'s 2026 RAV4 Plug-in Hybrid product summary, which is also the source of the Plug-in\'s battery size. Toyota\'s 2026 RAV4 launch press release lists the XSE\'s extra driver-assist features (Front Cross-Traffic Alert, Lane Change Assist and Traffic Jam Assist) for both the Hybrid and the Plug-in, so the Plug-in XSE is marked as having the whole bundle.',
   },
   2026:{
     year:2026, specs:'RAV4_SPECS_2026',
@@ -776,9 +771,6 @@ const YEAR_FACTS = {
     trials:{remote:'1 year', drive:'1 year'},
     xleAssist:'XLE Driver Assist Package',
     notes:{
-      assistPhv:['nl','Toyota’s 2026 Plug-in page doesn’t list these. Its 2027 announcement confirms two of them on the 2027, so ask the dealer about the 2026.'],
-      assistPhvCell:'Not on Toyota’s 2026 Plug-in page. Its 2027 announcement lists Lane Change Assist and Traffic Jam Assist on the 2027.',
-      checkAssist:['On the Plug-in XSE, ask about the extra driver-assist bundle.','Every Hybrid XSE has Front Cross-Traffic Alert, Lane Change Assist, Traffic Jam Assist and Driver Monitor, but Toyota’s 2026 Plug-in page doesn’t mention any of the four.'],
       seaPhv:'Blind Spot Monitor and Rear Cross-Traffic Alert. Toyota’s 2026 Plug-in page leaves out Safe Exit Alert; its 2027 announcement lists it on every 2027 RAV4.',
       material:'Toyota’s Plug-in page uses the vaguer name “Mixed Media”, but Toyota Canada describes the same suede and SofTex mix.',
       consolePhv:'Same as XLE Premium',
@@ -786,7 +778,7 @@ const YEAR_FACTS = {
       batteryPhv:'A much larger lithium-ion battery: 391 volts, and 22.7 kWh per Toyota Canada',
     },
     specGaps:'Where Toyota Canada fills a gap, the row says so. Toyota’s 2027 announcement is mentioned only where it hints at what the 2026 has.',
-    sources:'Features, prices and fuel economy come from Toyota\'s 2026 RAV4 comparison page for the XLE Premium AWD (4444), XSE AWD (4530) and Limited AWD (4534), and its 2026 RAV4 Plug-in Hybrid comparison page for the XSE (4550), as published in November 2026. Package and paint prices come from Toyota\'s online build tool in the same month. Toyota\'s 2026 comparison page marks the JBL system as not offered on the Hybrid XSE, but the build tool sells the JBL Premium Audio Package for it, so this page follows the build tool. Items the Plug-in page leaves out were checked against Toyota Canada\'s 2026 RAV4 Plug-in Hybrid product summary, which is also the source of the Plug-in\'s battery size. The 2026 and 2027 are the same generation, so the photos fit both.',
+    sources:'Features, prices and fuel economy come from Toyota\'s 2026 RAV4 comparison page for the XLE Premium AWD (4444), XSE AWD (4530) and Limited AWD (4534), and its 2026 RAV4 Plug-in Hybrid comparison page for the XSE (4550), as published in November 2026. Package and paint prices come from Toyota\'s online build tool in the same month. Toyota\'s 2026 comparison page marks the JBL system as not offered on the Hybrid XSE, but the build tool sells the JBL Premium Audio Package for it, so this page follows the build tool. Items the Plug-in page leaves out were checked against Toyota Canada\'s 2026 RAV4 Plug-in Hybrid product summary, which is also the source of the Plug-in\'s battery size. Toyota\'s 2026 RAV4 launch press release lists the XSE\'s extra driver-assist features (Front Cross-Traffic Alert, Lane Change Assist and Traffic Jam Assist) for both the Hybrid and the Plug-in, so the Plug-in XSE is marked as having the whole bundle. The 2026 and 2027 are the same generation, so the photos fit both.',
     // Toyota's 2026 comparison page says the Hybrid XSE can't get JBL; the 2026 build tool sells the
     // $620 JBL Premium Audio Package for it, and the same page's package list agrees.
     specFixes:[{cat:'Screen & sound', label:'12.9-in. Toyota Audio Multimedia, 9-speaker JBL', trim:1, cell:['opt','']}],
@@ -856,8 +848,10 @@ const TRIMS = [
   {id:'ltd', name:'Limited', color:'var(--ltd)'},
   {id:'phv', name:'Plug-in XSE', color:'var(--phv)'},
 ];
-// Status per trim, in TRIMS order: ['std'|'opt'|'no'|'nl', note?]. 'nl' means Toyota's Plug-in page
-// doesn't mention the item, which is not the same as the car lacking it.
+// Status per trim, in TRIMS order: ['std'|'opt'|'no', note?]. ('nl', "not listed", is only for the
+// spec list, where Toyota's pages leave a line out.) Toyota's spec data for the Plug-in leaves out the
+// driver-assist bundle, but its 2026 launch announcement lists those features for every XSE, Hybrid
+// and Plug-in alike, so the bundle is marked included.
 const FEATURES = [
   /* ---------- Parking & cameras ---------- */
   {id:'cam360', group:'Parking and cameras', name:'360° camera (bird’s-eye view)',
@@ -886,7 +880,7 @@ const FEATURES = [
    aka:'Front Cross-Traffic Alert (FCTA), Lane Change Assist (LCA), Traffic Jam Assist (TJA) and Driver Monitor',
    what:'Four helpers that come together. <b>Front Cross-Traffic Alert</b> warns you about cars coming from the side when you nose out of a spot or into an intersection where your view is blocked. <b>Lane Change Assist</b> can steer into the next lane for you on the highway when you tap the turn signal and it’s clear. <b>Traffic Jam Assist</b> lets the car steer, brake and go by itself in slow, stop-and-go highway traffic on certain highways. <b>Driver Monitor</b> is a small camera that watches for drowsiness or eyes off the road and alerts you.',
    why:'Front Cross-Traffic Alert is the one most people end up appreciating: pulling out of a parking spot between two big trucks is much less of a guess. Traffic Jam Assist is a real relief on long commutes in heavy traffic. It needs an active Drive Connect trial or subscription and 5G coverage.',
-   trims:[['opt',`${F.xleAssist}: $650 ($2,875 with the packages it requires)`],['std'],['std'],F.notes.assistPhv]},
+   trims:[['opt',`${F.xleAssist}: $650 ($2,875 with the packages it requires)`],['std'],['std'],['std']]},
   {id:'hud', group:'Safety and driver help', name:'Speed shown on the windshield',
    aka:'10-in. Color Head-Up Display (HUD) with Road Sign Assist',
    what:'Your speed, the speed limit and navigation arrows are projected onto the windshield, so they appear to float just above the hood. You don’t have to look down at the dashboard.',
@@ -1156,7 +1150,6 @@ const CHECKLIST = [
   ['Drive the XSE and Limited on a bumpy road.','The XSE’s 20-inch wheels ride firmer. See whether you notice.'],
   ['Sit in the passenger seat and try the cooled seats.','Also check how easy it is to get in and out, and adjust the seats.'],
   ['Wear polarized sunglasses while you try the head-up display and the camera mirror.',`Polarized lenses can dim or black out both when you tilt your head. Owners of earlier Toyotas report this; nobody has said yet whether the ${F.year} versions do.`],
-  F.notes.checkAssist,
   ['Where would you charge the Plug-in?',`A regular outlet puts back about ${CHARGE.milesIn(CHARGE.ways[0],10)} miles in a 10-hour night. For more, ask an electrician whether your panel has room for a 240-volt circuit and what adding one would cost.`],
   ['Ask how the Plug-in’s power outlet works in an outage.','Does the car have to stay on, will the engine start by itself to recharge the battery, and does the outlet work in cold weather?'],
   ['Ask about tax credits and rebates for the Plug-in.','Some states and power companies offer money back on plug-in cars. The dealer or your electric company can tell you what applies.'],
@@ -1178,7 +1171,10 @@ const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;
 const featById = Object.fromEntries(FEATURES.map(f=>[f.id,f]));
 // Every per-trim list must have one entry per trim; say which one doesn't instead of failing mid-render.
 [...FEATURES.map(f=>['feature '+f.id,f.trims]), ...Object.entries(SPECIAL).map(([k,v])=>['priority '+k,v.trims])]
-  .forEach(([what,t])=>{ if(t.length!==TRIMS.length) console.error(`${what} lists ${t.length} trims; expected ${TRIMS.length}.`); });
+  .forEach(([what,t])=>{
+    if(t.length!==TRIMS.length) console.error(`${what} lists ${t.length} trims; expected ${TRIMS.length}.`);
+    t.forEach(([st])=>{ if(!['std','opt','no'].includes(st)) console.error(`${what} has status "${st}"; use std, opt or no.`); });
+  });
 const store = {
   get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch{return d}},
   set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
@@ -1290,21 +1286,19 @@ const VIEW = (function(){
     // de-dupe features shared by two priorities
     const seen=new Set(); const rows=items.filter(r=>{const k=r.label; if(seen.has(k)) return false; seen.add(k); return true;});
     note.hidden = rows.length>0; wrap.hidden = rows.length===0;
-    // Only the 2026 Plug-in's driver-assist row uses "Not listed", so explain it only when it shows.
-    $('#nlLegend').hidden = !rows.some(r=>r.trims.some(([s])=>s==='nl'));
     if(!rows.length){scores.innerHTML=''; VIEW.refresh(); return;}
     const pts = TRIMS.map((t,i)=>rows.reduce((a,r)=>a+(r.trims[i][0]==='std'?1:r.trims[i][0]==='opt'?.5:0),0));
     const max = Math.max(...pts);
     scores.innerHTML = TRIMS.map((t,i)=>{
       const std=rows.filter(r=>r.trims[i][0]==='std').length, opt=rows.filter(r=>r.trims[i][0]==='opt').length;
-      const rank={std:0,opt:1,nl:2,no:3};
+      const rank={std:0,opt:1,no:2};
       const sorted=[...rows].sort((a,b)=>rank[a.trims[i][0]]-rank[b.trims[i][0]]);
       const best=pts[i]===max&&max>0;
       return `<div class="score ${best?'best':''}" ${best?'data-flag="Best match"':''}>
         <h4><span style="color:${t.color}">${t.name}</span><span class="best-badge">Best match</span></h4>
         <div class="meter" aria-hidden="true">${sorted.map(r=>`<i class="${r.trims[i][0]}"></i>`).join('')}</div>
         <p class="small" style="margin:0 0 10px"><b>${std} of ${rows.length}</b> included${opt?`, ${opt} more as an option`:''}</p>
-        <ul>${sorted.map(r=>`<li>${pill(r.trims[i][0],{std:'Yes',opt:'Option',nl:'Not listed',no:'No'}[r.trims[i][0]])}<span>${r.id?`<a href="#f-${r.id}">${esc(r.label)}</a>`:esc(r.label)}</span></li>`).join('')}</ul>
+        <ul>${sorted.map(r=>`<li>${pill(r.trims[i][0],{std:'Yes',opt:'Option',no:'No'}[r.trims[i][0]])}<span>${r.id?`<a href="#f-${r.id}">${esc(r.label)}</a>`:esc(r.label)}</span></li>`).join('')}</ul>
       </div>`;
     }).join('');
     VIEW.refresh();
@@ -2127,8 +2121,7 @@ const SPEC_MERGES = [
    cells:[{t:'All three'},{t:'All three'},{t:'All three'},{t:F.notes.seaPhv}]},
   {cat:'Safety & driver help', label:'Extra driver-assist bundle', common:'Front Cross-Traffic Alert, Lane Change Assist, Traffic Jam Assist and Driver Monitor.',
    from:['Front Cross-Traffic Alert (FCTA), Lane Change Assist (LCA), Traffic Jam Assist (TJA) and Driver Monitor'],
-   cells:[{t:'Not included', opt:`All four (${F.xleAssist})`},{t:'All four'},{t:'All four'},
-          {t:F.notes.assistPhvCell}]},
+   cells:[{t:'Not included', opt:`All four (${F.xleAssist})`},{t:'All four'},{t:'All four'},{t:'All four'}]},
   {cat:'Engine & drivetrain', label:'Powertrain', common:'A 2.5-liter 4-cylinder gas engine working with electric motors on all four.',
    from:[['Hybrid powertrain: 2.5-Liter Dynamic Force 4-Cylinder with SPORT, Eco, NORMAL, EV, , SNOW drive modes; 229 net combined hp',
           'Hybrid powertrain: 2.5-Liter Dynamic Force 4-Cylinder with SPORT, Eco, NORMAL, EV, TRAIL, SNOW drive modes; 236 net combined hp'],
