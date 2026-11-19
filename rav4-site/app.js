@@ -51,7 +51,8 @@ const store = {
 
 /* ===================== SIDE-ARROW SLIDERS =====================
    Each [data-sl] block shows as many trims as fit side by side, chosen from the slider's own width.
-   data-sl-max caps that count for cards whose content needs more room (the package ladders).
+   data-sl-col sets a minimum card width for cards whose content needs more room (the package
+   ladders and priority cards), so they show fewer at a time until four fit at that width.
    A hidden trim peeks in at the edge under an arrow button named for it. All sliders share one
    offset, so the trim columns line up from section to section. */
 const VIEW = (function(){
@@ -101,8 +102,9 @@ const VIEW = (function(){
       const track=sl.querySelector('.sl-track'), items=[...track.children], n=items.length, w=sl.clientWidth;
       const prev=sl.querySelector('.sl-prev'), next=sl.querySelector('.sl-next');
       if(!n || !w){ prev.hidden=next.hidden=true; maxOf.set(sl,0); return; }
-      const cap=+sl.dataset.slMax||Infinity;
-      const L=LAYOUTS.find(l=>w>=l.min && l.shown<=cap), shown=Math.min(L.shown,n), max=n-shown, o=Math.min(off,max);
+      const minCol=+sl.dataset.slCol||0;
+      const fits=l=>(w-2*l.peek-(l.shown+1)*l.gap)/l.shown>=minCol || l.shown===1;
+      const L=LAYOUTS.find(l=>w>=l.min && fits(l)), shown=Math.min(L.shown,n), max=n-shown, o=Math.min(off,max);
       maxOf.set(sl,max);
       // When something is hidden, room is kept for a peek on both sides, so a middle card has a
       // neighbor showing at each edge. At either end, the one hidden side shows a wider slice.
