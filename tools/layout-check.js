@@ -165,5 +165,27 @@ window.layoutCheck = function layoutCheck(){
     if(document.querySelector('#pkGrid .pk-head p')) fails.push('package cards repeat the base price under the heading');
   }
 
+  // 11. The hero gets to the cars quickly. On a laptop the heading is one line and the first car's
+  //     name, price and price chip are on the first screen; on any width the slider's arrow and its
+  //     label never sit on a car's name, price or chip.
+  const h1 = document.querySelector('.hero h1');
+  if(W >= 1100 && h1){
+    const lh = parseFloat(getComputedStyle(h1).lineHeight) || parseFloat(getComputedStyle(h1).fontSize) * 1.1;
+    const n = Math.round(h1.getBoundingClientRect().height / lh);
+    if(n > 1) fails.push(`hero heading takes ${n} lines at ${W}px; one fits`);
+    const chip = document.querySelector('.road .car .jump'), top = chip && chip.getBoundingClientRect().bottom + scrollY;
+    if(chip && top > 900) fails.push(`the first car's price chip ends ${Math.round(top)}px down, below a 900px laptop screen`);
+    // Every price includes the destination fee; that note belongs on the same first screen as the prices.
+    const fee = document.querySelector('.road-foot > span'), fr = fee && fee.getBoundingClientRect();
+    const feeLine = fr && fr.top + scrollY + parseFloat(getComputedStyle(fee).lineHeight || 24);
+    if(fee && feeLine > 900) fails.push(`the price-fee note's first line ends ${Math.round(feeLine)}px down, below a 900px laptop screen`);
+  }
+  const words = [...document.querySelectorAll('.road .car .name, .road .car .price, .road .car .jump')].map(e => e.getBoundingClientRect());
+  document.querySelectorAll('.road .sl-btn:not([hidden]) .sl-in > *').forEach(b => {
+    const r = b.getBoundingClientRect();
+    if(r.width && words.some(w => w.width && r.left < w.right && r.right > w.left && r.top < w.bottom && r.bottom > w.top))
+      fails.push(`hero slider arrow or label covers a car's name, price or chip at ${W}px`);
+  });
+
   return fails;
 };
