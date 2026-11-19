@@ -5,7 +5,8 @@
 window.layoutCheck = function layoutCheck(){
   const fails = [];
   const W = innerWidth;
-  const visible = el => !el.hidden && getComputedStyle(el).display !== 'none' && el.getClientRects().length > 0;
+  // What the reader sees, not what the markup says: a `hidden` element that CSS still displays counts as visible.
+  const visible = el => getComputedStyle(el).display !== 'none' && el.getClientRects().length > 0;
   const sliders = [...document.querySelectorAll('[data-sl]')].filter(visible);
 
   // 1. A slider's arrow button (and its fade) stays inside the slider, so it never covers
@@ -193,6 +194,44 @@ window.layoutCheck = function layoutCheck(){
     if(r.width && words.some(w => w.width && r.left < w.right && r.right > w.left && r.top < w.bottom && r.bottom > w.top))
       fails.push(`hero slider arrow or label covers a car's name, price or chip at ${W}px`);
   });
+
+  // 12. The priority picker shows something before anything is picked: all four trim cards, each naming
+  //     its trim and price, and one prompt at body size saying what to do. The legend explains the cards'
+  //     marks, so it appears with them once a priority is picked, between the chips and the cards. An
+  //     unpicked chip's outline stands out from what's behind it (3:1, so it reads as a button).
+  const say = el => (el?.textContent || '').replace(/\s+/g, ' ').trim();
+  const pickChips = [...document.querySelectorAll('#chips .chip')], wasPicked = pickChips.filter(c => c.getAttribute('aria-pressed') === 'true');
+  wasPicked.forEach(c => c.click());
+  const cards = [...document.querySelectorAll('#scores > .score')].filter(visible);
+  const prices = [...document.querySelectorAll('.road .car')].map(c => [say(c.querySelector('.name')).replace(/^Hybrid /, ''), say(c.querySelector('.price'))]);
+  if(cards.length !== 4) fails.push(`priority picker shows ${cards.length} trim cards before anything is picked; expected all four`);
+  else prices.forEach(([name, price], i) => { if(!say(cards[i]).includes(name) || !say(cards[i]).includes(price)) fails.push(`priority card ${i + 1} doesn't name ${name} and ${price} before anything is picked`); });
+  const legend = document.querySelector('.picker .legend');
+  if(legend && visible(legend)) fails.push('priority picker shows the Included/Optional/Not offered legend before there is anything for it to explain');
+  if([...document.querySelectorAll('#scores .best-badge')].some(b => visible(b) && getComputedStyle(b).visibility !== 'hidden')) fails.push('a priority card says "Best match" before anything is picked');
+  const prompt = [...document.querySelectorAll('.picker p')].filter(el => visible(el) && /pick|tap/i.test(say(el)));
+  const bodyPx = parseFloat(getComputedStyle(document.body).fontSize);
+  if(prompt.length !== 1 || parseFloat(getComputedStyle(prompt[0]).fontSize) < bodyPx) fails.push(`priority picker's empty prompt: ${prompt.length} found${prompt[0] ? `, ${getComputedStyle(prompt[0]).fontSize}` : ''}; expected one at body size (${bodyPx}px)`);
+  const rgb = c => (c.match(/[\d.]+/g) || []).slice(0, 3).map(Number).map(v => (v /= 255) <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+  const lum = c => { const [r, g, b] = rgb(c); return .2126 * r + .7152 * g + .0722 * b; };
+  const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + .05) / (y + .05); };
+  const c0 = pickChips[0];
+  if(c0){
+    const cs = getComputedStyle(c0), behind = getComputedStyle(c0.closest('.picker')).backgroundColor;
+    const r = ratio(cs.borderTopColor, behind);
+    if(r < 3) fails.push(`an unpicked priority chip's outline is ${r.toFixed(2)}:1 against the panel; a button outline needs 3:1`);
+    const tick = c0.querySelector('.tick'), tc = tick && getComputedStyle(tick).color;
+    if(tick && !/rgba\(.*,\s*0\)$|transparent/.test(tc) && getComputedStyle(tick).visibility !== 'hidden') fails.push('an unpicked priority chip already shows a check mark, so it looks picked');
+    c0.click();
+    if(!legend || !visible(legend)) fails.push('priority picker hides the legend after a priority is picked');
+    else {
+      const top = legend.getBoundingClientRect().top, chipsBottom = document.querySelector('#chips').getBoundingClientRect().bottom, firstCard = document.querySelector('#scores > .score');
+      if(top < chipsBottom || (firstCard && top > firstCard.getBoundingClientRect().top)) fails.push('priority legend is not between the chips and the cards');
+    }
+    if(document.querySelector('#scores > .score') && !document.querySelector('#scores .best-badge')) fails.push('priority cards lost their "Best match" badge');
+    c0.click();
+  }
+  wasPicked.forEach(c => c.click());
 
   return fails;
 };
