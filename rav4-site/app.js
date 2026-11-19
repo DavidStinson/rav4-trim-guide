@@ -53,8 +53,10 @@ const store = {
    Each [data-sl] block shows as many trims as fit side by side, chosen from the slider's own width.
    data-sl-col sets a minimum card width for cards whose content needs more room (the package
    ladders and priority cards), so they show fewer at a time until four fit at that width.
-   A hidden trim peeks in at the edge under an arrow button named for it. All sliders share one
-   offset, so the trim columns line up from section to section. */
+   A hidden trim peeks in at the edge under an arrow button named for it. On a phone, where one
+   card shows at a time, there is no peek: a row of four trim tabs above the cards picks the trim.
+   All sliders share one offset, so the trim columns line up from section to section, and a trim
+   picked in one slider shows in all of them. */
 const VIEW = (function(){
   // Widest first: cards shown, how much of a hidden neighbor peeks in, and the gap between cards (px).
   const LAYOUTS = [
@@ -70,8 +72,13 @@ const VIEW = (function(){
   // A slider that can't scroll as far as the shared offset shows its last position; moving starts from there.
   const move = (sl,dir)=>{ const max=maxOf.get(sl)||0; off=Math.min(Math.max(Math.min(off,max)+dir,0),max); apply(); };
   sliders.forEach(sl=>{
+    sl.insertAdjacentHTML('afterbegin', `<div class="sl-tabs" role="group" aria-label="Show one trim" hidden></div>`);
     sl.insertAdjacentHTML('beforeend',
       `<button type="button" class="sl-btn sl-prev" data-dir="-1"></button><button type="button" class="sl-btn sl-next" data-dir="1"></button>`);
+    sl.querySelector('.sl-tabs').addEventListener('click',e=>{
+      const b=e.target.closest('button'); if(!b) return;
+      off=+b.dataset.i; apply();
+    });
     sl.addEventListener('click',e=>{
       const b=e.target.closest('.sl-btn'); if(!b) return;
       move(sl, +b.dataset.dir);
@@ -106,6 +113,18 @@ const VIEW = (function(){
       const fits=l=>(w-2*l.peek-(l.shown+1)*l.gap)/l.shown>=minCol || l.shown===1;
       const L=LAYOUTS.find(l=>w>=l.min && fits(l)), shown=Math.min(L.shown,n), max=n-shown, o=Math.min(off,max);
       maxOf.set(sl,max);
+      const tabs=sl.querySelector('.sl-tabs'), tabbed = shown===1 && n>1;
+      sl.classList.toggle('tabbed', tabbed); tabs.hidden = !tabbed;
+      if(tabbed){
+        // One card at a time, full width, picked by name.
+        if(tabs.children.length!==n) tabs.innerHTML = items.map((el,i)=>`<button type="button" data-i="${i}"><i style="background:${TRIMS[i].color}" aria-hidden="true"></i>${esc(TRIMS[i].name)}</button>`).join('');
+        [...tabs.children].forEach((b,i)=>b.setAttribute('aria-pressed', i===o));
+        sl.style.setProperty('--col', w+'px'); sl.style.setProperty('--gap', L.gap+'px');
+        track.style.transform = o ? `translateX(${-o*(w+L.gap)}px)` : '';
+        items.forEach((el,i)=>{ el.inert=i!==o; el.classList.toggle('sl-out', i!==o); });
+        prev.hidden = next.hidden = true;
+        return;
+      }
       // When something is hidden, room is kept for a peek on both sides, so a middle card has a
       // neighbor showing at each edge. At either end, the one hidden side shows a wider slice.
       const col = max ? (w - 2*L.peek - (shown+1)*L.gap)/shown : (w - (n-1)*L.gap)/n;

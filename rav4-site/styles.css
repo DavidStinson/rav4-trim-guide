@@ -137,6 +137,16 @@ section{padding:104px 0 0}
 .sl-btn:hover .sl-arrow{transform:scale(1.08)}
 .sl-btn:focus-visible{outline:none}
 .sl-btn:focus-visible .sl-arrow{outline:3px solid var(--focus);outline-offset:3px}
+/* Phone: one trim at a time, picked from a row of four tabs above the cards. */
+.sl-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 14px}
+.sl-tabs button{font:700 16px/1.15 Overpass,sans-serif;min-height:52px;padding:6px 4px;border-radius:12px;cursor:pointer;
+  border:1.5px solid color-mix(in srgb,var(--sl-ink) 45%,transparent);background:transparent;color:var(--sl-ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center}
+.sl-tabs button i{width:10px;height:10px;border-radius:50%;flex:none}
+.sl-tabs button[aria-pressed="true"]{background:var(--sl-ink);color:var(--sl-bg);border-color:var(--sl-ink)}
+.sl-tabs button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+/* Package cards run several screens tall; their tabs stay under the section nav while you read one. */
+.sl.tall .sl-tabs{position:sticky;top:var(--stick,58px);z-index:5;background:var(--sl-bg);padding:8px 0;margin-top:-8px}
 .sl-btn small{font:700 12px var(--text);background:var(--lane);color:#222;border-radius:999px;padding:1px 7px}
 /* A thin sliver (a trim in the middle of the row on a phone) has room for the arrow only; its name stays in the label. */
 .sl-btn.slim .sl-in > span:not(.sl-arrow),.sl-btn.slim small{display:none}
