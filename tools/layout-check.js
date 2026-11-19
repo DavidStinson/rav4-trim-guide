@@ -164,6 +164,13 @@ window.layoutCheck = function layoutCheck(){
     if(long.length) fails.push(`package ladder text wraps past two lines: ${long.slice(0, 3).join('; ')}`);
     if(document.querySelector('#pkGrid .pk-head p')) fails.push('package cards repeat the base price under the heading');
   }
+  // At any width, a package's "needs the ones above" note breaks only where it is written to (what it needs,
+  // then what that costs), never leaving a word alone on a line.
+  const ragged = [...document.querySelectorAll('#pkGrid .rung .req')].filter(el => {
+    const lh = parseFloat(getComputedStyle(el).lineHeight), n = Math.round(el.getBoundingClientRect().height / lh);
+    return el.getClientRects().length && n !== el.querySelectorAll('br').length + 1;
+  }).map(el => `"${el.textContent.trim()}"`);
+  if(ragged.length) fails.push(`package note wraps where it isn't written to break at ${W}px: ${ragged.slice(0, 2).join('; ')}`);
 
   // 11. The hero gets to the cars quickly. On a laptop the heading is one line and the first car's
   //     name, price and price chip are on the first screen; on any width the slider's arrow and its

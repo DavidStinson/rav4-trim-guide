@@ -27,13 +27,15 @@ window.readingCheck = async function readingCheck(){
     const el = n.parentElement;
     if(!n.textContent.trim() || !el || el.closest('svg, dialog:not([open]), [hidden], [aria-hidden="true"], .sl-btn')) continue;
     if(!el.getClientRects().length || getComputedStyle(el).visibility === 'hidden') continue;
-    const px = parseFloat(getComputedStyle(el).fontSize);
-    if(px < 16){
-      const key = `${el.tagName.toLowerCase()}${el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/).join('.') : ''} (${px}px)`;
+    // On a laptop, a sentence (anything 30 characters or longer) is at least 17px: a step-up description,
+    // a "Toyota calls it" name, a charging step, a spec row. Short labels may stay at 16px.
+    const px = parseFloat(getComputedStyle(el).fontSize), min = innerWidth >= 901 && el.textContent.trim().length >= 30 ? 17 : 16;
+    if(px < min){
+      const key = `${el.tagName.toLowerCase()}${el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/).join('.') : ''} (${px}px, needs ${min})`;
       if(!small.has(key)) small.set(key, n.textContent.trim().slice(0, 40));
     }
   }
-  for(const [key, text] of small) fails.push(`text under 16px: ${key}, e.g. "${text}"`);
+  for(const [key, text] of small) fails.push(`text too small: ${key}, e.g. "${text}"`);
 
   // 3. The section nav highlights the section you are reading, and back at the top of the page
   //    (above the first section) no link stays highlighted from the section you left.
