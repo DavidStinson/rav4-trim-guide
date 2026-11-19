@@ -207,8 +207,10 @@ section{padding:104px 0 0}
 .step-body h4{font:700 17px var(--text);color:var(--ink-2);margin:16px 0 8px}
 .step-body h4:first-child{margin-top:0}
 .gain{list-style:none;margin:0;padding:0;display:grid;gap:2px}
-.gain li a{display:flex;gap:12px;padding:9px 10px;margin:0 -10px;border-radius:10px;text-decoration:none;align-items:flex-start}
-.gain li a:hover{background:var(--card)}
+.gain .row{display:flex;gap:12px;padding:9px 10px;margin:0 -10px;border-radius:10px;text-decoration:none;align-items:flex-start;color:inherit}
+.gain a.row:hover{background:var(--card)}
+.gain .go{margin-left:auto;align-self:center;flex:none;font:700 26px/1 Overpass,sans-serif;color:var(--edge);transition:transform .15s,color .15s}
+.gain a.row:hover .go,.gain a.row:focus-visible .go{color:var(--ink);transform:translateX(3px)}
 .gain .mk{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;margin-top:2px;font-weight:700;font-size:15px}
 .gain .plus .mk{background:var(--sign-soft);color:var(--sign)}
 .gain .minus .mk{background:var(--no-soft);color:var(--ink-2)}

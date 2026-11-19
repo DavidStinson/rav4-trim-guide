@@ -459,8 +459,12 @@ const PKG = (()=>{
 })();
 
 /* ===================== STEP UPS ===================== */
+// An item with a feature write-up further down links to it and ends in an arrow; one without is plain text.
 function fillGain(sel,list,kind){
-  $(sel).innerHTML = list.map(([id,t,w])=>`<li class="${kind}"><a href="${id?'#f-'+id:'#top'}"><span class="mk" aria-hidden="true">${kind==='plus'?'+':'–'}</span><span><b>${esc(t)}</b><span class="why">${esc(w)}</span></span></a></li>`).join('');
+  $(sel).innerHTML = list.map(([id,t,w])=>{
+    const body = `<span class="mk" aria-hidden="true">${kind==='plus'?'+':'–'}</span><span><b>${esc(t)}</b><span class="why">${esc(w)}</span></span>`;
+    return `<li class="${kind}">${id ? `<a class="row" href="#f-${id}">${body}<span class="go" aria-hidden="true">›</span></a>` : `<div class="row">${body}</div>`}</li>`;
+  }).join('');
 }
 fillGain('#gain1',STEP1_GAIN,'plus'); fillGain('#lose1',STEP1_LOSE,'minus');
 fillGain('#gain2',STEP2_GAIN,'plus'); fillGain('#lose2',STEP2_LOSE,'minus');
