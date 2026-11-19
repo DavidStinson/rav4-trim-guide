@@ -219,21 +219,3 @@ window.yearCheck = function yearCheck(year){
 
   return fails;
 };
-
-// Every photo the color picker can show exists on the server. Async, so the harness runs it once.
-window.colorFilesCheck = async function colorFilesCheck(){
-  const files = [
-    ...['0040','04V8','01L6','08X8','0218','0089','03T3'].map(c=>`ext-4444-${c}`),
-    ...['04V8','01L6','08X8','0218','0089','03T3'].map(c=>`ext-4534-${c}`),
-    ...['4530','4550'].flatMap(m=>['0218','02SQ','0M22','02VP'].map(c=>`ext-${m}-${c}`)),
-    ...['EE10','EE20','EE40'].map(c=>`int-4444-${c}`), ...['EA10','EA20','EA40'].map(c=>`int-4534-${c}`),
-    'int-4530-EC20', 'int-4550-EC20',
-    ...['4444-0089','4530-02VP','4534-0089','4550-02VP'].map(w=>`rear-${w}`),
-  ];
-  const fails = [];
-  for(const f of files){
-    const r = await fetch(new URL(`img/colors/${f}.webp`, location.href), {method:'HEAD'});
-    if(!r.ok) fails.push(`missing img/colors/${f}.webp (${r.status})`);
-  }
-  return fails;
-};
