@@ -23,6 +23,4 @@ Each rule below came out of a judged round and is now held by a check, so a rede
 - The priority picker shows the four trims before a pick; idle chips show an empty circle, picked ones a check (layout 12).
 - Only step-up items with a write-up are links, and they end in an arrow (layout 13).
 
-Two conventions no check holds: a card with a shadow is something you pick, while reading content sits on flat panels; and a lane dash opens each section.
-
 Open complaints from the last judges, not yet acted on: the step-up arrow sits far from its label; "Worth knowing" and "You give up" name the same kind of item; the picker's empty meters read as unfinished; the phone stacks 13 chips one per line.

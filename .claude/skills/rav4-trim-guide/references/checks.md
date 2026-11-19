@@ -16,7 +16,7 @@ Results land in `.check/results.json`; the exit code is 1 on any failure. Option
 | `tools/layout-check.js` | sliders (side arrows, and trim tabs where one card fits), nav fit, card counts per width, overflow, the hero's first screen, the priority picker before a pick, step-up links: things that break at one width only |
 | `tools/year-check.js` | the facts per year: prices, totals, mpg, charging math, paint codes, which trims have what, fine print that was removed on purpose |
 | `tools/photo-check.js` | every photo opens larger, has 1x and 2x copies, alt text, fits the expanded view; every copy exists at the width `photos.js` lists |
-| `tools/reading-check.js` | what an older reader notices: an open zero in prices, text size (16px, and 17px for sentences on a laptop), the section nav highlight, labels inside drawings, the pinned spec header, line length |
+| `tools/reading-check.js` | what an older reader notices: text size (16px, and 17px for sentences on a laptop), the section nav highlight, labels inside drawings, the pinned spec header, line length |
 
 Each exposes a function on `window` that returns a list of failure strings; an empty list passes. A failure string names the thing, what it is, and what was expected, so it reads as a bug report on its own.
 
@@ -30,7 +30,7 @@ Selectors in the checks follow the page: when a redesign moves or renames an ele
 
 ## When a check fails
 
-Read the failure text first; it says what was expected. For layout failures, open the matching screenshot in `.check/shots/`. For flaky-looking failures, rerun once: photo loads can be slow, and a Google Fonts file that fails to load (`ERR_SOCKET_NOT_CONNECTED`) also fails the open-zero check. A 39 px difference at the "Only show differences" toggle at 1100 px is known screenshot jitter, so pass `--max 0.001` to `shot-diff.mjs` when proving a change is invisible.
+Read the failure text first; it says what was expected. For layout failures, open the matching screenshot in `.check/shots/`. For flaky-looking failures, rerun once: photo loads can be slow, and a Google Fonts file can fail to load (`ERR_SOCKET_NOT_CONNECTED`). A 39 px difference at the "Only show differences" toggle at 1100 px is known screenshot jitter, so pass `--max 0.001` to `shot-diff.mjs` when proving a change is invisible.
 
 ## Writing a check that holds
 
