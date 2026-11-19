@@ -50,7 +50,8 @@ window.yearCheck = function yearCheck(year){
     const m = mainText.match(new RegExp('.{0,50}'+re.source+'.{0,30}', re.flags));
     if(m) fails.push(`fine print still in the page: "${m[0]}"`);
   });
-  if(!/Edmunds/.test(txt(document.querySelector('footer')))) fails.push('footer should credit the Edmunds backup-camera photo');
+  const edmunds = (txt(document.querySelector('footer')).match(/Edmunds/g) || []).length;
+  if(edmunds !== 1) fails.push(`footer should credit the Edmunds backup-camera photo once; it does ${edmunds} times`);
 
   // 3. The "what's different" panel shows only for 2026.
   const panel = document.querySelector('#yearDiff');
