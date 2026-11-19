@@ -736,18 +736,28 @@ function mergeSpecs(raw){
   };
   nav.addEventListener('scroll',edges,{passive:true});
   new ResizeObserver(edges).observe(nav);
-  const io=new IntersectionObserver(es=>es.forEach(e=>{
-    if(!e.isIntersecting) return;
-    links.forEach(a=>{
-      const on=a.getAttribute('href')==='#'+e.target.id;
-      a.classList.toggle('on',on);
-      on ? a.setAttribute('aria-current','location') : a.removeAttribute('aria-current');
-      // When the links scroll sideways, bring the current one to the middle.
-      if(on && nav.scrollWidth>nav.clientWidth)
-        nav.scrollTo({left:a.offsetLeft-(nav.clientWidth-a.offsetWidth)/2, behavior:still.matches?'auto':'smooth'});
-    });
-  }),{rootMargin:'-40% 0px -55% 0px'});
-  links.forEach(a=>{const s=document.querySelector(a.getAttribute('href')); if(s) io.observe(s);});
+  // The current section is the last one whose top has passed 40% of the way down the screen, or the
+  // last section once the page can scroll no further (it may be too short to reach that line).
+  // Above the first section (the hero) nothing is current, so no highlight is left behind.
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+  let current=null, queued=false;
+  const mark=()=>{
+    queued=false;
+    const line=innerHeight*.4;
+    let i=-1; secs.forEach((s,k)=>{ if(s && s.offsetParent!==null && s.getBoundingClientRect().top<=line) i=k; });
+    if(i>=0 && scrollY+innerHeight>=document.documentElement.scrollHeight-2) i=secs.findLastIndex(s=>s && s.offsetParent!==null);
+    const a=links[i]||null;
+    if(a===current) return;
+    current=a;
+    links.forEach(l=>{ const on=l===a; l.classList.toggle('on',on); on ? l.setAttribute('aria-current','location') : l.removeAttribute('aria-current'); });
+    // When the links scroll sideways, bring the current one to the middle.
+    if(a && nav.scrollWidth>nav.clientWidth)
+      nav.scrollTo({left:a.offsetLeft-(nav.clientWidth-a.offsetWidth)/2, behavior:still.matches?'auto':'smooth'});
+  };
+  const queue=()=>{ if(!queued){ queued=true; requestAnimationFrame(mark); } };
+  addEventListener('scroll',queue,{passive:true});
+  addEventListener('resize',queue);
+  mark();
 })();
 
 /* ===================== YEAR SWITCH: keep your place ===================== */
