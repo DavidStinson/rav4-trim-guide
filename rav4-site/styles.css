@@ -1,6 +1,6 @@
 /* Styles for index.html. Colors and type sizes are custom properties on :root; dark mode redefines the colors. */
 :root{
-  --paper:#F6F7F5; --card:#FFFFFF; --ink:#202427; --ink-2:#3F454A; --rule:#D9DDDA;
+  --paper:#F6F7F5; --card:#FFFFFF; --ink:#202427; --ink-2:#3F454A; --rule:#D9DDDA; --edge:#7E868B;
   --asphalt:#2B3034; --lane:#F2B705; --sign:#0B6B47; --sign-soft:#E3F1EA;
   --opt:#8A5A00; --opt-soft:#FDF1D2; --no:#7A8086; --no-soft:#EEF0F1; --bad:#B3261E;
   --xle:#2F6699; --xse:#B0303F; --ltd:#8C6224;
@@ -14,7 +14,7 @@
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --paper:#16191B; --card:#1F2326; --ink:#ECEEEC; --ink-2:#AEB5BA; --rule:#343A3F;
+    --paper:#16191B; --card:#1F2326; --ink:#ECEEEC; --ink-2:#AEB5BA; --rule:#343A3F; --edge:#737B80;
     --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --bad:#FF8A80;
     --xle:#7FB0E0; --xse:#F07A87; --ltd:#D9A85E; --xle-soft:#1D2A36; --xse-soft:#35202A; --ltd-soft:#2F2719;
     --phv:#B3A3EE; --phv-soft:#28233A;
@@ -22,13 +22,15 @@
   }
 }
 :root[data-theme="dark"]{
-  --paper:#16191B; --card:#1F2326; --ink:#ECEEEC; --ink-2:#AEB5BA; --rule:#343A3F;
+  --paper:#16191B; --card:#1F2326; --ink:#ECEEEC; --ink-2:#AEB5BA; --rule:#343A3F; --edge:#737B80;
   --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --bad:#FF8A80;
   --xle:#7FB0E0; --xse:#F07A87; --ltd:#D9A85E; --xle-soft:#1D2A36; --xse-soft:#35202A; --ltd-soft:#2F2719;
     --phv:#B3A3EE; --phv-soft:#28233A;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --focus:#8AB4FF; color-scheme:dark;
 }
 *{box-sizing:border-box}
+/* The hidden attribute always wins over a component's display rule. */
+[hidden]{display:none!important}
 html{scroll-behavior:smooth;scroll-padding-top:72px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 19px/1.6 var(--text);-webkit-font-smoothing:antialiased}
@@ -121,7 +123,6 @@ section{padding:104px 0 0}
 .sl-btn{all:unset;box-sizing:border-box;position:absolute;top:0;bottom:0;z-index:6;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;padding:0 4px;
   color:var(--sl-ink);font:700 16px/1.15 Overpass,sans-serif;text-align:center}
-.sl-btn[hidden]{display:none}
 .sl-in{display:flex;flex-direction:column;align-items:center;gap:8px;margin:auto 0}
 /* In a slider taller than the screen (packages), the arrow stays near the middle of the screen while it scrolls past. */
 .sl.tall .sl-in{position:sticky;top:calc(50vh - 60px);bottom:calc(50vh - 60px)}
@@ -155,16 +156,19 @@ section{padding:104px 0 0}
 .picker{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px}
 @media (max-width:640px){.picker{padding:20px 16px}}
 .chips{display:flex;flex-wrap:wrap;gap:10px}
-.chip{font:inherit;font-size:17px;border:2px solid var(--rule);background:var(--paper);color:var(--ink);padding:10px 16px;border-radius:999px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;transition:background .15s,border-color .15s}
+.chip{font:inherit;font-size:17px;border:2px solid var(--edge);background:var(--paper);color:var(--ink);padding:10px 16px;border-radius:999px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;transition:background .15s,border-color .15s}
 .chip:hover{border-color:var(--ink-2)}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
-.chip .tick{width:18px;height:18px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center;font-size:12px;opacity:.7}
-.chip[aria-pressed="true"] .tick{background:var(--lane);border-color:var(--lane);color:#222;opacity:1}
+/* An unpicked chip shows an empty circle; the check appears only once it's picked. */
+.chip .tick{width:18px;height:18px;border-radius:50%;border:2px solid var(--edge);display:grid;place-items:center;font-size:12px;color:transparent}
+.chip[aria-pressed="true"] .tick{background:var(--lane);border-color:var(--lane);color:#222}
 .picker .sl{--sl-bg:var(--card);margin:26px -28px 0}
 @media (max-width:640px){.picker .sl{margin-inline:-16px}}
 .score{border-radius:18px;padding:20px;border:2px solid transparent;background:var(--paper);transition:border-color .2s}
 .score.best{border-color:var(--lane)}
 .score h4{font-size:22px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.score-price{margin:2px 0 0;font:700 18px Overpass,sans-serif;color:var(--ink-2)}
+.score.idle .meter i{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule)}
 .score .best-badge{font:700 16px var(--text);background:var(--lane);color:#222;border-radius:999px;padding:2px 10px;visibility:hidden}
 .score.best .best-badge{visibility:visible}
 .meter{display:flex;gap:4px;margin:12px 0 10px}
@@ -173,7 +177,8 @@ section{padding:104px 0 0}
 .score ul{list-style:none;margin:0;padding:0;font-size:17px;display:grid;gap:4px}
 .score li{display:flex;gap:8px;align-items:flex-start}
 .score li .pill{flex:none}
-.empty-note{color:var(--ink-2);margin-top:22px;font-size:17px}
+.empty-note{margin:22px 0 0;color:var(--ink)}
+.picker .legend{margin-top:22px}
 
 /* ---------- step ups ---------- */
 .steps{display:grid;grid-template-columns:1fr 1fr;gap:56px 56px}

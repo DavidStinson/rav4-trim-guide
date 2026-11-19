@@ -127,7 +127,7 @@ const VIEW = (function(){
 
 /* ===================== PICKER ===================== */
 (function(){
-  const chips = $('#chips'), scores = $('#scores'), wrap = $('#scoresSl'), note = $('#emptyNote');
+  const chips = $('#chips'), scores = $('#scores'), note = $('#emptyNote'), legend = $('#pickLegend');
   let picked = new Set(store.get('rav4-picks',[]));
   chips.innerHTML = PRIORITIES.map(p=>`<button type="button" class="chip" data-id="${p.id}" aria-pressed="${picked.has(p.id)}"><span class="tick" aria-hidden="true">✓</span>${esc(p.label)}</button>`).join('');
   chips.addEventListener('click',e=>{
@@ -143,8 +143,13 @@ const VIEW = (function(){
     const items = PRIORITIES.filter(p=>picked.has(p.id)).flatMap(rowsFor);
     // de-dupe features shared by two priorities
     const seen=new Set(); const rows=items.filter(r=>{const k=r.label; if(seen.has(k)) return false; seen.add(k); return true;});
-    note.hidden = rows.length>0; wrap.hidden = rows.length===0;
-    if(!rows.length){scores.innerHTML=''; VIEW.refresh(); return;}
+    // Before a pick, the four cards still show which trim is which, so the picker never looks empty.
+    note.hidden = rows.length>0; legend.hidden = rows.length===0;
+    const head = t=>`<h4><span style="color:${t.color}">${t.name}</span><span class="best-badge">Best match</span></h4><p class="score-price">${money(START[t.id])}</p>`;
+    if(!rows.length){
+      scores.innerHTML = TRIMS.map(t=>`<div class="score idle">${head(t)}<div class="meter" aria-hidden="true"><i></i><i></i><i></i></div></div>`).join('');
+      VIEW.refresh(); return;
+    }
     const pts = TRIMS.map((t,i)=>rows.reduce((a,r)=>a+(r.trims[i][0]==='std'?1:r.trims[i][0]==='opt'?.5:0),0));
     const max = Math.max(...pts);
     scores.innerHTML = TRIMS.map((t,i)=>{
@@ -153,7 +158,7 @@ const VIEW = (function(){
       const sorted=[...rows].sort((a,b)=>rank[a.trims[i][0]]-rank[b.trims[i][0]]);
       const best=pts[i]===max&&max>0;
       return `<div class="score ${best?'best':''}" ${best?'data-flag="Best match"':''}>
-        <h4><span style="color:${t.color}">${t.name}</span><span class="best-badge">Best match</span></h4>
+        ${head(t)}
         <div class="meter" aria-hidden="true">${sorted.map(r=>`<i class="${r.trims[i][0]}"></i>`).join('')}</div>
         <p class="small" style="margin:0 0 10px"><b>${std} of ${rows.length}</b> included${opt?`, ${opt} more as an option`:''}</p>
         <ul>${sorted.map(r=>`<li>${pill(r.trims[i][0],{std:'Yes',opt:'Option',no:'No'}[r.trims[i][0]])}<span>${r.id?`<a href="#f-${r.id}">${esc(r.label)}</a>`:esc(r.label)}</span></li>`).join('')}</ul>
