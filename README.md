@@ -16,7 +16,7 @@ Then open http://127.0.0.1:8765/rav4-site/index.html. Add `?year=2026` for the 2
 
 ## Checks
 
-Open http://127.0.0.1:8765/tools/harness.html. It loads the site for both model years at 390, 700, 1100 and 1400 px wide, runs `tools/layout-check.js` and `tools/year-check.js` in each, and prints the failures. It also checks once that every color-picker photo exists (the `files` entry). An empty list for every entry means everything passed; the results are also on `window.RESULTS`.
+Open http://127.0.0.1:8765/tools/harness.html. It loads the site for both model years at 390, 700, 1100, 1400 and 1500 px wide, runs `tools/layout-check.js` and `tools/year-check.js` in each, and prints the failures. It also checks once that every color-picker photo exists (the `files` entry). An empty list for every entry means everything passed; the results are also on `window.RESULTS`.
 
 The expected numbers in `year-check.js` come from Toyota's pages and hand calculations, not from the site's own data, so a typo in the site's figures fails the check.
 
