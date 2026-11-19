@@ -70,7 +70,7 @@ img{max-width:100%;height:auto;display:block}
 .theme-btn{border:1px solid var(--rule);background:var(--card);color:var(--ink);border-radius:999px;width:40px;height:40px;cursor:pointer;flex:none;font-size:18px}
 
 /* ---------- hero: the road ---------- */
-.hero{padding-top:40px}
+.hero{padding-top:32px}
 .hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:800;letter-spacing:-.025em;text-wrap:balance}
 .hero .lede{margin-top:18px}
 .road{position:relative;margin-top:32px;background:var(--asphalt);color:#fff;border-radius:28px 28px 0 0;padding:32px 0 34px;overflow:hidden}
@@ -84,13 +84,13 @@ img{max-width:100%;height:auto;display:block}
 .car .price{font:700 20px Overpass,sans-serif;color:#E6E9EA}
 .car .jump{display:inline-block;margin-top:8px;font:800 16px Overpass,sans-serif;color:var(--asphalt);background:var(--lane);padding:3px 10px;border-radius:8px}
 .car .jump.first{background:transparent;color:#BFC6CA;box-shadow:inset 0 0 0 1.5px #5A6166}
-.car .tag{font-size:16px;color:#BFC6CA;max-width:26ch;margin:8px auto 0}
+.car .tag{font-size:17px;color:#BFC6CA;max-width:26ch;margin:8px auto 0}
 .car .bar{height:5px;width:56px;border-radius:3px;margin:12px auto 0}
 @media (max-width:979px){
   .road::before{display:none}
   .car img{height:auto;max-width:320px}
 }
-.road-foot{background:var(--card);border-radius:0 0 28px 28px;box-shadow:var(--shadow);padding:18px 24px;display:flex;flex-wrap:wrap;gap:10px 28px;font-size:16px;color:var(--ink-2)}
+.road-foot{background:var(--card);border-radius:0 0 28px 28px;box-shadow:var(--shadow);padding:18px 24px;display:flex;flex-wrap:wrap;gap:10px 28px;font-size:17px;color:var(--ink-2)}
 .road-foot b{color:var(--ink)}
 /* 2026 only: how it differs from the 2027. */
 .year-diff{margin-top:40px;padding:4px 0 4px 24px;border-left:6px solid var(--lane)}
@@ -170,7 +170,7 @@ section{padding:104px 0 0}
 .meter{display:flex;gap:4px;margin:12px 0 10px}
 .meter i{flex:1;height:10px;border-radius:3px;background:var(--rule)}
 .meter i.std{background:var(--sign)} .meter i.opt{background:var(--lane)}
-.score ul{list-style:none;margin:0;padding:0;font-size:16px;display:grid;gap:4px}
+.score ul{list-style:none;margin:0;padding:0;font-size:17px;display:grid;gap:4px}
 .score li{display:flex;gap:8px;align-items:flex-start}
 .score li .pill{flex:none}
 .empty-note{color:var(--ink-2);margin-top:22px;font-size:17px}
@@ -215,7 +215,7 @@ section{padding:104px 0 0}
 /* Feature copy keeps to a readable line length, whatever the panel's width. */
 .f-text > p{max-width:65ch}
 .f-text h4{font-size:26px;font-weight:800}
-.f-text .aka{font-size:16px;color:var(--ink-2);margin:6px 0 16px}
+.f-text .aka{font-size:17px;color:var(--ink-2);margin:6px 0 16px}
 .f-text .aka i{display:inline-block;max-width:100%;font-style:normal;background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:1px 7px}
 .f-text .why{border-left:4px solid var(--lane);padding:2px 0 2px 14px;margin:14px 0 0;color:var(--ink)}
 .f-text .why b{display:block;font-size:16px;color:var(--ink-2);font-weight:700}
@@ -297,17 +297,17 @@ section{padding:104px 0 0}
 .ev-block{display:grid;gap:14px;border-top:1px solid var(--rule);padding-top:20px;margin-top:6px}
 .ev-block h5,.ap-q{font:800 21px Overpass,sans-serif;margin:0}
 .ev-sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px 24px}
-.ev-sliders label{font-size:16px}
+.ev-sliders label{font-size:17px}
 .cost-rows{display:grid;gap:8px}
 .cost-row{display:grid;grid-template-columns:7.2em minmax(0,1fr) 5.4em;gap:12px;align-items:center;font:700 16px Overpass,sans-serif}
 .cost-row .bar{height:20px;border-radius:6px;background:var(--rule);overflow:hidden}
 .cost-row .bar span{display:block;height:100%;width:0;background:var(--c);transition:width .25s}
 .cost-row b{text-align:right;font-variant-numeric:tabular-nums}
 .chg-rows .cost-row{grid-template-columns:9.2em minmax(0,1fr) 4.6em}
-.chg-need{margin:0;padding-left:1.1em;display:grid;gap:6px;font-size:16px;color:var(--ink-2)}
+.chg-need{margin:0;padding-left:1.1em;display:grid;gap:6px;font-size:17px;color:var(--ink-2)}
 .chg-need b{color:var(--ink)}
 @media (max-width:520px){.cost-rows{gap:12px}.cost-row,.chg-rows .cost-row{grid-template-columns:1fr auto;gap:4px 12px}.cost-row .bar{grid-column:1/-1;order:3}}
-.ap-chips .chip{font-size:16px;padding:8px 14px}
+.ap-chips .chip{font-size:17px;padding:8px 14px}
 .ap-chips .chip:not([aria-pressed="true"]){background:var(--paper)}
 .ap-chips .chip small{font-size:16px;opacity:.75}
 .ap-track{height:22px;border-radius:8px;background:var(--rule);overflow:hidden}
@@ -365,20 +365,21 @@ section{padding:104px 0 0}
 .rung .pn{font-weight:700;line-height:1.3}
 .rung .pp{font:800 18px Overpass,sans-serif;white-space:nowrap}
 .rung .pc{grid-column:2/-1;font-size:17px;color:var(--ink-2);line-height:1.4}
-.rung .req{grid-column:2/-1;font-size:16px;color:var(--ink);font-weight:700;display:flex;gap:8px;align-items:baseline}
+.rung .req{grid-column:2/-1;font-size:17px;line-height:1.45;color:var(--ink-2);display:flex;gap:8px;align-items:baseline}
+.rung .req b{color:var(--ink)}
 .rung .req::before{content:"";flex:none;width:10px;height:10px;border-radius:2px;background:var(--lane);transform:translateY(-1px)}
 .rung.base .pp{color:var(--ink-2);font-weight:700}
 .pk-total{margin:6px 8px 18px;background:var(--paper);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
 .pk-total .big{font:800 30px Overpass,sans-serif;line-height:1.1}
 .pk-total .small{color:var(--ink-2)}
-.pk-note{margin-top:18px;font-size:16px;color:var(--ink-2);max-width:80ch}
+.pk-note{margin-top:18px;font-size:17px;color:var(--ink-2);max-width:80ch}
 
 /* ---------- paint and interior colors ---------- */
 /* The photos sit on a light studio backdrop in both themes, since a black car vanishes on a dark card. */
 .cp{--c:var(--xle);background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;border-top:6px solid var(--c)}
 .cp-top{padding:18px 22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
 .cp-top .seg button{min-height:44px}
-.cp-note{margin:0;flex:1 1 280px;font-size:16px;line-height:1.45;background:var(--opt-soft);border-left:4px solid var(--lane);border-radius:10px;padding:8px 12px}
+.cp-note{margin:0;flex:1 1 280px;font-size:17px;line-height:1.45;background:var(--opt-soft);border-left:4px solid var(--lane);border-radius:10px;padding:8px 12px}
 .cp-note:empty{display:none}
 .cp-note.seen{visibility:hidden}
 .cp-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);border-top:1px solid var(--rule)}
@@ -391,7 +392,7 @@ section{padding:104px 0 0}
 .cp-pane{padding:20px 22px 22px;border-left:1px solid var(--rule)}
 .cp-pane + .cp-stage + .cp-pane{border-top:1px solid var(--rule)}
 .cp-pane h3{font-size:20px;margin:0 0 8px}
-.cp-sub{font-size:16px;color:var(--ink-2);margin:-4px 0 10px}
+.cp-sub{font-size:17px;color:var(--ink-2);margin:-4px 0 10px}
 .cp-opts{display:grid;gap:4px}
 .cp-opt{all:unset;box-sizing:border-box;display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:12px;min-height:52px;padding:6px 12px 6px 8px;border:2px solid transparent;border-radius:14px;cursor:pointer}
 .cp-opt:hover{background:var(--paper)}
@@ -452,13 +453,13 @@ section{padding:104px 0 0}
 .lb-stage.zoomed{place-items:start;grid-template:auto/auto}
 .lb-stage.zoomed img{max-width:none;max-height:none;width:auto;cursor:zoom-out}
 .lb-cap{padding:12px 16px 18px;font-size:17px;max-width:80ch;margin:0 auto;text-align:center;color:#E6E9EA}
-.lb-cap small{display:block;color:#AEB5BA;font-size:16px;margin-top:4px}
+.lb-cap small{display:block;color:#AEB5BA;font-size:17px;margin-top:4px}
 
 /* ---------- all four have ---------- */
 .basics{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0 40px}
 .basic{padding:16px 0 18px;border-top:1px solid var(--rule)}
 .basic b{display:block;font-size:18px}
-.basic span{font-size:16px;color:var(--ink-2)}
+.basic span{font-size:17px;color:var(--ink-2)}
 
 /* ---------- spec table ---------- */
 /* The search bar scrolls with the page: the pinned row while reading is the trim header, and both pinned would take a quarter of a laptop screen. */
@@ -477,7 +478,7 @@ section{padding:104px 0 0}
 .spec-cat > summary::after{content:"";width:12px;height:12px;border-right:3px solid var(--ink-2);border-bottom:3px solid var(--ink-2);transform:rotate(45deg);margin-left:auto;transition:transform .2s;margin-top:-6px}
 .spec-cat[open] > summary::after{transform:rotate(225deg);margin-top:6px}
 .spec-cat > summary .n{font:400 16px var(--text);color:var(--ink-2)}
-.spec-table{width:100%;border-collapse:collapse;font-size:16px}
+.spec-table{width:100%;border-collapse:collapse;font-size:17px}
 .spec-table th,.spec-table td{padding:12px 16px;text-align:left;vertical-align:top;border-top:1px solid var(--rule)}
 /* The trim names and prices stay pinned under the section nav (--stick, its height, set in app.js) while you read down a category. */
 .spec-table thead th{font:700 16px Overpass,sans-serif;position:sticky;top:var(--stick,58px);z-index:2;background:var(--card);box-shadow:inset 0 -1.5px 0 var(--rule);vertical-align:bottom}
@@ -486,20 +487,20 @@ section{padding:104px 0 0}
 .spec-table thead .tp{display:block;margin:2px 0 0 17px;font:400 16px var(--text);color:var(--ink-2)}
 .spec-table thead th.t{width:16%}
 .spec-table td.lab{color:var(--ink)}
-.spec-table tr.sub td{background:var(--paper);font-weight:700;font-size:16px;color:var(--ink-2);padding-top:10px;padding-bottom:10px}
+.spec-table tr.sub td{background:var(--paper);font-weight:700;font-size:17px;color:var(--ink-2);padding-top:10px;padding-bottom:10px}
 .spec-table tr.diff td.lab{box-shadow:inset 4px 0 0 var(--lane)}
 .spec-table .val{font-weight:700}
 .spec-table mark{background:var(--lane);color:#222;border-radius:3px;padding:0 2px}
-.spec-table .common{display:block;font-size:16px;color:var(--ink-2);margin-top:4px}
-.spec-table .mo{display:block;margin-top:6px;font-size:16px;color:var(--ink-2)}
+.spec-table .common{display:block;font-size:17px;color:var(--ink-2);margin-top:4px}
+.spec-table .mo{display:block;margin-top:6px;font-size:17px;color:var(--ink-2)}
 .spec-table .mo .pill{margin-right:4px}
-.tw{margin-top:6px;font-size:16px;color:var(--ink-2)}
+.tw{margin-top:6px;font-size:17px;color:var(--ink-2)}
 .tw summary{cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:underline;text-underline-offset:3px}
 .tw summary::-webkit-details-marker{display:none}
 .tw summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
 .tw[open] summary::before{transform:rotate(45deg)}
 .tw ul{margin:8px 0 2px;padding-left:18px;display:grid;gap:6px}
-.tw li span{display:block;font-weight:700;font-size:16px}
+.tw li span{display:block;font-weight:700;font-size:17px}
 .spec-more{margin-top:28px;padding:2px 0 2px 18px;font-size:17px;border-left:4px solid var(--lane);max-width:80ch}
 @media (max-width:760px){
   .spec-table,.spec-table tbody{display:block}
@@ -522,7 +523,7 @@ section{padding:104px 0 0}
 .checklist small{display:block;color:var(--ink-2);font-size:17px;text-decoration:none}
 .print-btn{font:inherit;font-weight:700;font-size:17px;border:0;background:var(--ink);color:var(--paper);border-radius:12px;padding:12px 20px;cursor:pointer;margin-top:20px}
 
-footer{margin-top:96px;padding:36px 0 60px;border-top:1px solid var(--rule);font-size:16px;color:var(--ink-2)}
+footer{margin-top:96px;padding:36px 0 60px;border-top:1px solid var(--rule);font-size:17px;color:var(--ink-2)}
 footer p{max-width:80ch}
 
 @media print{

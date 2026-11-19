@@ -197,11 +197,12 @@ const PKG = (()=>{
     const rungs = p.ladder.map((k,i)=>{
       const before = p.ladder.slice(0,i);
       // What this package really costs: it can only be added with every package above it.
-      const req = before.length ? `Needs the ${before.length===1?'one':before.length} above: ${money(before.reduce((a,b)=>a+b.price,0)+k.price)} together` : '';
+      const n = before.length, word = c => ['one','two','three','four','five'][c-1] || c;
+      const req = n ? `Needs the ${word(n)} above<br><b>${money(before.reduce((a,b)=>a+b.price,0)+k.price)}</b> for ${n===1?'both':'all '+word(n+1)}` : '';
       return `<li class="rung" data-i="${i+1}"><button type="button" aria-pressed="false">
         <span class="knob" aria-hidden="true"></span><span class="pn">${esc(k.name)}</span><span class="pp">+${money(k.price)}</span>
         <span class="pc">${k.gets.map(([,txt])=>esc(txt)).join(', ')}</span>
-        ${req?`<span class="req">${req}</span>`:''}</button></li>`;
+        ${req?`<span class="req"><span>${req}</span></span>`:''}</button></li>`;
     }).join('');
     return `<article class="pk" style="--c:${t.color}" data-t="${t.id}">
       <div class="pk-head"><h3>${t.name}</h3></div>
