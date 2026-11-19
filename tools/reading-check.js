@@ -5,6 +5,7 @@ window.readingCheck = async function readingCheck(){
   const fails = [];
   const frames = n => new Promise(r => { const f = () => (--n ? requestAnimationFrame(f) : r()); requestAnimationFrame(f); });
   await document.fonts.ready;
+  const settle = async () => { await frames(4); await new Promise(r => setTimeout(r, 150)); };
 
   // 1. A zero in body text is an open zero, not a slashed one: prices like $45,610 must not read as $45,61Ø.
   //    Draw "0" in the body font and in Atkinson Hyperlegible (whose zero is slashed); they must differ.
@@ -38,7 +39,6 @@ window.readingCheck = async function readingCheck(){
   //    (above the first section) no link stays highlighted from the section you left.
   const nav = document.querySelector('.nav');
   if(nav){
-    const settle = async () => { await frames(4); await new Promise(r => setTimeout(r, 150)); };
     const links = [...nav.querySelectorAll('a')];
     const last = links.at(-1), sec = document.querySelector(last.getAttribute('href'));
     // Lazy photos above can load and push the section down after the jump, so jump again until the page stays put.
@@ -51,6 +51,25 @@ window.readingCheck = async function readingCheck(){
     await settle();
     const stale = [...nav.querySelectorAll('a.on, a[aria-current]')].map(a => a.textContent.trim());
     if(stale.length) fails.push(`section nav still highlights "${stale.join('", "')}" at the top of the page`);
+  }
+  // 3. On a wide screen the spec table keeps its header row (trim names and prices) on screen while
+  //    you read down a long category, pinned just under the sticky section nav.
+  //    Use the tallest open category so the table runs well past the bottom of the screen.
+  const table = innerWidth > 760 && [...document.querySelectorAll('#specList details[open] .spec-table')]
+    .sort((a, b) => b.offsetHeight - a.offsetHeight)[0];
+  if(table && table.offsetHeight < innerHeight + 400) fails.push(`spec table check needs a category taller than ${innerHeight + 400}px; the tallest is ${table.offsetHeight}px`);
+  else if(table){
+    const bar = document.querySelector('.subnav').getBoundingClientRect().height;
+    scrollTo({ top: scrollY + table.getBoundingClientRect().top + 400, behavior: 'instant' });
+    await settle();
+    const heads = [...table.querySelectorAll('thead th.t')];
+    const off = heads.filter(th => { const r = th.getBoundingClientRect();
+      return Math.abs(r.top - bar) > 2 || !th.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)); });
+    if(off.length) fails.push(`spec table header scrolls away: with the table 400px past the top, its trim names sit at ${Math.round(heads[0].getBoundingClientRect().top)}px, not pinned under the ${Math.round(bar)}px section nav`);
+    const unpriced = heads.filter(th => !/\$\d/.test(th.textContent)).map(th => th.textContent.trim());
+    if(unpriced.length) fails.push(`spec table header names no price for ${unpriced.join(', ')}`);
+    scrollTo({ top: 0, behavior: 'instant' });
+    await settle();
   }
   return fails;
 };
