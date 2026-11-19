@@ -1,3 +1,6 @@
 .DS_Store
 __pycache__/
 rav4-cfg/originals/
+.claude/hill-climb/
+node_modules/
+.check/
