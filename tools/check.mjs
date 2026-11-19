@@ -25,7 +25,7 @@ const YEARS = QUICK ? [2027] : [2027, 2026];
 const WIDTHS = QUICK ? [390, 1400] : [390, 700, 1100, 1400, 1500];
 const SHOTS = !flag('--no-shots');
 const HEIGHT = 900;
-const CHECKS = ['layout-check.js', 'year-check.js', 'photo-check.js'];
+const CHECKS = ['layout-check.js', 'year-check.js', 'photo-check.js', 'reading-check.js'];
 // WCAG 2.2 A and AA, the level most accessibility laws point to.
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
@@ -49,8 +49,8 @@ async function run(browser, base, year, width, scheme, sources, first){
   const axe = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
   const fails = axe.violations.map(v => `accessibility: ${v.id} (${v.impact}) on ${v.nodes.length} element(s), e.g. ${v.nodes[0].target.join(' ')}: ${v.help}`);
   for(const src of sources) await page.addScriptTag({ content: src });
-  // Year checks change the spec filter, so run the layout checks first.
-  fails.push(...await page.evaluate(async y => [...layoutCheck(), ...yearCheck(y), ...await photoCheck()], year));
+  // Year checks change the spec filter, so run the layout checks first; the reading checks scroll, so they run last.
+  fails.push(...await page.evaluate(async y => [...layoutCheck(), ...yearCheck(y), ...await photoCheck(), ...await readingCheck()], year));
   const files = first ? await page.evaluate(() => photoFilesCheck()) : null;
   fails.push(...new Set(errors));
   await context.close();
