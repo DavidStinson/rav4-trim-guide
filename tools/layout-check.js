@@ -144,6 +144,15 @@ window.layoutCheck = function layoutCheck(){
     if(odd.length) fails.push(`feature availability is not in one right-hand column: ${odd.length} of ${lists.length} panels place it elsewhere (${odd.slice(0, 4).join(', ')})`);
     const rows = lists.filter(a => new Set([...a.children].map(d => Math.round(d.getBoundingClientRect().left))).size > 1).map(a => a.closest('.feature').id);
     if(rows.length) fails.push(`feature availability is laid out side by side instead of as a list in ${rows.length} panels (${rows.slice(0, 4).join(', ')})`);
+    // The column runs to the panel's bottom, or, above a full-width demo, to a rule that crosses the
+    // whole panel, so it never stops partway down with a loose corner.
+    const short = lists.filter(a => {
+      const f = a.closest('.feature'), p = f.getBoundingClientRect(), b = a.getBoundingClientRect().bottom;
+      if(Math.abs(p.bottom - b) <= 1) return false;
+      const v = f.querySelector(':scope > .f-vis'), r = v && v.getBoundingClientRect();
+      return !(r && Math.abs(r.top - b) <= 1 && r.width >= p.width - 2 && parseFloat(getComputedStyle(v).borderTopWidth) >= 1);
+    }).map(a => a.closest('.feature').id);
+    if(short.length) fails.push(`feature availability column stops partway down ${short.length} panels (${short.slice(0, 4).join(', ')}): run it to the bottom or to a full-width rule`);
   }
 
   // 10. Package ladders read at a glance where all four sit side by side: a package name takes at most
