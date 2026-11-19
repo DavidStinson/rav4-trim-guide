@@ -1,6 +1,6 @@
 # RAV4 Trim Guide
 
-A one-page guide comparing four Toyota RAV4s for a family car decision: the RAV4 Hybrid XLE Premium, XSE and Limited, and the RAV4 Plug-in Hybrid XSE, for model years 2026 and 2027. It explains each feature in plain language, shows which trims have it, and includes package ladders, a paint and seat color picker, a fuel-cost calculator, a charging-time comparison and a power-outage calculator.
+A one-page guide comparing four Toyota RAV4s for a family car decision: the RAV4 Hybrid XLE Premium, XSE and Limited, and the RAV4 Plug-in Hybrid XSE, for model years 2026 and 2027. It explains each feature in plain language, shows which trims have it, and includes package ladders, a paint and interior color picker, a fuel-cost calculator, a charging-time comparison and a power-outage calculator.
 
 Live site: https://davidstinson.github.io/rav4-trim-guide/ (marked `noindex`, so search engines are asked not to list it).
 
@@ -23,6 +23,7 @@ The expected numbers in `year-check.js` come from Toyota's pages and hand calcul
 ## Where the numbers come from
 
 - Year-dependent facts (prices, mpg, range, horsepower, charging port, trial lengths) live in `YEAR_FACTS` near the top of the script in `rav4-site/index.html`.
+- `YEAR_FACTS` holds Toyota's MSRP. Every price the page shows adds the $1,595 destination fee (`DESTINATION`, giving `START` per trim), and the note under the hero prices is the only place that says so or mentions tax and registration. The spec list's "Base MSRP" line is replaced with this starting price.
 - Package names, prices and buying order come from Toyota's online build tool, read in November 2026. The order was confirmed from the tool's "Requires Changes" prompts for both years.
 - The spec lists (`rav4-site/specs.js` for 2027, `rav4-site/specs-2026.js` for 2026) are generated from Toyota's build-tool data:
 
@@ -32,7 +33,7 @@ The expected numbers in `year-check.js` come from Toyota's pages and hand calcul
   ```
 
   Each run prints an "unused aliases" warning. That's expected, because each year's wording uses a different set of aliases.
-- Paint and seat colors (`PAINTS`, `SEATS` and `COLORS` in `rav4-site/index.html`) come from the build tool for both years; they're identical. On the XLE Premium and Limited, selecting each paint with each seat color raised no "Requires Changes" prompt in either year, and the XSE and Plug-in have one seat color, so the model is the only limit. The picker's photos are the build tool's 2027 renders. Their image ids are in `rav4-cfg/colors/renders.json`, and this downloads any that are missing and rebuilds the cropped WebP copies in `rav4-site/img/colors/` (needs `cwebp`):
+- Paint and seat colors (`PAINTS`, `SEATS` and `COLORS` in `rav4-site/index.html`) come from the build tool for both years; they're identical. On the XLE Premium and Limited, selecting each paint with each seat color raised no "Requires Changes" prompt in either year, and the XSE and Plug-in have one seat color, so the model is the only limit. The picker's photos are the build tool's 2027 renders. The hero and the styling-details photos reuse them, and the styling details add a back view of each trim in Wind Chill Pearl (white), taken from the build tool's 360° view. Their image ids are in `rav4-cfg/colors/renders.json`, and this downloads any that are missing and rebuilds the cropped WebP copies in `rav4-site/img/colors/` (needs `cwebp`):
 
   ```sh
   python3 tools/fetch_color_renders.py
