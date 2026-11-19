@@ -349,6 +349,47 @@ section{padding:88px 0 0}
 .pk-paint{padding:0 22px 20px;font-size:15px;color:var(--ink-2)}
 .pk-paint b{color:var(--ink)}
 .pk-note{margin-top:18px;font-size:16px;color:var(--ink-2);max-width:80ch}
+.pk-paint a{white-space:nowrap}
+
+/* ---------- paint and seat colors ---------- */
+/* The photos sit on a light studio backdrop in both themes, since a black car vanishes on a dark card. */
+.cp{--c:var(--xle);background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;border-top:6px solid var(--c)}
+.cp-top{padding:18px 22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.cp-top .seg button{min-height:44px}
+.cp-note{margin:0;flex:1 1 280px;font-size:16px;line-height:1.45;background:var(--opt-soft);border-left:4px solid var(--lane);border-radius:10px;padding:8px 12px}
+.cp-note:empty{display:none}
+.cp-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);border-top:1px solid var(--rule)}
+.cp-stage{margin:0;display:grid;place-items:center;padding:28px 24px;background:radial-gradient(120% 100% at 50% 20%,#FFFFFF,#DDE2DF 75%)}
+.cp-stage img{width:100%;max-width:680px}
+.cp-stage.cp-int{padding:0;background:#E4E7E5;border-top:1px solid var(--rule)}
+.cp-stage.cp-int img{max-width:none;height:100%;object-fit:cover}
+.cp-pane{padding:20px 22px 22px;border-left:1px solid var(--rule)}
+.cp-pane + .cp-stage + .cp-pane{border-top:1px solid var(--rule)}
+.cp-pane h3{font-size:20px;margin:0 0 8px}
+.cp-sub{font-size:15px;color:var(--ink-2);margin:-4px 0 10px}
+.cp-opts{display:grid;gap:4px}
+.cp-opt{all:unset;box-sizing:border-box;display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:12px;min-height:52px;padding:6px 12px 6px 8px;border:2px solid transparent;border-radius:14px;cursor:pointer}
+.cp-opt:hover{background:var(--paper)}
+.cp-opt:focus-visible{outline:3px solid var(--focus);outline-offset:0}
+.cp-opt[aria-pressed="true"]{border-color:var(--ink);background:var(--paper)}
+.cp-sw{width:32px;height:32px;border-radius:50%;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ink) 30%,transparent)}
+/* Toyota gives the XSE's black-and-blue seats one hex value (black); the stripe stands for the blue accents. */
+.cp-sw.accent{background-image:linear-gradient(90deg,transparent 44%,#2F62B0 44% 56%,transparent 56%)!important}
+.cp-name{font-weight:700;line-height:1.25}
+.cp-name small{display:block;font-weight:400;font-size:15px;color:var(--ink-2)}
+.cp-price{font:800 16px Overpass,sans-serif;white-space:nowrap}
+.cp-price.inc{font-weight:500;color:var(--ink-2)}
+.cp-also{font-size:15px;color:var(--ink-2);margin:12px 0 0}
+.cp-sum{margin-top:16px;background:var(--paper);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
+.cp-sum .big{font:800 30px Overpass,sans-serif;line-height:1.1}
+.cp-sum .small{color:var(--ink-2)}
+@media (max-width:859px){
+  .cp-grid{grid-template-columns:minmax(0,1fr)}
+  .cp-pane{border-left:0}
+  .cp-stage{padding:20px 16px}
+  .cp-stage.cp-int img{height:auto}
+}
+@media (max-width:640px){.cp-top,.cp-pane{padding-inline:16px}}
 
 /* ---------- photo zoom ---------- */
 .zoom{all:unset;display:block;width:100%;cursor:zoom-in;position:relative;border-radius:12px;overflow:hidden}
@@ -466,7 +507,8 @@ footer p{max-width:80ch}
   <div class="wrap subnav-row"><div class="nav">
     <a href="#picker">Your priorities</a>
     <a href="#steps">Step-ups</a>
-    <a href="#packages">Packages and prices</a>
+    <a href="#packages">Packages</a>
+    <a href="#colors">Colors</a>
     <a href="#features">Features</a>
     <a href="#basics">On all four</a>
     <a href="#specs">Spec list</a>
@@ -599,6 +641,18 @@ footer p{max-width:80ch}
   </div>
 </section>
 
+<!-- ============ COLORS ============ -->
+<section id="colors">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Paint and seat colors</h2>
+      <p class="lede">Each model comes in its own set of paints and seat colors. Pick a model to see what it offers. On any one model, every paint goes with every seat color.</p>
+    </div>
+    <div class="cp" id="cpBox"></div>
+    <p class="pk-note">Colors and paint prices are from Toyota's online build tool in November 2026, and are the same for 2026 and 2027. The pictures are the build tool's images of the 2027 models. Paint looks different in daylight, so see it in person before you decide.</p>
+  </div>
+</section>
+
 <!-- ============ FEATURES ============ -->
 <section id="features">
   <div class="wrap">
@@ -636,7 +690,7 @@ footer p{max-width:80ch}
       <span class="count" id="specCount" aria-live="polite"></span>
     </div>
     <div id="specList"></div>
-    <p class="spec-more">Option packages, and the Limited’s head-up display option, are listed with their prices under <a href="#packages">Packages and prices</a>.</p>
+    <p class="spec-more">Option packages, and the Limited’s head-up display option, are listed with their prices under <a href="#packages">Option packages and prices</a>.</p>
   </div>
 </section>
 
@@ -1044,6 +1098,43 @@ const PACKAGES = {
   ], paint:'<b>Paint:</b> only Midnight Black is included. Meteor Shower or Storm Cloud with a black roof add $500, or $975 for Wind Chill Pearl (white) with a black roof.'},
 };
 
+/* Paint and interior colors, from Toyota's build tool (November 2026). They're the same for 2026 and
+   2027, and within a model every paint goes with every interior, so the model is the only limit.
+   `fam` ties the same color together across models (Storm Cloud on the XLE Premium is the two-tone
+   Storm Cloud on the XSE), so switching models keeps the closest match. Swatch colors are Toyota's own
+   hex values. The photos in img/colors/ are the build tool's 2027 renders; tools/fetch_color_renders.py
+   rebuilds them. */
+const PAINTS = {
+  '04V8':{name:'Meteor Shower', hint:'silver', fam:'Meteor Shower', hex:['#A1A1A1']},
+  '01L6':{name:'Storm Cloud', hint:'blue-gray', fam:'Storm Cloud', hex:['#3D4A59']},
+  '08X8':{name:'Blueprint', hint:'dark blue', fam:'Blueprint', hex:['#1E2548']},
+  '0218':{name:'Midnight Black Metallic', hint:'', fam:'Midnight Black Metallic', hex:['#00031E']},
+  '0040':{name:'Ice Cap', hint:'white', fam:'Ice Cap', hex:['#FFFFFF']},
+  '0089':{name:'Wind Chill Pearl', hint:'pearl white', fam:'Wind Chill Pearl', hex:['#E3E9E9']},
+  '03T3':{name:'Ruby Flare Pearl', hint:'red', fam:'Ruby Flare Pearl', hex:['#740000']},
+  '02SQ':{name:'Meteor Shower with black roof', hint:'silver', fam:'Meteor Shower', roof:true, hex:['#00031E','#A1A1A1']},
+  '0M22':{name:'Storm Cloud with black roof', hint:'blue-gray', fam:'Storm Cloud', roof:true, hex:['#00031E','#3D4A59']},
+  '02VP':{name:'Wind Chill Pearl with black roof', hint:'pearl white', fam:'Wind Chill Pearl', roof:true, hex:['#00031E','#E3E9E9']},
+};
+const SEATS = {
+  // `name` labels the button; `say` is how a sentence names the seats ("Harvest Beige seats").
+  gray:{name:'Light Gray', say:'light gray'}, black:{name:'Black', say:'black'}, beige:{name:'Harvest Beige', say:'Harvest Beige'},
+  blackblue:{name:'Black with blue accents', say:'black-and-blue', fam:'black'},
+};
+// Per model, in display order: paint code -> extra cost, interior code -> [seat color, swatch hex].
+const COLORS = {
+  xle:{img:'4444', seats:'SofTex synthetic leather',
+       paint:{'04V8':0,'01L6':0,'08X8':0,'0218':0,'0040':0,'0089':475,'03T3':475},
+       int:{EE10:['gray','#808080'], EE20:['black','#000000'], EE40:['beige','#E2DDAB']}},
+  xse:{img:'4530', seats:'SofTex synthetic leather and fabric',
+       paint:{'0218':0,'02SQ':500,'0M22':500,'02VP':975}, int:{EC20:['blackblue','#000000']}},
+  ltd:{img:'4534', seats:'SofTex synthetic leather',
+       paint:{'04V8':0,'01L6':0,'08X8':0,'0218':0,'0089':475,'03T3':475},
+       int:{EA10:['gray','#808080'], EA20:['black','#000000'], EA40:['beige','#BBA270']}},
+  phv:{img:'4550', seats:'SofTex synthetic leather and fabric',
+       paint:{'0218':0,'02SQ':500,'0M22':500,'02VP':975}, int:{EC20:['blackblue','#000000']}},
+};
+
 const CHECKLIST = [
   ['Which packages does the car on the lot already have?','Compare the window sticker with the package prices in this guide. A car with packages you don’t want costs more, so ask whether one without them can be ordered or found.'],
   ['What is the out-the-door price?','Ask for one number that includes destination fee, taxes, registration and dealer fees.'],
@@ -1238,7 +1329,7 @@ const VIEW = (function(){
         ${rungs}
       </ol>
       <div class="pk-total" aria-live="polite"></div>
-      <p class="pk-paint">${p.paint}</p>
+      <p class="pk-paint">${p.paint} <a href="#colors">See the colors</a></p>
     </article>`;
   }).join('');
   function paint(tid){
@@ -1262,6 +1353,129 @@ const VIEW = (function(){
   });
   TRIMS.forEach(t=>paint(t.id));
   VIEW.refresh();
+})();
+
+/* ===================== PAINT AND INTERIOR COLORS ===================== */
+// Pick a model and only its paints and seat colors show. Switching models keeps the same color where
+// the new model has it (or its two-tone version), otherwise falls back to the model's first included
+// paint and says what changed.
+(function(){
+  const box = $('#cpBox');
+  const trimOf = id=>TRIMS.find(t=>t.id===id);
+  const seatOf = (t,code)=>SEATS[COLORS[t].int[code][0]];
+  const seatFam = (t,code)=>{ const k = COLORS[t].int[code][0]; return SEATS[k].fam || k; };
+  const firstPaint = t=>Object.keys(COLORS[t].paint).find(c=>COLORS[t].paint[c]===0);
+  const priceTxt = n=>n ? '+'+money(n) : 'Included';
+  const swatch = hex=>hex.length>1 ? `linear-gradient(${hex[0]} 0 38%, ${hex[1]} 38%)` : hex[0];
+  const cap = s=>s[0].toUpperCase()+s.slice(1);
+  const list = (names)=>names.length<2 ? names.join('') : names.slice(0,-1).join(', ')+' and '+names.at(-1);
+
+  // Restore the last pick only if it still names a real combination.
+  const saved = store.get('rav4-colors',{});
+  const ok = s=>s && COLORS[s.t] && s.paint in COLORS[s.t].paint && s.int in COLORS[s.t].int;
+  const st = ok(saved) ? {t:saved.t, paint:saved.paint, int:saved.int} : {t:'xle', paint:firstPaint('xle'), int:Object.keys(COLORS.xle.int)[0]};
+  let note = '';
+
+  box.innerHTML = `
+    <div class="cp-top">
+      <div class="seg" role="group" aria-label="Model" id="cpModel">
+        ${TRIMS.map(t=>`<button type="button" data-t="${t.id}" aria-pressed="false">${t.name}</button>`).join('')}
+      </div>
+      <p class="cp-note" id="cpNote" aria-live="polite"></p>
+    </div>
+    <div class="cp-grid">
+      <figure class="cp-stage"><img id="cpExt" alt="" width="680" height="296" loading="lazy"></figure>
+      <div class="cp-pane">
+        <h3 id="cpPaintT">Paint</h3>
+        <div class="cp-opts" role="group" aria-labelledby="cpPaintT" id="cpPaint"></div>
+        <p class="cp-also" id="cpAlso"></p>
+      </div>
+      <figure class="cp-stage cp-int"><img id="cpIntImg" alt="" width="900" height="507" loading="lazy"></figure>
+      <div class="cp-pane">
+        <h3 id="cpIntT">Seats</h3>
+        <p class="cp-sub" id="cpSeats"></p>
+        <div class="cp-opts" role="group" aria-labelledby="cpIntT" id="cpInt"></div>
+        <div class="cp-sum" id="cpSum" aria-live="polite"></div>
+      </div>
+    </div>`;
+
+  // Load the rest of a model's photos in the background so switching paints doesn't flash.
+  const warmed = new Set();
+  const warm = t=>{ if(warmed.has(t)) return; warmed.add(t);
+    [...Object.keys(COLORS[t].paint).map(c=>`img/colors/ext-${COLORS[t].img}-${c}.webp`),
+     ...Object.keys(COLORS[t].int).map(c=>`img/colors/int-${COLORS[t].img}-${c}.webp`)].forEach(s=>{ new Image().src = s; }); };
+
+  function render(){
+    const c = COLORS[st.t], t = trimOf(st.t), p = PAINTS[st.paint], seat = seatOf(st.t, st.int);
+    box.style.setProperty('--c', t.color);
+    box.querySelectorAll('#cpModel button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.t===st.t));
+    $('#cpPaint').innerHTML = Object.entries(c.paint).map(([code,price])=>{ const q = PAINTS[code];
+      return `<button type="button" class="cp-opt" data-code="${code}" aria-pressed="${code===st.paint}">
+        <span class="cp-sw" style="background:${swatch(q.hex)}" aria-hidden="true"></span>
+        <span class="cp-name">${esc(q.name)}${q.hint?`<small>${q.hint}</small>`:''}</span>
+        <span class="cp-price${price?'':' inc'}">${priceTxt(price)}</span></button>`; }).join('');
+    $('#cpInt').innerHTML = Object.entries(c.int).map(([code,[k,hex]])=>
+      `<button type="button" class="cp-opt" data-code="${code}" aria-pressed="${code===st.int}">
+        <span class="cp-sw${k==='blackblue'?' accent':''}" style="background:${hex}" aria-hidden="true"></span>
+        <span class="cp-name">${esc(SEATS[k].name)}</span><span class="cp-price inc">Included</span></button>`).join('');
+    const nSeats = Object.keys(c.int).length;
+    $('#cpSeats').textContent = `${c.seats}. ${nSeats>1 ? 'Every seat color is included.' : 'One color, included.'}`;
+    const ext = $('#cpExt'), int = $('#cpIntImg');
+    ext.setAttribute('src', `img/colors/ext-${c.img}-${st.paint}.webp`); ext.alt = `${t.name} in ${p.name}`;
+    int.setAttribute('src', `img/colors/int-${c.img}-${st.int}.webp`); int.alt = `${t.name} front seats and dashboard, ${seat.say} seats`;
+
+    // Where else this paint and these seats are offered.
+    const others = TRIMS.filter(o=>o.id!==st.t);
+    const same = others.filter(o=>st.paint in COLORS[o.id].paint).map(o=>o.name);
+    const roofed = others.filter(o=>!(st.paint in COLORS[o.id].paint) && Object.keys(COLORS[o.id].paint).some(k=>PAINTS[k].fam===p.fam && PAINTS[k].roof!==p.roof));
+    const variant = roofed.map(o=>o.name);
+    const how = p.roof ? 'without the black roof' : 'with a black roof';
+    let also = same.length ? `${p.name} is also offered on the ${list(same)}${variant.length?`, and ${how} on the ${list(variant)}`:''}.`
+             : variant.length ? `${p.fam} is also offered ${how} on the ${list(variant)}.`
+             : `${p.name} is only offered on the ${t.name}.`;
+    const seatsToo = others.filter(o=>Object.values(COLORS[o.id].int).some(([k])=>k===COLORS[st.t].int[st.int][0])).map(o=>o.name);
+    also += seatsToo.length ? ` ${cap(seat.say)} seats are also on the ${list(seatsToo)}.` : '';
+    $('#cpAlso').textContent = also;
+
+    const extra = c.paint[st.paint], base = PACKAGES[st.t].base;
+    $('#cpSum').innerHTML = `<span class="small">${t.name} in ${esc(p.name)} with ${seat.say} seats</span>
+      <span class="big">${money(base+extra)}</span>
+      <span class="small">${extra ? `Starting price plus ${money(extra)} for the paint.` : 'Starting price. This paint is included.'} Before packages, the ${money(DESTINATION)} destination fee, tax and registration.</span>`;
+    $('#cpNote').textContent = note;
+    store.set('rav4-colors', st);
+  }
+
+  // Moving to another model: keep the paint if it's offered, else the same color with or without the
+  // black roof, else the first included paint. Seats work the same way.
+  function switchModel(to){
+    if(to===st.t) return;
+    const from = st.t, c = COLORS[to], name = trimOf(to).name, msgs = [];
+    const old = PAINTS[st.paint];
+    let paint = st.paint in c.paint ? st.paint : Object.keys(c.paint).find(k=>PAINTS[k].fam===old.fam);
+    if(!paint){ paint = firstPaint(to); msgs.push(`${old.name} isn't offered on the ${name}, so this shows ${PAINTS[paint].name}.`); }
+    else if(paint!==st.paint) msgs.push(PAINTS[paint].roof
+      ? `The ${name} has ${old.fam} only with a black roof (${priceTxt(c.paint[paint])}).`
+      : `The ${name} has ${old.fam} without the black roof (${priceTxt(c.paint[paint]).toLowerCase()}).`);
+    const oldSeat = seatOf(from, st.int), fam = seatFam(from, st.int);
+    let int = st.int in c.int ? st.int : Object.keys(c.int).find(k=>seatFam(to,k)===fam);
+    // A second sentence about the same model says "its" or "either" rather than naming it again.
+    const again = msgs.length>0;
+    if(!int){ int = Object.keys(c.int)[0]; msgs.push(`${cap(oldSeat.say)} seats aren't offered on the ${name}${again?' either':''}, so this shows ${seatOf(to,int).say} seats.`); }
+    else if(seatOf(to,int)!==oldSeat) msgs.push(`${again?'Its':`The ${name}'s`} seats are ${seatOf(to,int).say} rather than ${oldSeat.say}.`);
+    Object.assign(st, {t:to, paint, int}); note = msgs.join(' ');
+    warm(to); render();
+  }
+
+  box.addEventListener('click',e=>{
+    const m = e.target.closest('#cpModel button'); if(m) return switchModel(m.dataset.t);
+    const o = e.target.closest('.cp-opt'); if(!o) return;
+    st[o.parentElement.id==='cpPaint' ? 'paint' : 'int'] = o.dataset.code; note = '';
+    render();
+    box.querySelector(`#${o.parentElement.id} [data-code="${o.dataset.code}"]`).focus();
+  });
+  render();
+  // Warm the photos only once the section is close, so the page's first load stays light.
+  new IntersectionObserver((es,io)=>{ if(es.some(x=>x.isIntersecting)){ warm(st.t); io.disconnect(); } }, {rootMargin:'400px'}).observe(box);
 })();
 
 /* ===================== MODEL YEAR: switch, hero and the year differences ===================== */
