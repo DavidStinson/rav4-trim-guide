@@ -1,0 +1,2046 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>RAV4 Trim Guide</title>
+<meta name="description" content="A comparison of the 2026 and 2027 Toyota RAV4 Hybrid XLE Premium, XSE and Limited, and the RAV4 Plug-in Hybrid XSE.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Overpass:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F7F5; --card:#FFFFFF; --ink:#202427; --ink-2:#4A5157; --rule:#D9DDDA;
+  --asphalt:#2B3034; --lane:#F2B705; --sign:#0B6B47; --sign-soft:#E3F1EA;
+  --opt:#8A5A00; --opt-soft:#FDF1D2; --no:#7A8086; --no-soft:#EEF0F1; --bad:#B3261E;
+  --xle:#2F6699; --xse:#B0303F; --ltd:#8C6224;
+  --xle-soft:#E6EEF6; --xse-soft:#F8E7E9; --ltd-soft:#F4ECDF;
+  --phv:#5B4A9E; --phv-soft:#ECE8F7;
+  --shadow:0 1px 2px rgba(20,30,40,.06),0 8px 24px rgba(20,30,40,.06);
+  --focus:#1D5FD1;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#16191B; --card:#1F2326; --ink:#ECEEEC; --ink-2:#AEB5BA; --rule:#343A3F;
+    --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --bad:#FF8A80;
+    --xle:#7FB0E0; --xse:#F07A87; --ltd:#D9A85E; --xle-soft:#1D2A36; --xse-soft:#35202A; --ltd-soft:#2F2719;
+    --phv:#B3A3EE; --phv-soft:#28233A;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --focus:#8AB4FF; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#16191B; --card:#1F2326; --ink:#ECEEEC; --ink-2:#AEB5BA; --rule:#343A3F;
+  --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --bad:#FF8A80;
+  --xle:#7FB0E0; --xse:#F07A87; --ltd:#D9A85E; --xle-soft:#1D2A36; --xse-soft:#35202A; --ltd-soft:#2F2719;
+    --phv:#B3A3EE; --phv-soft:#28233A;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --focus:#8AB4FF; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 19px/1.6 "Atkinson Hyperlegible",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Overpass,"Atkinson Hyperlegible",sans-serif;line-height:1.15;margin:0;letter-spacing:-.01em}
+h2{font-size:clamp(30px,4.2vw,42px);font-weight:800}
+h3{font-size:24px;font-weight:700}
+p{margin:0 0 .8em}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+@media (max-width:640px){.wrap{padding:0 16px}body{font-size:18px}}
+.lede{font-size:21px;color:var(--ink-2);max-width:62ch}
+.muted{color:var(--ink-2)}
+.small{font-size:16px}
+
+/* ---------- top bar, then the section nav that sticks under it ---------- */
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.brand{font:800 20px Overpass,sans-serif;white-space:nowrap;text-decoration:none}
+.brand span{color:var(--ink-2);font-weight:500}
+.subnav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(10px);border-block:1px solid var(--rule)}
+.nav{position:relative;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:8px 6px;margin:0 -6px}
+.nav::-webkit-scrollbar{display:none}
+/* When the links scroll sideways (phones), a fade marks each edge that has more links past it. */
+.nav.more-r{mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent)}
+.nav.more-l{mask-image:linear-gradient(90deg,transparent,#000 48px)}
+.nav.more-l.more-r{mask-image:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 48px),transparent)}
+.nav a{font-size:16px;text-decoration:none;padding:7px 14px;border-radius:999px;white-space:nowrap;color:var(--ink-2)}
+.nav a:hover,.nav a.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+/* The section links and the model-year switch share the sticky row, so the year can change from anywhere. */
+.subnav-row{display:flex;align-items:center;gap:12px}
+.subnav-row .nav{flex:1;min-width:0}
+/* Model-year switch: two links, the current year filled in. */
+.year-switch{flex:none;display:inline-flex;background:var(--card);border:1.5px solid var(--rule);border-radius:999px;padding:3px;gap:2px}
+.year-switch a{font:700 16px Overpass,sans-serif;text-decoration:none;color:var(--ink-2);padding:7px 14px;border-radius:999px;line-height:1}
+.year-switch a:hover{color:var(--ink)}
+.year-switch a[aria-current="page"]{background:var(--ink);color:var(--paper)}
+@media (max-width:480px){.subnav-row{gap:6px}.year-switch a{padding:7px 10px;font-size:15px}}
+.theme-btn{border:1px solid var(--rule);background:var(--card);color:var(--ink);border-radius:999px;width:40px;height:40px;cursor:pointer;flex:none;font-size:18px}
+
+/* ---------- hero: the road ---------- */
+.hero{padding-top:56px}
+.hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:800;letter-spacing:-.025em;max-width:16ch}
+.hero .lede{margin-top:18px}
+.road{position:relative;margin-top:44px;background:var(--asphalt);color:#fff;border-radius:28px 28px 0 0;padding:40px 0 34px;overflow:hidden}
+/* The lane line runs the full width of the road, behind the cars. */
+.road::before{content:"";position:absolute;left:0;right:0;top:156px;height:6px;background:repeating-linear-gradient(90deg,var(--lane) 0 46px,transparent 46px 82px);opacity:.9}
+.road .sl{--sl-bg:var(--asphalt);--sl-ink:#fff}
+.car{text-align:center;text-decoration:none;color:#fff;display:block;padding:0 6px;position:relative}
+.car img{position:relative;width:100%;height:146px;object-fit:contain;object-position:center bottom;margin:0 auto -6px;filter:drop-shadow(0 18px 14px rgba(0,0,0,.45))}
+.car .name{font:800 clamp(22px,2.6vw,30px) Overpass,sans-serif;margin-top:18px}
+.car .price{font:700 20px Overpass,sans-serif;color:#E6E9EA}
+.car .jump{display:inline-block;margin-top:8px;font:800 15px Overpass,sans-serif;color:var(--asphalt);background:var(--lane);padding:3px 10px;border-radius:8px}
+.car .jump.first{background:transparent;color:#BFC6CA;box-shadow:inset 0 0 0 1.5px #5A6166}
+.car .tag{font-size:16px;color:#BFC6CA;max-width:26ch;margin:8px auto 0}
+.car .bar{height:5px;width:56px;border-radius:3px;margin:12px auto 0}
+@media (max-width:979px){
+  .road::before{display:none}
+  .car img{height:auto;max-width:320px}
+}
+.road-foot{background:var(--card);border-radius:0 0 28px 28px;box-shadow:var(--shadow);padding:18px 24px;display:flex;flex-wrap:wrap;gap:10px 28px;font-size:16px;color:var(--ink-2)}
+.road-foot b{color:var(--ink)}
+/* 2026 only: how it differs from the 2027. */
+.year-diff{margin-top:28px;background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:22px 26px 24px;border-left:6px solid var(--lane)}
+.year-diff h2{font-size:clamp(22px,2.6vw,28px);margin:0 0 6px}
+.year-diff > p{margin:0;color:var(--ink-2);max-width:70ch}
+.yd-table{width:100%;border-collapse:collapse;margin:14px 0 12px;font-size:17px}
+.yd-table th,.yd-table td{text-align:left;padding:9px 12px 9px 0;border-top:1px solid var(--rule);vertical-align:top}
+.yd-table thead th{border-top:0;font:700 15px Overpass,sans-serif;color:var(--ink-2)}
+.yd-table tbody th{font-weight:700;width:38%}
+.yd-table td.now{font-weight:700}
+@media (max-width:640px){.year-diff{padding:18px 18px 20px}.yd-table{font-size:16px}.yd-table tbody th{width:auto}}
+
+section{padding:88px 0 0}
+
+/* ---------- side-arrow sliders ----------
+   Each slider shows as many trims as fit side by side: all four on a wide screen, fewer on smaller ones.
+   VIEW in the script sets --col and --gap from the slider's width, and every slider shares one offset,
+   so the trim columns line up from section to section. A hidden trim peeks in at the edge under a
+   fading arrow button named for it. */
+.sl{--col:100%;--gap:20px;--sl-bg:var(--paper);--sl-ink:var(--ink);position:relative}
+.sl-view{overflow:hidden;padding:10px 8px 28px;margin:-10px -8px -28px;touch-action:pan-y}
+.sl-track{display:grid;grid-auto-flow:column;grid-auto-columns:var(--col);gap:var(--gap);align-items:start;transition:transform .45s cubic-bezier(.3,.7,.2,1)}
+.sl-track > *{transition:opacity .45s}
+.sl-track > .sl-out{opacity:.55}
+/* The button spans only the slider's own box, so its fade never lies over the text around the slider. */
+.sl-btn{all:unset;box-sizing:border-box;position:absolute;top:0;bottom:0;z-index:6;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;padding:0 4px;
+  color:var(--sl-ink);font:700 14px/1.15 Overpass,sans-serif;text-align:center}
+.sl-btn[hidden]{display:none}
+.sl-in{display:flex;flex-direction:column;align-items:center;gap:8px;margin:auto 0}
+/* In a slider taller than the screen (packages), the arrow stays near the middle of the screen while it scrolls past. */
+.sl.tall .sl-in{position:sticky;top:calc(50vh - 60px);bottom:calc(50vh - 60px)}
+.sl-next{right:-8px;background:linear-gradient(90deg,color-mix(in srgb,var(--sl-bg) 10%,transparent),var(--sl-bg) 62%)}
+.sl-prev{left:-8px;background:linear-gradient(270deg,color-mix(in srgb,var(--sl-bg) 10%,transparent),var(--sl-bg) 62%)}
+.sl-arrow{width:48px;height:48px;border-radius:50%;background:var(--lane);color:#222;display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.22);transition:transform .15s}
+.sl-arrow svg{width:22px;height:22px}
+.sl-btn:hover .sl-arrow{transform:scale(1.08)}
+.sl-btn:focus-visible{outline:none}
+.sl-btn:focus-visible .sl-arrow{outline:3px solid var(--focus);outline-offset:3px}
+.sl-btn small{font:700 12px "Atkinson Hyperlegible",sans-serif;background:var(--lane);color:#222;border-radius:999px;padding:1px 7px}
+/* A thin sliver (a trim in the middle of the row on a phone) has room for the arrow only; its name stays in the label. */
+.sl-btn.slim .sl-in > span:not(.sl-arrow),.sl-btn.slim small{display:none}
+@media (max-width:640px){.sl-arrow{width:40px;height:40px}.sl-arrow svg{width:19px;height:19px}.sl-btn{font-size:13px}}
+.sec-head{display:grid;gap:12px;margin-bottom:32px;max-width:760px}
+
+/* ---------- status pills ---------- */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:700;padding:3px 10px 3px 8px;border-radius:999px;white-space:nowrap;line-height:1.4}
+.pill svg{width:15px;height:15px;flex:none}
+.pill.std{background:var(--sign-soft);color:var(--sign)}
+.pill.opt{background:var(--opt-soft);color:var(--opt)}
+.pill.no{background:var(--no-soft);color:var(--no);font-weight:400}
+.pill.nl{background:transparent;color:var(--ink-2);font-weight:400;box-shadow:inset 0 0 0 1.5px var(--no);border-radius:999px}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:16px;color:var(--ink-2)}
+
+/* ---------- priorities ---------- */
+.picker{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px}
+@media (max-width:640px){.picker{padding:20px 16px}}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{font:inherit;font-size:17px;border:2px solid var(--rule);background:var(--paper);color:var(--ink);padding:10px 16px;border-radius:999px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;transition:background .15s,border-color .15s}
+.chip:hover{border-color:var(--ink-2)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chip .tick{width:18px;height:18px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center;font-size:12px;opacity:.7}
+.chip[aria-pressed="true"] .tick{background:var(--lane);border-color:var(--lane);color:#222;opacity:1}
+.picker .sl{--sl-bg:var(--card);margin-top:26px}
+.score{border-radius:18px;padding:20px;border:2px solid transparent;background:var(--paper);transition:border-color .2s}
+.score.best{border-color:var(--lane)}
+.score h4{font-size:22px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.score .best-badge{font:700 14px "Atkinson Hyperlegible";background:var(--lane);color:#222;border-radius:999px;padding:2px 10px;visibility:hidden}
+.score.best .best-badge{visibility:visible}
+.meter{display:flex;gap:4px;margin:12px 0 10px}
+.meter i{flex:1;height:10px;border-radius:3px;background:var(--rule)}
+.meter i.std{background:var(--sign)} .meter i.opt{background:var(--lane)}
+.score ul{list-style:none;margin:0;padding:0;font-size:16px;display:grid;gap:4px}
+.score li{display:flex;gap:8px;align-items:flex-start}
+.score li .pill{flex:none}
+.empty-note{color:var(--ink-2);margin-top:22px;font-size:17px}
+
+/* ---------- step ups ---------- */
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media (max-width:900px){.steps{grid-template-columns:1fr}}
+.step.wide{grid-column:1/-1}
+.step.wide .step-body{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+@media (max-width:900px){.step.wide .step-body{grid-template-columns:1fr}.step.wide .step-body > div + div{margin-top:16px}}
+.step{background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.step-top{display:flex;align-items:center;gap:14px;padding:22px 26px;border-bottom:1px solid var(--rule)}
+.step-top .from,.step-top .to{font:800 22px Overpass,sans-serif}
+.step-top .arrow{flex:1;height:4px;border-radius:2px;background:repeating-linear-gradient(90deg,var(--lane) 0 18px,transparent 18px 28px)}
+.step-top .cost{font:800 22px Overpass,sans-serif;background:var(--lane);color:#222;border-radius:10px;padding:4px 12px}
+.step-body{padding:20px 26px 26px}
+.step-body h4{font:700 17px "Atkinson Hyperlegible";color:var(--ink-2);margin:16px 0 8px}
+.step-body h4:first-child{margin-top:0}
+.gain{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.gain li a{display:flex;gap:12px;padding:9px 10px;margin:0 -10px;border-radius:10px;text-decoration:none;align-items:flex-start}
+.gain li a:hover{background:var(--paper)}
+.gain .mk{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;margin-top:2px;font-weight:700;font-size:15px}
+.gain .plus .mk{background:var(--sign-soft);color:var(--sign)}
+.gain .minus .mk{background:var(--no-soft);color:var(--ink-2)}
+.gain b{font-weight:700}
+.gain span.why{display:block;font-size:16px;color:var(--ink-2)}
+
+/* ---------- feature explainers ---------- */
+.group-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}
+.group-nav a{font-size:16px;text-decoration:none;border:1.5px solid var(--rule);border-radius:999px;padding:7px 14px;background:var(--card)}
+.group-nav a:hover{border-color:var(--ink-2)}
+.fgroup{margin-top:56px}
+.fgroup > h3{font-size:30px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.fgroup > h3::after{content:"";flex:1;height:2px;background:var(--rule)}
+/* Feature card: copy on the left, picture on the right, and the trim availability as its own full-width row
+   underneath, so all four trims sit side by side whenever the card is wide enough. */
+.feature{background:var(--card);border-radius:24px;box-shadow:var(--shadow);margin-bottom:22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);grid-template-areas:"text vis" "avail avail";overflow:hidden;container-type:inline-size}
+.feature > .f-text{grid-area:text}
+.feature > .f-vis{grid-area:vis}
+.feature > .avail{grid-area:avail;margin:0;padding:20px 30px 24px;border-top:1px solid var(--rule)}
+.feature.no-visual{grid-template-areas:"text" "avail"}
+/* Big interactive demos still run full width; who has the feature stays right under the copy. */
+.feature.wide{grid-template-areas:"text" "avail" "vis"}
+.feature.compact > .avail{padding:16px 24px 20px}
+.feature.no-visual{grid-template-columns:1fr}
+@media (max-width:900px){.feature,.feature.wide{grid-template-columns:1fr;grid-template-areas:"text" "avail" "vis"}.feature > .avail{padding:16px 20px 20px}}
+.f-text{padding:28px 30px}
+.f-text h4{font-size:26px;font-weight:800}
+.f-text .aka{font-size:15px;color:var(--ink-2);margin:6px 0 16px}
+.f-text .aka i{font-style:normal;background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:1px 7px}
+.f-text .why{border-left:4px solid var(--lane);padding:2px 0 2px 14px;margin:14px 0 0;color:var(--ink)}
+.f-text .why b{display:block;font-size:15px;color:var(--ink-2);font-weight:700}
+.avail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 16px}
+@container (max-width:600px){.avail{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.avail div{display:grid;gap:6px;align-content:start}
+.avail .tn{font:700 15px Overpass,sans-serif;display:flex;align-items:center;gap:6px}
+.avail .tn::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c)}
+.avail .note{font-size:14px;color:var(--ink-2);line-height:1.35}
+@container (max-width:380px){.avail{grid-template-columns:1fr}.avail div{grid-template-columns:120px 1fr;align-items:center}.avail .note{grid-column:2}}
+.f-vis{background:var(--paper);display:flex;flex-direction:column;min-width:0}
+.f-vis figure{margin:0;display:flex;flex-direction:column;height:100%}
+.f-vis figure > img{width:100%;height:100%;object-fit:cover;min-height:260px;flex:1}
+.f-vis figcaption{font-size:14px;color:var(--ink-2);padding:10px 16px}
+.feature.wide{grid-template-columns:1fr}
+.feature.wide .f-vis{border-top:1px solid var(--rule)}
+.feature.compact{box-shadow:none;border:1.5px solid var(--rule);background:transparent}
+.feature.compact .f-text{padding:20px 24px}
+.feature.compact h4{font-size:21px}
+
+
+/* ---------- interactive demos ---------- */
+.demo{padding:22px;display:grid;gap:16px}
+.seg{display:inline-flex;background:var(--card);border:1.5px solid var(--rule);border-radius:14px;padding:4px;gap:4px;justify-self:start;flex-wrap:wrap}
+.seg button{font:inherit;font-size:17px;font-weight:700;border:0;border-radius:10px;padding:10px 18px;background:transparent;color:var(--ink-2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.demo-cols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:900px){.demo-cols{grid-template-columns:1fr}}
+.scene{width:100%;height:auto;border-radius:16px;background:#C9CEC9;display:block}
+.seelist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.seelist li{display:flex;gap:12px;align-items:center;background:var(--card);border-radius:12px;padding:10px 14px;font-size:17px;transition:opacity .25s}
+.seelist li .dot{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff}
+.seelist li.hidden{opacity:.75}
+.seelist li .st{margin-left:auto}
+.demo-summary{font-size:18px;background:var(--card);border-radius:12px;padding:14px 16px;border-left:4px solid var(--lane)}
+.photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.photo-pair figure{margin:0}
+.photo-pair img{border-radius:12px;aspect-ratio:16/10;object-fit:cover;width:100%}
+.photo-pair figcaption{font-size:14px;color:var(--ink-2);margin-top:6px}
+@media (max-width:600px){.photo-pair{grid-template-columns:1fr}}
+.mirror-wrap{display:grid;place-items:center;padding:12px 0}
+.mirror-svg{width:100%;max-width:560px;height:auto}
+.mini-demo{padding:24px;display:grid;gap:14px;align-content:center;height:100%}
+.mini-demo svg{width:100%;height:auto}
+.scr-scale{display:block;width:100%;max-width:440px;height:auto;margin:0 auto}
+.ev-demo label{font:700 18px Overpass,sans-serif;display:block}
+.ev-demo input[type=range]{width:100%;accent-color:var(--phv);margin:10px 0 2px}
+.ev-bar{display:flex;height:22px;border-radius:8px;overflow:hidden;background:var(--rule)}
+.ev-bar span{transition:flex-grow .2s}
+.ev-bar .e{background:var(--phv)}
+.ev-bar .g{background:var(--no)}
+.ev-key{display:flex;gap:16px;flex-wrap:wrap;font-size:15px;color:var(--ink-2)}
+.ev-key i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.ev-block{display:grid;gap:14px;border-top:1px solid var(--rule);padding-top:20px;margin-top:6px}
+.ev-block h5,.ap-q{font:800 21px Overpass,sans-serif;margin:0}
+.ev-sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px 24px}
+.ev-sliders label{font-size:16px}
+.cost-rows{display:grid;gap:8px}
+.cost-row{display:grid;grid-template-columns:7.2em minmax(0,1fr) 5.4em;gap:12px;align-items:center;font:700 16px Overpass,sans-serif}
+.cost-row .bar{height:20px;border-radius:6px;background:var(--rule);overflow:hidden}
+.cost-row .bar span{display:block;height:100%;width:0;background:var(--c);transition:width .25s}
+.cost-row b{text-align:right;font-variant-numeric:tabular-nums}
+.chg-rows .cost-row{grid-template-columns:9.2em minmax(0,1fr) 4.6em}
+.chg-need{margin:0;padding-left:1.1em;display:grid;gap:6px;font-size:16px;color:var(--ink-2)}
+.chg-need b{color:var(--ink)}
+@media (max-width:520px){.cost-rows{gap:12px}.cost-row,.chg-rows .cost-row{grid-template-columns:1fr auto;gap:4px 12px}.cost-row .bar{grid-column:1/-1;order:3}}
+.ap-chips .chip{font-size:16px;padding:8px 14px}
+.ap-chips .chip:not([aria-pressed="true"]){background:var(--card)}
+.ap-chips .chip small{font-size:14px;opacity:.75}
+.ap-track{height:22px;border-radius:8px;background:var(--rule);overflow:hidden}
+.ap-fill{display:block;height:100%;width:0;background:var(--phv);transition:width .25s,background-color .2s}
+.ap-meter.over .ap-fill{background:var(--bad)}
+.ap-scale{display:flex;justify-content:space-between;gap:12px;font-size:15px;color:var(--ink-2);margin-top:6px}
+.ap-scale b{color:var(--ink)}
+.ap-meter.over .ap-scale b{color:var(--bad)}
+
+/* ---------- same view, three trims ---------- */
+.f-below{grid-column:1/-1;border-top:1px solid var(--rule);padding:20px 22px 22px;background:var(--paper);display:grid;gap:12px}
+.trio{grid-column:1/-1;border-top:1px solid var(--rule);padding:20px 22px 22px;background:var(--paper)}
+.trio h5{font:700 17px Overpass,sans-serif;margin:0 0 12px}
+.trio-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.trio figure{margin:0}
+.trio .zoom img{aspect-ratio:var(--ar,16/9);object-fit:cover}
+.trio figcaption{font-size:14px;color:var(--ink-2);margin-top:6px;line-height:1.35}
+.trio figcaption b{display:flex;align-items:center;gap:6px;color:var(--ink);font:700 15px Overpass,sans-serif}
+.trio figcaption b::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c)}
+@media (max-width:820px){.trio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ---------- roof photos ---------- */
+.roof-photo{margin:0}
+.roof-photo .zoom img{aspect-ratio:3/1;object-fit:cover}
+.roof-photo figcaption{font-size:14px;color:var(--ink-2);margin-top:6px}
+
+/* ---------- packages ---------- */
+.pk-callouts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:24px}
+@media (max-width:1000px){.pk-callouts{grid-template-columns:1fr}}
+.pk-callout{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:18px 22px;border-left:6px solid var(--lane);font-size:17px}
+.pk-callout b{font-family:Overpass,sans-serif}
+.pk{background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;border-top:6px solid var(--c)}
+.pk-head{padding:20px 22px 6px}
+.pk-head h3{color:var(--c)}
+.pk-head p{font-size:16px;color:var(--ink-2);margin:4px 0 0}
+.ladder{list-style:none;margin:0;padding:10px 14px 4px;position:relative}
+.rung{position:relative;isolation:isolate}
+/* Each rung draws the rail beside it in two parts: --a runs from the rung above down to this knob,
+   --b runs from this knob down to the next rung. Only a stretch between two chosen packages turns yellow. */
+.rung{--a:var(--rule);--b:var(--rule)}
+.rung.on{--a:var(--lane)}
+.rung.on.next-on{--b:var(--lane)}
+.rung::before{content:"";position:absolute;left:23px;top:0;bottom:0;width:4px;z-index:1;pointer-events:none;background:linear-gradient(var(--a) 0 26px,var(--b) 26px)}
+.rung:first-child::before{top:26px;background:var(--b)}
+.rung:last-child::before{bottom:auto;height:26px;background:var(--a)}
+.rung button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:4px 14px;width:100%;padding:12px 10px 12px 12px;border-radius:14px;cursor:pointer;position:relative}
+.rung button:hover{background:var(--paper)}
+.rung button:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
+.rung .knob{width:24px;height:24px;border-radius:50%;border:3px solid var(--rule);background:var(--card);margin-top:1px;position:relative;z-index:2;display:grid;place-items:center;font-size:13px;font-weight:800;color:#222}
+.rung.on .knob{background:var(--lane);border-color:var(--lane)}
+.rung .pn{font-weight:700;line-height:1.3}
+.rung .pp{font:800 18px Overpass,sans-serif;white-space:nowrap}
+.rung .pc{grid-column:2/-1;font-size:15px;color:var(--ink-2);line-height:1.4}
+.rung .req{grid-column:2/-1;font-size:14px;color:var(--opt);font-weight:700}
+.rung.base .pp{color:var(--ink-2);font-weight:700}
+.pk-total{margin:6px 14px 14px;background:var(--paper);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
+.pk-total .big{font:800 30px Overpass,sans-serif;line-height:1.1}
+.pk-total .small{color:var(--ink-2)}
+.pk-paint{padding:0 22px 20px;font-size:15px;color:var(--ink-2)}
+.pk-paint b{color:var(--ink)}
+.pk-note{margin-top:18px;font-size:16px;color:var(--ink-2);max-width:80ch}
+
+/* ---------- photo zoom ---------- */
+.zoom{all:unset;display:block;width:100%;cursor:zoom-in;position:relative;border-radius:12px;overflow:hidden}
+.zoom:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.zoom img{width:100%;transition:transform .3s}
+.zoom:hover img{transform:scale(1.02)}
+.zoom .zi{position:absolute;right:10px;bottom:10px;width:38px;height:38px;border-radius:50%;background:rgba(20,24,26,.72);display:grid;place-items:center;pointer-events:none}
+.zoom .zi svg{width:20px;height:20px}
+.f-vis figure > .zoom{flex:1;border-radius:0;display:flex}
+.f-vis figure > .zoom img{height:100%;object-fit:cover;min-height:260px}
+.photo-pair .zoom img{aspect-ratio:16/10;object-fit:cover}
+/* Photos inside a demo keep their own shape; the tall-card rule above is for single feature photos. */
+.f-vis .demo figure{height:auto}
+.f-vis .demo figure > .zoom{flex:none;border-radius:12px;display:block}
+.f-vis .demo figure > .zoom img{min-height:0;height:auto}
+.photo-pair.keep2{grid-template-columns:1fr 1fr}
+@media (max-width:600px){.photo-pair.keep2 .zoom .zi{width:28px;height:28px;right:6px;bottom:6px}.photo-pair.keep2 .zoom .zi svg{width:14px;height:14px}}
+.lb{border:0;padding:0;margin:0;width:100vw;height:100vh;max-width:none;max-height:none;background:rgba(10,12,13,.94);color:#fff}
+.lb::backdrop{background:rgba(10,12,13,.94)}
+.lb[open]{display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+.lb-bar{display:flex;align-items:center;gap:10px;padding:12px 16px}
+.lb-count{font-size:16px;color:#C9CED1;margin-right:auto}
+.lb button{font:inherit;font-size:16px;font-weight:700;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;padding:9px 16px;cursor:pointer;min-height:44px}
+.lb button:hover{background:rgba(255,255,255,.18)}
+.lb-stage{overflow:auto;display:grid;place-items:center;padding:0 16px;overscroll-behavior:contain}
+.lb-stage img{max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in;border-radius:8px}
+.lb-stage.zoomed{place-items:start}
+.lb-stage.zoomed img{max-width:none;max-height:none;width:auto;cursor:zoom-out}
+.lb-cap{padding:12px 16px 18px;font-size:17px;max-width:80ch;margin:0 auto;text-align:center;color:#E6E9EA}
+.lb-cap small{display:block;color:#AEB5BA;font-size:14px;margin-top:4px}
+
+/* ---------- all four have ---------- */
+.basics{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.basic{background:var(--card);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow)}
+.basic b{display:block;font-size:18px}
+.basic span{font-size:16px;color:var(--ink-2)}
+
+/* ---------- spec table ---------- */
+.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:18px;background:var(--card);padding:14px;border-radius:18px;box-shadow:var(--shadow);position:sticky;top:64px;z-index:20}
+.search{flex:1 1 260px;font:inherit;font-size:18px;padding:11px 14px;border:1.5px solid var(--rule);border-radius:12px;background:var(--paper);color:var(--ink);min-width:0}
+.toggle{display:inline-flex;align-items:center;gap:10px;font-size:17px;cursor:pointer;user-select:none}
+.toggle input{appearance:none;width:48px;height:28px;border-radius:999px;background:var(--rule);position:relative;cursor:pointer;margin:0;flex:none;transition:background .15s}
+.toggle input::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.toggle input:checked{background:var(--sign)}
+.toggle input:checked::after{transform:translateX(20px)}
+.count{font-size:16px;color:var(--ink-2);margin-left:auto}
+.spec-cat{margin-bottom:12px;background:var(--card);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.spec-cat > summary{list-style:none;cursor:pointer;padding:18px 22px;font:800 22px Overpass,sans-serif;display:flex;align-items:center;gap:12px}
+.spec-cat > summary::-webkit-details-marker{display:none}
+.spec-cat > summary::after{content:"";width:12px;height:12px;border-right:3px solid var(--ink-2);border-bottom:3px solid var(--ink-2);transform:rotate(45deg);margin-left:auto;transition:transform .2s;margin-top:-6px}
+.spec-cat[open] > summary::after{transform:rotate(225deg);margin-top:6px}
+.spec-cat > summary .n{font:400 16px "Atkinson Hyperlegible";color:var(--ink-2)}
+.spec-table{width:100%;border-collapse:collapse;font-size:16px}
+.spec-table th,.spec-table td{padding:12px 16px;text-align:left;vertical-align:top;border-top:1px solid var(--rule)}
+.spec-table thead th{font:700 16px Overpass,sans-serif;position:sticky;top:0;background:var(--card)}
+.spec-table thead th.t{width:16%}
+.spec-table td.lab{color:var(--ink)}
+.spec-table tr.sub td{background:var(--paper);font-weight:700;font-size:15px;color:var(--ink-2);padding-top:10px;padding-bottom:10px}
+.spec-table tr.diff td.lab{box-shadow:inset 4px 0 0 var(--lane)}
+.spec-table .val{font-weight:700}
+.spec-table mark{background:var(--lane);color:#222;border-radius:3px;padding:0 2px}
+.spec-table .common{display:block;font-size:14px;color:var(--ink-2);margin-top:4px}
+.spec-table .mo{display:block;margin-top:6px;font-size:14px;color:var(--ink-2)}
+.spec-table .mo .pill{margin-right:4px}
+.tw{margin-top:6px;font-size:14px;color:var(--ink-2)}
+.tw summary{cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:underline;text-underline-offset:3px}
+.tw summary::-webkit-details-marker{display:none}
+.tw summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.tw[open] summary::before{transform:rotate(45deg)}
+.tw ul{margin:8px 0 2px;padding-left:18px;display:grid;gap:6px}
+.tw li span{display:block;font-weight:700;font-size:13px}
+.spec-more{margin-top:18px;background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:16px 22px;font-size:17px;border-left:6px solid var(--lane)}
+@media (max-width:760px){
+  .spec-table,.spec-table tbody{display:block}
+  .spec-table thead{display:none}
+  .spec-table tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--rule)}
+  .spec-table td{border:0;padding:6px 10px;min-width:0}
+  .spec-table td.c .pill{font-size:13px;padding:2px 8px 2px 6px;white-space:normal}
+  .tools{position:static}
+  .spec-table td.lab{grid-column:1/-1;padding-top:12px}
+  .spec-table td.c{font-size:15px}
+  .spec-table td.c::before{content:attr(data-t);display:block;font:700 13px Overpass,sans-serif;color:var(--ink-2)}
+  .spec-table tr.sub{display:block}
+  .spec-table tr.sub td{display:block}
+}
+
+/* ---------- dealer checklist ---------- */
+.checklist{list-style:none;margin:0;padding:0;display:grid;gap:10px;max-width:820px}
+.checklist label{display:flex;gap:14px;align-items:flex-start;background:var(--card);border-radius:14px;padding:14px 18px;box-shadow:var(--shadow);cursor:pointer}
+.checklist input{width:24px;height:24px;flex:none;margin-top:2px;accent-color:var(--sign)}
+.checklist input:checked + span{color:var(--ink-2);text-decoration:line-through;text-decoration-color:var(--ink-2)}
+.checklist small{display:block;color:var(--ink-2);font-size:15px;text-decoration:none}
+.print-btn{font:inherit;font-weight:700;font-size:17px;border:0;background:var(--ink);color:var(--paper);border-radius:12px;padding:12px 20px;cursor:pointer;margin-top:20px}
+
+footer{margin-top:96px;padding:36px 0 60px;border-top:1px solid var(--rule);font-size:15px;color:var(--ink-2)}
+footer p{max-width:80ch}
+
+@media print{
+  .topbar,.subnav,.tools,.year-switch,.picker,.print-btn,.seg,.theme-btn,.zoom .zi,.lb{display:none!important}
+  body{background:#fff;font-size:12pt}
+  .feature,.step,.spec-cat,.basic{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
+  .spec-cat:not([open]) > *:not(summary){display:block}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top">RAV4 trim guide <span data-f="year">2027</span></a>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch light or dark mode">◐</button>
+  </div>
+</header>
+<nav class="subnav" aria-label="Sections">
+  <div class="wrap subnav-row"><div class="nav">
+    <a href="#picker">Your priorities</a>
+    <a href="#steps">Step-ups</a>
+    <a href="#packages">Packages and prices</a>
+    <a href="#features">Features</a>
+    <a href="#basics">On all four</a>
+    <a href="#specs">Spec list</a>
+    <a href="#dealer">Dealer questions</a>
+  </div>
+    <nav class="year-switch" id="yearSwitch" aria-label="Model year"></nav>
+  </div>
+</nav>
+
+<main id="top">
+<div class="wrap hero">
+  <h1>Four <span data-f="year">2027</span> RAV4s, side by side</h1>
+  <p class="lede">Three are the RAV4 Hybrid. They share the engine, all-wheel drive and body, and differ in comfort, cameras and looks. The fourth, the Plug-in Hybrid XSE, has a bigger battery you charge from an outlet, so short trips can run on electricity alone.</p>
+
+  <div class="road" role="group" aria-label="The four trims, lowest to highest price">
+    <div class="wrap"><div class="sl" data-sl>
+      <div class="sl-view"><div class="sl-track">
+      <div class="car">
+        <img src="img/trim-4444.png" alt="RAV4 XLE Premium in silver" width="900" height="402">
+        <div class="name">XLE Premium</div>
+        <div class="price" data-f="price.xle">$38,100</div>
+        <span class="jump first">Lowest price</span>
+        <div class="tag">Well equipped for the price, with fewer extras.</div>
+        <div class="bar" style="background:var(--xle)"></div>
+      </div>
+      <div class="car">
+        <img src="img/trim-4530.png" alt="RAV4 XSE in silver with a black roof and black wheels" width="900" height="402">
+        <div class="name">XSE</div>
+        <div class="price" data-f="price.xse">$41,900</div>
+        <span class="jump">+$3,800 over the XLE Premium</span>
+        <div class="tag">Sporty look. Adds the 360° camera, cooled seats and a bigger screen.</div>
+        <div class="bar" style="background:var(--xse)"></div>
+      </div>
+      <div class="car">
+        <img src="img/trim-4534.png" alt="RAV4 Limited in blue" width="900" height="402">
+        <div class="name">Limited</div>
+        <div class="price" data-f="price.ltd">$43,900</div>
+        <span class="jump">+$2,000 over the XSE</span>
+        <div class="tag">Nearly everything included, on softer-riding 18-inch wheels.</div>
+        <div class="bar" style="background:var(--ltd)"></div>
+      </div>
+      <div class="car">
+        <img src="img/trim-4550.png" alt="RAV4 Plug-in Hybrid XSE in gray with a black roof and black wheels" width="900" height="402">
+        <div class="name">Plug-in XSE</div>
+        <div class="price" data-f="price.phv">$47,800</div>
+        <span class="jump">+$3,900 over the Limited</span>
+        <div class="tag">The XSE with a plug. About <span data-f="range">50</span> miles on electricity per charge, then a regular hybrid.</div>
+        <div class="bar" style="background:var(--phv)"></div>
+      </div>
+      </div></div>
+    </div></div>
+  </div>
+  <div class="road-foot">
+    <span>Prices are Toyota's starting MSRP. Add a destination fee of <b>$1,595</b>, plus tax, registration and any <a href="#packages">options</a>.</span>
+    <span id="mpgLine">Gas mileage: <b>41 mpg</b> (XLE Premium), <b>40 mpg</b> (XSE and Limited), combined. The <b>Plug-in XSE</b> goes about <b>50 miles</b> on a charge, then gets <b>39 mpg</b>.</span>
+  </div>
+  <section class="year-diff" id="yearDiff" aria-labelledby="yearDiffT" hidden></section>
+</div>
+
+<!-- ============ PRIORITY PICKER ============ -->
+<section id="picker">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Start with your priorities</h2>
+      <p class="lede">Tap the things you care about. The cards below show which RAV4 covers the most of them.</p>
+    </div>
+    <div class="picker">
+      <div class="chips" id="chips" role="group" aria-label="Priorities"></div>
+      <div class="legend" style="margin-top:20px">
+        <span class="pill std">Included</span>
+        <span class="pill opt">Optional extra cost</span>
+        <span class="pill no">Not offered</span>
+        <span class="pill nl">Not listed by Toyota</span>
+      </div>
+      <div class="sl" data-sl id="scoresSl"><div class="sl-view"><div class="sl-track scores" id="scores" aria-live="polite"></div></div></div>
+      <p class="empty-note" id="emptyNote">Pick a few priorities above to see how the four compare.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STEP UPS ============ -->
+<section id="steps">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What each step up adds</h2>
+      <p class="lede">Each step up in price adds a set of features. Tap any item to read more about it.</p>
+    </div>
+    <div class="steps">
+      <article class="step">
+        <div class="step-top"><span class="from" style="color:var(--xle)">XLE Premium</span><span class="arrow" aria-hidden="true"></span><span class="cost">+$3,800</span><span class="arrow" aria-hidden="true"></span><span class="to" style="color:var(--xse)">XSE</span></div>
+        <div class="step-body">
+          <h4>You gain</h4>
+          <ul class="gain" id="gain1"></ul>
+          <h4>Worth knowing</h4>
+          <ul class="gain" id="lose1"></ul>
+        </div>
+      </article>
+      <article class="step">
+        <div class="step-top"><span class="from" style="color:var(--xse)">XSE</span><span class="arrow" aria-hidden="true"></span><span class="cost">+$2,000</span><span class="arrow" aria-hidden="true"></span><span class="to" style="color:var(--ltd)">Limited</span></div>
+        <div class="step-body">
+          <h4>You gain</h4>
+          <ul class="gain" id="gain2"></ul>
+          <h4>You give up</h4>
+          <ul class="gain" id="lose2"></ul>
+        </div>
+      </article>
+      <article class="step wide">
+        <div class="step-top"><span class="from" style="color:var(--xse)">Hybrid XSE</span><span class="arrow" aria-hidden="true"></span><span class="cost">+$5,900</span><span class="arrow" aria-hidden="true"></span><span class="to" style="color:var(--phv)">Plug-in XSE</span></div>
+        <div class="step-body">
+          <div><h4>You gain</h4>
+          <ul class="gain" id="gain3"></ul></div>
+          <div><h4>Worth knowing</h4>
+          <ul class="gain" id="lose3"></ul></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PACKAGES ============ -->
+<section id="packages">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Option packages and prices</h2>
+      <p class="lede">Toyota sells extras in packages that come in a fixed order. To get a package, you also have to buy every package above it on the list. Tap a package to see what the car would cost with it.</p>
+    </div>
+    <div class="pk-callouts" id="pkCallouts"></div>
+    <div class="sl tall" data-sl data-sl-max="3"><div class="sl-view"><div class="sl-track pk-grid" id="pkGrid"></div></div></div>
+    <p class="pk-note">Prices are Toyota's suggested prices (MSRP) from its online build tool in November 2026, before tax, registration and dealer fees. They can vary by region, and the car on a dealer's lot may already have packages added.</p>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Features explained</h2>
+      <p class="lede">What each feature does, why you might care, and which RAV4s have it.</p>
+    </div>
+    <nav class="group-nav" id="groupNav" aria-label="Feature groups"></nav>
+    <div id="featureList"></div>
+  </div>
+</section>
+
+<!-- ============ BASICS ============ -->
+<section id="basics">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What all four have</h2>
+      <p class="lede">You don't give up any of these by choosing the XLE Premium.</p>
+    </div>
+    <div class="basics" id="basicsList"></div>
+  </div>
+</section>
+
+<!-- ============ SPECS ============ -->
+<section id="specs">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>The full spec list</h2>
+      <p class="lede">Every line from Toyota's comparison pages for these four trims. Where Toyota repeats a long line with small changes for each trim, it’s combined into one row that shows only what changes; open “Toyota’s wording” to see the original lines. Rows that differ are marked with a yellow edge.</p>
+      <p class="muted">The Plug-in XSE comes from a separate Toyota page that words some lines differently and leaves some out. <span data-f="specGaps">Where Toyota’s 2027 RAV4 announcement or Toyota Canada fills a gap, the row says so.</span> “Not listed” marks what’s left: Toyota doesn’t say either way, so ask the dealer.</p>
+    </div>
+    <div class="tools">
+      <input class="search" id="specSearch" type="search" placeholder="Search, for example “seat” or “camera”" aria-label="Search the spec list">
+      <label class="toggle"><input type="checkbox" id="diffOnly" checked> Only show differences</label>
+      <span class="count" id="specCount" aria-live="polite"></span>
+    </div>
+    <div id="specList"></div>
+    <p class="spec-more">Option packages, and the Limited’s head-up display option, are listed with their prices under <a href="#packages">Packages and prices</a>.</p>
+  </div>
+</section>
+
+<!-- ============ DEALER ============ -->
+<section id="dealer">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Questions to ask at the dealer</h2>
+      <p class="lede">A few things are worth confirming in person, especially which packages the actual car on the lot has. Your check marks are saved on this device.</p>
+    </div>
+    <ul class="checklist" id="checklist"></ul>
+    <button class="print-btn" type="button" onclick="window.print()">Print this guide</button>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><span data-f="sources">Features, prices and fuel economy come from Toyota's 2027 RAV4 comparison page for the XLE Premium AWD (4444), XSE AWD (4530) and Limited AWD (4534), and its 2027 RAV4 Plug-in Hybrid comparison page for the XSE (4550), as published in November 2026. Package and paint prices come from Toyota's online build tool in the same month. Items the Plug-in page leaves out were checked against Toyota's 2027 RAV4 press release (November 5, 2026) and Toyota Canada's 2026 RAV4 Plug-in Hybrid product summary, which is also the source of the Plug-in's battery size.</span> The fuel-cost calculator starts from AAA's Montgomery County, Texas gas average (November 16, 2026, as reported by KPRC Click2Houston) and EnergySage's Montgomery County electricity rate (October 2026). Appliance wattages in the outage calculator are typical figures, not measurements. Photos are Toyota's own images; the side-by-side comparisons come from the build tool, and some other photos show different trims or options. The backup camera photo is from Edmunds, and the screen-size comparison is a drawing. Feature descriptions are written for this page, not taken from Toyota. Always confirm equipment on the window sticker of the specific car you're looking at, since dealers often add packages.</p>
+  </div>
+</footer>
+
+<dialog class="lb" id="lightbox" aria-label="Expanded photo">
+  <div class="lb-bar">
+    <span class="lb-count" id="lbCount"></span>
+    <button type="button" id="lbPrev" aria-label="Previous photo">‹ Back</button>
+    <button type="button" id="lbNext" aria-label="Next photo">Next ›</button>
+    <button type="button" id="lbClose">Close ✕</button>
+  </div>
+  <div class="lb-stage" id="lbStage"><img id="lbImg" alt=""></div>
+  <p class="lb-cap" id="lbCap"></p>
+</dialog>
+
+<script src="specs.js"></script>
+<script src="specs-2026.js"></script>
+<script>
+/* ===================== MODEL YEAR =====================
+   The page shows one model year at a time, chosen by ?year= in the address (2027 when it's missing
+   or unknown). Everything that differs between the years lives here, and the data below reads it
+   through F. Figures come from Toyota's comparison pages and build tool for each year, November 2026;
+   package and paint prices are the same for both years. */
+const DEFAULT_YEAR = 2027;
+const YEAR_FACTS = {
+  2027:{
+    year:2027, specs:'RAV4_SPECS',
+    base:{xle:38100, xse:41900, ltd:43900, phv:47800},
+    mpg:{xle:41, xse:40, ltd:40, phv:39},                 // EPA combined
+    hp:{hyb:229, phv:321},
+    range:50, mpge:102,                                   // Plug-in electric range (miles) and MPGe
+    port:'Tesla-style (NACS)',
+    portWhy:'It can also use public fast chargers, and its charging port is the same type Tesla uses.',
+    trials:{remote:'5 years', drive:'3 months'},
+    xleAssist:'XLE Premium Driver Assist Package',
+    notes:{
+      assistPhv:['std','Toyota’s 2027 announcement confirms Lane Change Assist and Traffic Jam Assist. Ask the dealer to confirm the other two.'],
+      assistPhvCell:'Lane Change Assist and Traffic Jam Assist, per Toyota’s 2027 announcement. Toyota doesn’t say about the other two.',
+      checkAssist:['On the Plug-in XSE, confirm Front Cross-Traffic Alert and Driver Monitor.','Toyota says every XSE has Lane Change Assist and Traffic Jam Assist, but its Plug-in page doesn’t mention the two helpers that come with them on the Hybrid XSE.'],
+      seaPhv:'All three. Toyota’s Plug-in page leaves out Safe Exit Alert, but its 2027 announcement lists it on every RAV4.',
+      material:'Toyota’s Plug-in page uses the vaguer name “Mixed Media”, but Toyota’s 2027 announcement and Toyota Canada both describe the same suede and SofTex mix.',
+      consolePhv:'Toyota lists Snow, Normal and EV buttons here, and the Trail mode under the engine',
+      powertrainPhv:'321 hp combined; adds a Trail drive mode',
+      batteryPhv:'A much larger lithium-ion battery (22.7 kWh, per Toyota Canada). Toyota’s US page doesn’t give its voltage.',
+    },
+    specGaps:'Where Toyota’s 2027 RAV4 announcement or Toyota Canada fills a gap, the row says so.',
+    sources:'Features, prices and fuel economy come from Toyota\'s 2027 RAV4 comparison page for the XLE Premium AWD (4444), XSE AWD (4530) and Limited AWD (4534), and its 2027 RAV4 Plug-in Hybrid comparison page for the XSE (4550), as published in November 2026. Package and paint prices come from Toyota\'s online build tool in the same month. Items the Plug-in page leaves out were checked against Toyota\'s 2027 RAV4 press release (November 5, 2026) and Toyota Canada\'s 2026 RAV4 Plug-in Hybrid product summary, which is also the source of the Plug-in\'s battery size.',
+  },
+  2026:{
+    year:2026, specs:'RAV4_SPECS_2026',
+    base:{xle:37500, xse:41300, ltd:43300, phv:47200},
+    mpg:{xle:41, xse:41, ltd:41, phv:40},
+    hp:{hyb:236, phv:324},
+    range:52, mpge:96,
+    port:'CCS1',
+    portWhy:'It can also use public fast chargers. Its charging port is the CCS1 type; the 2027 switched to the port Tesla uses.',
+    trials:{remote:'1 year', drive:'1 year'},
+    xleAssist:'XLE Driver Assist Package',
+    notes:{
+      assistPhv:['nl','Toyota’s 2026 Plug-in page doesn’t list these. Its 2027 announcement confirms two of them on the 2027, so ask the dealer about the 2026.'],
+      assistPhvCell:'Not on Toyota’s 2026 Plug-in page. Its 2027 announcement lists Lane Change Assist and Traffic Jam Assist on the 2027.',
+      checkAssist:['On the Plug-in XSE, ask about the extra driver-assist bundle.','Every Hybrid XSE has Front Cross-Traffic Alert, Lane Change Assist, Traffic Jam Assist and Driver Monitor, but Toyota’s 2026 Plug-in page doesn’t mention any of the four.'],
+      seaPhv:'Blind Spot Monitor and Rear Cross-Traffic Alert. Toyota’s 2026 Plug-in page leaves out Safe Exit Alert; its 2027 announcement lists it on every 2027 RAV4.',
+      material:'Toyota’s Plug-in page uses the vaguer name “Mixed Media”, but Toyota Canada describes the same suede and SofTex mix.',
+      consolePhv:'Same as XLE Premium',
+      powertrainPhv:'324 hp combined',
+      batteryPhv:'A much larger lithium-ion battery: 391 volts, and 22.7 kWh per Toyota Canada',
+    },
+    specGaps:'Where Toyota Canada fills a gap, the row says so. Toyota’s 2027 announcement is mentioned only where it hints at what the 2026 has.',
+    sources:'Features, prices and fuel economy come from Toyota\'s 2026 RAV4 comparison page for the XLE Premium AWD (4444), XSE AWD (4530) and Limited AWD (4534), and its 2026 RAV4 Plug-in Hybrid comparison page for the XSE (4550), as published in November 2026. Package and paint prices come from Toyota\'s online build tool in the same month. Toyota\'s 2026 comparison page marks the JBL system as not offered on the Hybrid XSE, but the build tool sells the JBL Premium Audio Package for it, so this page follows the build tool. Items the Plug-in page leaves out were checked against Toyota Canada\'s 2026 RAV4 Plug-in Hybrid product summary, which is also the source of the Plug-in\'s battery size. The 2026 and 2027 are the same generation, so the photos fit both.',
+    // Toyota's 2026 comparison page says the Hybrid XSE can't get JBL; the 2026 build tool sells the
+    // $620 JBL Premium Audio Package for it, and the same page's package list agrees.
+    specFixes:[{cat:'Screen & sound', label:'12.9-in. Toyota Audio Multimedia, 9-speaker JBL', trim:1, cell:['opt','']}],
+  },
+};
+const F = (()=>{
+  const y = new URLSearchParams(location.search).get('year');
+  return y !== null && Object.hasOwn(YEAR_FACTS, y) ? YEAR_FACTS[y] : YEAR_FACTS[DEFAULT_YEAR];
+})();
+document.documentElement.dataset.year = F.year;
+const TRIM_IDS = ['xle','xse','ltd','phv'];
+const HYBRID_IDS = ['xle','xse','ltd'];
+const HYBRID_NAMES = {xle:'XLE Premium', xse:'XSE', ltd:'Limited'};
+const money = n=>'$'+n.toLocaleString('en-US');
+// "41 mpg", or "40 to 41 mpg" when the Hybrids differ.
+const hybridMpgRange = (f=F)=>{
+  const v = HYBRID_IDS.map(id=>f.mpg[id]), lo = Math.min(...v), hi = Math.max(...v);
+  return lo===hi ? `${hi} mpg` : `${lo} to ${hi} mpg`;
+};
+// "41 mpg on all three Hybrids", or "41 mpg (XLE Premium), 40 mpg (XSE and Limited)", grouped by rating.
+const hybridMpgList = (f=F, tag=s=>s)=>{
+  const groups = new Map();
+  HYBRID_IDS.forEach(id=>groups.set(f.mpg[id], [...(groups.get(f.mpg[id])||[]), HYBRID_NAMES[id]]));
+  if(groups.size===1) return `${tag(f.mpg.xle+' mpg')} on all three Hybrids`;
+  return [...groups].map(([m,names])=>`${tag(m+' mpg')} (${names.join(' and ')})`).join(', ');
+};
+
+// Plug-in energy and charging. EPA's MPGe counts energy taken from the wall (33.7 kWh = 1 gallon),
+// so range x 33.7 / MPGe is the wall energy for a full charge: 16.5 kWh for 2027, 18.3 for 2026.
+// Charging times add 10% for the slower last stretch of a charge and cable losses. That margin
+// reproduces Toyota's published times for the earlier RAV4 Prime (about 12 hours on 120 V, 2.5 on
+// 6.6 kW). A charger may draw only 80% of a circuit's rating for hours at a time, so a 20-amp circuit
+// charges at 16 A and a 40-amp one at 32 A; a regular outlet's cable draws 12 A. The Plug-in XSE's
+// 11 kW onboard charger (both years) is faster than all three, so the circuit sets the speed.
+const CHARGE = (()=>{
+  const kwhPerMile = 33.7/F.mpge;
+  const SLOW_END = 1.1;
+  return {
+    kwhPerMile,
+    wallKwh: F.range*kwhPerMile,
+    ways: [
+      {id:'l1',  name:'Regular outlet',   kw:120*12/1000},
+      {id:'l20', name:'240 V, 20 amps',   kw:240*16/1000},
+      {id:'l40', name:'240 V, 40 amps',   kw:240*32/1000},
+    ],
+    // Hours to put back `miles` of electric range (capped at a full charge).
+    hours: (way, miles)=>Math.min(miles,F.range)*kwhPerMile*SLOW_END/way.kw,
+    // Electric miles a charge of `h` hours puts back, rounded to 5.
+    milesIn: (way, h)=>Math.min(F.range, Math.round(way.kw*h/(kwhPerMile*SLOW_END)/5)*5),
+  };
+})();
+// "15 minutes", "45 minutes", "1 hour", "7½ hours": quarter hours under an hour, half hours above.
+const fmtHours = h=>{
+  if(h<0.875) return `${Math.max(15,Math.round(h*4)*15)} minutes`;
+  const r = Math.round(h*2)/2;
+  return `${Math.floor(r)}${r%1?'½':''} hour${r>1?'s':''}`;
+};
+
+/* ===================== DATA ===================== */
+const TRIMS = [
+  {id:'xle', name:'XLE Premium', color:'var(--xle)'},
+  {id:'xse', name:'XSE', color:'var(--xse)'},
+  {id:'ltd', name:'Limited', color:'var(--ltd)'},
+  {id:'phv', name:'Plug-in XSE', color:'var(--phv)'},
+];
+// Status per trim, in TRIMS order: ['std'|'opt'|'no'|'nl', note?]. 'nl' means Toyota's Plug-in page
+// doesn't mention the item, which is not the same as the car lacking it.
+const FEATURES = [
+  /* ---------- Parking & cameras ---------- */
+  {id:'cam360', group:'Parking and cameras', name:'360° camera (bird’s-eye view)',
+   aka:'Panoramic View Monitor (PVM) with 3D 360-degree Overhead View and Curb View',
+   what:'Four cameras (front, back, and under each side mirror) are stitched together into a single picture that looks like a drone is hovering right above the car. You can see every side of the car at once while parking, not just what is behind you. “3D” lets you spin the view around the car on the screen, and “Curb View” shows a close-up of the front wheel next to the curb.',
+   why:'This is the biggest everyday upgrade over the XLE Premium. In a parking lot, one look at the screen shows whether you’re straight and between the lines, so you don’t have to open the door to check. It also shows what a backup camera can’t: a parking block or low post by the front bumper, a curb near the wheels, or a cart or child beside the car. Curb View is especially helpful on the two XSEs, whose large 20-inch wheels are easy to scrape.',
+   trims:[['no','Backup camera only'],['std'],['std'],['std']], visual:'cameraDemo', wide:true},
+  {id:'mirror', group:'Parking and cameras', name:'Camera rearview mirror',
+   aka:'Digital rearview mirror with HomeLink®',
+   what:'The inside rearview mirror has a hidden screen. Flip a small tab and the mirror switches from a normal reflection to a live video feed from a camera on the back of the car. You see the road behind you without passengers’ heads, headrests or a packed cargo area in the way.',
+   why:'Handy when the back seat has passengers or the cargo area is full to the roof. It also gives a wider view. Some people find it takes a few days to get used to focusing on a screen instead of a reflection, and you can always flip it back to a plain mirror. Like most screens, it can look dark through polarized sunglasses at some angles, so check it with yours.',
+   trims:[['opt','Panoramic Moonroof Package: $1,850 ($2,225 with the Weather Package it requires)'],['opt','Panoramic Moonroof Package: $700 ($1,695 with the packages it requires)'],['std'],['opt','Panoramic Moonroof Package: $700 ($1,695 with the packages it requires)']], visual:'mirrorDemo'},
+  {id:'homelink', group:'Parking and cameras', name:'Built-in garage door opener',
+   aka:'HomeLink® universal transceiver',
+   what:'Three buttons on the rearview mirror can be programmed to open your garage door or a gate, so you don’t need a separate clip-on remote.',
+   why:'One less gadget on the visor, and nothing for a thief to grab to open your garage. Both XSEs also get an auto-dimming mirror that cuts glare from headlights behind you; the XLE Premium has a manual flip-tab mirror.',
+   trims:[['opt','Comes with the camera mirror in the Panoramic Moonroof Package'],['std','With auto-dimming mirror'],['std','With camera mirror'],['std','With auto-dimming mirror']]},
+  {id:'park', group:'Parking and cameras', name:'Self-parking', compact:true,
+   aka:'Advanced Park',
+   what:'Press a button next to an open space and the RAV4 steers, brakes and shifts into it by itself, for parallel or regular spaces. Pressing the brake stops it at any time.',
+   why:'A nice extra rather than a need. Most people who have the 360° camera park just as well on their own.',
+   trims:[['no'],['opt','XSE Driver Assist Package: $420 ($2,115 with the packages it requires)'],['std'],['opt','Driver Assist Package: $1,170 ($2,865 with the packages it requires)']]},
+
+  /* ---------- Safety helpers ---------- */
+  {id:'assist', group:'Safety and driver help', name:'Extra driver-assist bundle',
+   aka:'Front Cross-Traffic Alert (FCTA), Lane Change Assist (LCA), Traffic Jam Assist (TJA) and Driver Monitor',
+   what:'Four helpers that come together. <b>Front Cross-Traffic Alert</b> warns you about cars coming from the side when you nose out of a spot or into an intersection where your view is blocked. <b>Lane Change Assist</b> can steer into the next lane for you on the highway when you tap the turn signal and it’s clear. <b>Traffic Jam Assist</b> lets the car steer, brake and go by itself in slow, stop-and-go highway traffic on certain highways. <b>Driver Monitor</b> is a small camera that watches for drowsiness or eyes off the road and alerts you.',
+   why:'Front Cross-Traffic Alert is the one most people end up appreciating: pulling out of a parking spot between two big trucks is much less of a guess. Traffic Jam Assist is a real relief on long commutes in heavy traffic. It needs an active Drive Connect trial or subscription and 5G coverage.',
+   trims:[['opt',`${F.xleAssist}: $650 ($2,875 with the packages it requires)`],['std'],['std'],F.notes.assistPhv]},
+  {id:'hud', group:'Safety and driver help', name:'Speed shown on the windshield',
+   aka:'10-in. Color Head-Up Display (HUD) with Road Sign Assist',
+   what:'Your speed, the speed limit and navigation arrows are projected onto the windshield, so they appear to float just above the hood. You don’t have to look down at the dashboard.',
+   why:`Keeps your eyes on the road. One catch: the display is a reflection on the windshield, and polarized sunglasses can dim it or make it vanish when you tilt your head. Owners of earlier Toyotas report this, and Toyota hasn’t said how the ${F.year} version behaves. Wear your usual sunglasses on the test drive. If it fades, turning up the brightness or moving the display higher in the settings often helps.`,
+   trims:[['no'],['no'],['opt','Stand-alone option: $600'],['opt','Comes with the Driver Assist Package ($2,865 with the packages it requires)']], visual:'hudDemo'},
+  {id:'wipers', group:'Safety and driver help', name:'Automatic wipers and wiper de-icer',
+   aka:'Rain-sensing variable intermittent windshield wipers with de-icer function',
+   what:'A sensor on the windshield detects rain and turns the wipers on, speeding them up or slowing them down on their own. The de-icer heats the bottom of the windshield where the wiper blades rest, so they don’t freeze to the glass.',
+   why:'One less thing to fiddle with in a sudden downpour, and a real help on icy winter mornings.',
+   trims:[['opt','Weather Package: $375'],['opt','Weather Package: $375'],['std'],['opt','Weather Package: $375']]},
+
+  /* ---------- Comfort ---------- */
+  {id:'vent', group:'Comfort', name:'Cooled (ventilated) front seats',
+   aka:'Heated and ventilated front seats (high-mid-low)',
+   what:'Small fans inside the front seats pull air through tiny holes in the seat covering. In summer it stops your back and legs from getting hot and sticky. The seats are also heated, with three levels instead of two.',
+   why:'If you live somewhere warm, people who have cooled seats tend to say they would never go without them again. All four have heated front seats; the XLE Premium is the only one that doesn’t also cool.',
+   trims:[['no','Heated only (2 levels)'],['std'],['std'],['std']], img:'img/RHV_MY26_0039_V001.jpg', cap:'The perforated seat covering lets the fans move air through it.'},
+  {id:'rearheat', group:'Comfort', name:'Heated back seats',
+   aka:'Heated rear seats (on-off)',
+   what:'The two outer back seats have their own heaters, with a switch for back-seat passengers.',
+   why:'A nice touch if you often have passengers in the back in cold weather.',
+   trims:[['no'],['no'],['std'],['no']]},
+  {id:'wheelheat', group:'Comfort', name:'Heated steering wheel',
+   aka:'Heated leather-trimmed steering wheel',
+   what:'The steering wheel rim warms up at the press of a button.',
+   why:'On a cold morning, warm hands make a big difference before the heater gets going. People who have one tend to use it all winter.',
+   trims:[['opt','Weather Package: $375'],['opt','Weather Package: $375'],['std'],['opt','Weather Package: $375']]},
+  {id:'seats', group:'Comfort', name:'Power passenger seat and seat memory',
+   aka:'8-way power front passenger seat; driver’s seat with memory function',
+   what:'The passenger seat moves with buttons instead of levers. The driver’s seat remembers positions for two people, so one button puts the seat back where you like it after someone else has driven.',
+   why:'Useful if two people share the car. A power passenger seat is also easier on the back and shoulders than reaching down to a manual lever. All four have a power driver’s seat with lumbar support.',
+   trims:[['no','Manual passenger seat; no memory'],['std'],['std'],['std']]},
+  {id:'material', group:'Comfort', name:'Seat material',
+   aka:'SofTex®-trimmed seats; SofTex® and synthetic suede on both XSEs (the Plug-in page calls it Mixed Media/SofTex)',
+   what:'SofTex is Toyota’s name for a high-quality synthetic leather. It looks and feels much like leather, wipes clean easily and doesn’t need conditioning. Both XSEs mix it with a soft suede-like fabric in the middle of the seat, which feels grippy and doesn’t get as hot or cold. ' + F.notes.material,
+   why:'None of the four use real leather. SofTex is durable and easy to live with; the suede-like inserts on the XSEs are a matter of taste and can show lint or pet hair more.',
+   trims:[['std','SofTex'],['std','SofTex + synthetic suede'],['std','SofTex'],['std','SofTex + synthetic suede']]},
+  {id:'roof', group:'Comfort', name:'Sunroof or panoramic glass roof',
+   aka:'Power tilt/slide moonroof; Panoramic glass roof with front power tilt/slide moonroof',
+   what:'A regular sunroof (“moonroof”) is one glass panel above the front seats that tilts up or slides open. A panoramic roof is a large glass roof stretching over both front and back seats; the front part opens, and a power shade slides across underneath at the press of a button when you want to block the sun.',
+   why:'The panoramic roof makes the inside feel brighter and roomier, and back-seat passengers get a view of the sky. The XLE Premium has a solid roof unless you add the panoramic roof; it doesn’t offer the smaller sunroof.',
+   trims:[['opt','Panoramic only: $1,850 ($2,225 with the Weather Package it requires)'],['std','Regular sunroof; panoramic is $700 ($1,695 with the packages it requires)'],['std','Panoramic'],['std','Regular sunroof; panoramic is $700 ($1,695 with the packages it requires)']], visual:'roofPhotos', wide:true},
+
+  /* ---------- Tech & sound ---------- */
+  {id:'screen', group:'Screen and sound', name:'Bigger center screen',
+   aka:'12.9-in. Toyota Audio Multimedia (vs 10.5-in.)',
+   what:'The touchscreen in the middle of the dashboard is about a quarter larger on every trim except the XLE Premium. All four connect wirelessly to your phone with Apple CarPlay or Android Auto, so your phone’s maps, music and calls appear on the screen.',
+   why:'A bigger screen means larger map, bigger buttons and an easier-to-read 360° camera picture. The 10.5-inch screen is still a good size.',
+   trims:[['std','10.5-inch'],['std','12.9-inch'],['std','12.9-inch'],['std','12.9-inch']], visual:'screenPair'},
+  {id:'jbl', group:'Screen and sound', name:'Premium JBL sound system',
+   aka:'9-speaker JBL® Premium Audio with subwoofer and amplifier',
+   what:'Nine speakers instead of six, including a subwoofer for deeper bass and a separate amplifier for more power.',
+   why:'If music, audiobooks or talk radio are a big part of your drives, voices and instruments sound clearer and fuller. If the radio is mostly background, you may not notice much difference.',
+   trims:[['no','6 speakers'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)'],['std'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)']], img:'img/RHV_MY26_0049_V001.jpg', cap:'One of the JBL speakers, mounted by the windshield pillar.'},
+  {id:'charge', group:'Screen and sound', name:'Wireless phone charging for two',
+   aka:'Dual Qi-compatible wireless charging',
+   what:'Set your phone on a pad in the console and it charges with no cable. The Limited has two pads, so the driver and passenger can both charge at once.',
+   why:'All four have one pad. Two only matters if you regularly ride with someone whose phone also needs a charge.',
+   trims:[['std','1 pad'],['std','1 pad'],['std','2 pads'],['std','1 pad']], img:'img/RHV_MY27_0010_V001.jpg', cap:'The charging tray sits below the climate controls.'},
+
+  /* ---------- Convenience ---------- */
+  {id:'liftgate', group:'Convenience', name:'Hands-free tailgate',
+   aka:'Hands-free power liftgate with jam protection',
+   what:'With the key in your pocket or purse, swing your foot under the middle of the back bumper and the tailgate opens by itself. All four have a power tailgate that opens with a button; every trim except the XLE Premium adds the foot sensor.',
+   why:'Wonderful when your arms are full of groceries. The XLE Premium’s power tailgate also lets you set how high it opens, which helps in a low garage.',
+   trims:[['no','Power tailgate with button'],['std'],['std'],['std']], img:'img/RHV_MY26_0045_V001.jpg', cap:'A kick under the bumper opens the tailgate.'},
+  {id:'lights', group:'Convenience', name:'Puddle lights and soft cabin lighting',
+   aka:'Puddle lights in outside mirrors; white ambient illuminated foot wells',
+   what:'Puddle lights are small lights under the side mirrors that light up the ground by the front doors when you unlock the car. Ambient lighting is a soft glow in the footwells and cupholders at night.',
+   why:'Puddle lights help you see puddles, ice or a curb when getting in after dark. The cabin glow makes it easier to find things at night.',
+   trims:[['no'],['std'],['std'],['std']]},
+  {id:'shifter', group:'Convenience', name:'Toggle-switch gear selector',
+   aka:'Toggle shift-by-wire shifter',
+   what:'Instead of a traditional gear lever, you push or pull a small switch to choose Drive or Reverse.',
+   why:'It frees up a little console space, but it’s a matter of taste. Some people prefer the familiar lever, so try both.',
+   trims:[['no','Regular lever'],['opt','Comes with the self-parking package ($2,115 with the packages it requires)'],['std'],['opt','Comes with the Driver Assist Package ($2,865 with the packages it requires)']]},
+
+  /* ---------- Looks ---------- */
+  {id:'wheels', group:'Looks and ride', name:'Wheel size and ride comfort',
+   aka:'18-in. wheels (XLE Premium, Limited) vs 20-in. wheels (both XSEs)',
+   what:'Both XSEs have larger 20-inch black wheels. Bigger wheels use thinner tires, which look sporty and make steering feel sharper, but there’s less cushion between you and the road.',
+   why:'Expect the XSEs to feel a bit firmer over potholes and bumpy roads, and their tires usually cost more to replace. The XLE Premium and Limited ride a bit more softly on 18-inch wheels. The Limited can add 20-inch wheels as an option.',
+   trims:[['std','18-inch'],['std','20-inch'],['std','18-inch; 20-inch package is $1,240 ($1,840 with the head-up display it requires)'],['std','20-inch']], visual:'wheelDemo'},
+  {id:'style', group:'Looks and ride', name:'Styling details',
+   aka:'Two-tone paint, LED accent lights, fog lights, trim colors',
+   what:'The <b>XSE</b> is the sporty-looking one: glossy black trim, vertical LED accent lights in the front bumper, blue stitching inside, and an optional black roof (two-tone paint). The <b>Plug-in XSE</b> looks almost the same. The <b>Limited</b> looks more upscale with silver accents, a satin-chrome grille and LED fog lights. The <b>XLE Premium</b> has a simpler, rugged look with matte black lower trim.',
+   why:'Purely a matter of taste. Look at them in person, ideally in the color you want.',
+   trims:[['std','Simple, rugged'],['std','Sporty, two-tone option'],['std','Upscale, fog lights'],['std','Sporty, two-tone option']], img:'img/RHV_MY26_0016_V001.jpg', cap:'The Limited, shown in Storm Cloud, with its silver lower bumper.',
+   shots:{title:'All four from the same angle, as Toyota shows them', kind:'ext', ar:'11/5',
+     caps:['Matte black lower trim and dark wheels.','Black roof, black wheels, LED accent lights in the bumper.','Silver accents and fog lights.','Same sporty look as the Hybrid XSE, shown in gray with a black roof.']}},
+
+  /* ---------- Plug-in Hybrid ---------- */
+  {id:'plugin', group:'Plug-in Hybrid', name:'Driving on electricity',
+   aka:`Plug-in Hybrid: EPA-estimated ${F.range}-mile all-electric range, ${F.mpge} MPGe`,
+   what:`The Plug-in has a much bigger battery that you charge by plugging the car in, at home or at a public charger. On a full charge it can drive about ${F.range} miles on electricity alone (Toyota’s EPA estimate). After that it drives like a regular hybrid, at ${F.mpg.phv} mpg combined. It also has more power: ${F.hp.phv} horsepower, against ${F.hp.hyb} for the Hybrids.`,
+   why:`If most of your days are under ${F.range} miles and you can plug in at home, you could go weeks between gas fill-ups. If you can’t charge at home, you’re paying extra for a battery you won’t use much. Toyota includes a cable that works with a regular household outlet (slow) or a 240-volt outlet (much faster); the charging times are in the calculator here. ${F.portWhy}`,
+   trims:[['no'],['no'],['no'],['std',`About ${F.range} miles per charge`]], visual:'evDemo', wide:true},
+  {id:'outlet', group:'Plug-in Hybrid', name:'Household-style power outlet',
+   aka:'One 120V/1500W AC power outlet in cargo area',
+   what:'A regular three-prong outlet in the cargo area, like the ones in your house. It runs off the Plug-in’s big battery and can power up to 1,500 watts at once: a refrigerator, lamps, Wi-Fi and phone chargers, or one small space heater.',
+   why:'Most useful in a power outage. A charged battery could keep a refrigerator, Wi-Fi and a few lamps going for a few days. It’s handy for camping and tailgating too. The Hybrids have only small 12-volt sockets, the kind phone chargers plug into.',
+   trims:[['no','12-volt sockets only'],['no','12-volt sockets only'],['no','12-volt sockets only'],['std']], visual:'outageDemo', wide:true},
+];
+
+const BASICS = [
+  ['All-wheel drive','Better grip in rain and snow, standard on all four.'],
+  ['Hybrid power',`A 2.5-liter gas engine working with electric motors. ${F.hp.hyb} horsepower and ${hybridMpgRange()} on the Hybrids; ${F.hp.phv} horsepower and ${F.mpg.phv} mpg on the Plug-in.`],
+  ['Automatic emergency braking','Brakes for cars and pedestrians if you don’t react in time (Toyota Safety Sense 4.0).'],
+  ['Adaptive cruise control','Keeps a set distance from the car ahead, down to a stop.'],
+  ['Lane centering','Gently steers to keep you in the middle of your lane.'],
+  ['Blind spot warning','A light in the side mirror when a car is in your blind spot.'],
+  ['Rear cross-traffic alert','Beeps if a car is coming while you back out of a spot.'],
+  ['Backup camera','With guide lines that bend as you turn the wheel.'],
+  ['Built-in dash cam','Records video from the car’s cameras, useful after an accident.'],
+  ['Heated front seats','Power driver’s seat with lumbar support.'],
+  ['Dual-zone automatic climate','Driver and passenger each set their own temperature.'],
+  ['12.3-inch digital gauges','A clear, customizable screen behind the steering wheel.'],
+  ['Wireless Apple CarPlay and Android Auto','Use your phone’s maps, music and calls on the car screen.'],
+  ['Keyless entry and push-button start','Keep the key in your pocket or purse.'],
+  ['Power tailgate','Opens and closes with a button.'],
+  ['Five USB-C charging ports','Two up front, two in back, one in the console.'],
+  ['8 airbags','Including a knee airbag for the driver.'],
+  ['3,500-lb towing','Enough for a small trailer or boat.'],
+  ['Free scheduled maintenance','ToyotaCare covers scheduled service for 1 year or 10,000 miles, whichever comes first, plus 2 years of roadside assistance.'],
+];
+
+const PRIORITIES = [
+  {id:'park', label:'Easier parking', feats:['cam360']},
+  {id:'summer', label:'Staying cool in summer', feats:['vent']},
+  {id:'winter', label:'Staying warm in winter', feats:['wheelheat','wipers','rearheat']},
+  {id:'safety', label:'Extra safety helpers', feats:['assist','cam360']},
+  {id:'sound', label:'Great sound', feats:['jbl']},
+  {id:'bright', label:'Bright, airy cabin', feats:['roof']},
+  {id:'hands', label:'Easy loading with full hands', feats:['liftgate']},
+  {id:'sharing', label:'Sharing the car with someone', feats:['seats']},
+  {id:'outlet', label:'Power for camping or outages', feats:['outlet']},
+  {id:'smooth', label:'Smoothest ride', special:'smooth'},
+  {id:'sporty', label:'Sporty look', special:'sporty'},
+  {id:'price', label:'Lowest price', special:'price'},
+  {id:'mpg', label:'Using the least gas', special:'mpg'},
+];
+const SPECIAL = {
+  smooth:{label:'Smoothest ride (smaller wheels)', trims:[['std'],['no','20-inch wheels ride firmer'],['std'],['no','20-inch wheels ride firmer']]},
+  sporty:{label:'Sporty look', trims:[['no'],['std'],['no'],['std']]},
+  price:{label:'Lowest price', trims:TRIM_IDS.map(id=>[id==='xle'?'std':'no', money(F.base[id])])},
+  mpg:{label:'Uses the least gas (if you can charge at home)', trims:[...HYBRID_IDS.map(id=>['no',`${F.mpg[id]} mpg`]),['std',`About ${F.range} miles on electricity, then ${F.mpg.phv} mpg`]]},
+};
+
+const STEP1_GAIN = [
+  ['cam360','360° camera','See all around the car when parking, not just behind.'],
+  ['vent','Cooled front seats','Fans keep your back from getting sweaty in summer.'],
+  ['seats','Power passenger seat and seat memory','Easier adjustments; remembers two drivers.'],
+  ['screen','Bigger 12.9-inch screen','Larger map, buttons and camera picture.'],
+  ['liftgate','Hands-free tailgate','Opens with a foot swipe when your hands are full.'],
+  ['roof','Sunroof','The XLE Premium has none unless you pay $2,225 for the panoramic roof.'],
+  ['assist','Extra driver-assist bundle','Optional on the XLE Premium, included here.'],
+  ['homelink','Garage door opener and auto-dimming mirror','No more clip-on remote; less headlight glare.'],
+  ['lights','Puddle lights and soft cabin lighting','See the ground by the doors at night.'],
+];
+const STEP1_LOSE = [
+  ['wheels','Firmer ride','20-inch wheels feel bumpier than the XLE Premium’s 18-inch wheels.'],
+  ['style','Sporty styling','Black wheels, gloss-black trim and suede-like seat inserts. Love it or not.'],
+  // Only when the XSE really is thirstier (2027); the 2026 Hybrids all rate the same.
+  ...(F.mpg.xse < F.mpg.xle ? [[null, `${F.mpg.xle-F.mpg.xse} mpg less`, `${F.mpg.xse} mpg combined instead of ${F.mpg.xle}, a few dollars a month.`]] : []),
+];
+const STEP2_GAIN = [
+  ['jbl','JBL premium sound','Nine speakers with a subwoofer instead of six.'],
+  ['roof','Panoramic glass roof','Glass over both rows instead of a regular sunroof.'],
+  ['mirror','Camera rearview mirror','See behind you even with a full back seat or cargo area.'],
+  ['wheelheat','Heated steering wheel','Optional on XSE, included on Limited.'],
+  ['wipers','Automatic wipers with de-icer','Turn on by themselves when it rains.'],
+  ['rearheat','Heated back seats','For back-seat passengers.'],
+  ['charge','Second wireless phone charger','Driver and passenger can charge at once.'],
+  ['wheels','Softer ride','18-inch wheels with more tire cushion.'],
+  ['hud','Head-up display available','Speed on the windshield. The Hybrid XSE can’t get it.'],
+  ['park','Self-parking','Optional on XSE, included on Limited.'],
+];
+const STEP2_LOSE = [
+  ['style','Sporty styling','No two-tone roof, black wheels or LED accent lights.'],
+  ['material','Suede-like seat inserts','All SofTex instead.'],
+  ['shifter','Traditional gear lever','The Limited uses a toggle switch.'],
+  ['roof','A little cargo space','36.6 cubic feet behind the back seat vs 37.8. Hard to notice.'],
+];
+
+const STEP3_GAIN = [
+  ['plugin','Driving on electricity',`About ${F.range} miles per charge before the gas engine is needed (EPA estimate).`],
+  ['plugin','More power',`${F.hp.phv} horsepower instead of ${F.hp.hyb}, for quicker merging and passing.`],
+  ['outlet','Household-style power outlet','A 1,500-watt outlet in the cargo area for camping or a power outage.'],
+  ['hud','Head-up display available','Comes in the Driver Assist Package, along with paddle shifters.'],
+];
+const STEP3_LOSE = [
+  ['plugin','You need somewhere to plug in',`The savings depend on charging at home or work. Without that, it’s a heavier hybrid at ${F.mpg.phv} mpg.`],
+  [null,'Less cargo space','33.6 cubic feet behind the back seat instead of 37.8.'],
+  ['park','Self-parking costs more','$1,170 for the Driver Assist Package instead of $420, though it adds more.'],
+];
+
+// Option packages, in the order Toyota requires them: each one needs every package above it.
+// Prices are MSRP from Toyota's build tool, November 2026.
+const DESTINATION = 1595;
+const PACKAGES = {
+  xle:{base:F.base.xle, ladder:[
+    {name:'Weather Package', price:375, gets:[['wheelheat','Heated steering wheel'],['wipers','automatic wipers with de-icer']]},
+    {name:'Panoramic Moonroof Package', price:1850, gets:[['roof','Panoramic glass roof'],['mirror','camera rearview mirror'],['homelink','garage door opener']]},
+    {name:F.xleAssist, price:650, gets:[['assist','Front Cross-Traffic Alert, Lane Change Assist, Traffic Jam Assist and Driver Monitor']]},
+  ], paint:'<b>Paint:</b> Wind Chill Pearl (white) or Ruby Flare Pearl (red) add $475. Other colors are included.'},
+  xse:{base:F.base.xse, ladder:[
+    {name:'Weather Package', price:375, gets:[['wheelheat','Heated steering wheel'],['wipers','automatic wipers with de-icer']]},
+    {name:'JBL Premium Audio Package', price:620, gets:[['jbl','9-speaker JBL sound system']]},
+    {name:'Panoramic Moonroof Package', price:700, gets:[['roof','Panoramic glass roof (replaces the regular sunroof)'],['mirror','camera rearview mirror']]},
+    {name:'XSE Driver Assist Package', price:420, gets:[['park','Self-parking'],['shifter','toggle-switch gear selector']]},
+  ], paint:'<b>Paint:</b> only all-black is included. The two-tone colors with a black roof add $500, or $975 for Wind Chill Pearl (white).'},
+  ltd:{base:F.base.ltd, ladder:[
+    {name:'10-in. Color Head-Up Display', price:600, gets:[['hud','Speed shown on the windshield']]},
+    {name:'20-In. Wheel Package', price:1240, gets:[['wheels','20-inch wheels (firmer ride) and a larger spare tire']]},
+  ], paint:'<b>Paint:</b> Wind Chill Pearl (white) or Ruby Flare Pearl (red) add $475. Other colors are included.'},
+  phv:{base:F.base.phv, ladder:[
+    {name:'Weather Package', price:375, gets:[['wheelheat','Heated steering wheel'],['wipers','automatic wipers with de-icer']]},
+    {name:'JBL Premium Audio Package', price:620, gets:[['jbl','9-speaker JBL sound system']]},
+    {name:'Panoramic Moonroof Package', price:700, gets:[['roof','Panoramic glass roof (replaces the regular sunroof)'],['mirror','camera rearview mirror']]},
+    {name:'Driver Assist Package', price:1170, gets:[['park','Self-parking'],['hud','head-up display'],['shifter','toggle-switch gear selector'],[null,'paddle shifters']]},
+  ], paint:'<b>Paint:</b> only Midnight Black is included. Meteor Shower or Storm Cloud with a black roof add $500, or $975 for Wind Chill Pearl (white) with a black roof.'},
+};
+
+const CHECKLIST = [
+  ['Which packages does the car on the lot already have?','Compare the window sticker with the package prices in this guide. A car with packages you don’t want costs more, so ask whether one without them can be ordered or found.'],
+  ['What is the out-the-door price?','Ask for one number that includes destination fee, taxes, registration and dealer fees.'],
+  ['Are there dealer add-ons, and can they be removed?','Things like paint protection, window tint, or nitrogen in the tires are often added at a high markup.'],
+  ['Can I try the 360° camera on the test drive?','Park it yourself and watch the screen. Try the XLE Premium’s backup camera too, to compare.'],
+  ['Drive the XSE and Limited on a bumpy road.','The XSE’s 20-inch wheels ride firmer. See whether you notice.'],
+  ['Sit in the passenger seat and try the cooled seats.','Also check how easy it is to get in and out, and adjust the seats.'],
+  ['Wear polarized sunglasses while you try the head-up display and the camera mirror.',`Polarized lenses can dim or black out both when you tilt your head. Owners of earlier Toyotas report this; nobody has said yet whether the ${F.year} versions do.`],
+  F.notes.checkAssist,
+  ['Where would you charge the Plug-in?',`A regular outlet puts back about ${CHARGE.milesIn(CHARGE.ways[0],10)} miles in a 10-hour night. For more, ask an electrician whether your panel has room for a 240-volt circuit and what adding one would cost.`],
+  ['Ask how the Plug-in’s power outlet works in an outage.','Does the car have to stay on, will the engine start by itself to recharge the battery, and does the outlet work in cold weather?'],
+  ['Ask about tax credits and rebates for the Plug-in.','Some states and power companies offer money back on plug-in cars. The dealer or your electric company can tell you what applies.'],
+  ['What does service cost after ToyotaCare ends?','Free scheduled maintenance lasts only 1 year or 10,000 miles. Ask what the dealer charges after that, and whether its prepaid plan is worth it.'],
+  ['Check the window sticker for the exact packages on that car.','Dealers often stock cars with packages already added.'],
+];
+
+/* ===================== HELPERS ===================== */
+const $ = (s,el=document)=>el.querySelector(s);
+const ICON = {
+  std:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  opt:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
+  no:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 8h8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  nl:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.6 5.8a2.4 2.4 0 1 1 3.4 2.2c-.7.3-1 .8-1 1.5v.4M8 12.4v.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+};
+const WORD = {std:'Included', opt:'Optional', no:'Not offered', nl:'Not listed'};
+const pill = (s,txt)=>`<span class="pill ${s}">${ICON[s]}${txt||WORD[s]}</span>`;
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const featById = Object.fromEntries(FEATURES.map(f=>[f.id,f]));
+// Every per-trim list must have one entry per trim; say which one doesn't instead of failing mid-render.
+[...FEATURES.map(f=>['feature '+f.id,f.trims]), ...Object.entries(SPECIAL).map(([k,v])=>['priority '+k,v.trims])]
+  .forEach(([what,t])=>{ if(t.length!==TRIMS.length) console.error(`${what} lists ${t.length} trims; expected ${TRIMS.length}.`); });
+const store = {
+  get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch{return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
+};
+
+/* ===================== THEME ===================== */
+(function(){
+  const saved = store.get('rav4-theme',null);
+  if(saved) document.documentElement.dataset.theme = saved;
+  $('#themeBtn').addEventListener('click',()=>{
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme==='dark'
+      : matchMedia('(prefers-color-scheme: dark)').matches;
+    const next = dark?'light':'dark';
+    document.documentElement.dataset.theme = next; store.set('rav4-theme',next);
+  });
+})();
+
+/* ===================== SIDE-ARROW SLIDERS =====================
+   Each [data-sl] block shows as many trims as fit side by side, chosen from the slider's own width.
+   data-sl-max caps that count for cards whose content needs more room (the package ladders).
+   A hidden trim peeks in at the edge under an arrow button named for it. All sliders share one
+   offset, so the trim columns line up from section to section. */
+const VIEW = (function(){
+  // Widest first: cards shown, how much of a hidden neighbor peeks in, and the gap between cards (px).
+  const LAYOUTS = [
+    {min:1060, shown:4, peek:0,  gap:20},
+    {min:836,  shown:3, peek:48, gap:20},
+    {min:568,  shown:2, peek:40, gap:16},
+    {min:0,    shown:1, peek:28, gap:10},
+  ];
+  const ARROW = d=>`<span class="sl-arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="${d<0?'M12.5 4 6.5 10l6 6':'M7.5 4l6 6-6 6'}" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+  let off = 0;
+  const maxOf = new Map();
+  const sliders = [...document.querySelectorAll('[data-sl]')];
+  // A slider that can't scroll as far as the shared offset shows its last position; moving starts from there.
+  const move = (sl,dir)=>{ const max=maxOf.get(sl)||0; off=Math.min(Math.max(Math.min(off,max)+dir,0),max); apply(); };
+  sliders.forEach(sl=>{
+    sl.insertAdjacentHTML('beforeend',
+      `<button type="button" class="sl-btn sl-prev" data-dir="-1"></button><button type="button" class="sl-btn sl-next" data-dir="1"></button>`);
+    sl.addEventListener('click',e=>{
+      const b=e.target.closest('.sl-btn'); if(!b) return;
+      move(sl, +b.dataset.dir);
+      // The pressed button disappears at the end of the row; keep focus on this slider.
+      const other = sl.querySelector(b.classList.contains('sl-next')?'.sl-prev':'.sl-next');
+      if(b.hidden && other && !other.hidden) other.focus({preventScroll:true});
+    });
+    // Swipe sideways on touch screens. A mostly vertical drag stays a page scroll.
+    let x0=null, y0=0;
+    sl.addEventListener('touchstart',e=>{x0=e.touches[0].clientX; y0=e.touches[0].clientY},{passive:true});
+    sl.addEventListener('touchend',e=>{
+      if(x0==null) return;
+      const dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0; x0=null;
+      if(Math.abs(dx)>50 && Math.abs(dx)>1.5*Math.abs(dy)) move(sl, dx<0?1:-1);
+    },{passive:true});
+  });
+  function label(btn, i, dir, width){
+    const t = TRIMS[i], item = btn.parentElement.querySelector('.sl-track').children[i];
+    const flag = item && item.dataset.flag ? `<small>${esc(item.dataset.flag)}</small>` : '';
+    btn.hidden = false;
+    btn.style.width = width+'px';
+    btn.classList.toggle('slim', width<72);
+    btn.innerHTML = `<span class="sl-in">${ARROW(dir)}<span>${esc(t.name)}</span>${flag}</span>`;
+    btn.setAttribute('aria-label', `Show the ${t.name}${flag?' ('+item.dataset.flag+')':''}`);
+  }
+  function apply(){
+    sliders.forEach(sl=>{
+      const track=sl.querySelector('.sl-track'), items=[...track.children], n=items.length, w=sl.clientWidth;
+      const prev=sl.querySelector('.sl-prev'), next=sl.querySelector('.sl-next');
+      if(!n || !w){ prev.hidden=next.hidden=true; maxOf.set(sl,0); return; }
+      const cap=+sl.dataset.slMax||Infinity;
+      const L=LAYOUTS.find(l=>w>=l.min && l.shown<=cap), shown=Math.min(L.shown,n), max=n-shown, o=Math.min(off,max);
+      maxOf.set(sl,max);
+      // When something is hidden, room is kept for a peek on both sides, so a middle card has a
+      // neighbor showing at each edge. At either end, the one hidden side shows a wider slice.
+      const col = max ? (w - 2*L.peek - (shown+1)*L.gap)/shown : (w - (n-1)*L.gap)/n;
+      const step = col+L.gap, edge = 2*L.peek+L.gap;
+      const x = o===0 ? 0 : o===max ? edge + L.gap - max*step : L.peek + L.gap - o*step;
+      sl.style.setProperty('--col', col+'px'); sl.style.setProperty('--gap', L.gap+'px');
+      track.style.transform = x ? `translateX(${x}px)` : '';
+      items.forEach((el,i)=>{ const out = i<o || i>=o+shown; el.inert=out; el.classList.toggle('sl-out',out); });
+      // Each arrow covers the slice of its hidden neighbor, plus the 8px the button hangs past the edge.
+      if(o>0) label(prev, o-1, -1, (o===max?edge:L.peek)+8); else prev.hidden=true;
+      if(o<max) label(next, o+shown, 1, (o===0?edge:L.peek)+8); else next.hidden=true;
+    });
+  }
+  let raf=0;
+  const ro = new ResizeObserver(()=>{ cancelAnimationFrame(raf); raf=requestAnimationFrame(apply); });
+  sliders.forEach(sl=>ro.observe(sl));
+  return {refresh:apply};
+})();
+
+/* ===================== PICKER ===================== */
+(function(){
+  const chips = $('#chips'), scores = $('#scores'), wrap = $('#scoresSl'), note = $('#emptyNote');
+  let picked = new Set(store.get('rav4-picks',[]));
+  chips.innerHTML = PRIORITIES.map(p=>`<button type="button" class="chip" data-id="${p.id}" aria-pressed="${picked.has(p.id)}"><span class="tick" aria-hidden="true">✓</span>${esc(p.label)}</button>`).join('');
+  chips.addEventListener('click',e=>{
+    const b=e.target.closest('.chip'); if(!b) return;
+    const id=b.dataset.id; picked.has(id)?picked.delete(id):picked.add(id);
+    b.setAttribute('aria-pressed',picked.has(id)); store.set('rav4-picks',[...picked]); render();
+  });
+  function rowsFor(p){
+    if(p.special) return [{label:SPECIAL[p.special].label, trims:SPECIAL[p.special].trims}];
+    return p.feats.map(id=>({label:featById[id].name, trims:featById[id].trims, id}));
+  }
+  function render(){
+    const items = PRIORITIES.filter(p=>picked.has(p.id)).flatMap(rowsFor);
+    // de-dupe features shared by two priorities
+    const seen=new Set(); const rows=items.filter(r=>{const k=r.label; if(seen.has(k)) return false; seen.add(k); return true;});
+    note.hidden = rows.length>0; wrap.hidden = rows.length===0;
+    if(!rows.length){scores.innerHTML=''; VIEW.refresh(); return;}
+    const pts = TRIMS.map((t,i)=>rows.reduce((a,r)=>a+(r.trims[i][0]==='std'?1:r.trims[i][0]==='opt'?.5:0),0));
+    const max = Math.max(...pts);
+    scores.innerHTML = TRIMS.map((t,i)=>{
+      const std=rows.filter(r=>r.trims[i][0]==='std').length, opt=rows.filter(r=>r.trims[i][0]==='opt').length;
+      const rank={std:0,opt:1,nl:2,no:3};
+      const sorted=[...rows].sort((a,b)=>rank[a.trims[i][0]]-rank[b.trims[i][0]]);
+      const best=pts[i]===max&&max>0;
+      return `<div class="score ${best?'best':''}" ${best?'data-flag="Best match"':''}>
+        <h4><span style="color:${t.color}">${t.name}</span><span class="best-badge">Best match</span></h4>
+        <div class="meter" aria-hidden="true">${sorted.map(r=>`<i class="${r.trims[i][0]}"></i>`).join('')}</div>
+        <p class="small" style="margin:0 0 10px"><b>${std} of ${rows.length}</b> included${opt?`, ${opt} more as an option`:''}</p>
+        <ul>${sorted.map(r=>`<li>${pill(r.trims[i][0],{std:'Yes',opt:'Option',nl:'Not listed',no:'No'}[r.trims[i][0]])}<span>${r.id?`<a href="#f-${r.id}">${esc(r.label)}</a>`:esc(r.label)}</span></li>`).join('')}</ul>
+      </div>`;
+    }).join('');
+    VIEW.refresh();
+  }
+  render();
+})();
+
+/* ===================== PACKAGES ===================== */
+// The three callouts above the package cards, worked out from the package prices.
+(function(){
+  const loaded = id=>PACKAGES[id].base + PACKAGES[id].ladder.reduce((a,k)=>a+k.price,0);
+  const xse=loaded('xse'), ltd=PACKAGES.ltd.base, xle=loaded('xle'), xseBase=PACKAGES.xse.base, phv=loaded('phv'), top=PACKAGES.phv.ladder.at(-1);
+  if(xse<=ltd || xle>=xseBase) console.error('The package callouts no longer match the prices; rewrite them.', {xse, ltd, xle, xseBase});
+  $('#pkCallouts').innerHTML = `
+      <p class="pk-callout"><b>A fully loaded XSE costs more than a Limited.</b> With every package, the XSE comes to ${money(xse)}, which is ${money(xse-ltd)} more than a Limited. The Limited has all the same features plus heated back seats, a second phone charger and a softer ride. At that point the XSE only makes sense if you prefer its sporty look.</p>
+      <p class="pk-callout"><b>A fully loaded XLE Premium is still the cheapest.</b> With every package it comes to ${money(xle)}, which is ${money(xseBase-xle)} less than a base XSE. It gains the panoramic roof and the extra driver-assist features, but it can never get the 360° camera, cooled seats or the bigger screen.</p>
+      <p class="pk-callout"><b>The Plug-in XSE’s top package costs more, and adds more.</b> Its ${money(top.price)} ${esc(top.name)} includes the head-up display and paddle shifters along with self-parking. Fully loaded, the Plug-in XSE comes to ${money(phv)}.</p>`;
+})();
+(function(){
+  const saved = store.get('rav4-pk',{});
+  const level = Object.fromEntries(TRIMS.map(t=>[t.id, Number.isInteger(saved[t.id]) ? Math.min(Math.max(saved[t.id],0),PACKAGES[t.id].ladder.length) : 0]));
+  const grid = $('#pkGrid');
+  grid.innerHTML = TRIMS.map(t=>{
+    const p = PACKAGES[t.id];
+    const rungs = p.ladder.map((k,i)=>{
+      const before = p.ladder.slice(0,i);
+      const req = before.length ? `Also requires the ${before.length===1?'package':before.length+' packages'} above: ${money(before.reduce((a,b)=>a+b.price,0)+k.price)} together` : '';
+      return `<li class="rung" data-i="${i+1}"><button type="button" aria-pressed="false">
+        <span class="knob" aria-hidden="true"></span><span class="pn">${esc(k.name)}</span><span class="pp">+${money(k.price)}</span>
+        <span class="pc">${k.gets.map(([,txt])=>esc(txt)).join(', ')}</span>
+        ${req?`<span class="req">${req}</span>`:''}</button></li>`;
+    }).join('');
+    return `<article class="pk" style="--c:${t.color}" data-t="${t.id}">
+      <div class="pk-head"><h3>${t.name}</h3><p>Starts at ${money(p.base)}</p></div>
+      <ol class="ladder" aria-label="${t.name} packages, in the order Toyota requires them">
+        <li class="rung base on" data-i="0"><button type="button" aria-pressed="true"><span class="knob" aria-hidden="true"></span><span class="pn">No packages</span><span class="pp">${money(p.base)}</span><span class="pc">Everything listed as included for the ${t.name}.</span></button></li>
+        ${rungs}
+      </ol>
+      <div class="pk-total" aria-live="polite"></div>
+      <p class="pk-paint">${p.paint}</p>
+    </article>`;
+  }).join('');
+  function paint(tid){
+    const card = grid.querySelector(`[data-t="${tid}"]`), p = PACKAGES[tid], n = level[tid];
+    card.querySelectorAll('.rung').forEach(r=>{
+      const on = +r.dataset.i <= n; r.classList.toggle('on',on);
+      r.classList.toggle('next-on', +r.dataset.i < n);
+      r.querySelector('button').setAttribute('aria-pressed', +r.dataset.i===n);
+    });
+    const extra = p.ladder.slice(0,n).reduce((a,b)=>a+b.price,0);
+    const what = n===0 ? 'with no packages' : n===p.ladder.length ? 'with every package' : `with ${n} package${n>1?'s':''}`;
+    card.querySelector('.pk-total').innerHTML = `<span class="small">${TRIMS.find(t=>t.id===tid).name} ${what}</span>
+      <span class="big">${money(p.base+extra)}</span>
+      <span class="small">${money(p.base+extra+DESTINATION)} with the ${money(DESTINATION)} destination fee, before tax and registration</span>`;
+  }
+  grid.addEventListener('click',e=>{
+    const b =e.target.closest('.rung button'); if(!b) return;
+    const tid = b.closest('.pk').dataset.t; const i = +b.closest('.rung').dataset.i;
+    level[tid] = (level[tid]===i && i>0) ? i-1 : i;
+    store.set('rav4-pk',level); paint(tid);
+  });
+  TRIMS.forEach(t=>paint(t.id));
+  VIEW.refresh();
+})();
+
+/* ===================== MODEL YEAR: switch, hero and the year differences ===================== */
+(function(){
+  // The switch is two plain links, so each year has its own address. Switching remembers which
+  // section you were reading and how far into it, and the block at the end of this script puts you
+  // back there. (A raw pixel offset would drift, since the two years' pages differ in height.)
+  const rememberScroll = ()=>{
+    const secs = [...document.querySelectorAll('.nav a')].map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const cur = secs.filter(el=>el.getBoundingClientRect().top <= 120).at(-1);
+    const spot = cur ? {id:cur.id, dy:Math.round(scrollY - cur.offsetTop)} : {id:null, dy:Math.round(scrollY)};
+    try{ sessionStorage.setItem('rav4-scroll', JSON.stringify(spot)); }catch{}
+  };
+  const sw = $('#yearSwitch');
+  sw.innerHTML = Object.keys(YEAR_FACTS).sort().map(y=>`<a href="?year=${y}"${+y===F.year?' aria-current="page"':''}>${y}</a>`).join('');
+  sw.addEventListener('click',e=>{
+    const a = e.target.closest('a'); if(!a) return;
+    if(a.hasAttribute('aria-current')){ e.preventDefault(); return; }
+    rememberScroll();
+  });
+
+  // Text that names a year-specific fact: <span data-f="key">.
+  const TEXT = {year:String(F.year), range:String(F.range), specGaps:F.specGaps, sources:F.sources,
+    ...Object.fromEntries(TRIM_IDS.map(id=>['price.'+id, money(F.base[id])]))};
+  document.querySelectorAll('[data-f]').forEach(el=>{
+    const k = el.dataset.f;
+    if(Object.hasOwn(TEXT,k)) el.textContent = TEXT[k]; else console.error('No year fact named', k);
+  });
+  $('#mpgLine').innerHTML = `Gas mileage: ${hybridMpgList(F, s=>`<b>${s}</b>`)}, combined. The <b>Plug-in XSE</b> goes about <b>${F.range} miles</b> on a charge, then gets <b>${F.mpg.phv} mpg</b>.`;
+
+  // For any year other than the default, list what Toyota's pages give differently from the default year.
+  if(F.year === DEFAULT_YEAR) return;
+  const O = YEAR_FACTS[DEFAULT_YEAR];
+  const less = TRIM_IDS.map(id=>O.base[id]-F.base[id]);
+  const priceNote = new Set(less).size===1 && less[0]>0 ? ` (${money(less[0])} less on every trim)` : '';
+  const rows = [
+    ['Starting prices', f=>`${money(f.base.xle)} to ${money(f.base.phv)}`, priceNote],
+    ['Hybrid power', f=>`${f.hp.hyb} hp`],
+    ['Hybrid gas mileage, combined', f=>hybridMpgList(f)],
+    ['Plug-in power', f=>`${f.hp.phv} hp`],
+    ['Plug-in range on electricity', f=>`${f.range} miles (${f.mpge} MPGe)`],
+    ['Plug-in gas mileage, combined', f=>`${f.mpg.phv} mpg`],
+    ['Plug-in charging port', f=>f.port],
+    ['Free Remote Connect trial (lock, unlock and start the car from the Toyota app)', f=>f.trials.remote],
+    ['Free Drive Connect trial on the XSE, Limited and Plug-in (Traffic Jam Assist needs it)', f=>f.trials.drive],
+  ].filter(([,get])=>get(F)!==get(O));
+  const panel = $('#yearDiff');
+  panel.innerHTML = `
+    <h2 id="yearDiffT">How the ${F.year} differs from the ${O.year}</h2>
+    <p>The two years look the same and have nearly all the same features, and the option packages cost the same. These are the differences Toyota’s pages list.</p>
+    <table class="yd-table">
+      <thead><tr><td></td><th scope="col">${F.year}, shown on this page</th><th scope="col">${O.year}</th></tr></thead>
+      <tbody>${rows.map(([label,get,note])=>`<tr><th scope="row">${esc(label)}</th><td class="now">${esc(get(F))}${note?`<span class="small muted">${esc(note)}</span>`:''}</td><td>${esc(get(O))}</td></tr>`).join('')}</tbody>
+    </table>
+    <p>If a dealer still has a new ${F.year}, ask about a discount, since leftover cars are often marked down. <a href="?year=${O.year}">See the ${O.year} instead</a>.</p>`;
+  panel.hidden = false;
+  panel.querySelector(`a[href="?year=${O.year}"]`).addEventListener('click',rememberScroll);
+})();
+
+/* ===================== STEP UPS ===================== */
+function fillGain(sel,list,kind){
+  $(sel).innerHTML = list.map(([id,t,w])=>`<li class="${kind}"><a href="${id?'#f-'+id:'#top'}"><span class="mk" aria-hidden="true">${kind==='plus'?'+':'–'}</span><span><b>${esc(t)}</b><span class="why">${esc(w)}</span></span></a></li>`).join('');
+}
+fillGain('#gain1',STEP1_GAIN,'plus'); fillGain('#lose1',STEP1_LOSE,'minus');
+fillGain('#gain2',STEP2_GAIN,'plus'); fillGain('#lose2',STEP2_LOSE,'minus');
+fillGain('#gain3',STEP3_GAIN,'plus'); fillGain('#lose3',STEP3_LOSE,'minus');
+
+/* ===================== VISUALS ===================== */
+const VIS = {};
+
+// --- Backup camera vs 360 camera: pulled nose-first into a parking-lot space, sitting a little
+//     close to the right-hand line. Only the 360 camera can show the lines, the parking block and
+//     the cart beside you; the backup camera only sees the aisle behind, and only in reverse. ---
+VIS.cameraDemo = ()=>{
+  // Our car: x 258-358, y 46-282, front up. The stall around it runs x 225-375, so the car sits
+  // 33px from the left line and 17px from the right one.
+  const objs = [
+    {n:1,label:'Painted line on your left',            x:225,y:150, back:false, c:'#3F6E8F'},
+    {n:2,label:'Painted line on your right',           x:375,y:150, back:false, c:'#5B4FA0'},
+    {n:3,label:'Parking block in front of your bumper', x:364,y:28,  back:false, c:'#7A5C3B'},
+    {n:4,label:'Shopping cart in the next space',      x:458,y:150, back:false, c:'#2F7D5B'},
+    {n:5,label:'Person walking behind you',            x:396,y:402, back:true,  c:'#B0303F'},
+    {n:6,label:'Cars parked across the aisle',         x:310,y:442, back:true,  c:'#D08A12'},
+  ];
+  const car = (x,y,fill)=>`<rect x="${x}" y="${y}" width="100" height="236" rx="24" fill="${fill}"/><rect x="${x+12}" y="${y+38}" width="76" height="44" rx="10" fill="#2B3238" opacity=".55"/><rect x="${x+12}" y="${y+170}" width="76" height="38" rx="10" fill="#2B3238" opacity=".55"/>`;
+  const svg = `
+  <svg class="scene" viewBox="0 0 600 460" role="img" aria-labelledby="camT camD">
+    <title id="camT">Top-down view of a RAV4 pulled into a parking-lot space</title>
+    <desc id="camD">The RAV4 sits a little closer to the right-hand line than the left. The shaded area shows what the camera system can see. Numbered markers show the lines and objects around the car.</desc>
+    <defs>
+      <mask id="mBack"><rect width="600" height="460" fill="white"/><path d="M308 282 L128 460 L488 460 Z" fill="black"/></mask>
+      <mask id="m360"><rect width="600" height="460" fill="white"/><rect x="150" y="6" width="340" height="446" rx="70" fill="black"/></mask>
+      <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#202427"/><rect width="4" height="10" fill="#2E3438"/></pattern>
+    </defs>
+    <!-- asphalt, the curb at the head of the row, and the painted stalls -->
+    <rect width="600" height="460" fill="#7C837F"/>
+    <rect width="600" height="12" fill="#C9CBC2"/><rect y="12" width="600" height="4" fill="#E9E8DF"/>
+    <g stroke="#F4F4EE" stroke-width="5">${[75,225,375,525].map(x=>`<line x1="${x}" y1="16" x2="${x}" y2="296"/>`).join('')}</g>
+    <g fill="#B9B6AC">${[118,268,418].map(x=>`<rect x="${x}" y="22" width="80" height="12" rx="4"/>`).join('')}</g>
+    <!-- parked cars: one beside you, one two spaces over, two across the aisle -->
+    ${car(100,48,'#5B6168')}${car(550,48,'#3F6E8F')}
+    <rect x="160" y="430" width="100" height="120" rx="24" fill="#5B6168"/><rect x="360" y="430" width="100" height="120" rx="24" fill="#8A6F4E"/>
+    <!-- our RAV4 -->
+    <g>
+      <rect x="258" y="46" width="100" height="236" rx="26" fill="#ECEEEC" stroke="#202427" stroke-width="3"/>
+      <rect x="270" y="84" width="76" height="46" rx="10" fill="#5A7486"/>
+      <rect x="270" y="214" width="76" height="40" rx="10" fill="#5A7486"/>
+      <rect x="274" y="136" width="68" height="72" rx="8" fill="#D6DAD7"/>
+      <rect x="248" y="82" width="12" height="16" rx="3" fill="#202427"/><rect x="356" y="82" width="12" height="16" rx="3" fill="#202427"/>
+      <text x="308" y="178" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="17" fill="#202427">YOU</text>
+    </g>
+    <!-- shopping cart and a person walking behind -->
+    <g><rect x="406" y="176" width="48" height="56" rx="6" fill="none" stroke="#2F7D5B" stroke-width="5"/><path d="M412 192h36M412 206h36M412 220h36" stroke="#2F7D5B" stroke-width="3"/></g>
+    <g><ellipse cx="362" cy="388" rx="17" ry="10" fill="#B0303F"/><circle cx="362" cy="388" r="8" fill="#E2B48C"/></g>
+    <text x="16" y="322" font-family="Atkinson Hyperlegible" font-size="15" fill="#E9E8DF">parking aisle</text>
+    <!-- coverage overlays -->
+    <g id="ovBack" class="ov" style="transition:opacity .35s">
+      <rect width="600" height="460" fill="url(#hatch)" opacity=".62" mask="url(#mBack)"/>
+      <path d="M308 282 L128 460 L488 460 Z" fill="#F2B705" opacity=".22"/>
+      <path d="M308 282 L128 460 M308 282 L488 460" stroke="#F2B705" stroke-width="3" stroke-dasharray="8 6"/>
+      <circle cx="308" cy="282" r="7" fill="#F2B705" stroke="#202427" stroke-width="2"/>
+    </g>
+    <g id="ov360" class="ov" style="transition:opacity .35s;opacity:0">
+      <rect width="600" height="460" fill="url(#hatch)" opacity=".62" mask="url(#m360)"/>
+      <rect x="150" y="6" width="340" height="446" rx="70" fill="#F2B705" opacity=".16" stroke="#F2B705" stroke-width="3" stroke-dasharray="8 6"/>
+      ${[[308,46],[308,282],[254,90],[362,90]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="7" fill="#F2B705" stroke="#202427" stroke-width="2"/>`).join('')}
+    </g>
+    <!-- markers -->
+    ${objs.map(o=>`<g class="mk" data-n="${o.n}"><circle cx="${o.x}" cy="${o.y}" r="16" fill="${o.c}" stroke="#fff" stroke-width="3"/><text x="${o.x}" y="${o.y+6}" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="17" fill="#fff">${o.n}</text></g>`).join('')}
+  </svg>`;
+  const html = `
+  <div class="demo">
+    <div class="seg" role="group" aria-label="Camera type">
+      <button type="button" data-mode="back" aria-pressed="true">Backup camera (XLE Premium)</button>
+      <button type="button" data-mode="360" aria-pressed="false">360° camera (the other three)</button>
+    </div>
+    <div class="demo-cols">
+      <div>${svg}<p class="small muted" style="margin-top:8px">Yellow dots are cameras. The yellow zone is what you can see on the screen; the dark area is hidden.</p></div>
+      <div style="display:grid;gap:12px;align-content:start">
+        <div class="demo-summary" id="camSummary"></div>
+        <ul class="seelist" id="camList">${objs.map(o=>`<li data-n="${o.n}"><span class="dot" style="background:${o.c}">${o.n}</span>${esc(o.label)}<span class="st"></span></li>`).join('')}</ul>
+      </div>
+    </div>
+    <div class="photo-pair">
+      <figure><img src="img/backup-edmunds.jpg" data-full="img/full/backup-edmunds.jpg" alt="RAV4 center screen in reverse, showing the street behind the car with yellow, red and green guide lines" loading="lazy"><figcaption>What the XLE Premium’s backup camera shows on its 10.5-inch screen: only the area straight behind the car, with guide lines that bend as you turn the wheel. Photo: Edmunds.</figcaption></figure>
+      <figure><img src="img/RHV_MY27_0015_V001.jpg" data-full="img/full/RHV_MY27_0015_V001.jpg" alt="RAV4 dashboard screen showing an overhead view of the car on the left and a 3D view of the car on the right" loading="lazy"><figcaption>What the 360° camera on the other three shows on the screen: the overhead view on the left and a 3D view you can rotate on the right.</figcaption></figure>
+    </div>
+  </div>`;
+  return {html, init(root){
+    const objsBy = Object.fromEntries(objs.map(o=>[o.n,o]));
+    const set = mode=>{
+      root.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===mode));
+      root.querySelector('#ovBack').style.opacity = mode==='back'?1:0;
+      root.querySelector('#ov360').style.opacity = mode==='360'?1:0;
+      let seen=0;
+      root.querySelectorAll('#camList li').forEach(li=>{
+        const o=objsBy[li.dataset.n]; const vis = mode==='360' || o.back; if(vis) seen++;
+        li.classList.toggle('hidden',!vis);
+        li.querySelector('.st').innerHTML = vis?pill('std','Visible'):pill('no','Hidden');
+      });
+      root.querySelector('#camSummary').innerHTML = mode==='back'
+        ? `<b>Backup camera:</b> you see ${seen} of 6, and only once you shift into reverse. To check that you’re between the lines, or how close the parking block is, you have to open the door and look.`
+        : `<b>360° camera:</b> you see all 6 from above, pulling in <i>and</i> backing out. One look at the screen shows you’re a bit close to the right-hand line and just short of the parking block, without opening a door.`;
+    };
+    root.querySelector('.seg').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) set(b.dataset.mode);});
+    set('back');
+  }};
+};
+
+// --- Digital rearview mirror ---
+VIS.mirrorDemo = ()=>{
+  const road = `
+    <rect x="0" y="0" width="520" height="120" fill="#BFD7EA"/>
+    <rect x="0" y="70" width="520" height="70" fill="#7F9A6E"/>
+    <path d="M200 70 L320 70 L520 140 L0 140 Z" fill="#5E6468"/>
+    <path d="M258 72 L262 72 L270 140 L250 140 Z" fill="#F2B705"/>
+    <rect x="292" y="80" width="64" height="40" rx="9" fill="#B0303F"/><rect x="300" y="86" width="48" height="14" rx="4" fill="#3B4A57"/>
+    <circle cx="300" cy="112" r="4" fill="#FFE9A8"/><circle cx="348" cy="112" r="4" fill="#FFE9A8"/>
+    <rect x="150" y="76" width="40" height="26" rx="6" fill="#3F6E8F"/>`;
+  const html = `
+  <div class="demo" style="height:100%;align-content:center">
+    <div class="seg" role="group" aria-label="Mirror mode">
+      <button type="button" data-mode="glass" aria-pressed="true">Regular mirror</button>
+      <button type="button" data-mode="cam" aria-pressed="false">Camera mode</button>
+    </div>
+    <div class="mirror-wrap">
+      <svg class="mirror-svg" viewBox="0 0 560 190" role="img" aria-labelledby="mirT"><title id="mirT">View in the rearview mirror</title>
+        <defs><clipPath id="mclip"><rect x="20" y="20" width="520" height="120" rx="40"/></clipPath></defs>
+        <rect x="270" y="0" width="20" height="24" fill="#3A3F43"/>
+        <rect x="10" y="12" width="540" height="136" rx="48" fill="#2A2F33"/>
+        <g clip-path="url(#mclip)"><g transform="translate(20,20)">${road}</g>
+          <g id="mirGlass" style="transition:opacity .35s">
+            <path d="M20 20 H540 V140 H20 Z M110 46 Q280 30 450 46 L470 122 Q280 132 90 122 Z" fill="#3E4448" fill-rule="evenodd"/>
+            <rect x="140" y="88" width="80" height="60" rx="20" fill="#2B3034"/><rect x="340" y="88" width="80" height="60" rx="20" fill="#2B3034"/>
+            <circle cx="250" cy="96" r="30" fill="#6B5446"/><rect x="214" y="118" width="72" height="40" rx="18" fill="#5B6E8A"/>
+            <rect x="300" y="64" width="70" height="80" fill="#B88A54" stroke="#8C6224" stroke-width="3"/><rect x="368" y="80" width="56" height="64" fill="#C79A63" stroke="#8C6224" stroke-width="3"/>
+          </g>
+        </g>
+        <text x="280" y="176" text-anchor="middle" font-family="Atkinson Hyperlegible" font-size="15" fill="currentColor" id="mirCap"></text>
+      </svg>
+    </div>
+  </div>`;
+  return {html, init(root){
+    const set=m=>{
+      root.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===m));
+      root.querySelector('#mirGlass').style.opacity = m==='glass'?1:0;
+      root.querySelector('#mirCap').textContent = m==='glass'?'Headrests, a passenger and boxes block most of the view':'Clear, wide view of the road behind you';
+    };
+    root.querySelector('.seg').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) set(b.dataset.mode);});
+    set('glass');
+  }};
+};
+
+// --- Head-up display ---
+VIS.hudDemo = ()=>({html:`
+  <div class="mini-demo">
+    <svg viewBox="0 0 520 300" role="img" aria-labelledby="hudT"><title id="hudT">Speed and speed limit projected on the windshield above the hood</title>
+      <rect width="520" height="300" fill="#BFD7EA"/>
+      <rect y="150" width="520" height="150" fill="#7F9A6E"/>
+      <path d="M210 150 L310 150 L520 300 L0 300 Z" fill="#5E6468"/>
+      <path d="M250 220 L270 220 L276 280 L244 280 Z" fill="#F2B705"/>
+      <path d="M0 250 Q260 210 520 250 L520 300 L0 300 Z" fill="#2B3034"/>
+      <path d="M0 0 H520 V30 Q260 10 0 30 Z" fill="#2B3034"/>
+      <g opacity=".92">
+        <rect x="170" y="150" width="180" height="60" rx="10" fill="#0E2A3A" opacity=".35"/>
+        <text x="236" y="194" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="38" fill="#7FF2D2">45</text>
+        <text x="236" y="207" text-anchor="middle" font-family="Atkinson Hyperlegible" font-size="11" fill="#7FF2D2">mph</text>
+        <rect x="282" y="160" width="40" height="44" rx="5" fill="#fff" opacity=".9"/><text x="302" y="174" text-anchor="middle" font-size="8" font-family="Atkinson Hyperlegible" fill="#222">LIMIT</text><text x="302" y="197" text-anchor="middle" font-size="20" font-weight="800" font-family="Overpass" fill="#222">45</text>
+      </g>
+    </svg>
+    <p class="small muted" style="margin:0">Illustration: your speed and the speed limit float in your line of sight, above the hood.</p>
+  </div>`});
+
+// --- Screen sizes: a to-scale drawing beside the copy, then (as a full-width row under the card)
+//     the same crop from two dashboards shot from the same spot. A VIS may return `below` for such a row. ---
+VIS.screenPair = ()=>{
+  const W=v=>v*26, H=v=>v*26*0.42*1.45;
+  return {html:`
+  <div class="demo">
+    <svg class="scr-scale" viewBox="0 0 400 260" role="img" aria-labelledby="scrT"><title id="scrT">The 10.5-inch and 12.9-inch screens drawn to scale</title>
+      <g transform="translate(32,40)">
+        <rect width="${W(12.9)}" height="${H(12.9)}" rx="12" fill="var(--xse)" fill-opacity=".18" stroke="var(--xse)" stroke-width="3"/>
+        <rect x="0" y="${H(12.9)-H(10.5)}" width="${W(10.5)}" height="${H(10.5)}" rx="10" fill="var(--xle)" fill-opacity=".28" stroke="var(--xle)" stroke-width="3"/>
+        <text x="${W(12.9)-10}" y="26" text-anchor="end" font-family="Overpass" font-weight="800" font-size="20" fill="var(--xse)">12.9″ the other three</text>
+        <text x="12" y="${H(12.9)-14}" font-family="Overpass" font-weight="800" font-size="20" fill="var(--xle)">10.5″ XLE Premium</text>
+      </g>
+    </svg>
+    <p class="small muted" style="margin:0">Drawn to scale. The larger screen has about 50% more viewing area.</p>
+  </div>`, below:`
+  <div class="f-below">
+    <div class="photo-pair keep2">
+      <figure><img src="img/scr-xle.jpg" data-full="img/full/scr-xle.jpg" alt="The 10.5-inch center screen in the XLE Premium dashboard" loading="lazy"><figcaption>10.5-inch screen (XLE Premium)</figcaption></figure>
+      <figure><img src="img/scr-ltd.jpg" data-full="img/full/scr-ltd.jpg" alt="The 12.9-inch center screen in the Limited dashboard" loading="lazy"><figcaption>12.9-inch screen (XSE, Limited and Plug-in XSE)</figcaption></figure>
+    </div>
+    <p class="small muted" style="margin:0">Both photos are cut from the same spot in Toyota’s build-tool pictures, taken from the same camera position, so the size difference is real.</p>
+  </div>`};
+};
+
+// --- Wheels: sidewall comparison ---
+VIS.wheelDemo = ()=>({html:`
+  <div class="mini-demo">
+    <svg viewBox="0 0 440 240" role="img" aria-labelledby="whT"><title id="whT">An 18-inch wheel has a taller tire sidewall than a 20-inch wheel of the same overall size</title>
+      ${[[110,'18-inch wheel','More rubber cushion: softer ride',62,'var(--xle)'],[330,'20-inch wheel','Thinner tire: sportier, firmer',74,'var(--xse)']].map(([cx,t,s,r,c])=>`
+        <circle cx="${cx}" cy="100" r="92" fill="#2B3034"/>
+        <circle cx="${cx}" cy="100" r="${r}" fill="#A9B0B4" stroke="#fff" stroke-width="3"/>
+        ${[0,72,144,216,288].map(a=>`<rect x="${cx-5}" y="${100-r+6}" width="10" height="${r-12}" rx="4" fill="#7C8488" transform="rotate(${a} ${cx} 100)"/>`).join('')}
+        <circle cx="${cx}" cy="100" r="14" fill="#5B6168"/>
+        <path d="M${cx+r} 100 H${cx+92}" stroke="var(--lane)" stroke-width="5"/>
+        <text x="${cx}" y="214" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="18" fill="${c}">${t}</text>
+        <text x="${cx}" y="230" text-anchor="middle" font-family="Atkinson Hyperlegible" font-size="13" fill="currentColor">${s}</text>`).join('')}
+    </svg>
+    <p class="small muted" style="margin:0">Same overall tire height, different wheel size. The yellow line marks the tire sidewall that cushions bumps.</p>
+  </div>`});
+
+// --- Roof options: the same interior photo from Toyota's build tool for each trim ---
+VIS.roofPhotos = ()=>{
+  const MODES = {
+    solid:{label:'Solid roof', img:'roof-xle', alt:'XLE Premium interior with a solid roof',
+      text:'<b>XLE Premium, as standard:</b> a solid roof. Light comes in only through the windows.'},
+    sun:{label:'Regular sunroof', img:'roof-xse', alt:'XSE interior with a regular sunroof over the front seats',
+      text:'<b>Both XSEs, as standard:</b> a glass panel over the front seats that tilts up or slides back. The back seat stays under a solid roof.'},
+    pano:{label:'Panoramic roof', img:'roof-ltd', alt:'Limited interior with a panoramic glass roof over both rows',
+      text:'<b>Limited, or as a package on the others:</b> glass over both rows. The front section opens and the back stays fixed. A power shade slides across underneath at the press of a button when you want to block the sun.'},
+  };
+  const html = `
+  <div class="demo">
+    <div class="seg" role="group" aria-label="Roof type">
+      ${Object.entries(MODES).map(([k,m],i)=>`<button type="button" data-mode="${k}" aria-pressed="${i===0}">${m.label}</button>`).join('')}
+    </div>
+    <figure class="roof-photo"><img id="roofImg" src="img/${MODES.solid.img}.jpg" data-full="img/full/${MODES.solid.img}.jpg" alt="${MODES.solid.alt}" loading="lazy"><figcaption id="roofCap"></figcaption></figure>
+    <div class="demo-summary" id="roofSummary" aria-live="polite"></div>
+  </div>`;
+  return {html, init(root){
+    // Warm the cache so switching is instant.
+    Object.values(MODES).forEach(m=>{ new Image().src=`img/${m.img}.jpg`; });
+    const set=k=>{
+      const m=MODES[k], img=root.querySelector('#roofImg');
+      root.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===k));
+      img.src=`img/${m.img}.jpg`; img.dataset.full=`img/full/${m.img}.jpg`; img.alt=m.alt;
+      const zb=img.closest('.zoom'); if(zb) zb.setAttribute('aria-label','Expand photo: '+m.alt);
+      root.querySelector('#roofCap').textContent = m.alt+'. The same view in each RAV4, from Toyota’s build tool.';
+      root.querySelector('#roofSummary').innerHTML = m.text;
+    };
+    root.querySelector('.seg').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) set(b.dataset.mode);});
+    set('solid');
+  }};
+};
+
+// --- Plug-in: how much of a day's driving runs on electricity ---
+// --- Plug-in: how one day splits between electricity and gas, then gas and electricity cost over
+//     5 years against the Hybrid XSE. Starting prices are for Montgomery County, Texas (sources in
+//     the footer). ---
+VIS.evDemo = ()=>{
+  const RANGE=F.range, MPG_PHEV=F.mpg.phv, MPG_XSE=F.mpg.xse, YEARS=5;
+  const KWH_PER_MILE = CHARGE.kwhPerMile;
+  const NIGHT = 10;
+  const fullHrs = CHARGE.ways.map(w=>CHARGE.hours(w,RANGE)), slowest = Math.max(...fullHrs);
+  const PREMIUM = PACKAGES.phv.base - PACKAGES.xse.base;
+  const money = n=>'$'+(Math.round(n/10)*10).toLocaleString('en-US');
+  const slider = (id,label,min,max,step,val)=>`<div><label for="${id}">${label}: <span id="${id}Out"></span></label><input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}" aria-describedby="evSave"></div>`;
+  return {html:`
+  <div class="demo ev-demo">
+    <label for="evMiles">A typical day of driving: <span id="evOut"></span> miles</label>
+    <input type="range" id="evMiles" min="5" max="120" step="5" value="30" aria-describedby="evSum">
+    <div class="ev-bar" aria-hidden="true"><span class="e"></span><span class="g"></span></div>
+    <div class="ev-key" aria-hidden="true"><span><i style="background:var(--phv)"></i>On electricity</span><span><i style="background:var(--no)"></i>On gas, as a regular hybrid</span></div>
+    <p class="demo-summary" id="evSum" aria-live="polite"></p>
+    <p class="small muted" style="margin:0">Starting each day with a full charge, using Toyota’s EPA estimates: ${RANGE} miles on electricity, then ${MPG_PHEV} mpg. Cold weather, highway speeds and running the heater shorten the electric range.</p>
+    <section class="ev-block" aria-labelledby="chgT">
+      <h5 id="chgT">How long charging takes, from empty to full</h5>
+      <div class="cost-rows chg-rows" id="chgRows">
+        ${CHARGE.ways.map((w,i)=>`<div class="cost-row" style="--c:var(--phv)"><span>${w.name}</span><span class="bar" aria-hidden="true"><span style="width:${fullHrs[i]/slowest*100}%"></span></span><b>${fmtHours(fullHrs[i]).replace(/ hours?$/,' hr')}</b></div>`).join('')}
+      </div>
+      <p class="demo-summary" id="chgSum" aria-live="polite"></p>
+      <ul class="chg-need">
+        <li><b>Regular outlet.</b> Plug the cable that comes with the car into any household outlet. Nothing to install.</li>
+        <li><b>240 V, 20 amps.</b> An electrician adds a 240-volt circuit and a wall charger. The smaller circuit costs less and can fit when the electrical panel is nearly full.</li>
+        <li><b>240 V, 40 amps.</b> A bigger circuit, the size an electric stove uses. The car’s cable also works on a 240-volt outlet, or use a wall charger.</li>
+      </ul>
+      <p class="small muted" style="margin:0">Worked out from Toyota’s EPA figures: a full charge takes about ${Math.round(CHARGE.wallKwh*10)/10} kWh from the wall, plus about 10% because the last stretch of a charge goes slower. A charger can draw only 80% of a circuit’s rating for hours at a time, so a 20-amp circuit charges at 16 amps and a 40-amp circuit at 32. The car itself can take up to 11 kW, more than any of these supply, so the outlet sets the speed. Cold weather slows charging.</p>
+    </section>
+    <section class="ev-block" aria-labelledby="evCostT">
+      <h5 id="evCostT">Fuel cost over ${YEARS} years, against a Hybrid XSE</h5>
+      <div class="ev-sliders">
+        ${slider('evDays','Days you drive a year',100,365,5,300)}
+        ${slider('evGas','Gas, per gallon',2.5,5.5,0.01,3.37)}
+        ${slider('evKwh','Home electricity, per kWh',8,40,1,15)}
+      </div>
+      <div class="cost-rows" aria-hidden="true">
+        <div class="cost-row" style="--c:var(--xse)"><span>Hybrid XSE</span><span class="bar"><span id="evBarH"></span></span><b id="evCostH"></b></div>
+        <div class="cost-row" style="--c:var(--phv)"><span>Plug-in XSE</span><span class="bar"><span id="evBarP"></span></span><b id="evCostP"></b></div>
+      </div>
+      <p class="demo-summary" id="evSave" aria-live="polite"></p>
+      <p class="small muted" style="margin:0">Uses the miles per day above and assumes you charge at home every night. Prices start at $3.37 a gallon (AAA’s Montgomery County average, November 16, 2026) and 15¢ per kWh (about what Montgomery County homes pay, delivery included, per EnergySage in October 2026). Only gas and electricity are counted, not insurance, upkeep or rebates.</p>
+    </section>
+  </div>`, init(root){
+    const $in = id=>root.querySelector('#'+id);
+    const inp=$in('evMiles'), days=$in('evDays'), gas=$in('evGas'), kwh=$in('evKwh');
+    const gal=n=>n<0.05?'no':n.toFixed(1);
+    const set=()=>{
+      const m=+inp.value, e=Math.min(m,RANGE), g=m-e;
+      $in('evOut').textContent=m;
+      root.querySelector('.ev-bar .e').style.flexGrow=e; root.querySelector('.ev-bar .g').style.flexGrow=g;
+      $in('evSum').innerHTML = g===0
+        ? `<b>All ${m} miles on electricity.</b> The Plug-in uses no gas. A Hybrid XSE would use about ${gal(m/MPG_XSE)} gallons.`
+        : `<b>The first ${RANGE} miles on electricity, the last ${g} on gas.</b> The Plug-in uses about ${gal(g/MPG_PHEV)} gallons. A Hybrid XSE would use about ${gal(m/MPG_XSE)}.`;
+      const [h1,h20,h40] = CHARGE.ways.map(w=>CHARGE.hours(w,e));
+      const what = g===0 ? `To put back today’s ${m} miles` : `To refill the battery after today’s drive`;
+      const night = h1<=NIGHT
+        ? 'A regular outlet handles that overnight.'
+        : `A regular outlet can’t do that overnight: ${NIGHT} hours puts back ${CHARGE.milesIn(CHARGE.ways[0],NIGHT)===RANGE?'a full charge':`about ${CHARGE.milesIn(CHARGE.ways[0],NIGHT)} miles`}. Either 240-volt option can.`;
+      $in('chgSum').innerHTML = `<b>${what}: about ${fmtHours(h1)} from a regular outlet</b>, ${fmtHours(h20)} at 20 amps, or ${fmtHours(h40)} at 40 amps. ${night}`;
+
+      const d=+days.value, gp=+gas.value, ep=+kwh.value/100;
+      $in('evDaysOut').textContent=d;
+      $in('evGasOut').textContent='$'+gp.toFixed(2);
+      $in('evKwhOut').textContent=kwh.value+'¢';
+      const hyb = YEARS*d*(m/MPG_XSE*gp);
+      const phv = YEARS*d*(e*KWH_PER_MILE*ep + g/MPG_PHEV*gp);
+      const top = Math.max(hyb,phv,1);
+      $in('evBarH').style.width = hyb/top*100+'%'; $in('evBarP').style.width = phv/top*100+'%';
+      $in('evCostH').textContent = money(hyb); $in('evCostP').textContent = money(phv);
+      const save = hyb-phv;
+      // Why more miles can mean less savings: electric miles cost more than the Hybrid's gas miles, or
+      // (past the electric range) both cars burn gas and the Plug-in gets 1 mpg less (both years).
+      const saves = save >= 5;
+      const why = KWH_PER_MILE*ep > gp/MPG_XSE
+        ? ` At this electricity price, a mile on electricity costs more than a mile on gas in the Hybrid, so ${saves?'driving more cuts into the savings':'the gap grows the more you drive'}.`
+        : g>0 ? ` Past ${RANGE} miles both cars run on gas, and the Plug-in gets ${MPG_XSE-MPG_PHEV} mpg less, so longer days ${saves?'shave a little off the savings':'add a little to its cost'}.` : '';
+      if(!saves){
+        $in('evSave').innerHTML = `<b>No fuel savings at these numbers.</b> The Plug-in would cost about ${money(-save)} more to fuel over ${YEARS} years, and it costs ${money(PREMIUM)} more to buy.${why}`;
+      } else {
+        const yrs = Math.round(PREMIUM/(save/YEARS));
+        const back = yrs>20 ? 'more than 20 years' : `about ${Math.max(yrs,1)} year${yrs>1?'s':''}`;
+        $in('evSave').innerHTML = `<b>The Plug-in saves about ${money(save)} over ${YEARS} years</b> (${money(save/YEARS)} a year). It costs ${money(PREMIUM)} more to buy, so the fuel savings take ${back} to make that back.${why}`;
+      }
+    };
+    [inp,days,gas,kwh].forEach(i=>i.addEventListener('input',set)); set();
+  }};
+};
+
+// --- Plug-in outlet in a power outage: pick appliances, see the load against the outlet's limit and
+//     a rough run time on the battery alone. ---
+VIS.outageDemo = ()=>{
+  const LIMIT=1500;
+  // Toyota doesn't publish how much of the 22.7 kWh battery is usable, so work it out from the EPA
+  // figures. For 2027, a full charge takes about 50 miles x 33.7/102 = 16.5 kWh from the wall. Less
+  // charging losses (about 10%), that's about 15 kWh in the battery, and about 13.5 kWh at the outlet
+  // after its power converter (assumed 90% efficient). Rounded to the nearest half kWh.
+  const OUTLET_KWH = Math.round(CHARGE.wallKwh*0.9*0.9*2)/2;
+  // Typical draws. The refrigerator and freezer are averages, since their compressors cycle.
+  const APPS=[
+    {id:'fridge', name:'Refrigerator', w:70, on:true},
+    {id:'wifi', name:'Wi-Fi router and modem', w:20, on:true},
+    {id:'phones', name:'Phones charging', w:20, on:true},
+    {id:'lamps', name:'Three LED lamps', w:30, on:true},
+    {id:'freezer', name:'Chest freezer', w:40},
+    {id:'cpap', name:'CPAP machine', w:60},
+    {id:'laptop', name:'Laptop', w:60},
+    {id:'fan', name:'Box fan', w:75},
+    {id:'tv', name:'TV', w:100},
+    {id:'ac', name:'Small window air conditioner', w:500},
+    {id:'heater', name:'Space heater on high', w:1500},
+  ];
+  const fmtW = n=>n.toLocaleString('en-US')+' W';
+  return {html:`
+  <div class="demo outage-demo">
+    <p class="ap-q" id="apQ">What would you plug in during an outage?</p>
+    <div class="chips ap-chips" role="group" aria-labelledby="apQ">${APPS.map(a=>`<button type="button" class="chip" data-id="${a.id}" aria-pressed="${!!a.on}"><span class="tick" aria-hidden="true">✓</span>${esc(a.name)} <small>${fmtW(a.w)}</small></button>`).join('')}</div>
+    <div class="ap-meter" aria-hidden="true">
+      <div class="ap-track"><span class="ap-fill"></span></div>
+      <div class="ap-scale"><span>Plugged in: <b id="apW"></b></span><span>Outlet limit: ${fmtW(LIMIT)}</span></div>
+    </div>
+    <p class="demo-summary" id="apSum" aria-live="polite"></p>
+    <p class="small muted" style="margin:0">A rough estimate. Toyota doesn’t say how much of the 22.7 kWh battery the outlet can use, so this assumes about ${OUTLET_KWH} kWh, worked out from Toyota’s ${F.range}-mile range and ${F.mpge} MPGe. Wattages are typical; the label on your own appliance gives the real number. The car has to be switched on for the outlet to work. On the earlier RAV4 Prime, Toyota’s manual says to let the engine run in Park to recharge a low battery, which would stretch this a long way on a tank of gas. If you ever do that, keep the car outdoors, never in a garage: engine exhaust is deadly indoors.</p>
+  </div>`, init(root){
+    const chips=[...root.querySelectorAll('.ap-chips .chip')];
+    const byId=Object.fromEntries(APPS.map(a=>[a.id,a]));
+    // Run time as the start of a sentence: "Less than an hour", "About 9 hours", "About 4½ days".
+    const runTime = h=>{
+      if(h<1) return 'Less than an hour';
+      if(h<36) return `About ${Math.round(h)} hour${Math.round(h)>1?'s':''}`;
+      const d=Math.round(h/24*2)/2;
+      return `About ${Math.floor(d)}${d%1?'½':''} days`;
+    };
+    const set=()=>{
+      const on=chips.filter(c=>c.getAttribute('aria-pressed')==='true').map(c=>byId[c.dataset.id]);
+      const W=on.reduce((t,a)=>t+a.w,0), over=W>LIMIT;
+      root.querySelector('.ap-meter').classList.toggle('over',over);
+      root.querySelector('.ap-fill').style.width=Math.min(W/LIMIT,1)*100+'%';
+      root.querySelector('#apW').textContent=fmtW(W);
+      root.querySelector('#apSum').innerHTML =
+        !W ? 'Tap a few things above to see how long the battery could run them.'
+        : over ? `<b>${fmtW(W)} is more than the outlet’s ${fmtW(LIMIT)}.</b> It would shut off. Unplug something, or run the big items one at a time.`
+        : `<b>${runTime(OUTLET_KWH*1000/W)} on the battery alone</b> for ${fmtW(W)} of appliances, running nonstop.`;
+    };
+    root.querySelector('.ap-chips').addEventListener('click',e=>{const b=e.target.closest('.chip'); if(!b) return; b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true'); set();});
+    set();
+  }};
+};
+
+/* ===================== FEATURE LIST ===================== */
+// Side-by-side photos of the same view in each trim, from Toyota's build tool.
+const trio = s=>`<div class="trio"><h5>${esc(s.title)}</h5><div class="trio-grid">${TRIMS.map((t,i)=>`
+  <figure style="--c:${t.color};--ar:${s.ar}"><img src="img/${s.kind}-${t.id}.jpg" data-full="img/full/${s.kind}-${t.id}.jpg" alt="${esc(t.name+': '+s.caps[i])}" loading="lazy">
+  <figcaption><b>${t.name}</b>${esc(s.caps[i])}</figcaption></figure>`).join('')}</div></div>`;
+(function(){
+  const groups=[...new Set(FEATURES.map(f=>f.group))];
+  const slug=g=>'g-'+g.toLowerCase().replace(/[^a-z]+/g,'-');
+  $('#groupNav').innerHTML = groups.map(g=>`<a href="#${slug(g)}">${esc(g)}</a>`).join('');
+  const inits=[];
+  $('#featureList').innerHTML = groups.map(g=>`
+    <div class="fgroup" id="${slug(g)}"><h3>${esc(g)}</h3>
+    ${FEATURES.filter(f=>f.group===g).map(f=>{
+      let vis='', below='';
+      if(f.visual){const v=VIS[f.visual](); vis=`<div class="f-vis" data-vis="${f.id}">${v.html}</div>`; if(v.init) inits.push([f.id,v.init]); below=v.below||'';}
+      else if(f.img){vis=`<div class="f-vis"><figure><img src="${f.img}" data-full="${f.img.replace('img/','img/full/')}" alt="${esc(f.cap)}" loading="lazy"><figcaption>${esc(f.cap)}</figcaption></figure></div>`;}
+      return `<article class="feature ${vis?'':'no-visual'} ${f.wide?'wide':''} ${f.compact?'compact':''}" id="f-${f.id}">
+        <div class="f-text">
+          <h4>${esc(f.name)}</h4>
+          <p class="aka">Toyota calls it <i>${esc(f.aka)}</i></p>
+          <p>${f.what}</p>
+          <p class="why"><b>Why it matters</b>${f.why}</p>
+        </div>${vis}
+        <div class="avail">${TRIMS.map((t,i)=>{const [s,n]=f.trims[i]; return `<div style="--c:${t.color}"><span class="tn">${t.name}</span>${pill(s)}${n?`<span class="note">${esc(n)}</span>`:''}</div>`}).join('')}</div>${below}${f.shots?trio(f.shots):''}
+      </article>`;}).join('')}
+    </div>`).join('');
+  inits.forEach(([id,fn])=>fn($(`[data-vis="${id}"]`)));
+})();
+
+/* ===================== BASICS ===================== */
+$('#basicsList').innerHTML = BASICS.map(([b,s])=>`<div class="basic"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join('');
+
+/* ===================== SPEC TABLE ===================== */
+// Toyota repeats some long lines once per trim with small changes. Each merge below replaces those
+// lines (matched by Toyota's exact wording in `from`) with one row. Cells chain off the trim before
+// them only when that trim purely adds things; anything a trim loses is said outright. The table
+// always shows all four columns, so "Same as XSE" stays readable.
+// `opt` is an upgrade you can add to that trim. If Toyota's wording ever changes and a line in
+// `from` is missing, that merge is skipped and the original lines show instead.
+// A `from` entry can be a list of wordings: the first one found is used (Toyota's 2026 and 2027 pages
+// word some lines differently). A null at the end of the list means the line may be missing.
+// `years` limits a merge to the model years whose pages need it.
+const SPEC_MERGES = [
+  {cat:'Outside', label:'Windshield wipers', common:'Intermittent rear wiper on all four.',
+   from:['Variable intermittent windshield wipers and intermittent rear window wiper',
+         'Rain-sensing variable intermittent windshield wipers with de-icer function and intermittent rear window wiper'],
+   cells:[{t:'Variable intermittent wipers', opt:'Rain-sensing, with de-icer (Weather Package)'},
+          {t:'Same as XLE Premium', opt:'Rain-sensing, with de-icer (Weather Package)'},
+          {t:'Rain-sensing, with de-icer'},
+          {t:'Variable intermittent wipers', opt:'Rain-sensing, with de-icer (Weather Package)'}]},
+  {cat:'Outside', label:'Bumper and fender trim', common:'Upper front bumper in the body color on all four.',
+   from:['Color-keyed upper front bumper, and satin-black lower front bumper, overfenders and rear bumper',
+         'Color-keyed upper front bumper, silver-painted rear bumper, piano-black overfenders and lower front bumper',
+         'Color-keyed upper front bumper, satin black overfenders, silver-painted lower front bumper and rear bumper',
+         'Color-keyed upper front bumper, piano black overfenders and lower front bumper',
+         'Wide overfenders with black cladding and an ascending belt line with chiseled body panels'],
+   cells:[{t:'Satin black lower front bumper, fender flares and rear bumper'},
+          {t:'Glossy black lower front bumper and fender flares; silver rear bumper'},
+          {t:'Satin black fender flares; silver lower front bumper and rear bumper'},
+          {t:'Glossy black lower front bumper and fender flares. Toyota doesn’t describe the rear bumper.'}]},
+  {cat:'Outside', label:'Power liftgate', common:'Power liftgate with jam protection on all four.',
+   from:['Height-adjustable power liftgate with jam protection','Hands-free power liftgate with jam protection'],
+   cells:[{t:'Opening height can be set'},
+          {t:'Opens hands-free with a foot swipe. Toyota doesn’t list the height setting.'},
+          {t:'Same as XSE'},
+          {t:'Same as XSE'}]},
+  {cat:'Outside', label:'Wheels',
+   from:['18-in. dark gray metallic wheels','20-in. multi-spoke black sport alloy wheels with black lug nuts',
+         '18-in. machined 5-spoke dark gray metallic wheels','20-in. multi-spoke machined black wheels'],
+   cells:[{t:'18-in. dark gray'},
+          {t:'20-in. black, with black lug nuts'},
+          {t:'18-in. machined 5-spoke dark gray', opt:'20-in. machined black (20-In. Wheel Package)'},
+          {t:'20-in. black, with black lug nuts'}]},
+  {cat:'Outside', label:'Sunroof',
+   from:['Power tilt/slide moonroof with one-touch open/close','Panoramic tilt/slide panoramic moonroof'],
+   cells:[{t:'Solid roof', opt:'Panoramic glass roof (Panoramic Moonroof Package)'},
+          {t:'Sunroof over the front seats; tilts and slides, one-touch open and close', opt:'Panoramic glass roof instead (Panoramic Moonroof Package)'},
+          {t:'Panoramic glass roof; the front section tilts and slides'},
+          {t:'Sunroof over the front seats; tilts and slides, one-touch open and close', opt:'Panoramic glass roof instead (Panoramic Moonroof Package)'}]},
+  {cat:'Outside', label:'Grille', common:'Body-colored grille on all four.',
+   from:['Body-colored grille','Body-colored grille with dark chrome accents','Body-colored grille with satin chrome accents'],
+   cells:[{t:'No accents'},{t:'Dark chrome accents'},{t:'Satin chrome accents'},{t:'Dark chrome accents'}]},
+  {cat:'Outside', label:'Outside mirrors', common:'Glossy black, heated and power-adjusted, with turn signals and blind spot warning lights on all four.',
+   from:['Piano-black heated power outside mirrors with turn signal and blind spot warning indicators',
+         'Piano-black heated power outside mirrors with turn signal and blind spot warning indicators, and puddle lights'],
+   cells:[{t:'No puddle lights'},{t:'XLE Premium plus puddle lights'},{t:'Same as XSE'},{t:'Same as XSE'}]},
+  {cat:'Inside', label:'Wireless phone charging', common:'Qi-compatible, with a charge indicator light.',
+   from:['Single Qi-compatible wireless charging with charge indicator light','Dual Qi-compatible wireless charging with charge indicator light'],
+   cells:[{t:'1 charging pad'},{t:'1 charging pad'},{t:'2 charging pads'},{t:'1 charging pad'}]},
+  {cat:'Inside', label:'Interior lights', common:'A cargo area light on all four.',
+   from:['LED front-seat reading lights, dome light and cargo area light','Cargo area light'],
+   cells:[{t:'LED reading lights up front and a dome light'},{t:'Same as XLE Premium'},{t:'Same as XLE Premium'},
+          {t:'Front map lights (listed with the overhead console). Toyota doesn’t mention a dome light.'}]},
+  {cat:'Inside', label:'Center console', common:'Covered storage, a reversible armrest tray, two cupholders, a front storage tray, and parking brake and Brake Hold buttons on all four.',
+   from:['Center console with covered storage compartment, reversible armrest/console tray, two cup holders, drive mode (Trail, Snow, Normal and EV Mode ), auto LSD/VSC, Electric Parking Brake (EPB) and automatic Brake Hold controls, and front storage tray',
+         ['Center console with covered storage compartment, reversible armrest/console tray, two cup holders, drive mode (snow, normal and EV mode), Electric Parking Brake (EPB) and automatic Brake Hold controls, and front storage tray',
+          'Center console with covered storage compartment, reversible armrest/console tray, two cup holders, drive mode (trail, snow, normal and EV mode), auto LSD/VSC, Electric Parking Brake (EPB) and automatic Brake Hold controls, and front storage tray']],
+   cells:[{t:'Drive mode buttons include Trail, plus an auto LSD/VSC button'},{t:'Same as XLE Premium'},{t:'Same as XLE Premium'},
+          {t:F.notes.consolePhv}]},
+  {cat:'Inside', label:'Gear selector',
+   from:['Leather-trimmed shift lever with sequential mode','Toggle shift-by-wire shifter lever','Sport paddle shifters'],
+   cells:[{t:'Leather-trimmed lever'},
+          {t:'Same as XLE Premium', opt:'Toggle switch instead (XSE Driver Assist Package)'},
+          {t:'Toggle switch; no lever'},
+          {t:'Same as XLE Premium', opt:'Toggle switch and paddle shifters (Driver Assist Package)'}]},
+  {cat:'Inside', label:'Seats', common:'SofTex synthetic leather, 8-way power driver’s seat with lumbar support, and a seatback pocket on all four.',
+   from:['SofTex®-trimmed seats, heated front seats (high-low); 8-way power-adjustable driver\'s seat with lumbar support; 6-way manual front passenger seat with seatback pocket',
+         'SofTex®/synthetic suede-trimmed seats, heated and ventilated front seats (high-mid-low); 8-way power-adjustable driver\'s seat with memory function and lumbar support; 8-way power front passenger seat with seatback pocket',
+         'SofTex®-trimmed seats, heated and ventilated front seats (high-mid-low), heated rear seats (on-off); 8-way power-adjustable driver\'s seat with memory function and lumbar support; 8-way power front passenger seat with seatback pocket',
+         ['Mixed Media/SofTex-trimmed seats, heated and ventilated front seats (high-mid-low); 8-way power-adjustable driver\'s seat with memory function and lumbar support; 8-way power front passenger seat with seatback pocket',
+          'Mixed Media/SofTex®-trimmed seats, heated and ventilated front seats (high-mid-low); 8-way power-adjustable driver\'s seat with memory function and lumbar support; 8-way power front passenger seat with seatback pocket']],
+   cells:[{t:'Heated front seats (2 levels); 6-way manual passenger seat'},
+          {t:'XLE Premium plus suede-like inserts, cooled front seats with 3 heat levels, driver’s seat memory, and an 8-way power passenger seat'},
+          {t:'Same as XSE without the suede-like inserts, plus heated back seats'},
+          {t:'Same as XSE. Toyota’s Plug-in page calls the trim “Mixed Media”.'}]},
+  {cat:'Inside', label:'Power outlets',
+   from:['One 12V/120W auxiliary power outlet in front instrument panel storage tray and one 12V/120W auxiliary power outlet in cargo area',
+         'One 12V/120W auxiliary power outlet in front instrument panel storage tray',
+         'One 120V/1500W AC power outlet in cargo area'],
+   cells:[{t:'12-volt sockets up front and in the cargo area'},{t:'Same as XLE Premium'},{t:'Same as XLE Premium'},
+          {t:'12-volt socket up front; household-style 120-volt, 1,500-watt outlet in the cargo area'}]},
+  {cat:'Inside', label:'Inside rearview mirror',
+   from:['Day/night rearview mirror','Auto-dimming rearview mirror with HomeLink® universal transceiver','Digital rearview mirror with HomeLink® universal transceiver'],
+   cells:[{t:'Manual day/night flip tab', opt:'Camera mirror with garage door opener (Panoramic Moonroof Package)'},
+          {t:'Auto-dimming, with garage door opener', opt:'Camera mirror (Panoramic Moonroof Package)'},
+          {t:'Camera mirror, with garage door opener'},
+          {t:'Auto-dimming, with garage door opener', opt:'Camera mirror (Panoramic Moonroof Package)'}]},
+  {cat:'Inside', label:'Steering wheel', common:'Leather-trimmed, tilts and telescopes, with buttons for audio, phone, voice, cruise control and lane assist on all four.',
+   from:['Leather-trimmed tilt/telescopic 3-spoke steering wheel with silver accent and controls for audio, Multi-Information Display (MID), Bluetooth® hands-free phone, voice-command, Dynamic Radar Cruise Control (DRCC), Lane Departure Alert (LDA), and Lane Trace Assist (LTA)',
+         'Heated leather-trimmed tilt/telescopic 3-spoke steering wheel with silver accent and controls for audio, Multi-Information Display (MID), Bluetooth® hands-free phone, voice-command, Dynamic Radar Cruise Control (DRCC), Lane Departure Alert (LDA), and Lane Trace Assist (LTA)'],
+   cells:[{t:'Not heated', opt:'Heated (Weather Package)'},
+          {t:'Not heated', opt:'Heated (Weather Package)'},
+          {t:'Heated'},
+          {t:'Not heated', opt:'Heated (Weather Package)'}]},
+  {cat:'Screen & sound', label:'Touchscreen and speakers', common:'Wireless Apple CarPlay and Android Auto, and a 3-month SiriusXM trial on all four.',
+   from:['10.5-in. Toyota Audio Multimedia, six speakers, with wireless Apple CarPlay® & Android Auto™ compatibility, SiriusXM® with 360L 3-month trial subscription. See toyota.com/connected-services for details.',
+         '12.9-in. Toyota Audio Multimedia, six speakers, with wireless Apple CarPlay® & Android Auto™ compatibility, SiriusXM® with 360L 3-month trial subscription. See toyota.com/connected-services for details.',
+         '12.9-in. Toyota Audio Multimedia, 9-speaker JBL® Premium Audio including subwoofer and amplifier, with wireless Apple CarPlay® & Android Auto™ compatibility, SiriusXM® with 360L 3-month trial subscription. See toyota.com/connected-services for details.',
+         '9-speaker JBL® Premium Audio including subwoofer and amplifier'],
+   cells:[{t:'10.5-in. screen, 6 speakers'},
+          {t:'12.9-in. screen, 6 speakers', opt:'9-speaker JBL with subwoofer (JBL Premium Audio Package)'},
+          {t:'12.9-in. screen, 9-speaker JBL with subwoofer'},
+          {t:'12.9-in. screen, 6 speakers', opt:'9-speaker JBL with subwoofer (JBL Premium Audio Package)'}]},
+  {cat:'Safety & driver help', label:'Blind spot warning', common:'Blind Spot Monitor, Rear Cross-Traffic Alert and Safe Exit Alert on all four.',
+   from:['Blind Spot Monitor (BSM) with Rear Cross-Traffic Alert (RCTA) and Safe Exit Alert (SEA)','Blind Spot Monitor (BSM) with Rear Cross-Traffic Alert (RCTA)'],
+   cells:[{t:'All three'},{t:'All three'},{t:'All three'},{t:F.notes.seaPhv}]},
+  {cat:'Safety & driver help', label:'Extra driver-assist bundle', common:'Front Cross-Traffic Alert, Lane Change Assist, Traffic Jam Assist and Driver Monitor.',
+   from:['Front Cross-Traffic Alert (FCTA), Lane Change Assist (LCA), Traffic Jam Assist (TJA) and Driver Monitor'],
+   cells:[{t:'Not included', opt:`All four (${F.xleAssist})`},{t:'All four'},{t:'All four'},
+          {t:F.notes.assistPhvCell}]},
+  {cat:'Engine & drivetrain', label:'Powertrain', common:'A 2.5-liter 4-cylinder gas engine working with electric motors on all four.',
+   from:[['Hybrid powertrain: 2.5-Liter Dynamic Force 4-Cylinder with SPORT, Eco, NORMAL, EV, , SNOW drive modes; 229 net combined hp',
+          'Hybrid powertrain: 2.5-Liter Dynamic Force 4-Cylinder with SPORT, Eco, NORMAL, EV, TRAIL, SNOW drive modes; 236 net combined hp'],
+         ['2.5-Liter Dynamic Force 4-Cylinder with SPORT, Eco, NORMAL, EV, TRAIL, SNOW drive modes; 321 combined net hp',
+          '2.5-Liter Dynamic Force 4-Cylinder with SPORT, Eco, NORMAL, EV, TRAIL, SNOW drive modes; 324 combined net hp']],
+   cells:[{t:`${F.hp.hyb} hp combined`},{t:`${F.hp.hyb} hp combined`},{t:`${F.hp.hyb} hp combined`},{t:F.notes.powertrainPhv}]},
+  // The 2026 pages give one torque figure for all four, so there is nothing to combine.
+  {cat:'Engine & drivetrain', label:'Max. torque', years:[2027],
+   from:['Max. Torque: 163 lb.-ft. (231 N•m)','Max. torque: 172 lb.-ft. (231 N•m)'],
+   cells:[{t:'163 lb.-ft.'},{t:'163 lb.-ft.'},{t:'163 lb.-ft.'},{t:'172 lb.-ft.'}]},
+  {cat:'Engine & drivetrain', label:'Electric motor output (front/rear)',
+   from:[['Max output (front/rear): 100/40 kW','Power output (front/rear): 100/40 kW'],'Power output (front/rear): 150/40 kW'],
+   cells:[{t:'100/40 kW'},{t:'100/40 kW'},{t:'100/40 kW'},{t:'150/40 kW'}]},
+  {cat:'Engine & drivetrain', label:'Hybrid battery',
+   from:['Rated voltage: 248V (Li-ion)',['Rated voltage: 391 (Li-ion)',null]],
+   cells:[{t:'248-volt lithium-ion'},{t:'Same as XLE Premium'},{t:'Same as XLE Premium'},
+          {t:F.notes.batteryPhv}]},
+];
+// Packages and single options have their own section with prices.
+const SPEC_SKIP_CATS = new Set(['Option packages','Single options']);
+
+// Corrections to Toyota's comparison data, listed per year in YEAR_FACTS with the reason.
+function fixSpecs(raw, fixes){
+  fixes.forEach(f=>{
+    const row = raw.find(c=>c.cat===f.cat)?.rows.find(r=>r.label.startsWith(f.label));
+    if(!row){ console.warn('Spec fix not applied; no line starts with:', f.label); return; }
+    row.cells[f.trim] = f.cell;
+  });
+  return raw;
+}
+function mergeSpecs(raw){
+  return raw.filter(c=>!SPEC_SKIP_CATS.has(c.cat)).map(cat=>{
+    let rows = cat.rows;
+    SPEC_MERGES.filter(m=>m.cat===cat.cat && (!m.years || m.years.includes(F.year))).forEach(m=>{
+      // undefined: a required line is missing. null: an optional line is missing.
+      const pick = e=>{ for(const l of [].concat(e)){ if(l===null) return null; const r=rows.find(r=>!r.header && r.label===l); if(r) return r; } };
+      const found = m.from.map(pick);
+      if(found.includes(undefined)){ console.warn('Spec merge skipped; Toyota’s wording changed for:', m.label, m.from.filter((l,i)=>found[i]===undefined)); return; }
+      const src = found.filter(Boolean);
+      const merged = {label:m.label, merged:m, sources:src};
+      rows = rows.map(r=>r===src[0]?merged:r).filter(r=>!src.includes(r));
+    });
+    return {...cat, rows};
+  });
+}
+
+(function(){
+  const data = mergeSpecs(fixSpecs(window[F.specs]||[], F.specFixes||[]));
+  const list=$('#specList'), q=$('#specSearch'), diff=$('#diffOnly'), count=$('#specCount');
+  const openState = store.get('rav4-open',{});
+  const cell=([s,v])=> s==='nl'? pill('nl') : s==='val'? `<span class="val">${esc(v||'–')}</span>` : (v && s!=='std'? pill(s, s==='opt'?'Optional':undefined)+`<div class="small muted" style="margin-top:4px">${esc(v)}</div>` : pill(s));
+  const mcell=c=> `<span>${esc(c.t)}</span>${c.opt?`<span class="mo">${pill('opt','Optional')}${esc(c.opt)}</span>`:''}`;
+  const isDiff=r=> r.merged ? new Set(r.merged.cells.map(c=>c.t+'|'+(c.opt||''))).size>1
+                            : r.cells && new Set(r.cells.map(c=>c.join('|'))).size>1;
+  const haystack=r=> r.merged ? [r.label, r.merged.common||'', ...r.merged.cells.flatMap(c=>[c.t,c.opt||'']), ...r.merged.from].join(' ') : r.label;
+  const hi=(t,term)=>{ const e=esc(t); if(!term) return e; const i=e.toLowerCase().indexOf(term.toLowerCase()); return i<0?e:e.slice(0,i)+'<mark>'+e.slice(i,i+term.length)+'</mark>'+e.slice(i+term.length); };
+  const whoHas=src=> TRIMS.map((t,i)=>{const s=src.cells[i][0]; return s==='std'?t.name : s==='opt'?t.name+' (optional)' : null;}).filter(Boolean).join(', ');
+  const labelCell=(r,term)=> !r.merged ? hi(r.label,term) :
+    `${hi(r.label,term)}${r.merged.common?`<span class="common">${esc(r.merged.common)}</span>`:''}
+     <details class="tw"><summary>Toyota’s wording</summary><ul>${r.sources.map(src=>`<li>${esc(src.label)}<span>${esc(whoHas(src))}</span></li>`).join('')}</ul></details>`;
+  function render(){
+    const term=q.value.trim(); let shown=0;
+    list.innerHTML = data.map((cat,ci)=>{
+      let sub=null, rows=[];
+      cat.rows.forEach(r=>{
+        if(r.header){sub=r.label;return;}
+        if(diff.checked && !isDiff(r)) return;
+        if(term && !(haystack(r)+' '+(sub||'')).toLowerCase().includes(term.toLowerCase())) return;
+        if(sub){rows.push(`<tr class="sub"><td colspan="${TRIMS.length+1}">${esc(sub)}</td></tr>`); sub=null;}
+        const cells = r.merged ? r.merged.cells.map(mcell) : r.cells.map(cell);
+        rows.push(`<tr class="${isDiff(r)?'diff':''}"><td class="lab">${labelCell(r,term)}</td>${cells.map((c,i)=>`<td class="c" data-t="${TRIMS[i].name}">${c}</td>`).join('')}</tr>`);
+        shown++;
+      });
+      if(!rows.length) return '';
+      const open = term || openState[cat.cat]!==false;
+      return `<details class="spec-cat" data-cat="${esc(cat.cat)}" ${open?'open':''}><summary>${esc(cat.cat)} <span class="n">${(n=>n+(n===1?' row':' rows'))(rows.filter(r=>!r.startsWith('<tr class="sub"')).length)}</span></summary>
+        <table class="spec-table"><thead><tr><th>Feature</th>${TRIMS.map(t=>`<th class="t" style="color:${t.color}">${t.name}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></details>`;
+    }).join('') || `<p class="lede">No rows match “${esc(term)}”. Try a shorter word, or turn off “Only show differences”.</p>`;
+    count.textContent = `${shown} row${shown===1?'':'s'}`;
+  }
+  list.addEventListener('toggle',e=>{const d=e.target; if(d.matches&&d.matches('details.spec-cat')){openState[d.dataset.cat]=d.open; store.set('rav4-open',openState);}},true);
+  q.addEventListener('input',render); diff.addEventListener('change',render);
+  render();
+})();
+
+/* ===================== CHECKLIST ===================== */
+(function(){
+  const done = new Set(store.get('rav4-check',[]));
+  $('#checklist').innerHTML = CHECKLIST.map(([t,s],i)=>`<li><label><input type="checkbox" data-i="${i}" ${done.has(i)?'checked':''}><span>${esc(t)}<small>${esc(s)}</small></span></label></li>`).join('');
+  $('#checklist').addEventListener('change',e=>{const i=+e.target.dataset.i; e.target.checked?done.add(i):done.delete(i); store.set('rav4-check',[...done]);});
+})();
+
+/* ===================== PHOTO ZOOM ===================== */
+(function(){
+  const ZOOM_ICON = '<span class="zi" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M12 3h5v5M8 17H3v-5M17 3l-6 6M3 17l6-6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+  const imgs = [...document.querySelectorAll('img[data-full]')];
+  const btns = imgs.map((img,i)=>{
+    const b = document.createElement('button');
+    b.type='button'; b.className='zoom'; b.dataset.i=i;
+    b.setAttribute('aria-label','Expand photo: '+img.alt);
+    img.replaceWith(b); b.append(img); b.insertAdjacentHTML('beforeend',ZOOM_ICON);
+    return b;
+  });
+  const dlg=$('#lightbox'), big=$('#lbImg'), stage=$('#lbStage'), cap=$('#lbCap'), count=$('#lbCount');
+  const touch = matchMedia('(hover:none)').matches;
+  let cur=0;
+  const unzoom=()=>{stage.classList.remove('zoomed'); big.style.width='';};
+  function show(i){
+    cur=(i+imgs.length)%imgs.length; unzoom();
+    const img=imgs[cur], fc=img.closest('figure')?.querySelector('figcaption');
+    big.src=img.dataset.full; big.alt=img.alt;
+    // Trio captions start with a bold trim name; join it to the rest with a colon.
+    const capText = !fc ? img.alt : [...fc.childNodes].map(n=>n.nodeName==='B'?n.textContent+': ':n.textContent).join('').trim();
+    cap.innerHTML = esc(capText)
+      + `<small>${touch?'Tap the photo to zoom in. Pinch also works.':'Click the photo to zoom in. Use the arrow keys to move between photos.'}</small>`;
+    count.textContent=`Photo ${cur+1} of ${imgs.length}`;
+  }
+  btns.forEach(b=>b.addEventListener('click',()=>{show(+b.dataset.i); dlg.showModal(); $('#lbClose').focus();}));
+  $('#lbPrev').addEventListener('click',()=>show(cur-1));
+  $('#lbNext').addEventListener('click',()=>show(cur+1));
+  $('#lbClose').addEventListener('click',()=>dlg.close());
+  // Return focus to the photo the viewer ended on, after the browser's own focus restore.
+  dlg.addEventListener('close',()=>{unzoom(); setTimeout(()=>btns[cur].focus({preventScroll:false}),0);});
+  dlg.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft') show(cur-1); if(e.key==='ArrowRight') show(cur+1); });
+  stage.addEventListener('click',e=>{
+    if(e.target!==big){ if(!stage.classList.contains('zoomed')) dlg.close(); return; }
+    if(stage.classList.contains('zoomed')){unzoom(); return;}
+    const r=big.getBoundingClientRect(), fx=(e.clientX-r.left)/r.width, fy=(e.clientY-r.top)/r.height;
+    big.style.width=Math.max(big.naturalWidth, r.width*2.2)+'px'; stage.classList.add('zoomed');
+    stage.scrollLeft = fx*big.offsetWidth - stage.clientWidth/2;
+    stage.scrollTop = fy*big.offsetHeight - stage.clientHeight/2;
+  });
+})();
+
+/* ===================== SECTION NAV ===================== */
+(function(){
+  const nav=$('.nav'), links=[...nav.querySelectorAll('a')];
+  const still=matchMedia('(prefers-reduced-motion: reduce)');
+  const edges=()=>{
+    nav.classList.toggle('more-l', nav.scrollLeft>2);
+    nav.classList.toggle('more-r', nav.scrollLeft+nav.clientWidth < nav.scrollWidth-2);
+  };
+  nav.addEventListener('scroll',edges,{passive:true});
+  new ResizeObserver(edges).observe(nav);
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    links.forEach(a=>{
+      const on=a.getAttribute('href')==='#'+e.target.id;
+      a.classList.toggle('on',on);
+      on ? a.setAttribute('aria-current','location') : a.removeAttribute('aria-current');
+      // When the links scroll sideways, bring the current one to the middle.
+      if(on && nav.scrollWidth>nav.clientWidth)
+        nav.scrollTo({left:a.offsetLeft-(nav.clientWidth-a.offsetWidth)/2, behavior:still.matches?'auto':'smooth'});
+    });
+  }),{rootMargin:'-40% 0px -55% 0px'});
+  links.forEach(a=>{const s=document.querySelector(a.getAttribute('href')); if(s) io.observe(s);});
+})();
+
+/* ===================== YEAR SWITCH: keep your place ===================== */
+// Switching years loads the other year's address; this scrolls back to where you were.
+(function(){
+  let spot = null;
+  try{ spot = JSON.parse(sessionStorage.getItem('rav4-scroll')); sessionStorage.removeItem('rav4-scroll'); }catch{}
+  if(!spot || typeof spot !== 'object' || !Number.isFinite(spot.dy)) return;
+  const sec = typeof spot.id === 'string' ? document.getElementById(spot.id) : null;
+  const y = (sec ? sec.offsetTop : 0) + spot.dy;
+  if(y > 0) requestAnimationFrame(()=>scrollTo({top:y, behavior:'instant'}));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Layout check harness</title>
+<style>body{font:14px system-ui;margin:12px}iframe{border:1px solid #ccc;height:900px;display:block;margin:8px 0}</style>
+<pre id="out">running…</pre>
+<script type="module">
+// Loads the site at several widths, for each model year, and runs layout-check.js and year-check.js
+// in each. ?page= picks the page.
+const page = new URLSearchParams(location.search).get('page') || '/rav4-site/index.html';
+const widths = [390, 700, 1100, 1400];
+const years = [2027, 2026];
+const src = await (await fetch('/tools/layout-check.js')).text();
+const ysrc = await (await fetch('/tools/year-check.js')).text();
+const results = {};
+for (const y of years) for (const w of widths) {
+  const f = document.createElement('iframe'); f.width = w; f.src = `${page}?year=${y}&t=${Date.now()}`;
+  document.body.append(f);
+  await new Promise(r => f.onload = r);
+  await new Promise(r => setTimeout(r, 400));
+  f.contentWindow.eval(src); f.contentWindow.eval(ysrc);
+  // Year checks change the spec filter, so run the layout checks first.
+  results[`${y}@${w}`] = [...f.contentWindow.layoutCheck(), ...f.contentWindow.yearCheck(y)];
+}
+window.RESULTS = results;
+document.getElementById('out').textContent = JSON.stringify(results, null, 2);
+</script>
