@@ -48,7 +48,7 @@ p{margin:0 0 .8em}
 a{color:inherit}
 img{max-width:100%;height:auto;display:block}
 :focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1420px;margin:0 auto;padding:0 24px}
 @media (max-width:640px){.wrap{padding:0 16px}body{font-size:18px}}
 .lede{font-size:21px;color:var(--ink-2);max-width:62ch}
 .muted{color:var(--ink-2)}
@@ -128,6 +128,7 @@ section{padding:88px 0 0}
   display:flex;flex-direction:column;align-items:center;padding:0 4px;
   color:var(--sl-ink);font:700 14px/1.15 Overpass,sans-serif;text-align:center}
 .sl-btn[hidden]{display:none}
+.pill[hidden]{display:none}
 .sl-in{display:flex;flex-direction:column;align-items:center;gap:8px;margin:auto 0}
 /* In a slider taller than the screen (packages), the arrow stays near the middle of the screen while it scrolls past. */
 .sl.tall .sl-in{position:sticky;top:calc(50vh - 60px);bottom:calc(50vh - 60px)}
@@ -162,7 +163,8 @@ section{padding:88px 0 0}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .chip .tick{width:18px;height:18px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center;font-size:12px;opacity:.7}
 .chip[aria-pressed="true"] .tick{background:var(--lane);border-color:var(--lane);color:#222;opacity:1}
-.picker .sl{--sl-bg:var(--card);margin-top:26px}
+.picker .sl{--sl-bg:var(--card);margin:26px -28px 0}
+@media (max-width:640px){.picker .sl{margin-inline:-16px}}
 .score{border-radius:18px;padding:20px;border:2px solid transparent;background:var(--paper);transition:border-color .2s}
 .score.best{border-color:var(--lane)}
 .score h4{font-size:22px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
@@ -303,7 +305,11 @@ section{padding:88px 0 0}
 .trio h5{font:700 17px Overpass,sans-serif;margin:0 0 12px}
 .trio-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .trio figure{margin:0}
-.trio .zoom img{aspect-ratio:var(--ar,16/9);object-fit:cover}
+.trio-views{display:grid;gap:6px}
+.trio .zoom{background:radial-gradient(120% 100% at 50% 20%,#FFFFFF,#DDE2DF 75%);border-radius:12px}
+.trio .zoom img{object-fit:contain;padding:6px 8px}
+.trio .v-ext{aspect-ratio:680/296}
+.trio .v-rear{aspect-ratio:500/320}
 .trio figcaption{font-size:14px;color:var(--ink-2);margin-top:6px;line-height:1.35}
 .trio figcaption b{display:flex;align-items:center;gap:6px;color:var(--ink);font:700 15px Overpass,sans-serif}
 .trio figcaption b::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c)}
@@ -343,26 +349,24 @@ section{padding:88px 0 0}
 .rung .pc{grid-column:2/-1;font-size:15px;color:var(--ink-2);line-height:1.4}
 .rung .req{grid-column:2/-1;font-size:14px;color:var(--opt);font-weight:700}
 .rung.base .pp{color:var(--ink-2);font-weight:700}
-.pk-total{margin:6px 14px 14px;background:var(--paper);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
+.pk-total{margin:6px 14px 20px;background:var(--paper);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
 .pk-total .big{font:800 30px Overpass,sans-serif;line-height:1.1}
 .pk-total .small{color:var(--ink-2)}
-.pk-paint{padding:0 22px 20px;font-size:15px;color:var(--ink-2)}
-.pk-paint b{color:var(--ink)}
 .pk-note{margin-top:18px;font-size:16px;color:var(--ink-2);max-width:80ch}
-.pk-paint a{white-space:nowrap}
 
-/* ---------- paint and seat colors ---------- */
+/* ---------- paint and interior colors ---------- */
 /* The photos sit on a light studio backdrop in both themes, since a black car vanishes on a dark card. */
 .cp{--c:var(--xle);background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;border-top:6px solid var(--c)}
 .cp-top{padding:18px 22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
 .cp-top .seg button{min-height:44px}
 .cp-note{margin:0;flex:1 1 280px;font-size:16px;line-height:1.45;background:var(--opt-soft);border-left:4px solid var(--lane);border-radius:10px;padding:8px 12px}
 .cp-note:empty{display:none}
+.cp-note.seen{visibility:hidden}
 .cp-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);border-top:1px solid var(--rule)}
 .cp-stage{margin:0;display:grid;place-items:center;padding:28px 24px;background:radial-gradient(120% 100% at 50% 20%,#FFFFFF,#DDE2DF 75%)}
-.cp-stage img{width:100%;max-width:680px}
+.cp-stage img{width:100%;max-width:680px;height:auto;aspect-ratio:680/296}
 .cp-stage.cp-int{padding:0;background:#E4E7E5;border-top:1px solid var(--rule)}
-.cp-stage.cp-int img{max-width:none;height:100%;object-fit:cover}
+.cp-stage.cp-int img{max-width:none;height:100%;aspect-ratio:auto;object-fit:cover}
 .cp-pane{padding:20px 22px 22px;border-left:1px solid var(--rule)}
 .cp-pane + .cp-stage + .cp-pane{border-top:1px solid var(--rule)}
 .cp-pane h3{font-size:20px;margin:0 0 8px}
@@ -379,15 +383,20 @@ section{padding:88px 0 0}
 .cp-name small{display:block;font-weight:400;font-size:15px;color:var(--ink-2)}
 .cp-price{font:800 16px Overpass,sans-serif;white-space:nowrap}
 .cp-price.inc{font-weight:500;color:var(--ink-2)}
-.cp-also{font-size:15px;color:var(--ink-2);margin:12px 0 0}
 .cp-sum{margin-top:16px;background:var(--paper);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
+.cp-lines{margin:0;display:grid;gap:4px}
+.cp-lines div{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.cp-lines dt{color:var(--ink-2)}
+.cp-lines dt a{margin-left:6px;font-size:15px;white-space:nowrap}
+.cp-lines dd{margin:0;font-weight:700;white-space:nowrap}
+.cp-lines .cp-total{border-top:1px solid var(--rule);margin-top:4px;padding-top:8px}
+.cp-lines .cp-total dt{color:var(--ink);font-weight:700}
 .cp-sum .big{font:800 30px Overpass,sans-serif;line-height:1.1}
-.cp-sum .small{color:var(--ink-2)}
 @media (max-width:859px){
   .cp-grid{grid-template-columns:minmax(0,1fr)}
   .cp-pane{border-left:0}
   .cp-stage{padding:20px 16px}
-  .cp-stage.cp-int img{height:auto}
+  .cp-stage.cp-int img{height:auto;aspect-ratio:900/507}
 }
 @media (max-width:640px){.cp-top,.cp-pane{padding-inline:16px}}
 
@@ -527,33 +536,33 @@ footer p{max-width:80ch}
     <div class="wrap"><div class="sl" data-sl>
       <div class="sl-view"><div class="sl-track">
       <div class="car">
-        <img src="img/trim-4444.png" alt="RAV4 XLE Premium in silver" width="900" height="402">
+        <img src="img/colors/ext-4444-04V8.webp" alt="RAV4 XLE Premium in Meteor Shower (silver)" width="680" height="296">
         <div class="name">XLE Premium</div>
-        <div class="price" data-f="price.xle">$38,100</div>
+        <div class="price" data-f="price.xle">$39,695</div>
         <span class="jump first">Lowest price</span>
         <div class="tag">Well equipped for the price, with fewer extras.</div>
         <div class="bar" style="background:var(--xle)"></div>
       </div>
       <div class="car">
-        <img src="img/trim-4530.png" alt="RAV4 XSE in silver with a black roof and black wheels" width="900" height="402">
+        <img src="img/colors/ext-4530-02VP.webp" alt="RAV4 XSE in Wind Chill Pearl (white) with a black roof and black wheels" width="680" height="296">
         <div class="name">XSE</div>
-        <div class="price" data-f="price.xse">$41,900</div>
+        <div class="price" data-f="price.xse">$43,495</div>
         <span class="jump">+$3,800 over the XLE Premium</span>
         <div class="tag">Sporty look. Adds the 360° camera, cooled seats and a bigger screen.</div>
         <div class="bar" style="background:var(--xse)"></div>
       </div>
       <div class="car">
-        <img src="img/trim-4534.png" alt="RAV4 Limited in blue" width="900" height="402">
+        <img src="img/colors/ext-4534-01L6.webp" alt="RAV4 Limited in Storm Cloud (blue-gray)" width="680" height="296">
         <div class="name">Limited</div>
-        <div class="price" data-f="price.ltd">$43,900</div>
+        <div class="price" data-f="price.ltd">$45,495</div>
         <span class="jump">+$2,000 over the XSE</span>
         <div class="tag">Nearly everything included, on softer-riding 18-inch wheels.</div>
         <div class="bar" style="background:var(--ltd)"></div>
       </div>
       <div class="car">
-        <img src="img/trim-4550.png" alt="RAV4 Plug-in Hybrid XSE in gray with a black roof and black wheels" width="900" height="402">
+        <img src="img/colors/ext-4550-0M22.webp" alt="RAV4 Plug-in Hybrid XSE in Storm Cloud (blue-gray) with a black roof and black wheels" width="680" height="296">
         <div class="name">Plug-in XSE</div>
-        <div class="price" data-f="price.phv">$47,800</div>
+        <div class="price" data-f="price.phv">$49,395</div>
         <span class="jump">+$3,900 over the Limited</span>
         <div class="tag">The XSE with a plug. About <span data-f="range">50</span> miles on electricity per charge, then a regular hybrid.</div>
         <div class="bar" style="background:var(--phv)"></div>
@@ -562,7 +571,7 @@ footer p{max-width:80ch}
     </div></div>
   </div>
   <div class="road-foot">
-    <span>Prices are Toyota's starting MSRP. Add a destination fee of <b>$1,595</b>, plus tax, registration and any <a href="#packages">options</a>.</span>
+    <span>Every price on this page includes Toyota's <b>$1,595 destination fee</b>. None include tax or registration.</span>
     <span id="mpgLine">Gas mileage: <b>41 mpg</b> (XLE Premium), <b>40 mpg</b> (XSE and Limited), combined. The <b>Plug-in XSE</b> goes about <b>50 miles</b> on a charge, then gets <b>39 mpg</b>.</span>
   </div>
   <section class="year-diff" id="yearDiff" aria-labelledby="yearDiffT" hidden></section>
@@ -581,9 +590,9 @@ footer p{max-width:80ch}
         <span class="pill std">Included</span>
         <span class="pill opt">Optional extra cost</span>
         <span class="pill no">Not offered</span>
-        <span class="pill nl">Not listed by Toyota</span>
+        <span class="pill nl" id="nlLegend" hidden>Not listed by Toyota</span>
       </div>
-      <div class="sl" data-sl id="scoresSl"><div class="sl-view"><div class="sl-track scores" id="scores" aria-live="polite"></div></div></div>
+      <div class="sl" data-sl data-sl-max="3" id="scoresSl"><div class="sl-view"><div class="sl-track scores" id="scores" aria-live="polite"></div></div></div>
       <p class="empty-note" id="emptyNote">Pick a few priorities above to see how the four compare.</p>
     </div>
   </div>
@@ -637,7 +646,7 @@ footer p{max-width:80ch}
     </div>
     <div class="pk-callouts" id="pkCallouts"></div>
     <div class="sl tall" data-sl data-sl-max="3"><div class="sl-view"><div class="sl-track pk-grid" id="pkGrid"></div></div></div>
-    <p class="pk-note">Prices are Toyota's suggested prices (MSRP) from its online build tool in November 2026, before tax, registration and dealer fees. They can vary by region, and the car on a dealer's lot may already have packages added.</p>
+    <p class="pk-note">Package prices are from Toyota's online build tool in November 2026. They can vary by region, and the car on a dealer's lot may already have packages added.</p>
   </div>
 </section>
 
@@ -645,8 +654,8 @@ footer p{max-width:80ch}
 <section id="colors">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Paint and seat colors</h2>
-      <p class="lede">Each model comes in its own set of paints and seat colors. Pick a model to see what it offers. On any one model, every paint goes with every seat color.</p>
+      <h2>Paint and interior colors</h2>
+      <p class="lede">Each model comes in its own set of paints and seat colors. Pick a model to see what it offers. On any one model, every paint goes with every seat color. The total includes the packages you picked above.</p>
     </div>
     <div class="cp" id="cpBox"></div>
     <p class="pk-note">Colors and paint prices are from Toyota's online build tool in November 2026, and are the same for 2026 and 2027. The pictures are the build tool's images of the 2027 models. Paint looks different in daylight, so see it in person before you decide.</p>
@@ -790,6 +799,10 @@ const F = (()=>{
 })();
 document.documentElement.dataset.year = F.year;
 const TRIM_IDS = ['xle','xse','ltd','phv'];
+// Toyota's destination fee, the same for every trim and both years. Every price the page shows
+// includes it (the hero note says so once), so START is the price to show for each trim with no options.
+const DESTINATION = 1595;
+const START = Object.fromEntries(TRIM_IDS.map(id=>[id, F.base[id]+DESTINATION]));
 const HYBRID_IDS = ['xle','xse','ltd'];
 const HYBRID_NAMES = {xle:'XLE Premium', xse:'XSE', ltd:'Limited'};
 const money = n=>'$'+n.toLocaleString('en-US');
@@ -963,8 +976,9 @@ const FEATURES = [
    what:'The <b>XSE</b> is the sporty-looking one: glossy black trim, vertical LED accent lights in the front bumper, blue stitching inside, and an optional black roof (two-tone paint). The <b>Plug-in XSE</b> looks almost the same. The <b>Limited</b> looks more upscale with silver accents, a satin-chrome grille and LED fog lights. The <b>XLE Premium</b> has a simpler, rugged look with matte black lower trim.',
    why:'Purely a matter of taste. Look at them in person, ideally in the color you want.',
    trims:[['std','Simple, rugged'],['std','Sporty, two-tone option'],['std','Upscale, fog lights'],['std','Sporty, two-tone option']], img:'img/RHV_MY26_0016_V001.jpg', cap:'The Limited, shown in Storm Cloud, with its silver lower bumper.',
-   shots:{title:'All four from the same angle, as Toyota shows them', kind:'ext', ar:'11/5',
-     caps:['Matte black lower trim and dark wheels.','Black roof, black wheels, LED accent lights in the bumper.','Silver accents and fog lights.','Same sporty look as the Hybrid XSE, shown in gray with a black roof.']}},
+   shots:{title:'All four in white, front and back', views:[['ext','front'],['rear','back']],
+     imgs:['4444-0089','4530-02VP','4534-0089','4550-02VP'],
+     caps:['Matte black lower trim and dark wheels.','Black roof, black wheels, LED accent lights in the bumper.','Silver accents and fog lights.','Same sporty look as the Hybrid XSE.']}},
 
   /* ---------- Plug-in Hybrid ---------- */
   {id:'plugin', group:'Plug-in Hybrid', name:'Driving on electricity',
@@ -1019,7 +1033,7 @@ const PRIORITIES = [
 const SPECIAL = {
   smooth:{label:'Smoothest ride (smaller wheels)', trims:[['std'],['no','20-inch wheels ride firmer'],['std'],['no','20-inch wheels ride firmer']]},
   sporty:{label:'Sporty look', trims:[['no'],['std'],['no'],['std']]},
-  price:{label:'Lowest price', trims:TRIM_IDS.map(id=>[id==='xle'?'std':'no', money(F.base[id])])},
+  price:{label:'Lowest price', trims:TRIM_IDS.map(id=>[id==='xle'?'std':'no', money(START[id])])},
   mpg:{label:'Uses the least gas (if you can charge at home)', trims:[...HYBRID_IDS.map(id=>['no',`${F.mpg[id]} mpg`]),['std',`About ${F.range} miles on electricity, then ${F.mpg.phv} mpg`]]},
 };
 
@@ -1072,30 +1086,30 @@ const STEP3_LOSE = [
 ];
 
 // Option packages, in the order Toyota requires them: each one needs every package above it.
-// Prices are MSRP from Toyota's build tool, November 2026.
-const DESTINATION = 1595;
+// Package prices are MSRP from Toyota's build tool, November 2026. `base` is the trim's starting
+// price with the destination fee.
 const PACKAGES = {
-  xle:{base:F.base.xle, ladder:[
+  xle:{base:START.xle, ladder:[
     {name:'Weather Package', price:375, gets:[['wheelheat','Heated steering wheel'],['wipers','automatic wipers with de-icer']]},
     {name:'Panoramic Moonroof Package', price:1850, gets:[['roof','Panoramic glass roof'],['mirror','camera rearview mirror'],['homelink','garage door opener']]},
     {name:F.xleAssist, price:650, gets:[['assist','Front Cross-Traffic Alert, Lane Change Assist, Traffic Jam Assist and Driver Monitor']]},
-  ], paint:'<b>Paint:</b> Wind Chill Pearl (white) or Ruby Flare Pearl (red) add $475. Other colors are included.'},
-  xse:{base:F.base.xse, ladder:[
+  ]},
+  xse:{base:START.xse, ladder:[
     {name:'Weather Package', price:375, gets:[['wheelheat','Heated steering wheel'],['wipers','automatic wipers with de-icer']]},
     {name:'JBL Premium Audio Package', price:620, gets:[['jbl','9-speaker JBL sound system']]},
     {name:'Panoramic Moonroof Package', price:700, gets:[['roof','Panoramic glass roof (replaces the regular sunroof)'],['mirror','camera rearview mirror']]},
     {name:'XSE Driver Assist Package', price:420, gets:[['park','Self-parking'],['shifter','toggle-switch gear selector']]},
-  ], paint:'<b>Paint:</b> only all-black is included. The two-tone colors with a black roof add $500, or $975 for Wind Chill Pearl (white).'},
-  ltd:{base:F.base.ltd, ladder:[
+  ]},
+  ltd:{base:START.ltd, ladder:[
     {name:'10-in. Color Head-Up Display', price:600, gets:[['hud','Speed shown on the windshield']]},
     {name:'20-In. Wheel Package', price:1240, gets:[['wheels','20-inch wheels (firmer ride) and a larger spare tire']]},
-  ], paint:'<b>Paint:</b> Wind Chill Pearl (white) or Ruby Flare Pearl (red) add $475. Other colors are included.'},
-  phv:{base:F.base.phv, ladder:[
+  ]},
+  phv:{base:START.phv, ladder:[
     {name:'Weather Package', price:375, gets:[['wheelheat','Heated steering wheel'],['wipers','automatic wipers with de-icer']]},
     {name:'JBL Premium Audio Package', price:620, gets:[['jbl','9-speaker JBL sound system']]},
     {name:'Panoramic Moonroof Package', price:700, gets:[['roof','Panoramic glass roof (replaces the regular sunroof)'],['mirror','camera rearview mirror']]},
     {name:'Driver Assist Package', price:1170, gets:[['park','Self-parking'],['hud','head-up display'],['shifter','toggle-switch gear selector'],[null,'paddle shifters']]},
-  ], paint:'<b>Paint:</b> only Midnight Black is included. Meteor Shower or Storm Cloud with a black roof add $500, or $975 for Wind Chill Pearl (white) with a black roof.'},
+  ]},
 };
 
 /* Paint and interior colors, from Toyota's build tool (November 2026). They're the same for 2026 and
@@ -1277,6 +1291,8 @@ const VIEW = (function(){
     // de-dupe features shared by two priorities
     const seen=new Set(); const rows=items.filter(r=>{const k=r.label; if(seen.has(k)) return false; seen.add(k); return true;});
     note.hidden = rows.length>0; wrap.hidden = rows.length===0;
+    // Only the 2026 Plug-in's driver-assist row uses "Not listed", so explain it only when it shows.
+    $('#nlLegend').hidden = !rows.some(r=>r.trims.some(([s])=>s==='nl'));
     if(!rows.length){scores.innerHTML=''; VIEW.refresh(); return;}
     const pts = TRIMS.map((t,i)=>rows.reduce((a,r)=>a+(r.trims[i][0]==='std'?1:r.trims[i][0]==='opt'?.5:0),0));
     const max = Math.max(...pts);
@@ -1298,6 +1314,21 @@ const VIEW = (function(){
 })();
 
 /* ===================== PACKAGES ===================== */
+// How far down each trim's package ladder you've picked (0 = no packages). The package cards set it
+// and the color picker's total reads it, so both stay in step; it's saved between visits.
+const PKG = (()=>{
+  const saved = store.get('rav4-pk',{});
+  const level = Object.fromEntries(TRIM_IDS.map(id=>{ const n = saved?.[id];
+    return [id, Number.isInteger(n) ? Math.min(Math.max(n,0), PACKAGES[id].ladder.length) : 0]; }));
+  const subs = [];
+  return {
+    level: id=>level[id],
+    extra: id=>PACKAGES[id].ladder.slice(0,level[id]).reduce((a,k)=>a+k.price,0),
+    set(id,n){ level[id] = n; store.set('rav4-pk',level); subs.forEach(f=>f(id)); },
+    onChange: f=>subs.push(f),
+  };
+})();
+
 // The three callouts above the package cards, worked out from the package prices.
 (function(){
   const loaded = id=>PACKAGES[id].base + PACKAGES[id].ladder.reduce((a,k)=>a+k.price,0);
@@ -1309,8 +1340,6 @@ const VIEW = (function(){
       <p class="pk-callout"><b>The Plug-in XSE’s top package costs more, and adds more.</b> Its ${money(top.price)} ${esc(top.name)} includes the head-up display and paddle shifters along with self-parking. Fully loaded, the Plug-in XSE comes to ${money(phv)}.</p>`;
 })();
 (function(){
-  const saved = store.get('rav4-pk',{});
-  const level = Object.fromEntries(TRIMS.map(t=>[t.id, Number.isInteger(saved[t.id]) ? Math.min(Math.max(saved[t.id],0),PACKAGES[t.id].ladder.length) : 0]));
   const grid = $('#pkGrid');
   grid.innerHTML = TRIMS.map(t=>{
     const p = PACKAGES[t.id];
@@ -1329,28 +1358,25 @@ const VIEW = (function(){
         ${rungs}
       </ol>
       <div class="pk-total" aria-live="polite"></div>
-      <p class="pk-paint">${p.paint} <a href="#colors">See the colors</a></p>
     </article>`;
   }).join('');
   function paint(tid){
-    const card = grid.querySelector(`[data-t="${tid}"]`), p = PACKAGES[tid], n = level[tid];
+    const card = grid.querySelector(`[data-t="${tid}"]`), p = PACKAGES[tid], n = PKG.level(tid);
     card.querySelectorAll('.rung').forEach(r=>{
       const on = +r.dataset.i <= n; r.classList.toggle('on',on);
       r.classList.toggle('next-on', +r.dataset.i < n);
       r.querySelector('button').setAttribute('aria-pressed', +r.dataset.i===n);
     });
-    const extra = p.ladder.slice(0,n).reduce((a,b)=>a+b.price,0);
     const what = n===0 ? 'with no packages' : n===p.ladder.length ? 'with every package' : `with ${n} package${n>1?'s':''}`;
     card.querySelector('.pk-total').innerHTML = `<span class="small">${TRIMS.find(t=>t.id===tid).name} ${what}</span>
-      <span class="big">${money(p.base+extra)}</span>
-      <span class="small">${money(p.base+extra+DESTINATION)} with the ${money(DESTINATION)} destination fee, before tax and registration</span>`;
+      <span class="big">${money(p.base+PKG.extra(tid))}</span>`;
   }
   grid.addEventListener('click',e=>{
     const b =e.target.closest('.rung button'); if(!b) return;
     const tid = b.closest('.pk').dataset.t; const i = +b.closest('.rung').dataset.i;
-    level[tid] = (level[tid]===i && i>0) ? i-1 : i;
-    store.set('rav4-pk',level); paint(tid);
+    PKG.set(tid, (PKG.level(tid)===i && i>0) ? i-1 : i);
   });
+  PKG.onChange(paint);
   TRIMS.forEach(t=>paint(t.id));
   VIEW.refresh();
 })();
@@ -1358,7 +1384,7 @@ const VIEW = (function(){
 /* ===================== PAINT AND INTERIOR COLORS ===================== */
 // Pick a model and only its paints and seat colors show. Switching models keeps the same color where
 // the new model has it (or its two-tone version), otherwise falls back to the model's first included
-// paint and says what changed.
+// paint and says what changed. The total adds the packages picked for that model in the section above.
 (function(){
   const box = $('#cpBox');
   const trimOf = id=>TRIMS.find(t=>t.id===id);
@@ -1368,13 +1394,14 @@ const VIEW = (function(){
   const priceTxt = n=>n ? '+'+money(n) : 'Included';
   const swatch = hex=>hex.length>1 ? `linear-gradient(${hex[0]} 0 38%, ${hex[1]} 38%)` : hex[0];
   const cap = s=>s[0].toUpperCase()+s.slice(1);
-  const list = (names)=>names.length<2 ? names.join('') : names.slice(0,-1).join(', ')+' and '+names.at(-1);
 
   // Restore the last pick only if it still names a real combination.
   const saved = store.get('rav4-colors',{});
   const ok = s=>s && COLORS[s.t] && s.paint in COLORS[s.t].paint && s.int in COLORS[s.t].int;
   const st = ok(saved) ? {t:saved.t, paint:saved.paint, int:saved.int} : {t:'xle', paint:firstPaint('xle'), int:Object.keys(COLORS.xle.int)[0]};
-  let note = '';
+  // The note explains a model switch. Picking a paint or seat afterwards hides it but keeps its
+  // space, so the picker doesn't jump.
+  let note = '', noteSeen = false;
 
   box.innerHTML = `
     <div class="cp-top">
@@ -1388,7 +1415,6 @@ const VIEW = (function(){
       <div class="cp-pane">
         <h3 id="cpPaintT">Paint</h3>
         <div class="cp-opts" role="group" aria-labelledby="cpPaintT" id="cpPaint"></div>
-        <p class="cp-also" id="cpAlso"></p>
       </div>
       <figure class="cp-stage cp-int"><img id="cpIntImg" alt="" width="900" height="507" loading="lazy"></figure>
       <div class="cp-pane">
@@ -1398,6 +1424,29 @@ const VIEW = (function(){
         <div class="cp-sum" id="cpSum" aria-live="polite"></div>
       </div>
     </div>`;
+
+  const paintsHTML = (t, sel)=>Object.entries(COLORS[t].paint).map(([code,price])=>{ const q = PAINTS[code];
+    return `<button type="button" class="cp-opt" data-code="${code}" aria-pressed="${code===sel}">
+      <span class="cp-sw" style="background:${swatch(q.hex)}" aria-hidden="true"></span>
+      <span class="cp-name">${esc(q.name)}${q.hint?`<small>${q.hint}</small>`:''}</span>
+      <span class="cp-price${price?'':' inc'}">${priceTxt(price)}</span></button>`; }).join('');
+  const seatsHTML = (t, sel)=>Object.entries(COLORS[t].int).map(([code,[k,hex]])=>
+    `<button type="button" class="cp-opt" data-code="${code}" aria-pressed="${code===sel}">
+      <span class="cp-sw${k==='blackblue'?' accent':''}" style="background:${hex}" aria-hidden="true"></span>
+      <span class="cp-name">${esc(SEATS[k].name)}</span><span class="cp-price inc">Included</span></button>`).join('');
+  const seatsLine = t=>`${COLORS[t].seats}. ${Object.keys(COLORS[t].int).length>1 ? 'Every seat color is included.' : 'One color, included.'}`;
+
+  // Each list keeps the height of the longest one across the four models, so switching models
+  // doesn't move anything either. Measured again when the width changes, since text wraps differently.
+  const lists = [['#cpPaint', t=>paintsHTML(t)], ['#cpSeats', seatsLine], ['#cpInt', t=>seatsHTML(t)]];
+  function reserve(){
+    lists.forEach(([sel, html])=>{
+      const el = $(sel); el.style.minHeight = '';
+      const tallest = Math.max(...TRIM_IDS.map(t=>{ el.innerHTML = html(t); return el.getBoundingClientRect().height; }));
+      el.style.minHeight = Math.ceil(tallest)+'px';
+    });
+    render();
+  }
 
   // Load the rest of a model's photos in the background so switching paints doesn't flash.
   const warmed = new Set();
@@ -1409,39 +1458,24 @@ const VIEW = (function(){
     const c = COLORS[st.t], t = trimOf(st.t), p = PAINTS[st.paint], seat = seatOf(st.t, st.int);
     box.style.setProperty('--c', t.color);
     box.querySelectorAll('#cpModel button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.t===st.t));
-    $('#cpPaint').innerHTML = Object.entries(c.paint).map(([code,price])=>{ const q = PAINTS[code];
-      return `<button type="button" class="cp-opt" data-code="${code}" aria-pressed="${code===st.paint}">
-        <span class="cp-sw" style="background:${swatch(q.hex)}" aria-hidden="true"></span>
-        <span class="cp-name">${esc(q.name)}${q.hint?`<small>${q.hint}</small>`:''}</span>
-        <span class="cp-price${price?'':' inc'}">${priceTxt(price)}</span></button>`; }).join('');
-    $('#cpInt').innerHTML = Object.entries(c.int).map(([code,[k,hex]])=>
-      `<button type="button" class="cp-opt" data-code="${code}" aria-pressed="${code===st.int}">
-        <span class="cp-sw${k==='blackblue'?' accent':''}" style="background:${hex}" aria-hidden="true"></span>
-        <span class="cp-name">${esc(SEATS[k].name)}</span><span class="cp-price inc">Included</span></button>`).join('');
-    const nSeats = Object.keys(c.int).length;
-    $('#cpSeats').textContent = `${c.seats}. ${nSeats>1 ? 'Every seat color is included.' : 'One color, included.'}`;
+    $('#cpPaint').innerHTML = paintsHTML(st.t, st.paint);
+    $('#cpInt').innerHTML = seatsHTML(st.t, st.int);
+    $('#cpSeats').textContent = seatsLine(st.t);
     const ext = $('#cpExt'), int = $('#cpIntImg');
     ext.setAttribute('src', `img/colors/ext-${c.img}-${st.paint}.webp`); ext.alt = `${t.name} in ${p.name}`;
     int.setAttribute('src', `img/colors/int-${c.img}-${st.int}.webp`); int.alt = `${t.name} front seats and dashboard, ${seat.say} seats`;
 
-    // Where else this paint and these seats are offered.
-    const others = TRIMS.filter(o=>o.id!==st.t);
-    const same = others.filter(o=>st.paint in COLORS[o.id].paint).map(o=>o.name);
-    const roofed = others.filter(o=>!(st.paint in COLORS[o.id].paint) && Object.keys(COLORS[o.id].paint).some(k=>PAINTS[k].fam===p.fam && PAINTS[k].roof!==p.roof));
-    const variant = roofed.map(o=>o.name);
-    const how = p.roof ? 'without the black roof' : 'with a black roof';
-    let also = same.length ? `${p.name} is also offered on the ${list(same)}${variant.length?`, and ${how} on the ${list(variant)}`:''}.`
-             : variant.length ? `${p.fam} is also offered ${how} on the ${list(variant)}.`
-             : `${p.name} is only offered on the ${t.name}.`;
-    const seatsToo = others.filter(o=>Object.values(COLORS[o.id].int).some(([k])=>k===COLORS[st.t].int[st.int][0])).map(o=>o.name);
-    also += seatsToo.length ? ` ${cap(seat.say)} seats are also on the ${list(seatsToo)}.` : '';
-    $('#cpAlso').textContent = also;
-
-    const extra = c.paint[st.paint], base = PACKAGES[st.t].base;
-    $('#cpSum').innerHTML = `<span class="small">${t.name} in ${esc(p.name)} with ${seat.say} seats</span>
-      <span class="big">${money(base+extra)}</span>
-      <span class="small">${extra ? `Starting price plus ${money(extra)} for the paint.` : 'Starting price. This paint is included.'} Before packages, the ${money(DESTINATION)} destination fee, tax and registration.</span>`;
-    $('#cpNote').textContent = note;
+    // The same rows every time, so the total never changes height.
+    const paintCost = c.paint[st.paint], pk = PKG.extra(st.t), n = PKG.level(st.t);
+    const start = PACKAGES[st.t].base;
+    $('#cpSum').innerHTML = `<dl class="cp-lines">
+        <div><dt>Starting price</dt><dd>${money(start)}</dd></div>
+        <div><dt>Packages <a href="#packages">${n ? `${n} of ${PACKAGES[st.t].ladder.length}` : 'Add some'}</a></dt><dd>${n ? '+'+money(pk) : 'None'}</dd></div>
+        <div><dt>Paint</dt><dd>${priceTxt(paintCost)}</dd></div>
+        <div class="cp-total"><dt>Total</dt><dd class="big">${money(start+pk+paintCost)}</dd></div>
+      </dl>`;
+    const noteEl = $('#cpNote');
+    noteEl.textContent = note; noteEl.classList.toggle('seen', noteSeen);
     store.set('rav4-colors', st);
   }
 
@@ -1462,18 +1496,24 @@ const VIEW = (function(){
     const again = msgs.length>0;
     if(!int){ int = Object.keys(c.int)[0]; msgs.push(`${cap(oldSeat.say)} seats aren't offered on the ${name}${again?' either':''}, so this shows ${seatOf(to,int).say} seats.`); }
     else if(seatOf(to,int)!==oldSeat) msgs.push(`${again?'Its':`The ${name}'s`} seats are ${seatOf(to,int).say} rather than ${oldSeat.say}.`);
-    Object.assign(st, {t:to, paint, int}); note = msgs.join(' ');
+    Object.assign(st, {t:to, paint, int}); note = msgs.join(' '); noteSeen = false;
     warm(to); render();
   }
 
   box.addEventListener('click',e=>{
     const m = e.target.closest('#cpModel button'); if(m) return switchModel(m.dataset.t);
     const o = e.target.closest('.cp-opt'); if(!o) return;
-    st[o.parentElement.id==='cpPaint' ? 'paint' : 'int'] = o.dataset.code; note = '';
+    // render() replaces the buttons, so note which list this was first, then focus its new copy.
+    const list = o.parentElement.id;
+    st[list==='cpPaint' ? 'paint' : 'int'] = o.dataset.code; noteSeen = true;
     render();
-    box.querySelector(`#${o.parentElement.id} [data-code="${o.dataset.code}"]`).focus();
+    box.querySelector(`#${list} [data-code="${o.dataset.code}"]`).focus({preventScroll:true});
   });
-  render();
+  PKG.onChange(id=>{ if(id===st.t) render(); });
+  reserve();
+  let lastW = 0;
+  new ResizeObserver(()=>{ const w = Math.round(box.clientWidth); if(w!==lastW){ lastW = w; reserve(); } }).observe(box);
+  document.fonts?.ready.then(reserve);
   // Warm the photos only once the section is close, so the page's first load stays light.
   new IntersectionObserver((es,io)=>{ if(es.some(x=>x.isIntersecting)){ warm(st.t); io.disconnect(); } }, {rootMargin:'400px'}).observe(box);
 })();
@@ -1499,7 +1539,7 @@ const VIEW = (function(){
 
   // Text that names a year-specific fact: <span data-f="key">.
   const TEXT = {year:String(F.year), range:String(F.range), specGaps:F.specGaps, sources:F.sources,
-    ...Object.fromEntries(TRIM_IDS.map(id=>['price.'+id, money(F.base[id])]))};
+    ...Object.fromEntries(TRIM_IDS.map(id=>['price.'+id, money(START[id])]))};
   document.querySelectorAll('[data-f]').forEach(el=>{
     const k = el.dataset.f;
     if(Object.hasOwn(TEXT,k)) el.textContent = TEXT[k]; else console.error('No year fact named', k);
@@ -1512,7 +1552,7 @@ const VIEW = (function(){
   const less = TRIM_IDS.map(id=>O.base[id]-F.base[id]);
   const priceNote = new Set(less).size===1 && less[0]>0 ? ` (${money(less[0])} less on every trim)` : '';
   const rows = [
-    ['Starting prices', f=>`${money(f.base.xle)} to ${money(f.base.phv)}`, priceNote],
+    ['Starting prices', f=>`${money(f.base.xle+DESTINATION)} to ${money(f.base.phv+DESTINATION)}`, priceNote],
     ['Hybrid power', f=>`${f.hp.hyb} hp`],
     ['Hybrid gas mileage, combined', f=>hybridMpgList(f)],
     ['Plug-in power', f=>`${f.hp.phv} hp`],
@@ -1939,8 +1979,10 @@ VIS.outageDemo = ()=>{
 
 /* ===================== FEATURE LIST ===================== */
 // Side-by-side photos of the same view in each trim, from Toyota's build tool.
+// One figure per trim with a photo for each view, from the color picker's renders (img/colors/).
 const trio = s=>`<div class="trio"><h5>${esc(s.title)}</h5><div class="trio-grid">${TRIMS.map((t,i)=>`
-  <figure style="--c:${t.color};--ar:${s.ar}"><img src="img/${s.kind}-${t.id}.jpg" data-full="img/full/${s.kind}-${t.id}.jpg" alt="${esc(t.name+': '+s.caps[i])}" loading="lazy">
+  <figure style="--c:${t.color}"><div class="trio-views">${s.views.map(([kind,side])=>{ const src = `img/colors/${kind}-${s.imgs[i]}.webp`;
+    return `<img class="v-${kind}" src="${src}" data-full="${src}" alt="${esc(`${t.name} from the ${side}`)}" loading="lazy">`; }).join('')}</div>
   <figcaption><b>${t.name}</b>${esc(s.caps[i])}</figcaption></figure>`).join('')}</div></div>`;
 (function(){
   const groups=[...new Set(FEATURES.map(f=>f.group))];
@@ -1980,6 +2022,9 @@ $('#basicsList').innerHTML = BASICS.map(([b,s])=>`<div class="basic"><b>${esc(b)
 // word some lines differently). A null at the end of the list means the line may be missing.
 // `years` limits a merge to the model years whose pages need it.
 const SPEC_MERGES = [
+  // Toyota's MSRP line becomes the page's starting price, which includes the destination fee.
+  {cat:'Price & fuel economy', label:'Starting price', from:['Base MSRP'],
+   cells:TRIM_IDS.map(id=>({t:money(START[id])}))},
   {cat:'Outside', label:'Windshield wipers', common:'Intermittent rear wiper on all four.',
    from:['Variable intermittent windshield wipers and intermittent rear window wiper',
          'Rain-sensing variable intermittent windshield wipers with de-icer function and intermittent rear window wiper'],

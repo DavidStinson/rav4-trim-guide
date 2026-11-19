@@ -1,7 +1,8 @@
 """Download the build tool's car renders for the color picker and make WebP copies for the site.
 
 Render ids were read from Toyota's online build tool (2027 models, November 2026) by selecting each
-paint and interior and noting the image path it loaded. They are stored in rav4-cfg/colors/renders.json.
+paint and interior and noting the image path it loaded. The `rear` ids are the rear three-quarter frame
+of the 360-degree view, in Wind Chill Pearl, for the styling photos. They are stored in rav4-cfg/colors/renders.json.
 
     python3 tools/fetch_color_renders.py
 
@@ -26,14 +27,15 @@ def main():
     renders = json.loads((SRC / 'renders.json').read_text())
     OUT.mkdir(parents=True, exist_ok=True)
     for model, r in renders.items():
-        for kind, fmt, ext in (('ext', 'png-alpha', 'png'), ('int', 'jpg', 'jpg')):
-            for code, rid in r[kind].items():
+        for kind, fmt, ext in (('ext', 'png-alpha', 'png'), ('rear', 'png-alpha', 'png'), ('int', 'jpg', 'jpg')):
+            for code, rid in r.get(kind, {}).items():
                 name = f'{kind}-{model}-{code}'
                 raw = SRC / f'{name}.{ext}'
                 fetch(f'{HOST}{r["base"]}/{rid}.png?wid=900&fmt={fmt}', raw)
                 # Every exterior render puts the car in the same 646 x 270 box at (106, 86); crop to it
                 # with a small margin so the car fills the frame and doesn't shift between paints.
-                crop = ['-crop', '90', '74', '680', '296'] if kind == 'ext' else []
+                # The rear frame's car sits in a 467 x 296 box at (247, 68).
+                crop = {'ext': ['-crop', '90', '74', '680', '296'], 'rear': ['-crop', '231', '56', '500', '320']}.get(kind, [])
                 subprocess.run(['cwebp', '-quiet', '-q', '78', '-alpha_q', '90', *crop, str(raw), '-o', str(OUT / f'{name}.webp')], check=True)
                 print(name)
 
