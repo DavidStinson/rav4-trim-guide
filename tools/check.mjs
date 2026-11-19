@@ -12,19 +12,14 @@
 // failure, so it can gate a commit or a hook.
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
-import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { REPO, PAGE as DEFAULT_PAGE, options, serve, freeze, loadAllPhotos } from './lib/site.mjs';
 
-const args = process.argv.slice(2);
-const flag = name => args.includes(name);
-const opt = (name, fallback) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
-
-const HERE = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(opt('--root', path.join(HERE, '..')));
+const { flag, opt } = options();
+const ROOT = path.resolve(opt('--root', REPO));
 const OUT = path.resolve(opt('--out', path.join(ROOT, '.check')));
-const PAGE = opt('--page', 'rav4-site/index.html');
+const PAGE = opt('--page', DEFAULT_PAGE);
 const QUICK = flag('--quick');
 const YEARS = QUICK ? [2027] : [2027, 2026];
 const WIDTHS = QUICK ? [390, 1400] : [390, 700, 1100, 1400, 1500];
@@ -33,34 +28,6 @@ const HEIGHT = 900;
 const CHECKS = ['layout-check.js', 'year-check.js', 'photo-check.js'];
 // WCAG 2.2 A and AA, the level most accessibility laws point to.
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
-
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css',
-  '.json': 'application/json', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml',
-  '.woff2': 'font/woff2' };
-
-// A static file server for ROOT on a free local port.
-function serve(){
-  const server = http.createServer(async (req, res) => {
-    const rel = decodeURIComponent(new URL(req.url, 'http://x').pathname);
-    const file = path.join(ROOT, rel);
-    if(!file.startsWith(ROOT + path.sep)){ res.writeHead(403).end(); return; }
-    try {
-      const body = await fs.readFile(file);
-      res.writeHead(200, { 'content-type': TYPES[path.extname(file)] || 'application/octet-stream', 'cache-control': 'no-store' }).end(body);
-    } catch { res.writeHead(404).end(); }
-  });
-  return new Promise(r => server.listen(0, '127.0.0.1', () => r(server)));
-}
-
-// Scroll through the page so every lazy photo loads, then wait for them before the screenshot.
-async function loadAllPhotos(page){
-  await page.evaluate(async () => {
-    for(let y = 0; y < document.body.scrollHeight; y += innerHeight / 2){ scrollTo(0, y); await new Promise(r => setTimeout(r, 40)); }
-    scrollTo(0, 0);
-    await Promise.all([...document.images].filter(i => i.getClientRects().length).map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; })));
-    await document.fonts.ready;
-  });
-}
 
 async function run(browser, base, year, width, scheme, sources, first){
   const context = await browser.newContext({ viewport: { width, height: HEIGHT }, reducedMotion: 'reduce', colorScheme: scheme });
@@ -74,11 +41,10 @@ async function run(browser, base, year, width, scheme, sources, first){
   await page.goto(`${base}/${PAGE}?year=${year}`, { waitUntil: 'load' });
   await page.waitForTimeout(300);
   if(SHOTS){
-    // Freeze transitions and animations, so two runs of the same page give the same pixels.
-    const still = await page.addStyleTag({ content: '*,*::before,*::after{transition:none!important;animation:none!important;caret-color:transparent!important}' });
+    const unfreeze = await freeze(page);
     await loadAllPhotos(page);
     await page.screenshot({ path: path.join(OUT, 'shots', `${year}@${width}${scheme === 'dark' ? '-dark' : ''}.png`), fullPage: true });
-    await still.evaluate(el => el.remove());
+    await unfreeze();
   }
   const axe = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
   const fails = axe.violations.map(v => `accessibility: ${v.id} (${v.impact}) on ${v.nodes.length} element(s), e.g. ${v.nodes[0].target.join(' ')}: ${v.help}`);
@@ -96,8 +62,8 @@ const started = Date.now();
 if(SHOTS) await fs.rm(path.join(OUT, 'shots'), { recursive: true, force: true });
 await fs.mkdir(path.join(OUT, 'shots'), { recursive: true });
 const sources = await Promise.all(CHECKS.map(f => fs.readFile(path.join(ROOT, 'tools', f), 'utf8')));
-const server = await serve();
-const base = `http://127.0.0.1:${server.address().port}`;
+const server = await serve(ROOT);
+const base = server.base;
 const browser = await chromium.launch();
 const results = {};
 try {
