@@ -48,7 +48,7 @@ VIS.cameraDemo = ()=>{
     <!-- shopping cart and a person walking behind -->
     <g><rect x="406" y="176" width="48" height="56" rx="6" fill="none" stroke="#2F7D5B" stroke-width="5"/><path d="M412 192h36M412 206h36M412 220h36" stroke="#2F7D5B" stroke-width="3"/></g>
     <g><ellipse cx="362" cy="388" rx="17" ry="10" fill="#B0303F"/><circle cx="362" cy="388" r="8" fill="#E2B48C"/></g>
-    <text x="16" y="322" font-size="15" fill="#E9E8DF">parking aisle</text>
+    <text x="16" y="322" font-size="18" fill="#E9E8DF">parking aisle</text>
     <!-- coverage overlays -->
     <g id="ovBack" class="ov" style="transition:opacity .35s">
       <rect width="600" height="460" fill="url(#hatch)" opacity=".62" mask="url(#mBack)"/>
@@ -120,7 +120,7 @@ VIS.mirrorDemo = ()=>{
       <button type="button" data-mode="cam" aria-pressed="false">Camera mode</button>
     </div>
     <div class="mirror-wrap">
-      <svg class="mirror-svg" viewBox="0 0 560 190" role="img" aria-labelledby="mirT"><title id="mirT">View in the rearview mirror</title>
+      <svg class="mirror-svg" viewBox="0 0 560 156" role="img" aria-labelledby="mirT"><title id="mirT">View in the rearview mirror</title>
         <defs><clipPath id="mclip"><rect x="20" y="20" width="520" height="120" rx="40"/></clipPath></defs>
         <rect x="270" y="0" width="20" height="24" fill="#3A3F43"/>
         <rect x="10" y="12" width="540" height="136" rx="48" fill="#2A2F33"/>
@@ -132,8 +132,8 @@ VIS.mirrorDemo = ()=>{
             <rect x="300" y="64" width="70" height="80" fill="#B88A54" stroke="#8C6224" stroke-width="3"/><rect x="368" y="80" width="56" height="64" fill="#C79A63" stroke="#8C6224" stroke-width="3"/>
           </g>
         </g>
-        <text x="280" y="176" text-anchor="middle" font-size="15" fill="currentColor" id="mirCap"></text>
       </svg>
+      <p class="demo-cap" id="mirCap" aria-live="polite"></p>
     </div>
   </div>`;
   return {html, init(root){
@@ -150,7 +150,7 @@ VIS.mirrorDemo = ()=>{
 // --- Head-up display ---
 VIS.hudDemo = ()=>({html:`
   <div class="mini-demo">
-    <svg viewBox="0 0 520 300" role="img" aria-labelledby="hudT"><title id="hudT">Speed and speed limit projected on the windshield above the hood</title>
+    <svg viewBox="110 90 300 210" role="img" aria-labelledby="hudT"><title id="hudT">Speed and speed limit projected on the windshield above the hood</title>
       <rect width="520" height="300" fill="#BFD7EA"/>
       <rect y="150" width="520" height="150" fill="#7F9A6E"/>
       <path d="M210 150 L310 150 L520 300 L0 300 Z" fill="#5E6468"/>
@@ -160,8 +160,8 @@ VIS.hudDemo = ()=>({html:`
       <g opacity=".92">
         <rect x="170" y="150" width="180" height="60" rx="10" fill="#0E2A3A" opacity=".35"/>
         <text x="236" y="194" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="38" fill="#7FF2D2">45</text>
-        <text x="236" y="207" text-anchor="middle" font-size="11" fill="#7FF2D2">mph</text>
-        <rect x="282" y="160" width="40" height="44" rx="5" fill="#fff" opacity=".9"/><text x="302" y="174" text-anchor="middle" font-size="8" fill="#222">LIMIT</text><text x="302" y="197" text-anchor="middle" font-size="20" font-weight="800" font-family="Overpass" fill="#222">45</text>
+        <text x="236" y="208" text-anchor="middle" font-size="12" fill="#7FF2D2">mph</text>
+        <rect x="280" y="158" width="44" height="48" rx="5" fill="#fff" opacity=".9"/><text x="302" y="174" text-anchor="middle" font-size="11" fill="#222">LIMIT</text><text x="302" y="197" text-anchor="middle" font-size="20" font-weight="800" font-family="Overpass" fill="#222">45</text>
       </g>
     </svg>
   </div>`});
@@ -193,16 +193,15 @@ VIS.screenPair = ()=>{
 // --- Wheels: sidewall comparison ---
 VIS.wheelDemo = ()=>({html:`
   <div class="mini-demo">
-    <svg viewBox="0 0 440 240" role="img" aria-labelledby="whT"><title id="whT">An 18-inch wheel has a taller tire sidewall than a 20-inch wheel of the same overall size</title>
+    <svg viewBox="0 0 440 196" role="img" aria-labelledby="whT"><title id="whT">An 18-inch wheel has a taller tire sidewall than a 20-inch wheel of the same overall size</title>
       ${[[110,'18-inch wheel','More rubber cushion: softer ride',62,'var(--xle)'],[330,'20-inch wheel','Thinner tire: sportier, firmer',74,'var(--xse)']].map(([cx,t,s,r,c])=>`
         <circle cx="${cx}" cy="100" r="92" fill="#2B3034"/>
         <circle cx="${cx}" cy="100" r="${r}" fill="#A9B0B4" stroke="#fff" stroke-width="3"/>
         ${[0,72,144,216,288].map(a=>`<rect x="${cx-5}" y="${100-r+6}" width="10" height="${r-12}" rx="4" fill="#7C8488" transform="rotate(${a} ${cx} 100)"/>`).join('')}
         <circle cx="${cx}" cy="100" r="14" fill="#5B6168"/>
-        <path d="M${cx+r} 100 H${cx+92}" stroke="var(--lane)" stroke-width="5"/>
-        <text x="${cx}" y="214" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="18" fill="${c}">${t}</text>
-        <text x="${cx}" y="230" text-anchor="middle" font-size="13" fill="currentColor">${s}</text>`).join('')}
+        <path d="M${cx+r} 100 H${cx+92}" stroke="var(--lane)" stroke-width="5"/>`).join('')}
     </svg>
+    <div class="wheel-caps">${[['18-inch wheel','More rubber cushion: softer ride','var(--xle)'],['20-inch wheel','Thinner tire: sportier, firmer','var(--xse)']].map(([t,s,c])=>`<p style="--c:${c}"><b>${t}</b>${s}</p>`).join('')}</div>
     <p class="small muted" style="margin:0">Same overall tire height, different wheel size. The yellow line marks the tire sidewall that cushions bumps.</p>
   </div>`});
 

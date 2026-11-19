@@ -197,7 +197,7 @@ const PKG = (()=>{
     const rungs = p.ladder.map((k,i)=>{
       const before = p.ladder.slice(0,i);
       // What this package really costs: it can only be added with every package above it.
-      const req = before.length ? `${money(before.reduce((a,b)=>a+b.price,0)+k.price)} with the ${before.length===1?'one':before.length} above it` : '';
+      const req = before.length ? `Needs the ${before.length===1?'one':before.length} above: ${money(before.reduce((a,b)=>a+b.price,0)+k.price)} together` : '';
       return `<li class="rung" data-i="${i+1}"><button type="button" aria-pressed="false">
         <span class="knob" aria-hidden="true"></span><span class="pn">${esc(k.name)}</span><span class="pp">+${money(k.price)}</span>
         <span class="pc">${k.gets.map(([,txt])=>esc(txt)).join(', ')}</span>

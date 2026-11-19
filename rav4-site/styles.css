@@ -245,8 +245,9 @@ section{padding:104px 0 0}
   .feature > .f-vis{margin:28px 0 0}
   .feature > .f-below,.feature > .trio{grid-column:1 / -2}
   .feature.wide{grid-template-areas:"text avail" "vis vis"}
-  .feature.wide > .avail{grid-row:1;margin-bottom:0;border-bottom:1px solid var(--rule);border-bottom-left-radius:16px}
-  .feature.wide > .f-vis{grid-column:1 / -1;margin:28px 0 0}
+  .feature.wide > .f-text{padding-bottom:32px}
+  .feature.wide > .avail{grid-row:1;margin-bottom:0}
+  .feature.wide > .f-vis{grid-column:1 / -1;margin:0 -40px;padding:28px 40px 0;border-top:1px solid var(--rule)}
 }
 @media (min-width:1280px){
   .feature:not(.wide):not(.no-visual){grid-template-columns:minmax(0,1fr) minmax(0,1fr) 300px;grid-template-areas:"text vis avail"}
@@ -275,6 +276,11 @@ section{padding:104px 0 0}
 @media (max-width:600px){.photo-pair{grid-template-columns:1fr}}
 .mirror-wrap{display:grid;place-items:center;padding:12px 0}
 .mirror-svg{width:100%;max-width:560px;height:auto}
+/* Captions that change with a demo, and labels under a drawing, are HTML so they stay body size. */
+.demo-cap{margin:8px 0 0;text-align:center;font-size:17px;color:var(--ink-2)}
+.wheel-caps{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;margin:0}
+.wheel-caps p{margin:0;font-size:17px;color:var(--ink-2);line-height:1.35}
+.wheel-caps b{display:block;font:800 18px Overpass,sans-serif;color:var(--c)}
 .mini-demo{padding:24px;background:var(--paper);border-radius:16px;display:grid;gap:14px;align-content:center;height:100%}
 .mini-demo svg{width:100%;height:auto}
 .scr-scale{display:block;width:100%;max-width:440px;height:auto;margin:0 auto}
