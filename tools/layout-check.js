@@ -134,5 +134,17 @@ window.layoutCheck = function layoutCheck(){
   if(wrapW > 1420) fails.push(`content is ${wrapW}px wide at ${W}px; at most 1420`);
   if(W >= 1440 && wrapW !== 1420) fails.push(`content is ${wrapW}px wide at ${W}px; expected 1420`);
 
+  // 9. Who has each feature sits in the same place in every feature panel: from 901px, a column down
+  //    the panel's right edge listing the four trims top to bottom, so a reader following one trim
+  //    finds it at the same spot every time.
+  if(W >= 901){
+    const lists = [...document.querySelectorAll('.feature > .avail')];
+    const edge = lists.map(a => { const p = a.closest('.feature').getBoundingClientRect(), r = a.getBoundingClientRect(); return Math.round(p.right - r.left); });
+    const odd = lists.filter((a, i) => edge[i] !== edge[0]).map(a => a.closest('.feature').id);
+    if(odd.length) fails.push(`feature availability is not in one right-hand column: ${odd.length} of ${lists.length} panels place it elsewhere (${odd.slice(0, 4).join(', ')})`);
+    const rows = lists.filter(a => new Set([...a.children].map(d => Math.round(d.getBoundingClientRect().left))).size > 1).map(a => a.closest('.feature').id);
+    if(rows.length) fails.push(`feature availability is laid out side by side instead of as a list in ${rows.length} panels (${rows.slice(0, 4).join(', ')})`);
+  }
+
   return fails;
 };
