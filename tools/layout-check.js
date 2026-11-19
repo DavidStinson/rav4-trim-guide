@@ -52,26 +52,38 @@ window.layoutCheck = function layoutCheck(){
   if(document.documentElement.scrollWidth > W + 1)
     fails.push(`page is ${document.documentElement.scrollWidth}px wide at ${W}px viewport`);
 
-  // 6. Package cards never go four across: their option names need a card's width at three across.
-  //    On a wide screen, three show with an arrow for the fourth, and the arrow brings the Plug-in in.
-  const pk = document.querySelector('#pkGrid')?.closest('[data-sl]');
-  if(!pk) fails.push('no package slider');
-  else {
-    const items = [...pk.querySelector('.sl-track').children];
+  // 6. Sliders with a data-sl-max cap (the package cards and the priority cards) never show more
+  //    cards than the cap, and their cards are the same width. On a wide screen, the cap's worth
+  //    show with an arrow for the rest, and the arrow brings the last card in. The priority cards
+  //    only show once a priority is picked, so pick one for the check and put it back after.
+  const chip = document.querySelector('#chips [data-id="price"]');
+  const chipWasOn = chip?.getAttribute('aria-pressed') === 'true';
+  if(chip && !chipWasOn) chip.click();
+  const capped = ['#pkGrid', '#scores'].map(id => [id, document.querySelector(id)?.closest('[data-sl]')]);
+  const widths = {};
+  capped.forEach(([id, sl]) => {
+    if(!sl || !visible(sl)) { fails.push(`no visible ${id} slider`); return; }
+    const max = +sl.dataset.slMax;
+    if(!max) { fails.push(`${id} slider has no data-sl-max`); return; }
+    const items = [...sl.querySelector('.sl-track').children];
     const shown = () => items.filter(el => !el.classList.contains('sl-out')).length;
-    if(shown() > 3) fails.push(`package slider shows ${shown()} cards at ${W}px; at most 3`);
+    if(shown() > max) fails.push(`${id} slider shows ${shown()} cards at ${W}px; at most ${max}`);
     const minW = Math.min(...items.filter(el => !el.classList.contains('sl-out')).map(el => el.getBoundingClientRect().width));
-    if(W >= 1000 && minW < 260) fails.push(`package cards are ${Math.round(minW)}px wide at ${W}px; expected at least 260`);
+    widths[id] = minW;
+    if(W >= 1000 && minW < 260) fails.push(`${id} cards are ${Math.round(minW)}px wide at ${W}px; expected at least 260`);
     if(W >= 1280){
-      const next = pk.querySelector('.sl-next');
-      if(shown() !== 3 || !next || !visible(next)) fails.push(`package slider at ${W}px: ${shown()} cards and ${next && visible(next) ? 'a' : 'no'} next arrow; expected 3 and an arrow`);
+      const next = sl.querySelector('.sl-next');
+      if(shown() !== max || !next || !visible(next)) fails.push(`${id} slider at ${W}px: ${shown()} cards and ${next && visible(next) ? 'a' : 'no'} next arrow; expected ${max} and an arrow`);
       else {
         next.click();
-        if(items[items.length-1].classList.contains('sl-out')) fails.push(`package slider at ${W}px: the next arrow didn't bring the last card into view`);
-        pk.querySelector('.sl-prev')?.click();
+        if(items[items.length-1].classList.contains('sl-out')) fails.push(`${id} slider at ${W}px: the next arrow didn't bring the last card into view`);
+        sl.querySelector('.sl-prev')?.click();
       }
     }
-  }
+  });
+  if(widths['#pkGrid'] && widths['#scores'] && Math.abs(widths['#pkGrid'] - widths['#scores']) > 2)
+    fails.push(`priority cards are ${Math.round(widths['#scores'])}px wide and package cards ${Math.round(widths['#pkGrid'])}px at ${W}px; expected the same`);
+  if(chip && !chipWasOn) chip.click();
 
   // 7. Color picker: both photos show at a usable size, side by side with their choices from 860px
   //    up and stacked below that, and every choice is a comfortable tap target.
@@ -89,7 +101,39 @@ window.layoutCheck = function layoutCheck(){
     [...cp.querySelectorAll('button')].filter(visible).forEach(b => {
       if(r(b).height < 44) fails.push(`color picker button "${b.textContent.trim().slice(0,30)}" is ${Math.round(r(b).height)}px tall at ${W}px`);
     });
+    // Photos keep their shape whether or not they have loaded. (From 860px up the seat photo
+    // fills its row instead, cropped to fit.)
+    [[ext, 680/296], W < 860 && [int, 900/507]].filter(Boolean).forEach(([img, ar]) => {
+      if(img && Math.abs(r(img).width / r(img).height - ar) > 0.03) fails.push(`color picker photo ${img.id} is ${Math.round(r(img).width)}x${Math.round(r(img).height)} at ${W}px; expected a ${ar.toFixed(2)} ratio`);
+    });
+    // Nothing moves when you pick a paint or a seat color, or switch models: the photo and choice
+    // areas keep one height for every model. (The note above can appear on a model switch, so
+    // heights are compared, not positions.)
+    const grid = cp.querySelector('.cp-grid'), rows = () => [...grid.children].map(el => Math.round(r(el).height)).join(',');
+    const pressed = sel => cp.querySelector(`${sel} [aria-pressed="true"]`);
+    const start = [pressed('#cpModel'), pressed('#cpPaint'), pressed('#cpInt')].map(b => b && (b.dataset.t || b.dataset.code));
+    const before = rows();
+    const moved = [];
+    cp.querySelectorAll('#cpModel button').forEach(m => {
+      m.click();
+      if(rows() !== before) moved.push(`model ${m.dataset.t}`);
+      cp.querySelectorAll('#cpPaint button, #cpInt button').forEach(b => {
+        b.click();
+        if(rows() !== before) moved.push(`${m.dataset.t} ${b.dataset.code}`);
+      });
+    });
+    if(moved.length) fails.push(`color picker at ${W}px changes height (${before}) after: ${moved.slice(0,4).join(', ')}${moved.length>4?' and more':''}`);
+    if(start[0]){
+      cp.querySelector(`#cpModel [data-t="${start[0]}"]`)?.click();
+      cp.querySelector(`#cpPaint [data-code="${start[1]}"]`)?.click();
+      cp.querySelector(`#cpInt [data-code="${start[2]}"]`)?.click();
+    }
   }
+
+  // 8. Content and the top bar stop widening at 1420px.
+  const wrapW = Math.round(document.querySelector('.topbar .wrap').getBoundingClientRect().width);
+  if(wrapW > 1420) fails.push(`content is ${wrapW}px wide at ${W}px; at most 1420`);
+  if(W >= 1440 && wrapW !== 1420) fails.push(`content is ${wrapW}px wide at ${W}px; expected 1420`);
 
   return fails;
 };

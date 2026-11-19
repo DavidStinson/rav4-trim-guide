@@ -7,7 +7,7 @@
 // Loads the site at several widths, for each model year, and runs layout-check.js and year-check.js
 // in each. ?page= picks the page.
 const page = new URLSearchParams(location.search).get('page') || '/rav4-site/index.html';
-const widths = [390, 700, 1100, 1400];
+const widths = [390, 700, 1100, 1400, 1500];
 const years = [2027, 2026];
 const src = await (await fetch('/tools/layout-check.js')).text();
 const ysrc = await (await fetch('/tools/year-check.js')).text();

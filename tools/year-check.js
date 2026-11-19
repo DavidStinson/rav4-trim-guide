@@ -1,14 +1,16 @@
 // Model-year checks for rav4-site. Run in the page after it loads (the harness does this):
 // `yearCheck(2026)` returns a list of failures for the page loaded with ?year=2026; empty means pass.
 // The expected numbers below are copied from Toyota's comparison pages, not from the page's own data,
-// so a typo in YEAR_FACTS fails here.
+// so a typo in YEAR_FACTS fails here. Every price on the page includes Toyota's $1,595 destination fee,
+// so the starting prices below are the MSRP plus $1,595 (2027 MSRP $38,100, $41,900, $43,900, $47,800;
+// 2026 MSRP $37,500, $41,300, $43,300, $47,200).
 window.yearCheck = function yearCheck(year){
   const fails = [];
   const EXPECT = {
-    2027:{prices:['$38,100','$41,900','$43,900','$47,800'], mpgLine:['41 mpg','40 mpg','39 mpg','50 miles'], diffPanel:false,
-          specText:['$47,800','102','321 hp combined'], featText:['50 miles','102 MPGe','321 horsepower']},
-    2026:{prices:['$37,500','$41,300','$43,300','$47,200'], mpgLine:['41 mpg','40 mpg','52 miles'], diffPanel:true,
-          specText:['$47,200','96','324 hp combined','236 hp combined'], featText:['52 miles','96 MPGe','324 horsepower','CCS1']},
+    2027:{prices:['$39,695','$43,495','$45,495','$49,395'], mpgLine:['41 mpg','40 mpg','39 mpg','50 miles'], diffPanel:false,
+          specText:['$49,395','102','321 hp combined'], featText:['50 miles','102 MPGe','321 horsepower']},
+    2026:{prices:['$39,095','$42,895','$44,895','$48,795'], mpgLine:['41 mpg','40 mpg','52 miles'], diffPanel:true,
+          specText:['$48,795','96','324 hp combined','236 hp combined'], featText:['52 miles','96 MPGe','324 horsepower','CCS1']},
   }[year];
   if(!EXPECT) return [`no expectations for ${year}`];
   const txt = el => el ? el.textContent.replace(/\s+/g,' ') : '';
@@ -25,6 +27,14 @@ window.yearCheck = function yearCheck(year){
   const foot = txt(document.querySelector('.road-foot'));
   EXPECT.mpgLine.forEach(s=>{ if(!foot.includes(s)) fails.push(`mileage line lacks "${s}": ${foot}`); });
 
+  // 2b. The destination fee and the tax and registration caveat are said once, under the hero prices.
+  const body = document.body.innerText.replace(document.querySelector('.road-foot')?.innerText||'', '');
+  if(!/\$1,595 destination fee/.test(foot) || !/tax/.test(foot) || !/registration/.test(foot)) fails.push(`hero note should say prices include the $1,595 destination fee and not tax or registration: ${foot}`);
+  [/1,595/, /destination fee,? (?!taxes)/i, /before tax/i, /tax (and|or) registration/i, /MSRP/].forEach(re=>{
+    const m = body.match(new RegExp('.{0,60}'+re.source+'.{0,40}', re.flags));
+    if(m) fails.push(`price caveat repeated outside the hero note: "${m[0]}"`);
+  });
+
   // 3. The "what's different" panel shows only for 2026.
   const panel = document.querySelector('#yearDiff');
   const shown = !!panel && !panel.hidden && panel.getClientRects().length>0;
@@ -33,6 +43,19 @@ window.yearCheck = function yearCheck(year){
   // 4. Package cards start from that year's base prices.
   const pkBase = [...document.querySelectorAll('.pk-head p')].map(el=>txt(el).replace('Starts at ','').trim());
   if(pkBase.join('|') !== EXPECT.prices.join('|')) fails.push(`package cards start at ${pkBase.join(', ')}`);
+
+  // 4b. Package totals add each package to the starting price, and the cards no longer list paint prices.
+  const pkCard = document.querySelector('.pk[data-t="xle"]');
+  const pkTotal = ()=>txt(pkCard?.querySelector('.pk-total .big')).trim();
+  const start = Object.fromEntries(['xle','xse','ltd','phv'].map((t,i)=>[t, +EXPECT.prices[i].replace(/\D/g,'')]));
+  const usd = n=>'$'+n.toLocaleString('en-US');
+  const pkLevel = i=>pkCard?.querySelector(`.rung[data-i="${i}"] button`)?.click();
+  pkLevel(0);
+  if(pkTotal() !== usd(start.xle)) fails.push(`XLE with no packages shows ${pkTotal()}; expected ${usd(start.xle)}`);
+  pkLevel(2);
+  if(pkTotal() !== usd(start.xle+375+1850)) fails.push(`XLE with two packages shows ${pkTotal()}; expected ${usd(start.xle+2225)}`);
+  pkLevel(0);
+  if(document.querySelector('.pk-paint')) fails.push('package cards still list paint prices');
 
   // 5. Spec list uses that year's data, and every merge written for that year found its lines.
   const diffBox = document.querySelector('#diffOnly');
@@ -77,11 +100,12 @@ window.yearCheck = function yearCheck(year){
     xse:{paint:{'0218':0,'02SQ':500,'0M22':500,'02VP':975}, int:['EC20'], img:'4530'},
     phv:{paint:{'0218':0,'02SQ':500,'0M22':500,'02VP':975}, int:['EC20'], img:'4550'},
   };
-  const base = Object.fromEntries(['xle','xse','ltd','phv'].map((t,i)=>[t, +EXPECT.prices[i].replace(/\D/g,'')]));
-  const usd = n=>'$'+n.toLocaleString('en-US');
+  const base = start;
   const cp = document.querySelector('#colors');
   if(!cp) fails.push('no #colors section');
   else {
+    if(txt(cp.querySelector('h2')).trim() !== 'Paint and interior colors') fails.push(`colors heading is "${txt(cp.querySelector('h2'))}"`);
+    if(cp.querySelector('#cpAlso')) fails.push('colors: the "also offered on" line should be gone');
     const q = s=>[...cp.querySelectorAll(s)];
     const click = (sel)=>{ const b = cp.querySelector(sel); if(!b){ fails.push(`colors: no ${sel}`); return false; } b.click(); return true; };
     const pressed = s=>q(s+' [aria-pressed="true"]').map(b=>b.dataset.code||b.dataset.t);
@@ -110,29 +134,70 @@ window.yearCheck = function yearCheck(year){
     // A red XLE Premium with beige seats: the paint adds $475 to that year's starting price,
     // and the same red is offered on the Limited but not on either XSE.
     click('#cpModel [data-t="xle"]'); click('#cpPaint [data-code="03T3"]'); click('#cpInt [data-code="EE40"]');
-    if(!sum().includes(usd(base.xle+475))) fails.push(`colors: red XLE total should be ${usd(base.xle+475)}: ${sum()}`);
-    const also = txt(cp.querySelector('#cpAlso'));
-    if(!/Limited/.test(also) || /XSE/.test(also)) fails.push(`colors: Ruby Flare Pearl should be "also" on the Limited only: ${also}`);
+    const total = ()=>txt(cp.querySelector('#cpSum .big')).trim();
+    if(total() !== usd(base.xle+475)) fails.push(`colors: red XLE total should be ${usd(base.xle+475)}: ${sum()}`);
+    // The total includes the packages picked for that model above, and follows changes to them.
+    pkLevel(2);
+    if(total() !== usd(base.xle+2225+475)) fails.push(`colors: red XLE with two packages should total ${usd(base.xle+2225+475)}: ${sum()}`);
+    if(!/Packages/.test(sum()) || !sum().includes(usd(2225))) fails.push(`colors: total should list the packages: ${sum()}`);
+    pkLevel(0);
+    if(total() !== usd(base.xle+475)) fails.push(`colors: total didn't follow the packages back to none: ${sum()}`);
     // Switching to the XSE can't keep red or beige: it falls back to its included black and its one
     // interior, and says why.
     click('#cpModel [data-t="xse"]');
     if(pressed('#cpPaint').join() !== '0218' || pressed('#cpInt').join() !== 'EC20') fails.push(`colors: XSE after red/beige picked ${pressed('#cpPaint')} / ${pressed('#cpInt')}; expected 0218 / EC20`);
     if(!/Ruby Flare Pearl/.test(note()) || !/Beige/i.test(note())) fails.push(`colors: switching to the XSE should explain the red and beige changes: ${note()}`);
-    if(!sum().includes(usd(base.xse))) fails.push(`colors: XSE in black should be ${usd(base.xse)}: ${sum()}`);
+    if(total() !== usd(base.xse)) fails.push(`colors: XSE in black should be ${usd(base.xse)}: ${sum()}`);
     // Storm Cloud carries over to the Plug-in as its two-tone version, at +$500.
     click('#cpModel [data-t="xle"]'); click('#cpPaint [data-code="01L6"]'); click('#cpModel [data-t="phv"]');
     if(pressed('#cpPaint').join() !== '0M22') fails.push(`colors: Storm Cloud on the Plug-in picked ${pressed('#cpPaint')}; expected 0M22`);
-    if(!sum().includes(usd(base.phv+500))) fails.push(`colors: two-tone Plug-in total should be ${usd(base.phv+500)}: ${sum()}`);
+    if(total() !== usd(base.phv+500)) fails.push(`colors: two-tone Plug-in total should be ${usd(base.phv+500)}: ${sum()}`);
     if(!/roof/.test(note())) fails.push(`colors: carrying Storm Cloud to the Plug-in should mention the black roof: ${note()}`);
     // Ice Cap is XLE-only; the Limited falls back to an included paint.
     click('#cpModel [data-t="xle"]'); click('#cpPaint [data-code="0040"]'); click('#cpModel [data-t="ltd"]');
     const lp = pressed('#cpPaint').join();
     if(COLORS.ltd.paint[lp] !== 0) fails.push(`colors: Ice Cap on the Limited fell back to ${lp}; expected an included paint`);
     if(!/Ice Cap/.test(note())) fails.push(`colors: switching Ice Cap to the Limited should say so: ${note()}`);
-    // Picking a paint on the same model clears the note.
+    // Picking a paint on the same model hides the note but keeps its space, so nothing below moves.
+    const noteEl = cp.querySelector('#cpNote'), noteH = noteEl.getBoundingClientRect().height;
     click(`#cpPaint [data-code="0089"]`);
-    if(note().trim()) fails.push(`colors: note should clear after picking a paint: ${note()}`);
+    if(getComputedStyle(noteEl).visibility !== 'hidden') fails.push(`colors: note should hide after picking a paint: ${note()}`);
+    if(Math.abs(noteEl.getBoundingClientRect().height - noteH) > 1) fails.push('colors: hiding the note changed its height');
+    // Picking a paint keeps keyboard focus on that paint's button (the list is redrawn on each pick).
+    click('#cpPaint [data-code="0218"]');
+    if(document.activeElement?.dataset?.code !== '0218' || !document.activeElement.isConnected) fails.push(`colors: focus after picking a paint is on ${document.activeElement?.outerHTML?.slice(0,60)}`);
     click('#cpModel [data-t="xle"]'); click('#cpPaint [data-code="04V8"]'); click('#cpInt [data-code="EE20"]');
+  }
+
+  // 9. Features: only the bigger screen counts as the bigger screen, and only two pads count as
+  //    charging for two.
+  const pills = id=>[...document.querySelectorAll(`#f-${id} .avail > div`)].map(d=>(d.querySelector('.pill')?.className||'').replace('pill','').trim());
+  if(pills('screen').join() !== 'no,std,std,std') fails.push(`bigger screen marks ${pills('screen').join()}; expected no,std,std,std`);
+  if(pills('charge').join() !== 'no,no,std,no') fails.push(`charging for two marks ${pills('charge').join()}; expected no,no,std,no`);
+
+  // 10. Photos: the hero shows each model in its own color; the styling details show all four in white,
+  //     front and back.
+  const heroSrc = [...document.querySelectorAll('.road .car img')].map(i=>i.getAttribute('src'));
+  const heroWant = ['ext-4444-04V8','ext-4530-02VP','ext-4534-01L6','ext-4550-0M22'].map(f=>`img/colors/${f}.webp`);
+  if(heroSrc.join() !== heroWant.join()) fails.push(`hero photos ${heroSrc.join(', ')}; expected ${heroWant.join(', ')}`);
+  const white = ['4444-0089','4530-02VP','4534-0089','4550-02VP'];
+  const styleSrc = [...document.querySelectorAll('#f-style .trio img')].map(i=>i.getAttribute('src'));
+  const styleWant = white.flatMap(w=>[`img/colors/ext-${w}.webp`, `img/colors/rear-${w}.webp`]);
+  if(styleSrc.join() !== styleWant.join()) fails.push(`styling photos ${styleSrc.join(', ')}; expected ${styleWant.join(', ')}`);
+
+  // 11. The priority legend explains "Not listed" only while a card shows it (the 2026 Plug-in's
+  //     driver-assist row does).
+  const chip = id=>document.querySelector(`#chips [data-id="${id}"]`);
+  const nlLegend = ()=>{ const el = document.querySelector('#picker .legend .pill.nl'); return !!el && el.getClientRects().length>0; };
+  const nlShown = ()=>!!document.querySelector('#scores .pill.nl');
+  const wasOn = chip('safety')?.getAttribute('aria-pressed')==='true';
+  if(!chip('safety')) fails.push('no "safety" priority chip');
+  else {
+    if(!wasOn) chip('safety').click();
+    if(nlLegend() !== nlShown()) fails.push(`priority legend ${nlLegend()?'shows':'hides'} "Not listed" while the cards ${nlShown()?'use':"don't use"} it`);
+    if(nlShown() !== (year===2026)) fails.push(`priority cards ${nlShown()?'use':"don't use"} "Not listed" in ${year}`);
+    if(!wasOn) chip('safety').click();
+    if(nlLegend() !== nlShown()) fails.push('priority legend "Not listed" out of step after clearing the chip');
   }
 
   return fails;
@@ -146,6 +211,7 @@ window.colorFilesCheck = async function colorFilesCheck(){
     ...['4530','4550'].flatMap(m=>['0218','02SQ','0M22','02VP'].map(c=>`ext-${m}-${c}`)),
     ...['EE10','EE20','EE40'].map(c=>`int-4444-${c}`), ...['EA10','EA20','EA40'].map(c=>`int-4534-${c}`),
     'int-4530-EC20', 'int-4550-EC20',
+    ...['4444-0089','4530-02VP','4534-0089','4550-02VP'].map(w=>`rear-${w}`),
   ];
   const fails = [];
   for(const f of files){
