@@ -48,7 +48,7 @@ VIS.cameraDemo = ()=>{
     <!-- shopping cart and a person walking behind -->
     <g><rect x="406" y="176" width="48" height="56" rx="6" fill="none" stroke="#2F7D5B" stroke-width="5"/><path d="M412 192h36M412 206h36M412 220h36" stroke="#2F7D5B" stroke-width="3"/></g>
     <g><ellipse cx="362" cy="388" rx="17" ry="10" fill="#B0303F"/><circle cx="362" cy="388" r="8" fill="#E2B48C"/></g>
-    <text x="16" y="322" font-family="Atkinson Hyperlegible" font-size="15" fill="#E9E8DF">parking aisle</text>
+    <text x="16" y="322" font-size="15" fill="#E9E8DF">parking aisle</text>
     <!-- coverage overlays -->
     <g id="ovBack" class="ov" style="transition:opacity .35s">
       <rect width="600" height="460" fill="url(#hatch)" opacity=".62" mask="url(#mBack)"/>
@@ -132,7 +132,7 @@ VIS.mirrorDemo = ()=>{
             <rect x="300" y="64" width="70" height="80" fill="#B88A54" stroke="#8C6224" stroke-width="3"/><rect x="368" y="80" width="56" height="64" fill="#C79A63" stroke="#8C6224" stroke-width="3"/>
           </g>
         </g>
-        <text x="280" y="176" text-anchor="middle" font-family="Atkinson Hyperlegible" font-size="15" fill="currentColor" id="mirCap"></text>
+        <text x="280" y="176" text-anchor="middle" font-size="15" fill="currentColor" id="mirCap"></text>
       </svg>
     </div>
   </div>`;
@@ -160,8 +160,8 @@ VIS.hudDemo = ()=>({html:`
       <g opacity=".92">
         <rect x="170" y="150" width="180" height="60" rx="10" fill="#0E2A3A" opacity=".35"/>
         <text x="236" y="194" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="38" fill="#7FF2D2">45</text>
-        <text x="236" y="207" text-anchor="middle" font-family="Atkinson Hyperlegible" font-size="11" fill="#7FF2D2">mph</text>
-        <rect x="282" y="160" width="40" height="44" rx="5" fill="#fff" opacity=".9"/><text x="302" y="174" text-anchor="middle" font-size="8" font-family="Atkinson Hyperlegible" fill="#222">LIMIT</text><text x="302" y="197" text-anchor="middle" font-size="20" font-weight="800" font-family="Overpass" fill="#222">45</text>
+        <text x="236" y="207" text-anchor="middle" font-size="11" fill="#7FF2D2">mph</text>
+        <rect x="282" y="160" width="40" height="44" rx="5" fill="#fff" opacity=".9"/><text x="302" y="174" text-anchor="middle" font-size="8" fill="#222">LIMIT</text><text x="302" y="197" text-anchor="middle" font-size="20" font-weight="800" font-family="Overpass" fill="#222">45</text>
       </g>
     </svg>
   </div>`});
@@ -201,7 +201,7 @@ VIS.wheelDemo = ()=>({html:`
         <circle cx="${cx}" cy="100" r="14" fill="#5B6168"/>
         <path d="M${cx+r} 100 H${cx+92}" stroke="var(--lane)" stroke-width="5"/>
         <text x="${cx}" y="214" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="18" fill="${c}">${t}</text>
-        <text x="${cx}" y="230" text-anchor="middle" font-family="Atkinson Hyperlegible" font-size="13" fill="currentColor">${s}</text>`).join('')}
+        <text x="${cx}" y="230" text-anchor="middle" font-size="13" fill="currentColor">${s}</text>`).join('')}
     </svg>
     <p class="small muted" style="margin:0">Same overall tire height, different wheel size. The yellow line marks the tire sidewall that cushions bumps.</p>
   </div>`});
