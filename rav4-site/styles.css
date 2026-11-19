@@ -203,19 +203,12 @@ section{padding:104px 0 0}
 .fgroup{margin-top:56px}
 .fgroup > h3{font-size:30px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:14px}
 .fgroup > h3::after{content:"";flex:1;height:2px;background:var(--rule)}
-/* Feature card: copy on the left, picture on the right, and the trim availability as its own full-width row
-   underneath, so all four trims sit side by side whenever the card is wide enough. */
-/* Each feature is a flat panel (no shadow: it is read, not picked) with who-has-it as its footer. */
-.feature{background:var(--card);border-radius:20px;padding:36px 40px 0;margin-bottom:20px;overflow:hidden;display:grid;column-gap:48px;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);grid-template-areas:"text vis" "avail avail";overflow:hidden;container-type:inline-size}
+/* Each feature is a flat panel (no shadow: it is read, not picked). On a narrow screen it stacks: the copy,
+   who has it as a full-width band, then any picture or demo. Wider screens are below the demo styles. */
+.feature{background:var(--card);border-radius:20px;padding:28px 22px 0;margin-bottom:20px;overflow:hidden;display:grid;column-gap:48px;grid-template-columns:minmax(0,1fr);grid-template-areas:"text" "avail" "vis";container-type:inline-size}
 .feature > .f-text{grid-area:text}
-.feature > .f-vis{grid-area:vis}
-.feature > .avail{grid-area:avail;margin:32px -40px 0;padding:18px 40px 22px;border-top:1px solid var(--rule)}
-.feature.no-visual{grid-template-areas:"text" "avail"}
-/* Big interactive demos still run full width; who has the feature stays right under the copy. */
-.feature.wide{grid-template-areas:"text" "avail" "vis"}
-
-.feature.no-visual{grid-template-columns:1fr}
-@media (max-width:900px){.feature,.feature.wide{grid-template-columns:1fr;grid-template-areas:"text" "avail" "vis";padding:28px 22px 0}.feature > .avail{margin-inline:-22px;padding:16px 22px 20px}.feature > .f-vis{margin:24px 0 22px}}
+.feature > .f-vis{grid-area:vis;margin:24px 0 22px}
+.feature > .avail{grid-area:avail;margin:32px -22px 0;padding:16px 22px 20px;border-top:1px solid var(--rule)}
 .f-text{padding:0}
 /* Feature copy keeps to a readable line length, whatever the panel's width. */
 .f-text > p{max-width:65ch}
@@ -235,18 +228,29 @@ section{padding:104px 0 0}
 .f-vis figure{margin:0;display:flex;flex-direction:column;height:100%}
 .f-vis figure > img{width:100%;height:100%;object-fit:cover;min-height:260px;flex:1}
 .f-vis figcaption{font-size:17px;color:var(--ink-2);padding:10px 0 0}
-.feature.wide{grid-template-columns:1fr}
-.feature.wide .f-vis{margin:28px 0 32px}
+.feature.wide > .f-vis{margin:28px 0 32px}
 .feature.compact{padding-top:28px}
 .feature.compact h4{font-size:22px}
-/* A feature with no picture puts who-has-it in a side column, a list of the four, instead of a row underneath. */
+/* From 901px every panel lists who has it down its right edge, the four trims in the same order, so a
+   reader following one trim finds it in the same place in every panel. A picture or demo sits under the
+   copy, or beside it from 1280px where three columns fit; big demos still run full width underneath. */
 @media (min-width:901px){
-  .feature.no-visual{grid-template-columns:minmax(0,1fr) 340px;grid-template-areas:"text avail";padding-bottom:36px}
-  .feature.no-visual > .avail{margin:-36px -40px -36px 0;padding:32px 28px;border-top:0;border-left:1px solid var(--rule);
+  .feature{grid-template-columns:minmax(0,1fr) 300px;grid-template-areas:"text avail" "vis avail";padding:36px 40px}
+  .feature.no-visual{grid-template-areas:"text avail"}
+  .feature > .avail{grid-column:-2;grid-row:1 / span 4;margin:-36px -40px -36px 0;padding:32px 28px;border-top:0;border-left:1px solid var(--rule);
     background:color-mix(in srgb,var(--paper) 60%,var(--card));grid-template-columns:1fr;align-content:start;gap:16px}
-  .feature.compact.no-visual > .avail{margin-top:-28px}
-  .feature.no-visual > .avail div{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 10px}
-  .feature.no-visual > .avail .note{grid-column:1/-1}
+  .feature.compact > .avail{margin-top:-28px}
+  .feature > .avail div{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 10px}
+  .feature > .avail .note{grid-column:1/-1}
+  .feature > .f-vis{margin:28px 0 0}
+  .feature > .f-below,.feature > .trio{grid-column:1 / -2}
+  .feature.wide{grid-template-areas:"text avail" "vis vis"}
+  .feature.wide > .avail{grid-row:1;margin-bottom:0;border-bottom:1px solid var(--rule);border-bottom-left-radius:16px}
+  .feature.wide > .f-vis{grid-column:1 / -1;margin:28px 0 0}
+}
+@media (min-width:1280px){
+  .feature:not(.wide):not(.no-visual){grid-template-columns:minmax(0,1fr) minmax(0,1fr) 300px;grid-template-areas:"text vis avail"}
+  .feature:not(.wide):not(.no-visual) > .f-vis{margin-top:0}
 }
 
 
