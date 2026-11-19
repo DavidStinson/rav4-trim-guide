@@ -58,8 +58,8 @@ window.yearCheck = function yearCheck(year){
   const shown = !!panel && !panel.hidden && panel.getClientRects().length>0;
   if(shown !== EXPECT.diffPanel) fails.push(`year-difference panel ${shown?'shows':'is hidden'} for ${year}`);
 
-  // 4. Package cards start from that year's base prices.
-  const pkBase = [...document.querySelectorAll('.pk-head p')].map(el=>txt(el).replace('Starts at ','').trim());
+  // 4. Package cards start from that year's base prices (the "No packages" row).
+  const pkBase = [...document.querySelectorAll('.pk .rung.base .pp')].map(el=>txt(el).trim());
   if(pkBase.join('|') !== EXPECT.prices.join('|')) fails.push(`package cards start at ${pkBase.join(', ')}`);
 
   // 4b. Package totals add each package to the starting price, and the cards no longer list paint prices.
@@ -217,6 +217,22 @@ window.yearCheck = function yearCheck(year){
   if(document.querySelector('#scores .pill.nl')) fails.push('priority cards show "Not listed" for the driver-assist bundle');
   if(chipSafety && !wasOn) chipSafety.click();
   if(/Driver Monitor|driver-assist bundle/.test(txt(document.querySelector('#checklist')))) fails.push('dealer checklist still asks about the Plug-in driver-assist bundle');
+
+  // Price steps: every "+$N over the X" chip under a hero car, and every step-up heading, matches the
+  // difference between the two prices shown, and each chip names the same comparison the step-ups make.
+  const norm = n => n.trim().replace(/^Hybrid /, '');
+  const num = t => +t.replace(/[^\d]/g, '');
+  const priceOf = Object.fromEntries([...document.querySelectorAll('.road .car')].map(c => [norm(txt(c.querySelector('.name'))), num(txt(c.querySelector('.price')))]));
+  const steps = [...document.querySelectorAll('.step-top')].map(s => ({from: norm(txt(s.querySelector('.from'))), to: norm(txt(s.querySelector('.to'))), cost: num(txt(s.querySelector('.cost')))}));
+  steps.forEach(s => { if(s.cost !== priceOf[s.to] - priceOf[s.from]) fails.push(`step-up ${s.from} to ${s.to} says +$${s.cost}; the prices differ by $${priceOf[s.to] - priceOf[s.from]}`); });
+  document.querySelectorAll('.road .car').forEach(c => {
+    const chip = txt(c.querySelector('.jump:not(.first)')).trim(); if(!chip) return;
+    const to = norm(txt(c.querySelector('.name'))), m = chip.match(/^\+\$([\d,]+) over the (.+)$/);
+    if(!m){ fails.push(`${to} price chip "${chip}" isn't "+$N over the <trim>"`); return; }
+    const from = norm(m[2]), n = num(m[1]);
+    if(n !== priceOf[to] - priceOf[from]) fails.push(`${to} chip says +$${n} over the ${from}; the prices differ by $${priceOf[to] - priceOf[from]}`);
+    if(!steps.some(s => s.from === from && s.to === to)) fails.push(`${to} chip compares it with the ${from}, but the step-ups compare it with the ${steps.filter(s => s.to === to).map(s => s.from).join(', ') || 'nothing'}`);
+  });
 
   return fails;
 };

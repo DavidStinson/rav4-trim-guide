@@ -146,5 +146,15 @@ window.layoutCheck = function layoutCheck(){
     if(rows.length) fails.push(`feature availability is laid out side by side instead of as a list in ${rows.length} panels (${rows.slice(0, 4).join(', ')})`);
   }
 
+  // 10. Package ladders read at a glance where all four sit side by side: a package name takes at most
+  //     two lines, its "with the ones above" price at most two, and the card names its base price once
+  //     (in the "No packages" row and the running total, not again under the heading).
+  if(W >= 1280){
+    const lines = el => { const lh = parseFloat(getComputedStyle(el).lineHeight); return Math.round(el.getBoundingClientRect().height / lh); };
+    const long = [...document.querySelectorAll('#pkGrid .rung .pn, #pkGrid .rung .req')].filter(el => lines(el) > 2).map(el => `"${el.textContent.trim()}" (${lines(el)} lines)`);
+    if(long.length) fails.push(`package ladder text wraps past two lines: ${long.slice(0, 3).join('; ')}`);
+    if(document.querySelector('#pkGrid .pk-head p')) fails.push('package cards repeat the base price under the heading');
+  }
+
   return fails;
 };
