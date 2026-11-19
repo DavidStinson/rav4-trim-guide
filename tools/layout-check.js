@@ -38,16 +38,43 @@ window.layoutCheck = function layoutCheck(){
     if(out || btns || clipped) fails.push(`slider ${i} at ${W}px: ${out} cards out of view, ${clipped} clipped, ${btns} arrows showing; expected all four`);
   });
 
-  // 4. On narrower screens (below 1000px, where four never fit), sliders still slide: something is hidden and a next arrow shows.
+  // 4. On narrower screens (below 1000px, where four never fit), sliders still slide: something is hidden
+  //    and there is a way to reach it: a next arrow where two or three show, the trim tabs on a phone.
   if(W < 1000) sliders.forEach((sl, i) => {
     const items = [...sl.querySelector('.sl-track').children];
     if(items.length < 2) return;
     const anyOut = items.some(el => el.classList.contains('sl-out'));
-    const next = sl.querySelector('.sl-next');
-    const prev = sl.querySelector('.sl-prev');
-    if(!anyOut || !((next && visible(next)) || (prev && visible(prev))))
-      fails.push(`slider ${i} at ${W}px: expected a sliding view with an arrow (cards out of view: ${anyOut})`);
+    const ways = [...sl.querySelectorAll('.sl-next, .sl-prev, .sl-tabs')].filter(visible);
+    if(!anyOut || !ways.length)
+      fails.push(`slider ${i} at ${W}px: expected a sliding view with an arrow or trim tabs (cards out of view: ${anyOut})`);
   });
+
+  // 4b. On a phone, where one card shows at a time, nothing peeks in from the sides (a faded sliver of the
+  //     next card reads as a mistake). Instead a row of four trim tabs, each a 44px target naming its trim,
+  //     sits above the cards; the one showing is marked pressed, and picking one shows that trim in every slider.
+  if(W < 568) sliders.forEach((sl, i) => {
+    const view = sl.querySelector('.sl-view').getBoundingClientRect();
+    const items = [...sl.querySelector('.sl-track').children];
+    const peeking = items.filter(el => { const r = el.getBoundingClientRect(); return el.classList.contains('sl-out') && r.right > view.left + 1 && r.left < view.right - 1; });
+    if(peeking.length) fails.push(`slider ${i} at ${W}px: ${peeking.length} hidden card(s) peek into view`);
+    if([...sl.querySelectorAll('.sl-btn')].some(visible)) fails.push(`slider ${i} at ${W}px: side arrows show on a phone; expected trim tabs`);
+    const tabs = [...sl.querySelectorAll('.sl-tabs button')];
+    if(tabs.length !== items.length || !tabs.every(visible)) { fails.push(`slider ${i} at ${W}px: ${tabs.filter(visible).length} trim tabs; expected ${items.length}`); return; }
+    if(tabs[0].getBoundingClientRect().bottom > view.top + 1) fails.push(`slider ${i} at ${W}px: trim tabs sit below the cards`);
+    const small = tabs.filter(t => t.getBoundingClientRect().height < 44);
+    if(small.length) fails.push(`slider ${i} at ${W}px: ${small.length} trim tabs under 44px tall`);
+    const pressed = tabs.map(t => t.getAttribute('aria-pressed') === 'true'), shownIdx = items.findIndex(el => !el.classList.contains('sl-out'));
+    if(pressed.filter(Boolean).length !== 1 || !pressed[shownIdx]) fails.push(`slider ${i} at ${W}px: the pressed trim tab doesn't match the card showing`);
+  });
+  if(W < 568 && sliders.length > 1){
+    const tab = sliders[0].querySelectorAll('.sl-tabs button')[2];
+    if(tab){
+      tab.click();
+      const wrong = sliders.filter(sl => sl.querySelector('.sl-track').children[2]?.classList.contains('sl-out'));
+      if(wrong.length) fails.push(`picking the third trim tab at ${W}px leaves ${wrong.length} slider(s) on another trim`);
+      sliders[0].querySelectorAll('.sl-tabs button')[0].click();
+    }
+  }
 
   // 5. The page never scrolls sideways.
   if(document.documentElement.scrollWidth > W + 1)
