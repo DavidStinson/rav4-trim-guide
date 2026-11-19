@@ -87,6 +87,7 @@ img{max-width:100%;height:auto;display:block}
 .road::before{content:"";position:absolute;left:0;right:0;top:156px;height:6px;background:repeating-linear-gradient(90deg,var(--lane) 0 46px,transparent 46px 82px);opacity:.9}
 .road .sl{--sl-bg:var(--asphalt);--sl-ink:#fff}
 .car{text-align:center;text-decoration:none;color:#fff;display:block;padding:0 6px;position:relative}
+.car .zoom{overflow:visible;border-radius:0}
 .car img{position:relative;width:100%;height:146px;object-fit:contain;object-position:center bottom;margin:0 auto -6px;filter:drop-shadow(0 18px 14px rgba(0,0,0,.45))}
 .car .name{font:800 clamp(22px,2.6vw,30px) Overpass,sans-serif;margin-top:18px}
 .car .price{font:700 20px Overpass,sans-serif;color:#E6E9EA}
@@ -366,6 +367,8 @@ section{padding:88px 0 0}
 .cp-stage img{width:100%;max-width:680px;height:auto;aspect-ratio:680/296}
 .cp-stage.cp-int{padding:0;background:#E4E7E5;border-top:1px solid var(--rule)}
 .cp-stage.cp-int img{max-width:none;height:100%;aspect-ratio:auto;object-fit:cover}
+.cp-stage > .zoom{max-width:680px;border-radius:0}
+.cp-stage.cp-int > .zoom{max-width:none;height:100%}
 .cp-pane{padding:20px 22px 22px;border-left:1px solid var(--rule)}
 .cp-pane + .cp-stage + .cp-pane{border-top:1px solid var(--rule)}
 .cp-pane h3{font-size:20px;margin:0 0 8px}
@@ -422,9 +425,12 @@ section{padding:88px 0 0}
 .lb-count{font-size:16px;color:#C9CED1;margin-right:auto}
 .lb button{font:inherit;font-size:16px;font-weight:700;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;padding:9px 16px;cursor:pointer;min-height:44px}
 .lb button:hover{background:rgba(255,255,255,.18)}
-.lb-stage{overflow:auto;display:grid;place-items:center;padding:0 16px;overscroll-behavior:contain}
+/* A fixed-size grid cell, so the photo's max-height resolves against the screen space, not the photo's own height. */
+.lb-stage{overflow:auto;display:grid;grid-template:minmax(0,1fr)/minmax(0,1fr);place-items:center;padding:0 16px;overscroll-behavior:contain}
 .lb-stage img{max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in;border-radius:8px}
-.lb-stage.zoomed{place-items:start}
+/* The build tool's car renders are see-through; give them the light backdrop they have on the page. Photos cover it. */
+.lb-stage img{background:radial-gradient(120% 100% at 50% 20%,#FFFFFF,#DDE2DF 75%)}
+.lb-stage.zoomed{place-items:start;grid-template:auto/auto}
 .lb-stage.zoomed img{max-width:none;max-height:none;width:auto;cursor:zoom-out}
 .lb-cap{padding:12px 16px 18px;font-size:17px;max-width:80ch;margin:0 auto;text-align:center;color:#E6E9EA}
 .lb-cap small{display:block;color:#AEB5BA;font-size:14px;margin-top:4px}
@@ -535,7 +541,7 @@ footer p{max-width:80ch}
     <div class="wrap"><div class="sl" data-sl>
       <div class="sl-view"><div class="sl-track">
       <div class="car">
-        <img src="img/colors/ext-4444-04V8.webp" alt="RAV4 XLE Premium in Meteor Shower (silver)" width="680" height="296">
+        <img src="img/colors/ext-4444-04V8.webp" data-photo="colors/ext-4444-04V8" sizes="(min-width: 1100px) 305px, 230px" alt="RAV4 XLE Premium in Meteor Shower (silver)" width="680" height="296">
         <div class="name">XLE Premium</div>
         <div class="price" data-f="price.xle">$39,695</div>
         <span class="jump first">Lowest price</span>
@@ -543,7 +549,7 @@ footer p{max-width:80ch}
         <div class="bar" style="background:var(--xle)"></div>
       </div>
       <div class="car">
-        <img src="img/colors/ext-4530-02VP.webp" alt="RAV4 XSE in Wind Chill Pearl (white) with a black roof and black wheels" width="680" height="296">
+        <img src="img/colors/ext-4530-02VP.webp" data-photo="colors/ext-4530-02VP" sizes="(min-width: 1100px) 305px, 230px" alt="RAV4 XSE in Wind Chill Pearl (white) with a black roof and black wheels" width="680" height="296">
         <div class="name">XSE</div>
         <div class="price" data-f="price.xse">$43,495</div>
         <span class="jump">+$3,800 over the XLE Premium</span>
@@ -551,7 +557,7 @@ footer p{max-width:80ch}
         <div class="bar" style="background:var(--xse)"></div>
       </div>
       <div class="car">
-        <img src="img/colors/ext-4534-01L6.webp" alt="RAV4 Limited in Storm Cloud (blue-gray)" width="680" height="296">
+        <img src="img/colors/ext-4534-01L6.webp" data-photo="colors/ext-4534-01L6" sizes="(min-width: 1100px) 305px, 230px" alt="RAV4 Limited in Storm Cloud (blue-gray)" width="680" height="296">
         <div class="name">Limited</div>
         <div class="price" data-f="price.ltd">$45,495</div>
         <span class="jump">+$2,000 over the XSE</span>
@@ -559,7 +565,7 @@ footer p{max-width:80ch}
         <div class="bar" style="background:var(--ltd)"></div>
       </div>
       <div class="car">
-        <img src="img/colors/ext-4550-0M22.webp" alt="RAV4 Plug-in Hybrid XSE in Storm Cloud (blue-gray) with a black roof and black wheels" width="680" height="296">
+        <img src="img/colors/ext-4550-0M22.webp" data-photo="colors/ext-4550-0M22" sizes="(min-width: 1100px) 305px, 230px" alt="RAV4 Plug-in Hybrid XSE in Storm Cloud (blue-gray) with a black roof and black wheels" width="680" height="296">
         <div class="name">Plug-in XSE</div>
         <div class="price" data-f="price.phv">$49,395</div>
         <span class="jump">+$3,900 over the Limited</span>
@@ -732,6 +738,7 @@ footer p{max-width:80ch}
 
 <script src="specs.js"></script>
 <script src="specs-2026.js"></script>
+<script src="photos.js"></script>
 <script>
 /* ===================== MODEL YEAR =====================
    The page shows one model year at a time, chosen by ?year= in the address (2027 when it's missing
@@ -897,7 +904,7 @@ const FEATURES = [
    aka:'Heated and ventilated front seats (high-mid-low)',
    what:'Small fans inside the front seats pull air through tiny holes in the seat covering. In summer it stops your back and legs from getting hot and sticky. The seats are also heated, with three levels instead of two.',
    why:'If you live somewhere warm, people who have cooled seats tend to say they would never go without them again. All four have heated front seats; the XLE Premium is the only one that doesn’t also cool.',
-   trims:[['no','Heated only (2 levels)'],['std'],['std'],['std']], img:'img/RHV_MY26_0039_V001.jpg', cap:'The perforated seat covering lets the fans move air through it.'},
+   trims:[['no','Heated only (2 levels)'],['std'],['std'],['std']], img:'RHV_MY26_0039', cap:'The perforated seat covering lets the fans move air through it.'},
   {id:'rearheat', group:'Comfort', name:'Heated back seats',
    aka:'Heated rear seats (on-off)',
    what:'The two outer back seats have their own heaters, with a switch for back-seat passengers.',
@@ -934,19 +941,19 @@ const FEATURES = [
    aka:'9-speaker JBL® Premium Audio with subwoofer and amplifier',
    what:'Nine speakers instead of six, including a subwoofer for deeper bass and a separate amplifier for more power.',
    why:'If music, audiobooks or talk radio are a big part of your drives, voices and instruments sound clearer and fuller. If the radio is mostly background, you may not notice much difference.',
-   trims:[['no','6 speakers'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)'],['std'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)']], img:'img/RHV_MY26_0049_V001.jpg', cap:'One of the JBL speakers, mounted by the windshield pillar.'},
+   trims:[['no','6 speakers'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)'],['std'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)']], img:'RHV_MY26_0049', cap:'One of the JBL speakers, mounted by the windshield pillar.'},
   {id:'charge', group:'Screen and sound', name:'Wireless phone charging for two',
    aka:'Dual Qi-compatible wireless charging',
    what:'Set your phone on a pad in the console and it charges with no cable. The Limited has two pads, so the driver and passenger can both charge at once.',
    why:'All four have one pad. Two only matters if you regularly ride with someone whose phone also needs a charge.',
-   trims:[['no','1 pad'],['no','1 pad'],['std','2 pads'],['no','1 pad']], img:'img/RHV_MY27_0010_V001.jpg', cap:'The charging tray sits below the climate controls.'},
+   trims:[['no','1 pad'],['no','1 pad'],['std','2 pads'],['no','1 pad']], img:'RHV_MY27_0010', cap:'The charging tray sits below the climate controls.'},
 
   /* ---------- Convenience ---------- */
   {id:'liftgate', group:'Convenience', name:'Hands-free tailgate',
    aka:'Hands-free power liftgate with jam protection',
    what:'With the key in your pocket or purse, swing your foot under the middle of the back bumper and the tailgate opens by itself. All four have a power tailgate that opens with a button; every trim except the XLE Premium adds the foot sensor.',
    why:'Wonderful when your arms are full of groceries. The XLE Premium’s power tailgate also lets you set how high it opens, which helps in a low garage.',
-   trims:[['no','Power tailgate with button'],['std'],['std'],['std']], img:'img/RHV_MY26_0045_V001.jpg', cap:'A kick under the bumper opens the tailgate.'},
+   trims:[['no','Power tailgate with button'],['std'],['std'],['std']], img:'RHV_MY26_0045', cap:'A kick under the bumper opens the tailgate.'},
   {id:'lights', group:'Convenience', name:'Puddle lights and soft cabin lighting',
    aka:'Puddle lights in outside mirrors; white ambient illuminated foot wells',
    what:'Puddle lights are small lights under the side mirrors that light up the ground by the front doors when you unlock the car. Ambient lighting is a soft glow in the footwells and cupholders at night.',
@@ -968,7 +975,7 @@ const FEATURES = [
    aka:'Two-tone paint, LED accent lights, fog lights, trim colors',
    what:'The <b>XSE</b> is the sporty-looking one: glossy black trim, vertical LED accent lights in the front bumper, blue stitching inside, and an optional black roof (two-tone paint). The <b>Plug-in XSE</b> looks almost the same. The <b>Limited</b> looks more upscale with silver accents, a satin-chrome grille and LED fog lights. The <b>XLE Premium</b> has a simpler, rugged look with matte black lower trim.',
    why:'Purely a matter of taste. Look at them in person, ideally in the color you want.',
-   trims:[['std','Simple, rugged'],['std','Sporty, two-tone option'],['std','Upscale, fog lights'],['std','Sporty, two-tone option']], img:'img/RHV_MY26_0016_V001.jpg', cap:'The Limited, shown in Storm Cloud, with its silver lower bumper.',
+   trims:[['std','Simple, rugged'],['std','Sporty, two-tone option'],['std','Upscale, fog lights'],['std','Sporty, two-tone option']], img:'RHV_MY26_0016', cap:'The Limited, shown in Storm Cloud, with its silver lower bumper.',
    shots:{title:'All four in white, front and back', views:[['ext','front'],['rear','back']],
      imgs:['4444-0089','4530-02VP','4534-0089','4550-02VP'],
      caps:['Matte black lower trim and dark wheels.','Black roof, black wheels, LED accent lights in the bumper.','Silver accents and fog lights.','Same sporty look as the Hybrid XSE.']}},
@@ -1109,7 +1116,7 @@ const PACKAGES = {
    2027, and within a model every paint goes with every interior, so the model is the only limit.
    `fam` ties the same color together across models (Storm Cloud on the XLE Premium is the two-tone
    Storm Cloud on the XSE), so switching models keeps the closest match. Swatch colors are Toyota's own
-   hex values. The photos in img/colors/ are the build tool's 2027 renders; tools/fetch_color_renders.py
+   hex values. The photos in img/colors/ are the build tool's 2027 renders; tools/build_photos.py
    rebuilds them. */
 const PAINTS = {
   '04V8':{name:'Meteor Shower', hint:'silver', fam:'Meteor Shower', hex:['#A1A1A1']},
@@ -1168,6 +1175,19 @@ const ICON = {
 const WORD = {std:'Included', opt:'Optional', no:'Not offered', nl:'Not listed'};
 const pill = (s,txt)=>`<span class="pill ${s}">${ICON[s]}${txt||WORD[s]}</span>`;
 const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ===================== PHOTOS ===================== */
+// Every photo has a page copy, a 2x copy for sharp screens and a full-size copy for the expanded view.
+// tools/build_photos.py makes them and lists their widths in photos.js. `sizes` says how wide the photo
+// shows, so the browser picks the copy it needs; "auto" lets lazy-loaded photos use their real width.
+const photoSet = name=>{
+  const p = PHOTOS[name];
+  if(!p){ console.error(`photo "${name}" isn't in photos.js; run tools/build_photos.py`); return {}; }
+  return {srcset:`img/${name}.webp ${p[0]}w, img/${name}@2x.webp ${p[1]}w`, src:`img/${name}.webp`, 'data-full':`img/full/${name}.webp`};
+};
+const photoAttrs = (name, sizes)=>Object.entries({...photoSet(name), sizes}).map(([k,v])=>`${k}="${v}"`).join(' ');
+const setPhoto = (img, name)=>Object.entries(photoSet(name)).forEach(([k,v])=>img.setAttribute(k,v));
+document.querySelectorAll('img[data-photo]').forEach(img=>setPhoto(img, img.dataset.photo));
 const featById = Object.fromEntries(FEATURES.map(f=>[f.id,f]));
 // Every per-trim list must have one entry per trim; say which one doesn't instead of failing mid-render.
 [...FEATURES.map(f=>['feature '+f.id,f.trims]), ...Object.entries(SPECIAL).map(([k,v])=>['priority '+k,v.trims])]
@@ -1404,12 +1424,12 @@ const PKG = (()=>{
       <p class="cp-note" id="cpNote" aria-live="polite"></p>
     </div>
     <div class="cp-grid">
-      <figure class="cp-stage"><img id="cpExt" alt="" width="680" height="296" loading="lazy"></figure>
+      <figure class="cp-stage"><img id="cpExt" alt="" width="680" height="296" loading="lazy" sizes="auto, (min-width: 700px) 680px, 80vw"></figure>
       <div class="cp-pane">
         <h3 id="cpPaintT">Paint</h3>
         <div class="cp-opts" role="group" aria-labelledby="cpPaintT" id="cpPaint"></div>
       </div>
-      <figure class="cp-stage cp-int"><img id="cpIntImg" alt="" width="900" height="507" loading="lazy"></figure>
+      <figure class="cp-stage cp-int"><img id="cpIntImg" alt="" width="900" height="507" loading="lazy" sizes="auto, (min-width: 700px) 820px, 90vw"></figure>
       <div class="cp-pane">
         <h3 id="cpIntT">Seats</h3>
         <p class="cp-sub" id="cpSeats"></p>
@@ -1444,8 +1464,10 @@ const PKG = (()=>{
   // Load the rest of a model's photos in the background so switching paints doesn't flash.
   const warmed = new Set();
   const warm = t=>{ if(warmed.has(t)) return; warmed.add(t);
-    [...Object.keys(COLORS[t].paint).map(c=>`img/colors/ext-${COLORS[t].img}-${c}.webp`),
-     ...Object.keys(COLORS[t].int).map(c=>`img/colors/int-${COLORS[t].img}-${c}.webp`)].forEach(s=>{ new Image().src = s; }); };
+    // Same sizes as the photo it replaces, so the browser loads the same copy it will show.
+    const like = (shown, name)=>{ const im = new Image(); im.sizes = shown.getAttribute('sizes'); setPhoto(im, name); };
+    Object.keys(COLORS[t].paint).forEach(c=>like($('#cpExt'), `colors/ext-${COLORS[t].img}-${c}`));
+    Object.keys(COLORS[t].int).forEach(c=>like($('#cpIntImg'), `colors/int-${COLORS[t].img}-${c}`)); };
 
   function render(){
     const c = COLORS[st.t], t = trimOf(st.t), p = PAINTS[st.paint], seat = seatOf(st.t, st.int);
@@ -1455,8 +1477,9 @@ const PKG = (()=>{
     $('#cpInt').innerHTML = seatsHTML(st.t, st.int);
     $('#cpSeats').textContent = seatsLine(st.t);
     const ext = $('#cpExt'), int = $('#cpIntImg');
-    ext.setAttribute('src', `img/colors/ext-${c.img}-${st.paint}.webp`); ext.alt = `${t.name} in ${p.name}`;
-    int.setAttribute('src', `img/colors/int-${c.img}-${st.int}.webp`); int.alt = `${t.name} front seats and dashboard, ${seat.say} seats`;
+    setPhoto(ext, `colors/ext-${c.img}-${st.paint}`); ext.alt = `${t.name} in ${p.name}`;
+    setPhoto(int, `colors/int-${c.img}-${st.int}`); int.alt = `${t.name} front seats and dashboard, ${seat.say} seats`;
+    [ext, int].forEach(img=>img.closest('.zoom')?.setAttribute('aria-label', 'Expand photo: '+img.alt));
 
     // The same rows every time, so the total never changes height.
     const paintCost = c.paint[st.paint], pk = PKG.extra(st.t), n = PKG.level(st.t);
@@ -1653,8 +1676,8 @@ VIS.cameraDemo = ()=>{
       </div>
     </div>
     <div class="photo-pair">
-      <figure><img src="img/backup-edmunds.jpg" data-full="img/full/backup-edmunds.jpg" alt="RAV4 center screen in reverse, showing the street behind the car with yellow, red and green guide lines" loading="lazy"><figcaption>What the XLE Premium’s backup camera shows on its 10.5-inch screen: only the area straight behind the car, with guide lines that bend as you turn the wheel.</figcaption></figure>
-      <figure><img src="img/RHV_MY27_0015_V001.jpg" data-full="img/full/RHV_MY27_0015_V001.jpg" alt="RAV4 dashboard screen showing an overhead view of the car on the left and a 3D view of the car on the right" loading="lazy"><figcaption>What the 360° camera on the other three shows on the screen: the overhead view on the left and a 3D view you can rotate on the right.</figcaption></figure>
+      <figure><img ${photoAttrs('backup-edmunds', 'auto, (min-width: 700px) 660px, 90vw')} alt="RAV4 center screen in reverse, showing the street behind the car with yellow, red and green guide lines" loading="lazy"><figcaption>What the XLE Premium’s backup camera shows on its 10.5-inch screen: only the area straight behind the car, with guide lines that bend as you turn the wheel.</figcaption></figure>
+      <figure><img ${photoAttrs('RHV_MY27_0015', 'auto, (min-width: 700px) 660px, 90vw')} alt="RAV4 dashboard screen showing an overhead view of the car on the left and a 3D view of the car on the right" loading="lazy"><figcaption>What the 360° camera on the other three shows on the screen: the overhead view on the left and a 3D view you can rotate on the right.</figcaption></figure>
     </div>
   </div>`;
   return {html, init(root){
@@ -1759,8 +1782,8 @@ VIS.screenPair = ()=>{
   </div>`, below:`
   <div class="f-below">
     <div class="photo-pair keep2">
-      <figure><img src="img/scr-xle.jpg" data-full="img/full/scr-xle.jpg" alt="The 10.5-inch center screen in the XLE Premium dashboard" loading="lazy"><figcaption>10.5-inch screen (XLE Premium)</figcaption></figure>
-      <figure><img src="img/scr-ltd.jpg" data-full="img/full/scr-ltd.jpg" alt="The 12.9-inch center screen in the Limited dashboard" loading="lazy"><figcaption>12.9-inch screen (XSE, Limited and Plug-in XSE)</figcaption></figure>
+      <figure><img ${photoAttrs('scr-xle', 'auto, (min-width: 1100px) 660px, 45vw')} alt="The 10.5-inch center screen in the XLE Premium dashboard" loading="lazy"><figcaption>10.5-inch screen (XLE Premium)</figcaption></figure>
+      <figure><img ${photoAttrs('scr-ltd', 'auto, (min-width: 1100px) 660px, 45vw')} alt="The 12.9-inch center screen in the Limited dashboard" loading="lazy"><figcaption>12.9-inch screen (XSE, Limited and Plug-in XSE)</figcaption></figure>
     </div>
   </div>`};
 };
@@ -1796,16 +1819,16 @@ VIS.roofPhotos = ()=>{
     <div class="seg" role="group" aria-label="Roof type">
       ${Object.entries(MODES).map(([k,m],i)=>`<button type="button" data-mode="${k}" aria-pressed="${i===0}">${m.label}</button>`).join('')}
     </div>
-    <figure class="roof-photo"><img id="roofImg" src="img/${MODES.solid.img}.jpg" data-full="img/full/${MODES.solid.img}.jpg" alt="${MODES.solid.alt}" loading="lazy"><figcaption id="roofCap"></figcaption></figure>
+    <figure class="roof-photo"><img id="roofImg" ${photoAttrs(MODES.solid.img, 'auto, (min-width: 1100px) 1330px, 90vw')} alt="${MODES.solid.alt}" loading="lazy"><figcaption id="roofCap"></figcaption></figure>
     <div class="demo-summary" id="roofSummary" aria-live="polite"></div>
   </div>`;
   return {html, init(root){
     // Warm the cache so switching is instant.
-    Object.values(MODES).forEach(m=>{ new Image().src=`img/${m.img}.jpg`; });
+    Object.values(MODES).forEach(m=>{ const im=new Image(); im.sizes=root.querySelector('#roofImg').getAttribute('sizes'); setPhoto(im, m.img); });
     const set=k=>{
       const m=MODES[k], img=root.querySelector('#roofImg');
       root.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===k));
-      img.src=`img/${m.img}.jpg`; img.dataset.full=`img/full/${m.img}.jpg`; img.alt=m.alt;
+      setPhoto(img, m.img); img.alt=m.alt;
       const zb=img.closest('.zoom'); if(zb) zb.setAttribute('aria-label','Expand photo: '+m.alt);
       root.querySelector('#roofCap').textContent = m.alt+'.';
       root.querySelector('#roofSummary').innerHTML = m.text;
@@ -1972,8 +1995,8 @@ VIS.outageDemo = ()=>{
 // Side-by-side photos of the same view in each trim, from Toyota's build tool.
 // One figure per trim with a photo for each view, from the color picker's renders (img/colors/).
 const trio = s=>`<div class="trio"><h5>${esc(s.title)}</h5><div class="trio-grid">${TRIMS.map((t,i)=>`
-  <figure style="--c:${t.color}"><div class="trio-views">${s.views.map(([kind,side])=>{ const src = `img/colors/${kind}-${s.imgs[i]}.webp`;
-    return `<img class="v-${kind}" src="${src}" data-full="${src}" alt="${esc(`${t.name} from the ${side}`)}" loading="lazy">`; }).join('')}</div>
+  <figure style="--c:${t.color}"><div class="trio-views">${s.views.map(([kind,side])=>{ 
+    return `<img class="v-${kind}" ${photoAttrs(`colors/${kind}-${s.imgs[i]}`, 'auto, (min-width: 1100px) 325px, 42vw')} alt=""${esc(`${t.name} from the ${side}`)}" loading="lazy">`; }).join('')}</div>
   <figcaption><b>${t.name}</b>${esc(s.caps[i])}</figcaption></figure>`).join('')}</div></div>`;
 (function(){
   const groups=[...new Set(FEATURES.map(f=>f.group))];
@@ -1985,7 +2008,7 @@ const trio = s=>`<div class="trio"><h5>${esc(s.title)}</h5><div class="trio-grid
     ${FEATURES.filter(f=>f.group===g).map(f=>{
       let vis='', below='';
       if(f.visual){const v=VIS[f.visual](); vis=`<div class="f-vis" data-vis="${f.id}">${v.html}</div>`; if(v.init) inits.push([f.id,v.init]); below=v.below||'';}
-      else if(f.img){vis=`<div class="f-vis"><figure><img src="${f.img}" data-full="${f.img.replace('img/','img/full/')}" alt="${esc(f.cap)}" loading="lazy"><figcaption>${esc(f.cap)}</figcaption></figure></div>`;}
+      else if(f.img){vis=`<div class="f-vis"><figure><img ${photoAttrs(f.img, 'auto, (min-width: 700px) 705px, 90vw')} alt=""${esc(f.cap)}" loading="lazy"><figcaption>${esc(f.cap)}</figcaption></figure></div>`;}
       return `<article class="feature ${vis?'':'no-visual'} ${f.wide?'wide':''} ${f.compact?'compact':''}" id="f-${f.id}">
         <div class="f-text">
           <h4>${esc(f.name)}</h4>
@@ -2232,7 +2255,10 @@ function mergeSpecs(raw){
   function show(i){
     cur=(i+imgs.length)%imgs.length; unzoom();
     const img=imgs[cur], fc=img.closest('figure')?.querySelector('figcaption');
-    big.src=img.dataset.full; big.alt=img.alt;
+    // Show the copy already on the page at once, then swap in the full size when it has loaded.
+    big.src=img.currentSrc||img.src; big.alt=img.alt;
+    const full=img.dataset.full, pre=new Image();
+    pre.onload=()=>{ if(imgs[cur]===img) big.src=full; }; pre.src=full;
     // Trio captions start with a bold trim name; join it to the rest with a colon.
     const capText = !fc ? img.alt : [...fc.childNodes].map(n=>n.nodeName==='B'?n.textContent+': ':n.textContent).join('').trim();
     cap.innerHTML = esc(capText)
@@ -2250,7 +2276,7 @@ function mergeSpecs(raw){
     if(e.target!==big){ if(!stage.classList.contains('zoomed')) dlg.close(); return; }
     if(stage.classList.contains('zoomed')){unzoom(); return;}
     const r=big.getBoundingClientRect(), fx=(e.clientX-r.left)/r.width, fy=(e.clientY-r.top)/r.height;
-    big.style.width=Math.max(big.naturalWidth, r.width*2.2)+'px'; stage.classList.add('zoomed');
+    big.style.width=Math.max(big.naturalWidth/devicePixelRatio, r.width*2.2)+'px'; stage.classList.add('zoomed');
     stage.scrollLeft = fx*big.offsetWidth - stage.clientWidth/2;
     stage.scrollTop = fy*big.offsetHeight - stage.clientHeight/2;
   });
