@@ -20,6 +20,7 @@ for (const y of years) for (const w of widths) {
   f.contentWindow.eval(src); f.contentWindow.eval(ysrc);
   // Year checks change the spec filter, so run the layout checks first.
   results[`${y}@${w}`] = [...f.contentWindow.layoutCheck(), ...f.contentWindow.yearCheck(y)];
+  if(!results.files) results.files = await f.contentWindow.colorFilesCheck();
 }
 window.RESULTS = results;
 document.getElementById('out').textContent = JSON.stringify(results, null, 2);

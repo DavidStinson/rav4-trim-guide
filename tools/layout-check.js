@@ -73,5 +73,23 @@ window.layoutCheck = function layoutCheck(){
     }
   }
 
+  // 7. Color picker: both photos show at a usable size, side by side with their choices from 860px
+  //    up and stacked below that, and every choice is a comfortable tap target.
+  const cp = document.querySelector('#colors .cp');
+  if(!cp) fails.push('no color picker');
+  else {
+    const ext = cp.querySelector('#cpExt'), int = cp.querySelector('#cpIntImg'), paints = cp.querySelector('#cpPaint');
+    const r = el => el.getBoundingClientRect();
+    [ext, int].forEach(img => { if(!img || r(img).width < Math.min(300, W - 40)) fails.push(`color picker photo ${img?.id} is ${img ? Math.round(r(img).width) : 0}px wide at ${W}px`); });
+    if(ext && paints){
+      const side = r(paints).left >= r(ext).right - 1;
+      if(W >= 900 && !side) fails.push(`color picker at ${W}px: paints should sit beside the photo`);
+      if(W < 820 && side) fails.push(`color picker at ${W}px: paints should stack under the photo`);
+    }
+    [...cp.querySelectorAll('button')].filter(visible).forEach(b => {
+      if(r(b).height < 44) fails.push(`color picker button "${b.textContent.trim().slice(0,30)}" is ${Math.round(r(b).height)}px tall at ${W}px`);
+    });
+  }
+
   return fails;
 };

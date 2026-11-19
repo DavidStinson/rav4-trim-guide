@@ -69,5 +69,88 @@ window.yearCheck = function yearCheck(year){
     setMiles(30);
   } else fails.push('no #evMiles slider');
 
+  // 8. Paint and interior picker. Codes and prices are Toyota's build tool (November 2026), the same
+  //    for both years. Within a model every paint goes with every interior, so the model is the only limit.
+  const COLORS = {
+    xle:{paint:{'0040':0,'04V8':0,'01L6':0,'08X8':0,'0218':0,'0089':475,'03T3':475}, int:['EE10','EE20','EE40'], img:'4444'},
+    ltd:{paint:{'04V8':0,'01L6':0,'08X8':0,'0218':0,'0089':475,'03T3':475}, int:['EA10','EA20','EA40'], img:'4534'},
+    xse:{paint:{'0218':0,'02SQ':500,'0M22':500,'02VP':975}, int:['EC20'], img:'4530'},
+    phv:{paint:{'0218':0,'02SQ':500,'0M22':500,'02VP':975}, int:['EC20'], img:'4550'},
+  };
+  const base = Object.fromEntries(['xle','xse','ltd','phv'].map((t,i)=>[t, +EXPECT.prices[i].replace(/\D/g,'')]));
+  const usd = n=>'$'+n.toLocaleString('en-US');
+  const cp = document.querySelector('#colors');
+  if(!cp) fails.push('no #colors section');
+  else {
+    const q = s=>[...cp.querySelectorAll(s)];
+    const click = (sel)=>{ const b = cp.querySelector(sel); if(!b){ fails.push(`colors: no ${sel}`); return false; } b.click(); return true; };
+    const pressed = s=>q(s+' [aria-pressed="true"]').map(b=>b.dataset.code||b.dataset.t);
+    const src = id=>(cp.querySelector(id)?.getAttribute('src')||'');
+    for(const [t, c] of Object.entries(COLORS)){
+      if(!click(`#cpModel [data-t="${t}"]`)) continue;
+      const paints = Object.fromEntries(q('#cpPaint [data-code]').map(b=>[b.dataset.code, txt(b.querySelector('.cp-price')).trim()]));
+      const want = Object.fromEntries(Object.entries(c.paint).map(([k,v])=>[k, v ? '+'+usd(v) : 'Included']));
+      if(JSON.stringify(Object.entries(paints).sort()) !== JSON.stringify(Object.entries(want).sort()))
+        fails.push(`colors: ${t} paints ${JSON.stringify(paints)}; expected ${JSON.stringify(want)}`);
+      const ints = q('#cpInt [data-code]').map(b=>b.dataset.code).sort();
+      if(ints.join() !== [...c.int].sort().join()) fails.push(`colors: ${t} interiors ${ints.join(', ')}; expected ${c.int.join(', ')}`);
+      if(pressed('#cpModel').join() !== t) fails.push(`colors: model ${t} clicked but ${pressed('#cpModel').join()} is pressed`);
+      // Every paint and interior on offer shows its own photo.
+      for(const code of Object.keys(c.paint)){
+        click(`#cpPaint [data-code="${code}"]`);
+        if(!src('#cpExt').endsWith(`img/colors/ext-${c.img}-${code}.webp`)) fails.push(`colors: ${t} ${code} shows ${src('#cpExt')}`);
+      }
+      for(const code of c.int){
+        click(`#cpInt [data-code="${code}"]`);
+        if(!src('#cpIntImg').endsWith(`img/colors/int-${c.img}-${code}.webp`)) fails.push(`colors: ${t} ${code} interior shows ${src('#cpIntImg')}`);
+      }
+    }
+    const sum = ()=>txt(cp.querySelector('#cpSum'));
+    const note = ()=>txt(cp.querySelector('#cpNote'));
+    // A red XLE Premium with beige seats: the paint adds $475 to that year's starting price,
+    // and the same red is offered on the Limited but not on either XSE.
+    click('#cpModel [data-t="xle"]'); click('#cpPaint [data-code="03T3"]'); click('#cpInt [data-code="EE40"]');
+    if(!sum().includes(usd(base.xle+475))) fails.push(`colors: red XLE total should be ${usd(base.xle+475)}: ${sum()}`);
+    const also = txt(cp.querySelector('#cpAlso'));
+    if(!/Limited/.test(also) || /XSE/.test(also)) fails.push(`colors: Ruby Flare Pearl should be "also" on the Limited only: ${also}`);
+    // Switching to the XSE can't keep red or beige: it falls back to its included black and its one
+    // interior, and says why.
+    click('#cpModel [data-t="xse"]');
+    if(pressed('#cpPaint').join() !== '0218' || pressed('#cpInt').join() !== 'EC20') fails.push(`colors: XSE after red/beige picked ${pressed('#cpPaint')} / ${pressed('#cpInt')}; expected 0218 / EC20`);
+    if(!/Ruby Flare Pearl/.test(note()) || !/Beige/i.test(note())) fails.push(`colors: switching to the XSE should explain the red and beige changes: ${note()}`);
+    if(!sum().includes(usd(base.xse))) fails.push(`colors: XSE in black should be ${usd(base.xse)}: ${sum()}`);
+    // Storm Cloud carries over to the Plug-in as its two-tone version, at +$500.
+    click('#cpModel [data-t="xle"]'); click('#cpPaint [data-code="01L6"]'); click('#cpModel [data-t="phv"]');
+    if(pressed('#cpPaint').join() !== '0M22') fails.push(`colors: Storm Cloud on the Plug-in picked ${pressed('#cpPaint')}; expected 0M22`);
+    if(!sum().includes(usd(base.phv+500))) fails.push(`colors: two-tone Plug-in total should be ${usd(base.phv+500)}: ${sum()}`);
+    if(!/roof/.test(note())) fails.push(`colors: carrying Storm Cloud to the Plug-in should mention the black roof: ${note()}`);
+    // Ice Cap is XLE-only; the Limited falls back to an included paint.
+    click('#cpModel [data-t="xle"]'); click('#cpPaint [data-code="0040"]'); click('#cpModel [data-t="ltd"]');
+    const lp = pressed('#cpPaint').join();
+    if(COLORS.ltd.paint[lp] !== 0) fails.push(`colors: Ice Cap on the Limited fell back to ${lp}; expected an included paint`);
+    if(!/Ice Cap/.test(note())) fails.push(`colors: switching Ice Cap to the Limited should say so: ${note()}`);
+    // Picking a paint on the same model clears the note.
+    click(`#cpPaint [data-code="0089"]`);
+    if(note().trim()) fails.push(`colors: note should clear after picking a paint: ${note()}`);
+    click('#cpModel [data-t="xle"]'); click('#cpPaint [data-code="04V8"]'); click('#cpInt [data-code="EE20"]');
+  }
+
+  return fails;
+};
+
+// Every photo the color picker can show exists on the server. Async, so the harness runs it once.
+window.colorFilesCheck = async function colorFilesCheck(){
+  const files = [
+    ...['0040','04V8','01L6','08X8','0218','0089','03T3'].map(c=>`ext-4444-${c}`),
+    ...['04V8','01L6','08X8','0218','0089','03T3'].map(c=>`ext-4534-${c}`),
+    ...['4530','4550'].flatMap(m=>['0218','02SQ','0M22','02VP'].map(c=>`ext-${m}-${c}`)),
+    ...['EE10','EE20','EE40'].map(c=>`int-4444-${c}`), ...['EA10','EA20','EA40'].map(c=>`int-4534-${c}`),
+    'int-4530-EC20', 'int-4550-EC20',
+  ];
+  const fails = [];
+  for(const f of files){
+    const r = await fetch(new URL(`img/colors/${f}.webp`, location.href), {method:'HEAD'});
+    if(!r.ok) fails.push(`missing img/colors/${f}.webp (${r.status})`);
+  }
   return fails;
 };
