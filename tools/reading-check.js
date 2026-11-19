@@ -86,5 +86,24 @@ window.readingCheck = async function readingCheck(){
     scrollTo({ top: 0, behavior: 'instant' });
     await settle();
   }
+
+  // 4. Running text keeps a readable measure: a paragraph, list item, caption or note averages at most
+  //    85 characters a line, so the eye finds the start of the next line. (Table cells are exempt; their
+  //    width comes from the table.)
+  const wide = new Map();
+  document.querySelectorAll('p, li, figcaption, small, dd').forEach(el => {
+    if(!el.getClientRects().length || el.closest('svg, table, [hidden], dialog:not([open])')) return;
+    if([...el.children].some(c => getComputedStyle(c).display === 'block')) return;
+    const text = el.textContent.replace(/\s+/g, ' ').trim();
+    if(text.length < 60) return;
+    const lines = Math.max(1, Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
+    const cpl = Math.round(text.length / lines);
+    if(cpl > 85){
+      const key = `${el.tagName.toLowerCase()}${typeof el.className === 'string' && el.className.trim() ? '.' + el.className.trim().split(/\s+/).join('.') : ''}`;
+      if(!wide.has(key) || wide.get(key)[0] < cpl) wide.set(key, [cpl, text.slice(0, 40)]);
+    }
+  });
+  for(const [key, [cpl, text]] of wide) fails.push(`lines too long to read at ${innerWidth}px: ${key} runs about ${cpl} characters a line, e.g. "${text}"`);
+
   return fails;
 };
