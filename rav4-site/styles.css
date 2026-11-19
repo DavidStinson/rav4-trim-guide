@@ -8,8 +8,7 @@
   --phv:#5B4A9E; --phv-soft:#ECE8F7;
   --shadow:0 1px 2px rgba(20,30,40,.06),0 8px 24px rgba(20,30,40,.06);
   --focus:#1D5FD1;
-  /* Atkinson Hyperlegible only has a slashed zero, so digits come from a digits-only Hanken Grotesk loaded first. */
-  --text:"Hanken Grotesk","Atkinson Hyperlegible",system-ui,sans-serif;
+  --text:"Atkinson Hyperlegible",system-ui,sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){
