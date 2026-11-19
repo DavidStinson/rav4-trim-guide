@@ -440,7 +440,7 @@ fillGain('#gain3',STEP3_GAIN,'plus'); fillGain('#lose3',STEP3_LOSE,'minus');
 // One figure per trim with a photo for each view, from the color picker's renders (img/colors/).
 const trio = s=>`<div class="trio"><h5>${esc(s.title)}</h5><div class="trio-grid">${TRIMS.map((t,i)=>`
   <figure style="--c:${t.color}"><div class="trio-views">${s.views.map(([kind,side])=>{ 
-    return `<img class="v-${kind}" ${photoAttrs(`colors/${kind}-${s.imgs[i]}`, 'auto, (min-width: 1100px) 325px, 42vw')} alt=""${esc(`${t.name} from the ${side}`)}" loading="lazy">`; }).join('')}</div>
+    return `<img class="v-${kind}" ${photoAttrs(`colors/${kind}-${s.imgs[i]}`, 'auto, (min-width: 1100px) 325px, 42vw')} alt="${esc(`${t.name} from the ${side}`)}" loading="lazy">`; }).join('')}</div>
   <figcaption><b>${t.name}</b>${esc(s.caps[i])}</figcaption></figure>`).join('')}</div></div>`;
 (function(){
   const groups=[...new Set(FEATURES.map(f=>f.group))];
@@ -452,7 +452,7 @@ const trio = s=>`<div class="trio"><h5>${esc(s.title)}</h5><div class="trio-grid
     ${FEATURES.filter(f=>f.group===g).map(f=>{
       let vis='', below='';
       if(f.visual){const v=VIS[f.visual](); vis=`<div class="f-vis" data-vis="${f.id}">${v.html}</div>`; if(v.init) inits.push([f.id,v.init]); below=v.below||'';}
-      else if(f.img){vis=`<div class="f-vis"><figure><img ${photoAttrs(f.img, 'auto, (min-width: 700px) 705px, 90vw')} alt=""${esc(f.cap)}" loading="lazy"><figcaption>${esc(f.cap)}</figcaption></figure></div>`;}
+      else if(f.img){vis=`<div class="f-vis"><figure><img ${photoAttrs(f.img, 'auto, (min-width: 700px) 705px, 90vw')} alt="${esc(f.cap)}" loading="lazy"><figcaption>${esc(f.cap)}</figcaption></figure></div>`;}
       return `<article class="feature ${vis?'':'no-visual'} ${f.wide?'wide':''} ${f.compact?'compact':''}" id="f-${f.id}">
         <div class="f-text">
           <h4>${esc(f.name)}</h4>
