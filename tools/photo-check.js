@@ -84,6 +84,9 @@ window.photoCheck = async function photoCheck(){
       document.querySelector('#lbNext').click();
     }
     dlg.close();
+    // Closing hands focus back to the photo that opened it a task later, which can scroll the page;
+    // let that land so the checks after this one start from a page that stays put.
+    await new Promise(r => setTimeout(r, 100));
   }
   return fails;
 };

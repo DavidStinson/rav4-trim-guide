@@ -42,9 +42,11 @@ window.readingCheck = async function readingCheck(){
     const links = [...nav.querySelectorAll('a')];
     const last = links.at(-1), sec = document.querySelector(last.getAttribute('href'));
     // Lazy photos above can load and push the section down after the jump, so jump again until the page stays put.
-    for(let i = 0, prev = NaN; i < 8 && scrollY !== prev; i++){
-      prev = scrollY; sec.scrollIntoView({ block: 'start', behavior: 'instant' });
+    for(let i = 0, moved = true; i < 8 && moved; i++){
+      sec.scrollIntoView({ block: 'start', behavior: 'instant' });
+      const landed = scrollY;
       await settle(); await new Promise(r => setTimeout(r, 250));
+      moved = Math.abs(scrollY - landed) > 1;
     }
     if(!last.classList.contains('on')) fails.push(`section nav does not highlight "${last.textContent.trim()}" while that section fills the screen (section top ${Math.round(sec.getBoundingClientRect().top)}px, scrolled ${Math.round(scrollY)} of ${document.documentElement.scrollHeight - innerHeight}; highlighted: ${[...nav.querySelectorAll('a.on')].map(a => a.textContent.trim()).join(', ') || 'none'})`);
     scrollTo({ top: 0, behavior: 'instant' });
