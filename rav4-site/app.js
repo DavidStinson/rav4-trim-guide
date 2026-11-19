@@ -451,7 +451,7 @@ const PKG = (()=>{
     <p>The two years look the same and have nearly all the same features, and the option packages cost the same. These are the differences Toyota’s pages list.</p>
     <table class="yd-table">
       <thead><tr><td></td><th scope="col">${F.year}, shown on this page</th><th scope="col">${O.year}</th></tr></thead>
-      <tbody>${rows.map(([label,get,note])=>`<tr><th scope="row">${esc(label)}</th><td class="now">${esc(get(F))}${note?`<span class="small muted">${esc(note)}</span>`:''}</td><td>${esc(get(O))}</td></tr>`).join('')}</tbody>
+      <tbody>${rows.map(([label,get,note])=>`<tr><th scope="row">${esc(label)}</th><td class="now">${esc(get(F))}${note?`<span class="note">${esc(note)}</span>`:''}</td><td>${esc(get(O))}</td></tr>`).join('')}</tbody>
     </table>
     <p>If a dealer still has a new ${F.year}, ask about a discount, since leftover cars are often marked down. <a href="?year=${O.year}">See the ${O.year} instead</a>.</p>`;
   panel.hidden = false;
@@ -674,7 +674,7 @@ function mergeSpecs(raw){
   const data = mergeSpecs(fixSpecs(window[F.specs]||[], F.specFixes||[]));
   const list=$('#specList'), q=$('#specSearch'), diff=$('#diffOnly'), count=$('#specCount');
   const openState = store.get('rav4-open',{});
-  const cell=([s,v])=> s==='nl'? pill('nl') : s==='val'? `<span class="val">${esc(v||'–')}</span>` : (v && s!=='std'? pill(s, s==='opt'?'Optional':undefined)+`<div class="small muted" style="margin-top:4px">${esc(v)}</div>` : pill(s));
+  const cell=([s,v])=> s==='nl'? pill('nl') : s==='val'? `<span class="val">${esc(v||'–')}</span>` : (v && s!=='std'? pill(s, s==='opt'?'Optional':undefined)+`<div class="note" style="margin-top:4px">${esc(v)}</div>` : pill(s));
   const mcell=c=> `<span>${esc(c.t)}</span>${c.opt?`<span class="mo">${pill('opt','Optional')}${esc(c.opt)}</span>`:''}`;
   const isDiff=r=> r.merged ? new Set(r.merged.cells.map(c=>c.t+'|'+(c.opt||''))).size>1
                             : r.cells && new Set(r.cells.map(c=>c.join('|'))).size>1;

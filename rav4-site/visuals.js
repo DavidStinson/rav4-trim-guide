@@ -71,7 +71,7 @@ VIS.cameraDemo = ()=>{
       <button type="button" data-mode="360" aria-pressed="false">360° camera (the other three)</button>
     </div>
     <div class="demo-cols">
-      <div>${svg}<p class="small muted" style="margin-top:8px">Yellow dots are cameras. The yellow zone is what you can see on the screen; the dark area is hidden.</p></div>
+      <div>${svg}<p class="cap" style="margin-top:8px">Yellow dots are cameras. The yellow zone is what you can see on the screen; the dark area is hidden.</p></div>
       <div style="display:grid;gap:12px;align-content:start">
         <div class="demo-summary" id="camSummary"></div>
         <ul class="seelist" id="camList">${objs.map(o=>`<li data-n="${o.n}"><span class="dot" style="background:${o.c}">${o.n}</span>${esc(o.label)}<span class="st"></span></li>`).join('')}</ul>
@@ -180,7 +180,7 @@ VIS.screenPair = ()=>{
         <text x="12" y="${H(12.9)-14}" font-family="Overpass" font-weight="800" font-size="20" fill="var(--xle)">10.5″ XLE Premium</text>
       </g>
     </svg>
-    <p class="small muted" style="margin:0">Drawn to scale. The larger screen has about 50% more viewing area.</p>
+    <p class="cap" style="margin:0">Drawn to scale. The larger screen has about 50% more viewing area.</p>
   </div>`, below:`
   <div class="f-below">
     <div class="photo-pair keep2">
@@ -202,7 +202,7 @@ VIS.wheelDemo = ()=>({html:`
         <path d="M${cx+r} 100 H${cx+92}" stroke="var(--lane)" stroke-width="5"/>`).join('')}
     </svg>
     <div class="wheel-caps">${[['18-inch wheel','More rubber cushion: softer ride','var(--xle)'],['20-inch wheel','Thinner tire: sportier, firmer','var(--xse)']].map(([t,s,c])=>`<p style="--c:${c}"><b>${t}</b>${s}</p>`).join('')}</div>
-    <p class="small muted" style="margin:0">Same overall tire height, different wheel size. The yellow line marks the tire sidewall that cushions bumps.</p>
+    <p class="cap" style="margin:0">Same overall tire height, different wheel size. The yellow line marks the tire sidewall that cushions bumps.</p>
   </div>`});
 
 // --- Roof options: the same interior photo from Toyota's build tool for each trim ---
@@ -258,7 +258,7 @@ VIS.evDemo = ()=>{
     <div class="ev-bar" aria-hidden="true"><span class="e"></span><span class="g"></span></div>
     <div class="ev-key" aria-hidden="true"><span><i style="background:var(--phv)"></i>On electricity</span><span><i style="background:var(--no)"></i>On gas, as a regular hybrid</span></div>
     <p class="demo-summary" id="evSum" aria-live="polite"></p>
-    <p class="small muted" style="margin:0">Starting each day with a full charge, using Toyota’s EPA estimates: ${RANGE} miles on electricity, then ${MPG_PHEV} mpg. Cold weather, highway speeds and running the heater shorten the electric range.</p>
+    <p class="note" style="margin:0">Starting each day with a full charge, using Toyota’s EPA estimates: ${RANGE} miles on electricity, then ${MPG_PHEV} mpg. Cold weather, highway speeds and running the heater shorten the electric range.</p>
     <section class="ev-block" aria-labelledby="chgT">
       <h5 id="chgT">How long charging takes, from empty to full</h5>
       <div class="cost-rows chg-rows" id="chgRows">
@@ -270,7 +270,7 @@ VIS.evDemo = ()=>{
         <li><b>240 V, 20 amps.</b> An electrician adds a 240-volt circuit and a wall charger. The smaller circuit costs less and can fit when the electrical panel is nearly full.</li>
         <li><b>240 V, 40 amps.</b> A bigger circuit, the size an electric stove uses. The car’s cable also works on a 240-volt outlet, or use a wall charger.</li>
       </ul>
-      <p class="small muted" style="margin:0">Worked out from Toyota’s EPA figures: a full charge takes about ${Math.round(CHARGE.wallKwh*10)/10} kWh from the wall, plus about 10% because the last stretch of a charge goes slower. A charger can draw only 80% of a circuit’s rating for hours at a time, so a 20-amp circuit charges at 16 amps and a 40-amp circuit at 32. The car itself can take up to 11 kW, more than any of these supply, so the outlet sets the speed. Cold weather slows charging.</p>
+      <p class="note" style="margin:0">Worked out from Toyota’s EPA figures: a full charge takes about ${Math.round(CHARGE.wallKwh*10)/10} kWh from the wall, plus about 10% because the last stretch of a charge goes slower. A charger can draw only 80% of a circuit’s rating for hours at a time, so a 20-amp circuit charges at 16 amps and a 40-amp circuit at 32. The car itself can take up to 11 kW, more than any of these supply, so the outlet sets the speed. Cold weather slows charging.</p>
     </section>
     <section class="ev-block" aria-labelledby="evCostT">
       <h5 id="evCostT">Fuel cost over ${YEARS} years, against a Hybrid XSE</h5>
@@ -284,7 +284,7 @@ VIS.evDemo = ()=>{
         <div class="cost-row" style="--c:var(--phv)"><span>Plug-in XSE</span><span class="bar"><span id="evBarP"></span></span><b id="evCostP"></b></div>
       </div>
       <p class="demo-summary" id="evSave" aria-live="polite"></p>
-      <p class="small muted" style="margin:0">Uses the miles per day above and assumes you charge at home every night. Only gas and electricity are counted, not insurance, upkeep or rebates.</p>
+      <p class="note" style="margin:0">Uses the miles per day above and assumes you charge at home every night. Only gas and electricity are counted, not insurance, upkeep or rebates.</p>
     </section>
   </div>`, init(root){
     const $in = id=>root.querySelector('#'+id);
@@ -365,7 +365,7 @@ VIS.outageDemo = ()=>{
       <div class="ap-scale"><span>Plugged in: <b id="apW"></b></span><span>Outlet limit: ${fmtW(LIMIT)}</span></div>
     </div>
     <p class="demo-summary" id="apSum" aria-live="polite"></p>
-    <p class="small muted" style="margin:0">A rough estimate. Toyota doesn’t say how much of the 22.7 kWh battery the outlet can use, so this assumes about ${OUTLET_KWH} kWh, worked out from Toyota’s ${F.range}-mile range and ${F.mpge} MPGe. Wattages are typical; the label on your own appliance gives the real number. The car has to be switched on for the outlet to work. On the earlier RAV4 Prime, Toyota’s manual says to let the engine run in Park to recharge a low battery, which would stretch this a long way on a tank of gas. If you ever do that, keep the car outdoors, never in a garage: engine exhaust is deadly indoors.</p>
+    <p class="note" style="margin:0">A rough estimate. Toyota doesn’t say how much of the 22.7 kWh battery the outlet can use, so this assumes about ${OUTLET_KWH} kWh, worked out from Toyota’s ${F.range}-mile range and ${F.mpge} MPGe. Wattages are typical; the label on your own appliance gives the real number. The car has to be switched on for the outlet to work. On the earlier RAV4 Prime, Toyota’s manual says to let the engine run in Park to recharge a low battery, which would stretch this a long way on a tank of gas. If you ever do that, keep the car outdoors, never in a garage: engine exhaust is deadly indoors.</p>
   </div>`, init(root){
     const chips=[...root.querySelectorAll('.ap-chips .chip')];
     const byId=Object.fromEntries(APPS.map(a=>[a.id,a]));
