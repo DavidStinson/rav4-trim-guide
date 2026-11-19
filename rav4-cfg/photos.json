@@ -1,0 +1,277 @@
+{
+ "scene7": "https://tmnaassetscs.scene7.com/is/image/tmnaassetscs/vcr/live/vehicle/TOY/2027/",
+ "kinds": {
+  "ext": {
+   "width": 680,
+   "crop": [
+    90,
+    74,
+    680,
+    296
+   ],
+   "alpha": true
+  },
+  "rear": {
+   "width": 340,
+   "crop": [
+    231,
+    56,
+    500,
+    320
+   ],
+   "alpha": true
+  },
+  "int": {
+   "width": 820
+  },
+  "scr": {
+   "width": 660,
+   "crop": [
+    340,
+    145,
+    280,
+    175
+   ]
+  },
+  "roof": {
+   "width": 1340,
+   "crop": [
+    0,
+    0,
+    900,
+    300
+   ]
+  },
+  "press": {
+   "width": 720
+  }
+ },
+ "photos": [
+  {
+   "name": "colors/ext-4444-04V8",
+   "kind": "ext",
+   "render": "rav4/4444/423/72bc04078ae2bd710bb4b4b85a072a4242a9630c18c917e0d183b3bc93944783"
+  },
+  {
+   "name": "colors/ext-4444-01L6",
+   "kind": "ext",
+   "render": "rav4/4444/391/4c9068a756bea32e88946872ff06a1fc4fb2ea5748f40999b224f1cf77a833d5"
+  },
+  {
+   "name": "colors/ext-4444-0089",
+   "kind": "ext",
+   "render": "rav4/4444/83/5fd200038f5996edb2e24fed09ca27d79c9c12d7e1a7dd4de9fd05c8a3051f61"
+  },
+  {
+   "name": "colors/ext-4444-03T3",
+   "kind": "ext",
+   "render": "rav4/4444/148/deafad6cf621ffe123255cb063b06635b7c37ad4e089d2d9721c01fc5556fb1b"
+  },
+  {
+   "name": "colors/ext-4444-08X8",
+   "kind": "ext",
+   "render": "rav4/4444/547/d503d2ab50e2e3a5556c074af61d3992e2a23e8c42a67bcbe06d57e9706189d9"
+  },
+  {
+   "name": "colors/ext-4444-0218",
+   "kind": "ext",
+   "render": "rav4/4444/307/d85d16aba9a951c4486741c10ac84488aafc75282e2cf245e3a2d1dd1a0cf8c9"
+  },
+  {
+   "name": "colors/ext-4444-0040",
+   "kind": "ext",
+   "render": "rav4/4444/667/a3292cdb590f95d527469df37734435e69d43f4bdd5c1744f12821f0c594d0a6"
+  },
+  {
+   "name": "colors/int-4444-EE10",
+   "kind": "int",
+   "render": "rav4/4444/615/356daadffdf46434df8b2119baa690a08a5514db85e5cb6b043af9f58c3ba60e"
+  },
+  {
+   "name": "colors/int-4444-EE20",
+   "kind": "int",
+   "render": "rav4/4444/820/a75eff5429d595c067583462b8a79b6705c02cf73001f57d93a791460b2fa537"
+  },
+  {
+   "name": "colors/int-4444-EE40",
+   "kind": "int",
+   "render": "rav4/4444/284/1122c4d42bba58e4e3b53d3b4b522afd91faa4d4dc341aa461f4a133c8ae81be"
+  },
+  {
+   "name": "colors/rear-4444-0089",
+   "kind": "rear",
+   "render": "rav4/4444/4/fc9d6f046ace46a6091201f2b7d0797e5928defe72409a8dc81718562d66eced"
+  },
+  {
+   "name": "colors/ext-4534-04V8",
+   "kind": "ext",
+   "render": "rav4/4534/588/10b1d7dc37d012eba1d0cbbff8e60b142ee5f64afabc8c99dce429c2452d8767"
+  },
+  {
+   "name": "colors/ext-4534-01L6",
+   "kind": "ext",
+   "render": "rav4/4534/561/e0b6ba09a59e2dfe48a6f0435b7a699c7e72e4d86b08f747895b562209641a6d"
+  },
+  {
+   "name": "colors/ext-4534-0089",
+   "kind": "ext",
+   "render": "rav4/4534/995/57ff1d6318c7fd4cccf363f546485e43d52c1bf9078297f47dab56e90d11b23c"
+  },
+  {
+   "name": "colors/ext-4534-03T3",
+   "kind": "ext",
+   "render": "rav4/4534/546/5dbd46ea2eaa6e63cf1e4027c347d22f3af8bf69a18229a72e04d01f0c4d5c55"
+  },
+  {
+   "name": "colors/ext-4534-08X8",
+   "kind": "ext",
+   "render": "rav4/4534/210/1f9ec2a24630a2c571739fff78186ed86906f5d5a204580ac25ba7a14c6532ca"
+  },
+  {
+   "name": "colors/ext-4534-0218",
+   "kind": "ext",
+   "render": "rav4/4534/315/dc9e006b734af9013a9b6b9a83a22540be527c60c7211a2cc7f836baa748f309"
+  },
+  {
+   "name": "colors/int-4534-EA10",
+   "kind": "int",
+   "render": "rav4/4534/777/215692b1f6bb9f43e963ec06243e433cba9d1fb2a7010ad16490fb2aab6f60b1"
+  },
+  {
+   "name": "colors/int-4534-EA40",
+   "kind": "int",
+   "render": "rav4/4534/195/5ec72023260c132b76410740ce6400fb9515d0f5feb21ee9e300d81364b43c6b"
+  },
+  {
+   "name": "colors/int-4534-EA20",
+   "kind": "int",
+   "render": "rav4/4534/875/8554f6939b0ceb270472d972eb992aa91f29dceade9c3f916c802939f1944cdb"
+  },
+  {
+   "name": "colors/rear-4534-0089",
+   "kind": "rear",
+   "render": "rav4/4534/508/4a144d5c936705577ef5995c49c9b818fd98a999b2ff55ab9ccee87b21803429"
+  },
+  {
+   "name": "colors/ext-4530-02SQ",
+   "kind": "ext",
+   "render": "rav4/4530/229/6aad0e15eaad1a19a5ffb7b55d92f9bec13810009169ce540c756d364ec5203e"
+  },
+  {
+   "name": "colors/ext-4530-0M22",
+   "kind": "ext",
+   "render": "rav4/4530/827/d511be431f0f95d6241e32cf0b3bd8fb68de8a3a7b59d97f67bd2021bc7c94e7"
+  },
+  {
+   "name": "colors/ext-4530-02VP",
+   "kind": "ext",
+   "render": "rav4/4530/666/5c571bfa8f44f50f9de74d9bdc4f512ce81ec43ef29e18f255b0b8a12124d98e"
+  },
+  {
+   "name": "colors/ext-4530-0218",
+   "kind": "ext",
+   "render": "rav4/4530/418/c21e9df2ae466c565ee50d36401cb265986041fd32c18aef1323696b45c23d8c"
+  },
+  {
+   "name": "colors/int-4530-EC20",
+   "kind": "int",
+   "render": "rav4/4530/599/0e249d57e7c5ed752f16b69473fd51af765638127487ec3a7a27ac4eaf30c4b6"
+  },
+  {
+   "name": "colors/rear-4530-02VP",
+   "kind": "rear",
+   "render": "rav4/4530/436/16e1a84c02edacb7747f64ba6649c8d9dd2195d95279425846ab6d98a3baefc9"
+  },
+  {
+   "name": "colors/ext-4550-02VP",
+   "kind": "ext",
+   "render": "rav4pluginhybrid/4550/990/38da13b6fc816fcaea9342f8ca66bb3651b95e16c2188e5c58ebf101eaa25aa8"
+  },
+  {
+   "name": "colors/ext-4550-02SQ",
+   "kind": "ext",
+   "render": "rav4pluginhybrid/4550/162/42de365a5cc70063be35917a39dc2e3b2ae3721d7f52d25d67017ecb110b5898"
+  },
+  {
+   "name": "colors/ext-4550-0M22",
+   "kind": "ext",
+   "render": "rav4pluginhybrid/4550/380/c5d99674f470b683def328a07dd7db9ce89197ecbbdc585a879ed3b8eb4cd6b5"
+  },
+  {
+   "name": "colors/ext-4550-0218",
+   "kind": "ext",
+   "render": "rav4pluginhybrid/4550/612/2de5a88c533823ac576e835eb35616e2e25fcb1c1242c012d83481fef4673f9a"
+  },
+  {
+   "name": "colors/int-4550-EC20",
+   "kind": "int",
+   "render": "rav4pluginhybrid/4550/270/66c4c7eeff34050df527f2435066ed7c835daf36940789e34d2a75ea1caff588"
+  },
+  {
+   "name": "colors/rear-4550-02VP",
+   "kind": "rear",
+   "render": "rav4pluginhybrid/4550/938/dc98fdb23eef932288d2dda75e87abd2c87dbffb21ec8ad7414af97afef371f8"
+  },
+  {
+   "name": "scr-xle",
+   "kind": "scr",
+   "render": "rav4/4444/615/356daadffdf46434df8b2119baa690a08a5514db85e5cb6b043af9f58c3ba60e"
+  },
+  {
+   "name": "scr-ltd",
+   "kind": "scr",
+   "render": "rav4/4534/777/215692b1f6bb9f43e963ec06243e433cba9d1fb2a7010ad16490fb2aab6f60b1"
+  },
+  {
+   "name": "roof-xle",
+   "kind": "roof",
+   "render": "rav4/4444/761/93dedeb9297db84b76fddcdc85ebc317296836a7fdfb29a3761dd7efc47b42cc"
+  },
+  {
+   "name": "roof-xse",
+   "kind": "roof",
+   "render": "rav4/4530/948/1d08ad6c281a5289c4ce175640085b722e8083f4e39c3b52994477439d285c99",
+   "brighten": 1.2
+  },
+  {
+   "name": "roof-ltd",
+   "kind": "roof",
+   "render": "rav4/4534/138/ed466b22656508770b4cf90e033ca73de1abeae950f7e2f9a46c9a11067cec0e"
+  },
+  {
+   "name": "RHV_MY26_0016",
+   "kind": "press",
+   "url": "https://delivery.tcom.assetscs.toyota.com/adobe/assets/urn:aaid:aem:40fad295-41e4-4ce7-91af-c327741556b8/as/RHV_MY26_0016_V001.png"
+  },
+  {
+   "name": "RHV_MY26_0039",
+   "kind": "press",
+   "url": "https://delivery.tcom.assetscs.toyota.com/adobe/assets/urn:aaid:aem:9fb4678e-f8bc-4fc1-9d38-45869fa4c7bc/as/RHV_MY26_0039_V001.png"
+  },
+  {
+   "name": "RHV_MY26_0045",
+   "kind": "press",
+   "url": "https://delivery.tcom.assetscs.toyota.com/adobe/assets/urn:aaid:aem:ed163c1b-facf-4664-ac00-735216e4a6e6/as/RHV_MY26_0045_V001.png"
+  },
+  {
+   "name": "RHV_MY26_0049",
+   "kind": "press",
+   "url": "https://delivery.tcom.assetscs.toyota.com/adobe/assets/urn:aaid:aem:9f2ea743-6f5e-4d9d-8ce7-2235547ac55b/as/RHV_MY26_0049_V001.png"
+  },
+  {
+   "name": "RHV_MY27_0010",
+   "kind": "press",
+   "url": "https://delivery.tcom.assetscs.toyota.com/adobe/assets/urn:aaid:aem:58024930-c8cb-4e17-942b-67b6b1653e58/as/RHV_MY27_0010_V001.png"
+  },
+  {
+   "name": "RHV_MY27_0015",
+   "kind": "press",
+   "url": "https://delivery.tcom.assetscs.toyota.com/adobe/assets/urn:aaid:aem:3e12f964-dde6-4de2-998f-8f3c13161a40/as/RHV_MY27_0015_V001.png"
+  },
+  {
+   "name": "backup-edmunds",
+   "kind": "press",
+   "file": "rav4-cfg/edmunds-backup.jpg"
+  }
+ ]
+}
