@@ -88,9 +88,10 @@ window.yearCheck = function yearCheck(year){
   const plug = txt(document.querySelector('#f-plugin'));
   EXPECT.featText.forEach(s=>{ if(!plug.includes(s)) fails.push(`Plug-in feature lacks "${s}"`); });
 
-  // 7b. The fuel-cost sliders start at David's figures: home electricity at 12¢ a kWh.
-  const kwhIn = document.querySelector('#evKwh');
+  // 7b. The fuel-cost sliders start at David's figures: gas at $3.50 a gallon, home electricity at 12¢ a kWh.
+  const kwhIn = document.querySelector('#evKwh'), gasIn = document.querySelector('#evGas');
   if(kwhIn && kwhIn.defaultValue !== '12') fails.push(`home electricity starts at ${kwhIn.defaultValue}¢ a kWh; expected 12¢`);
+  if(gasIn && +gasIn.defaultValue !== 3.5) fails.push(`gas starts at $${gasIn.defaultValue} a gallon; expected $3.50`);
 
   // 7. Charging times. Worked by hand: wall kWh for a full charge = range x 33.7 / MPGe, plus 10%,
   //    divided by 1.44 kW (120 V x 12 A), 3.84 kW (240 V x 16 A) and 11 kW, rounded to the nearest half
