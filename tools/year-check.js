@@ -353,5 +353,23 @@ window.yearCheck = function yearCheck(year){
     pick(was);
   }
 
+  // 16. The plug-in calculator (David): the 5-year fuel cost comes right after the day of driving, then the
+  //     charging times. What each charging option needs and how the times are worked out sit in a disclosure
+  //     that starts closed, so the times and the summary for her typical day show without the fine print.
+  {
+    const blocks = [...document.querySelectorAll('.ev-demo .ev-block')].map(b => b.querySelector('h5')?.id);
+    if(blocks.join('|') !== 'evCostT|chgT') fails.push(`plug-in calculator sections run ${blocks.join(', ')}; expected the fuel cost (evCostT) before charging (chgT)`);
+    const chg = document.getElementById('chgT')?.closest('.ev-block');
+    const more = chg?.querySelector(':scope > details');
+    if(!more) fails.push('charging section has no details disclosure');
+    else {
+      if(more.open) fails.push('charging details start open; expected closed');
+      if(!txt(more.querySelector(':scope > summary')).trim()) fails.push('charging details summary is empty');
+      if(!more.querySelector('.chg-need')) fails.push('the list of what each charging option needs sits outside the disclosure');
+      if(!/80% of a circuit’s rating/.test(txt(more))) fails.push('the charging math note sits outside the disclosure');
+      if(more.contains(document.getElementById('chgRows')) || more.contains(document.getElementById('chgSum'))) fails.push('the charging times or summary are hidden in the disclosure');
+    }
+  }
+
   return fails;
 };
