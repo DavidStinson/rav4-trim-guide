@@ -577,8 +577,28 @@ window.layoutCheck = function layoutCheck(){
       const pos = getComputedStyle(roofImg).objectPosition.split(' ')[1];
       if(parseFloat(pos) !== 0) fails.push(`roof demo: photo crop is anchored at ${pos} from the top at ${W}px; expected the top (0%)`);
     }
-    // These demo results are plain text, no box: the camera's heads its column, the roof's captions the photo.
-    ['camSummary', 'roofSummary'].forEach(id => {
+    // The plug-in demo's result leads with a yellow tag holding the short answer (David: "use the current
+    // bold text or a more concise version of the bold text"), which follows the slider; the rest is
+    // plain text with no bold lead of its own.
+    const ev = document.getElementById('evSum'), evIn = document.getElementById('evMiles');
+    if(!ev || !evIn) fails.push('plug-in demo: result (#evSum) or slider (#evMiles) not found');
+    else if(visible(ev)) {
+      const was = evIn.value, read = v => {
+        evIn.value = v; evIn.dispatchEvent(new Event('input', {bubbles: true}));
+        const tag = ev.querySelector(':scope > .note-tag'), text = ev.querySelector(':scope > .demo-text');
+        return {tag: tag ? tag.textContent.trim() : '', bold: text ? text.querySelectorAll('b').length : -1, tagBox: tag && tag.getBoundingClientRect(), textBox: text && text.getBoundingClientRect()};
+      };
+      [[30, /^All 30 miles electric$/], [80, /^\d+ miles electric, \d+ on gas$/]].forEach(([v, want]) => {
+        const r = read(v);
+        if(!want.test(r.tag)) fails.push(`plug-in demo at ${v} miles: tag reads "${r.tag}"; expected ${want}`);
+        if(r.bold !== 0) fails.push(`plug-in demo at ${v} miles: needs plain text (.demo-text, no bold) under the tag`);
+        else if(r.tagBox && r.tagBox.bottom > r.textBox.top + 1) fails.push(`plug-in demo: tag should sit above the text at ${W}px`);
+      });
+      read(was);
+    }
+    // These demo results are plain text, no box: the camera's heads its column, the roof's captions the
+    // photo, the plug-in's sits under its tag.
+    ['camSummary', 'roofSummary', 'evSum'].forEach(id => {
       const el = document.getElementById(id);
       if(!el) { fails.push(`demo result #${id} not found`); return; }
       const cs = getComputedStyle(el);
