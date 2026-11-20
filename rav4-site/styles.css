@@ -13,6 +13,8 @@
   /* Two page widths (layout check 8): text sits in the reading column; .bleed rows that compare four trims run wider.
      --wide fits four 340px cards (data-sl-col) and three 20px gaps, so all four show once the window allows. */
   --read:1060px; --wide:1420px; --gutter:24px; --measure:34em;
+  /* Section leads: wide enough for the priorities lead on one line at 21px (reading check 8), with a little room for font differences. */
+  --lede:41em;
   --fs-ui:18px; --fs-table:17px; --fs-control:17px; --fs-nav:16px; --fs-note:16px; --fs-cap:15px; --fs-label:15px;
   color-scheme:light;
 }
@@ -55,7 +57,7 @@ body{container:page/inline-size}
 /* Running text wraps to avoid a lone word on its last line (reading check 7); short captions balance their lines. */
 body{text-wrap:pretty}
 figcaption,.cap,.demo-cap{text-wrap:balance}
-.lede{font-size:21px;color:var(--ink-2);max-width:var(--measure)}
+.lede{font-size:21px;color:var(--ink-2)}
 .muted{color:var(--ink-2)}
 .small,.note{font-size:var(--fs-note)}
 .cap{font-size:var(--fs-cap);color:var(--ink-2);margin:0}
@@ -63,6 +65,7 @@ figcaption,.cap,.demo-cap{text-wrap:balance}
 /* Notes, steps and fine print that sit in wide panels keep a readable line: about 80 characters (em, not ch: this face's zero is wide). */
 /* Prose that runs the full reading column keeps a readable measure; text beside a column fills its space. */
 .sec-head > p,.year-diff > p,footer p,.spec-more,.pk-note,.note,.cap,.chg-need,.checklist small,.f-text .aka{max-width:var(--measure)}
+.lede,.sec-head > .lede{max-width:var(--lede)}
 
 /* ---------- top bar, then the section nav that sticks under it ---------- */
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
@@ -166,7 +169,7 @@ section{padding:88px 0 0}
 /* A thin sliver (a trim in the middle of the row on a phone) has room for the arrow only; its name stays in the label. */
 .sl-btn.slim .sl-in > span:not(.sl-arrow),.sl-btn.slim small{display:none}
 @media (max-width:640px){.sl-arrow{width:40px;height:40px}.sl-arrow svg{width:19px;height:19px}.sl-btn{font-size:13px}}
-.sec-head{display:grid;gap:12px;margin-bottom:32px;max-width:760px}
+.sec-head{display:grid;gap:12px;margin-bottom:32px}
 
 /* ---------- status pills ---------- */
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-label);font-weight:700;padding:3px 10px 3px 8px;border-radius:999px;white-space:nowrap;line-height:1.4}
