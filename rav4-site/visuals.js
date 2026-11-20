@@ -153,7 +153,8 @@ VIS.mirrorDemo = ()=>{
 // the long, flat dashboard, with the top of the steering wheel and the center screen below. Mostly sky,
 // a treeline and a short stretch of road. The display floats over the wheel, just above the dashboard.
 // The shaded box behind the readings is only for the drawing (the caption says so); the speed differs
-// from the limit so the two can't be read as one number (David).
+// from the limit so the two can't be read as one number (David). On a phone the drawing is shorter than
+// its shape and slices off the sides (styles.css), a closer view in which the readings stay legible.
 VIS.hudDemo = ()=>{
   const C = '#7FF2D2', HZ = 258, DASH = 294, VX = 452;
   // Trees along the horizon: [x, height]. Fixed, so the drawing never changes between loads.
@@ -165,7 +166,7 @@ VIS.hudDemo = ()=>{
   const CLOUDS = [[180,52,120,14],[420,34,160,12],[700,64,190,16],[560,96,110,9]];
   return {html:`
   <div class="mini-demo">
-    <svg viewBox="0 0 880 340" role="img" aria-labelledby="hudT"><title id="hudT">The view through the windshield from the driver's seat: the speed, the speed limit and a navigation arrow float on the glass above the steering wheel</title>
+    <svg class="hud-scene" viewBox="0 0 880 340" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="hudT"><title id="hudT">The view through the windshield from the driver's seat: the speed, the speed limit and a navigation arrow float on the glass above the steering wheel</title>
       <defs><linearGradient id="hudSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9DB3C7"/><stop offset=".75" stop-color="#E9E4D8"/></linearGradient></defs>
       <rect width="880" height="${HZ + 2}" fill="url(#hudSky)"/>
       ${CLOUDS.map(([x,y,rx,ry])=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#fff" opacity=".35"/>`).join('')}
@@ -184,7 +185,7 @@ VIS.hudDemo = ()=>{
       <rect x="738" y="316" width="146" height="40" rx="5" fill="#25323D"/>
       <path class="hud-wheel" d="M216 340 A430 430 0 0 1 556 340" fill="none" stroke="#131618" stroke-width="26"/>
       <g opacity=".95">
-        <rect x="254" y="${DASH - 98}" width="264" height="80" rx="12" fill="#0E2A3A" opacity=".4"/>
+        <rect class="hud-box" x="254" y="${DASH - 98}" width="264" height="80" rx="12" fill="#0E2A3A" opacity=".4"/>
         <path class="nav-arrow" d="M282 ${DASH - 30} V${DASH - 62} H306 M296 ${DASH - 74} L310 ${DASH - 62} L296 ${DASH - 50}" fill="none" stroke="${C}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
         <text class="hud-speed" x="380" y="${DASH - 50}" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="48" fill="${C}">42</text>
         <text x="380" y="${DASH - 26}" text-anchor="middle" font-size="18" fill="${C}">mph</text>

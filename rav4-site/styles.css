@@ -347,6 +347,9 @@ section .wrap > :last-child{margin-bottom:0}
 .pair-caps p{margin:0;font-size:var(--fs-cap);color:var(--ink-2);line-height:1.35}
 .pair-caps b{display:block;font:800 18px Overpass,sans-serif;color:var(--c)}
 @media (max-width:600px){.mini-demo{padding:12px}}
+/* On a phone the whole windshield would shrink the HUD readings to about 6px: the drawing keeps a fixed height and
+   slices off its sides (preserveAspectRatio in visuals.js), so the display shows about twice as large (layout 39). */
+@media (max-width:640px){.mini-demo svg.hud-scene{height:200px}}
 .ev-demo label{font:700 18px Overpass,sans-serif;display:block}
 .ev-demo input[type=range]{width:100%;accent-color:var(--phv);margin:10px 0 2px}
 .ev-bar{display:flex;height:22px;border-radius:8px;overflow:hidden;background:var(--rule)}
