@@ -232,14 +232,15 @@ section{padding:88px 0 0}
 .fgroup{margin-top:56px}
 .fgroup > h3{font-size:30px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:14px}
 .fgroup > h3::after{content:"";flex:1;height:2px;background:var(--rule)}
-/* Each feature is a flat panel (no shadow: it is read, not picked). On a narrow screen it stacks: the copy,
-   who has it as a full-width band, then any picture or demo. Wider screens are below the demo styles. */
+/* Each feature is a flat panel (no shadow: it is read, not picked). Its layout comes from FEATURES in
+   data.js (text, beside or below; see the note there). On a narrow screen it stacks: the copy, who has
+   it as a full-width band, then any picture or demo. Wider screens are below. */
+.fgroup{container:fgroup/inline-size}
 .feature{background:var(--card);border-radius:20px;padding:28px 22px 0;margin-bottom:20px;overflow:hidden;display:grid;column-gap:48px;grid-template-columns:minmax(0,1fr);grid-template-areas:"text" "avail" "vis";container-type:inline-size}
 .feature > .f-text{grid-area:text}
 .feature > .f-vis{grid-area:vis;margin:24px 0 22px}
 .feature > .avail{grid-area:avail;margin:32px -22px 0;padding:16px 22px 20px;border-top:1px solid var(--rule)}
 .f-text{padding:0}
-/* Feature copy keeps to a readable line length, whatever the panel's width. */
 .f-text h4{font-size:26px;font-weight:800}
 .f-text .aka{font-size:var(--fs-note);color:var(--ink-2);margin:6px 0 16px}
 .f-text .aka i{display:inline-block;max-width:100%;font-style:normal;background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:1px 7px}
@@ -256,30 +257,32 @@ section{padding:88px 0 0}
 .f-vis figure{margin:0;display:flex;flex-direction:column;height:100%}
 .f-vis figure > img{width:100%;height:100%;object-fit:cover;min-height:260px;flex:1}
 .f-vis figcaption{font-size:var(--fs-cap);color:var(--ink-2);padding:10px 0 0}
-.feature.wide > .f-vis{margin:28px 0 32px}
+.feature.l-below > .f-vis{margin:28px 0 32px}
 .feature.compact{padding-top:28px}
 .feature.compact h4{font-size:22px}
 /* From 901px every panel lists who has it down its right edge, the four trims in the same order, so a
-   reader following one trim finds it in the same place in every panel. A picture or demo sits under the
-   copy, or beside it from 1280px where three columns fit; big demos still run full width underneath. */
+   reader following one trim finds it in the same place in every panel. The column sits beside the copy
+   only: its tinted box ends with a rounded corner where the copy ends, and pictures sit underneath.
+   A below demo or photo row spans the panel. A beside picture sits under the copy at the copy's width
+   until the panel is wide enough to put it beside the copy with 520px of copy left (next rule). */
 @media (min-width:901px){
-  .feature{grid-template-columns:minmax(0,1fr) 300px;grid-template-areas:"text avail" "vis avail";padding:36px 40px}
-  .feature.no-visual{grid-template-areas:"text avail"}
-  .feature > .avail{grid-column:-2;grid-row:1 / span 4;margin:-36px -40px -36px 0;padding:32px 28px;border-top:0;border-left:1px solid var(--rule);
+  .feature{grid-template-columns:minmax(0,1fr) 300px;grid-template-areas:"text avail" "vis vis";padding:36px 40px}
+  .feature.l-text{grid-template-areas:"text avail"}
+  .feature.l-beside{grid-template-areas:"text avail" "vis ."}
+  .feature > .avail{margin:-36px -40px 0 0;padding:32px 28px;border-top:0;border-left:1px solid var(--rule);border-bottom:1px solid var(--rule);border-bottom-left-radius:16px;
     background:color-mix(in srgb,var(--paper) 60%,var(--card));grid-template-columns:1fr;align-content:start;gap:16px}
+  .feature.l-text > .avail{margin-bottom:-36px;border-bottom:0;border-bottom-left-radius:0}
   .feature.compact > .avail{margin-top:-28px}
   .feature > .avail div{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 10px}
   .feature > .avail .note{grid-column:1/-1}
-  .feature > .f-vis{margin:28px 0 0}
-  .feature > .f-below,.feature > .trio{grid-column:1 / -2}
-  .feature.wide{grid-template-areas:"text avail" "vis vis"}
-  .feature.wide > .f-text{padding-bottom:32px}
-  .feature.wide > .avail{grid-row:1;margin-bottom:0}
-  .feature.wide > .f-vis{grid-column:1 / -1;margin:0 -40px;padding:28px 40px 0;border-top:1px solid var(--rule)}
+  .feature > .f-vis,.feature.l-below > .f-vis{margin:28px 0 0}
 }
-@media (min-width:1280px){
-  .feature:not(.wide):not(.no-visual){grid-template-columns:minmax(0,1fr) minmax(0,1fr) 300px;grid-template-areas:"text vis avail"}
-  .feature:not(.wide):not(.no-visual) > .f-vis{margin-top:0}
+/* Beside for real: 520px of copy + 48 gap + a 360px picture + 48 gap + the 300px column + 2 x 40px
+   padding = 1356px of panel. The reading width (1060px) is narrower, so today every beside picture
+   sits under its copy; this applies if the features section ever gets wider. */
+@container fgroup (min-width:1356px){
+  .feature.l-beside{grid-template-columns:minmax(520px,1fr) 360px 300px;grid-template-areas:"text vis avail"}
+  .feature.l-beside > .f-vis{margin-top:0}
 }
 
 
@@ -311,6 +314,8 @@ section{padding:88px 0 0}
 .wheel-caps b{display:block;font:800 18px Overpass,sans-serif;color:var(--c)}
 .mini-demo{padding:24px;background:var(--paper);border-radius:16px;display:grid;gap:14px;align-content:center;height:100%}
 .mini-demo svg{width:100%;height:auto}
+/* A drawing keeps a modest size under the copy; photos take the copy's full width. */
+.feature.l-beside .mini-demo{max-width:520px}
 .scr-scale{display:block;width:100%;max-width:440px;height:auto;margin:0 auto}
 .ev-demo label{font:700 18px Overpass,sans-serif;display:block}
 .ev-demo input[type=range]{width:100%;accent-color:var(--phv);margin:10px 0 2px}

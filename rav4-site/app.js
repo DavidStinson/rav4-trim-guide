@@ -488,7 +488,8 @@ const trio = s=>`<div class="trio"><h5>${esc(s.title)}</h5><div class="trio-grid
       let vis='', below='';
       if(f.visual){const v=VIS[f.visual](); vis=`<div class="f-vis" data-vis="${f.id}">${v.html}</div>`; if(v.init) inits.push([f.id,v.init]); below=v.below||'';}
       else if(f.img){vis=`<div class="f-vis"><figure><img ${photoAttrs(f.img, 'auto, (min-width: 700px) 705px, 90vw')} alt="${esc(f.cap)}" loading="lazy"><figcaption>${esc(f.cap)}</figcaption></figure></div>`;}
-      return `<article class="feature ${vis?'':'no-visual'} ${f.wide?'wide':''} ${f.compact?'compact':''}" id="f-${f.id}">
+      if(!['text','beside','below'].includes(f.layout) || (f.layout==='text')!==!vis) console.error(`feature ${f.id}: layout "${f.layout}" ${vis?'has':'lacks'} a picture; use text for none, beside or below for one.`);
+      return `<article class="feature l-${f.layout}${f.compact?' compact':''}" data-layout="${f.layout}" id="f-${f.id}">
         <div class="f-text">
           <h4>${esc(f.name)}</h4>
           <p class="aka">Toyota calls it <i>${esc(f.aka)}</i></p>
