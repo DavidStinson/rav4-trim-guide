@@ -388,9 +388,10 @@ section .wrap > :last-child{margin-bottom:0}
 
 /* ---------- roof photos ---------- */
 /* Capped at its page copy size (1340px, 2680px at 2x) so it stays sharp now that features run edge to edge. */
-.roof-photo{margin:0;max-width:1320px}
-.roof-photo .zoom img{aspect-ratio:3/1;object-fit:cover}
-.roof-photo figcaption{font-size:var(--fs-cap);color:var(--ink-2);margin-top:6px}
+/* The caption spans the photo, and the 3:1 crop keeps the top of the picture, where the roof is. */
+.roof-photo, .roof-photo + .demo-text{max-width:1320px}
+.roof-photo{margin:0}
+.roof-photo .zoom img{aspect-ratio:3/1;object-fit:cover;object-position:top}
 
 /* ---------- packages ---------- */
 .pk-callouts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 40px;margin-bottom:40px}
