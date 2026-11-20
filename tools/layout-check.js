@@ -492,5 +492,18 @@ window.layoutCheck = function layoutCheck(){
     });
   }
 
+  // 25. In Specs the tables stand apart like the feature panels: the search and filter bar sits 24px
+  //     above the first table and each table 20px below the one before (David agreed to 24 / 20), so
+  //     the nine tables don't read as one block.
+  {
+    const tools = document.querySelector('#specs .tools'), cats = [...document.querySelectorAll('#specs .spec-cat')].filter(visible);
+    const gap = (a, b) => b.getBoundingClientRect().top - a.getBoundingClientRect().bottom;
+    if(!tools || !cats.length) fails.push('specs: search bar (.tools) or tables (.spec-cat) not found');
+    else {
+      if(Math.abs(gap(tools, cats[0]) - 24) > 1) fails.push(`specs: ${Math.round(gap(tools, cats[0]))}px from the search bar to the first table at ${W}px; expected 24`);
+      cats.slice(1).forEach((c, k) => { const g = gap(cats[k], c); if(Math.abs(g - 20) > 1) fails.push(`specs: ${Math.round(g)}px between tables at ${W}px; expected 20`); });
+    }
+  }
+
   return fails;
 };
