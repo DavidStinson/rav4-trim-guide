@@ -5,6 +5,8 @@
 window.layoutCheck = function layoutCheck(){
   const fails = [];
   const W = innerWidth;
+  // The colors header's height before any check switches models (and so before any switch message), for check 26.
+  const cpTopAtLoad = document.getElementById('cpNote')?.textContent.trim() ? null : document.querySelector('.cp-top')?.getBoundingClientRect().height;
   // What the reader sees, not what the markup says: a `hidden` element that CSS still displays counts as visible.
   const visible = el => getComputedStyle(el).display !== 'none' && el.getClientRects().length > 0;
   const sliders = [...document.querySelectorAll('[data-sl]')].filter(visible);
@@ -562,16 +564,21 @@ window.layoutCheck = function layoutCheck(){
         if(r < 4.5) fails.push(`.year-diff: "${el.textContent.trim().slice(0, 30)}" is ${r.toFixed(2)}:1 on its card; needs 4.5:1`);
       });
     }
-    // The colors switch message sits in a box filled like the model toggle beside it (David). Switching from
-    // the Plug-in XSE to the XLE Premium always changes the paint, so it brings the message up.
-    const cpNote = document.getElementById('cpNote'), cpModel = document.getElementById('cpModel');
-    if(cpNote && cpModel && visible(cpModel)) {
+    // The colors switch message sits in a box filled like the model toggle beside it (David), and its space is
+    // always reserved, so nothing below moves when it appears or goes (David: fix the layout shift). Switching
+    // from the Plug-in XSE to the XLE Premium always changes the paint, so it brings the message up.
+    const cpNote = document.getElementById('cpNote'), cpModel = document.getElementById('cpModel'), cpTop = document.querySelector('.cp-top');
+    if(cpNote && cpModel && cpTop && visible(cpModel)) {
       const was = cpModel.querySelector('button[aria-pressed="true"]'), btn = t => cpModel.querySelector(`button[data-t="${t}"]`);
+      const box = cpNote.closest('.cp-note') || cpNote, tall = () => Math.round(cpTop.getBoundingClientRect().height);
+      const before = cpTopAtLoad == null ? null : Math.round(cpTopAtLoad);
       btn('phv').click(); btn('xle').click();
       if(!visible(cpNote) || !cpNote.textContent.trim()) fails.push('colors panel: switching from the Plug-in XSE to the XLE Premium shows no message');
       else {
-        const want = getComputedStyle(cpModel).backgroundColor, got = getComputedStyle(cpNote).backgroundColor;
-        if(got !== want) fails.push(`#cpNote: background ${got}; expected ${want}, the model toggle's fill, at ${W}px`);
+        const want = getComputedStyle(cpModel).backgroundColor, got = getComputedStyle(box).backgroundColor;
+        if(got !== want) fails.push(`colors switch message: background ${got}; expected ${want}, the model toggle's fill, at ${W}px`);
+        if(before !== null && Math.abs(tall() - before) > 1) fails.push(`colors panel: the header grows from ${before}px to ${tall()}px when the switch message appears at ${W}px; its space should be reserved`);
+        if(W >= 1100 && box.getBoundingClientRect().height > cpModel.getBoundingClientRect().height + 1) fails.push(`colors switch message is ${Math.round(box.getBoundingClientRect().height)}px tall beside a ${Math.round(cpModel.getBoundingClientRect().height)}px toggle at ${W}px; it should be no taller`);
       }
       if(was) was.click();
     }
