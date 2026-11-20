@@ -17,6 +17,8 @@
   --lede:41em;
   /* The one gap between sections, from the end of one section's content to the next heading (layout check 22). */
   --sec-gap:176px;
+  /* Inside a section header: heading to lead, then header to content. Scaled with --sec-gap. */
+  --head-gap:16px;--head-after:48px;
   --fs-ui:18px; --fs-table:17px; --fs-control:17px; --fs-nav:16px; --fs-note:16px; --fs-cap:15px; --fs-label:15px;
   color-scheme:light;
 }
@@ -52,7 +54,7 @@ img{max-width:100%;height:auto;display:block}
 .wrap{max-width:calc(var(--read) + 2 * var(--gutter));margin:0 auto;padding:0 var(--gutter)}
 .wrap.wide{max-width:calc(var(--wide) + 2 * var(--gutter))}
 @media (max-width:1099px){:root{--sec-gap:144px}}
-@media (max-width:640px){:root{--gutter:16px;--sec-gap:112px}body{font-size:18px}}
+@media (max-width:640px){:root{--gutter:16px;--sec-gap:112px;--head-gap:12px;--head-after:32px}body{font-size:18px}}
 /* A row that compares the four trims breaks out of the reading column into the side margins, up to the
    wide width. body is the size container, so 100cqw is the page width without the scrollbar. */
 body{container:page/inline-size}
@@ -174,7 +176,7 @@ section .wrap > :last-child,section .fgroup:last-child > :last-child{margin-bott
 /* A thin sliver (a trim in the middle of the row on a phone) has room for the arrow only; its name stays in the label. */
 .sl-btn.slim .sl-in > span:not(.sl-arrow),.sl-btn.slim small{display:none}
 @media (max-width:640px){.sl-arrow{width:40px;height:40px}.sl-arrow svg{width:19px;height:19px}.sl-btn{font-size:13px}}
-.sec-head{display:grid;gap:12px;margin-bottom:32px}
+.sec-head{display:grid;gap:var(--head-gap);margin-bottom:var(--head-after)}
 
 /* ---------- status pills ---------- */
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-label);font-weight:700;padding:3px 10px 3px 8px;border-radius:999px;white-space:nowrap;line-height:1.4}
