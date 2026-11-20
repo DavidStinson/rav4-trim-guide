@@ -67,6 +67,8 @@ body{container:page/inline-size}
 .bleed{margin-inline:calc((100% - min(100cqw - 2 * var(--gutter), var(--wide))) / 2)}
 /* Running text wraps to avoid a lone word on its last line (reading check 7). Captions run their photo's full width. */
 body{text-wrap:pretty}
+/* A photo caption fills the photo's width line by line (layout check 36); pretty would pull its first line in. */
+figcaption{text-wrap:wrap}
 /* The one capped text: a section lead stops at 41em (861px), just wide enough for the priorities lead on one line (reading check 6). Everything else fills its container. */
 .lede{font-size:21px;color:var(--ink-2);max-width:41em}
 .muted{color:var(--ink-2)}
