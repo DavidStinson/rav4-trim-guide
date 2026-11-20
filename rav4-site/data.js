@@ -1,5 +1,5 @@
 // The page's facts: everything that differs by model year (YEAR_FACTS, read through F), the trims,
-// features, packages, paints and checklist. app.js and visuals.js render these; change facts here.
+// features, packages and paints. app.js and visuals.js render these; change facts here.
 /* ===================== MODEL YEAR =====================
    The page shows one model year at a time, chosen by ?year= in the address (2027 when it's missing
    or unknown). Everything that differs between the years lives here, and the data below reads it
@@ -420,17 +420,3 @@ const COLORS = {
        paint:{'0218':0,'02SQ':500,'0M22':500,'02VP':975}, int:{EC20:['blackblue','#000000']}},
 };
 
-const CHECKLIST = [
-  ['Which packages does the car on the lot already have?','Compare the window sticker with the package prices in this guide. A car with packages you don’t want costs more, so ask whether one without them can be ordered or found.'],
-  ['What is the out-the-door price?','Ask for one number that includes destination fee, taxes, registration and dealer fees.'],
-  ['Are there dealer add-ons, and can they be removed?','Things like paint protection, window tint, or nitrogen in the tires are often added at a high markup.'],
-  ['Can I try the 360° camera on the test drive?','Park it yourself and watch the screen. Try the XLE Premium’s backup camera too, to compare.'],
-  ['Drive the XSE and Limited on a bumpy road.','The XSE’s 20-inch wheels ride firmer. See whether you notice.'],
-  ['Sit in the passenger seat and try the cooled seats.','Also check how easy it is to get in and out, and adjust the seats.'],
-  ['Wear polarized sunglasses while you try the head-up display and the camera mirror.',`Polarized lenses can dim or black out both when you tilt your head. Owners of earlier Toyotas report this; nobody has said yet whether the ${F.year} versions do.`],
-  ['Where would you charge the Plug-in?',`A regular outlet puts back about ${CHARGE.milesIn(CHARGE.ways[0],10)} miles in a 10-hour night. For more, ask an electrician whether your panel has room for a 240-volt circuit and what adding one would cost.`],
-  ['Ask how the Plug-in’s power outlet works in an outage.','Does the car have to stay on, will the engine start by itself to recharge the battery, and does the outlet work in cold weather?'],
-  ['Ask about tax credits and rebates for the Plug-in.','Some states and power companies offer money back on plug-in cars. The dealer or your electric company can tell you what applies.'],
-  ['What does service cost after ToyotaCare ends?','Free scheduled maintenance lasts only 1 year or 10,000 miles. Ask what the dealer charges after that, and whether its prepaid plan is worth it.'],
-  ['Check the window sticker for the exact packages on that car.','Dealers often stock cars with packages already added.'],
-];

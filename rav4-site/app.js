@@ -1,5 +1,5 @@
 // Builds and runs the page from data.js and visuals.js: helpers, photos, theme, sliders, the trim picker,
-// packages, color picker, year switch, feature list, spec table, checklist, photo zoom and section nav.
+// packages, color picker, year switch, feature list, spec table, photo zoom and section nav.
 /* ===================== HELPERS ===================== */
 const $ = (s,el=document)=>el.querySelector(s);
 const ICON = {
@@ -719,13 +719,6 @@ function mergeSpecs(raw){
   list.addEventListener('toggle',e=>{const d=e.target; if(d.matches&&d.matches('details.spec-cat')){openState[d.dataset.cat]=d.open; store.set('rav4-open',openState);}},true);
   q.addEventListener('input',render); diff.addEventListener('change',render);
   render();
-})();
-
-/* ===================== CHECKLIST ===================== */
-(function(){
-  const done = new Set(store.get('rav4-check',[]));
-  $('#checklist').innerHTML = CHECKLIST.map(([t,s],i)=>`<li><label><input type="checkbox" data-i="${i}" ${done.has(i)?'checked':''}><span>${esc(t)}<small>${esc(s)}</small></span></label></li>`).join('');
-  $('#checklist').addEventListener('change',e=>{const i=+e.target.dataset.i; e.target.checked?done.add(i):done.delete(i); store.set('rav4-check',[...done]);});
 })();
 
 /* ===================== PHOTO ZOOM ===================== */
