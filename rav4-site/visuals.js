@@ -318,7 +318,7 @@ VIS.evDemo = ()=>{
     <section class="ev-block" aria-labelledby="evCostT">
       <h5 id="evCostT">Fuel cost over ${YEARS} years, against a Hybrid XSE</h5>
       <div class="ev-sliders">
-        ${slider('evDays','Days you drive a year',100,365,5,300)}
+        ${slider('evDays','Days you drive a year',100,365,5,150)}
         ${slider('evGas','Gas, per gallon',2.5,5.5,0.01,3.5)}
         ${slider('evKwh','Home electricity, per kWh',8,40,1,12)}
       </div>
@@ -365,12 +365,14 @@ VIS.evDemo = ()=>{
       const why = KWH_PER_MILE*ep > gp/MPG_XSE
         ? ` At this electricity price, a mile on electricity costs more than a mile on gas in the Hybrid, so ${saves?'driving more cuts into the savings':'the gap grows the more you drive'}.`
         : g>0 ? ` Past ${RANGE} miles both cars run on gas, and the Plug-in gets ${MPG_XSE-MPG_PHEV} mpg less, so longer days ${saves?'shave a little off the savings':'add a little to its cost'}.` : '';
+      // The yearly miles behind the figures, so a reader can check them against their own (David).
+      const yearly = `Your typical driving adds up to about ${(m*d).toLocaleString('en-US')} miles a year (${m} miles a day, ${d} days a year).`;
       if(!saves){
-        $in('evSave').innerHTML = `<span class="note-tag">No savings with these figures</span><p class="demo-text">The Plug-in would cost about ${money(-save)} more to fuel over ${YEARS} years, and it costs ${money(PREMIUM)} more to buy.${why}</p>`;
+        $in('evSave').innerHTML = `<span class="note-tag">No savings with these figures</span><p class="demo-text">${yearly} The Plug-in would cost about ${money(-save)} more to fuel over ${YEARS} years, and it costs ${money(PREMIUM)} more to buy.${why}</p>`;
       } else {
         const yrs = Math.round(PREMIUM/(save/YEARS));
         const back = yrs>20 ? 'more than 20 years' : `about ${Math.max(yrs,1)} year${yrs>1?'s':''}`;
-        $in('evSave').innerHTML = `<span class="note-tag">Saves about ${money(save)} over ${YEARS} years of your typical driving</span><p class="demo-text">That’s about ${money(save/YEARS)} a year. The Plug-in costs ${money(PREMIUM)} more to buy, so the fuel savings take ${back} to make that back.${why}</p>`;
+        $in('evSave').innerHTML = `<span class="note-tag">Saves about ${money(save)} over ${YEARS} years of your typical driving</span><p class="demo-text">${yearly} That’s about ${money(save/YEARS)} a year in savings. The Plug-in costs ${money(PREMIUM)} more to buy, so the fuel savings take ${back} to make that back.${why}</p>`;
       }
     };
     [inp,days,gas,kwh].forEach(i=>i.addEventListener('input',set)); set();
