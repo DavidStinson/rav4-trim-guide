@@ -807,3 +807,43 @@ function mergeSpecs(raw){
   const y = (sec ? sec.offsetTop : 0) + spot.dy;
   if(y > 0) requestAnimationFrame(()=>scrollTo({top:y, behavior:'instant'}));
 })();
+
+/* ===================== NO LONE LAST WORDS =====================
+   Running text never ends with one word alone on its last line (reading check 7). text-wrap: pretty in
+   the CSS catches most, but Chrome skips some paragraphs, so the last two words of each block of running
+   text are also joined with a no-break space. Text that a demo rewrites later gets the same treatment.
+   Atkinson Hyperlegible draws the non-breaking hyphen (U+2011) the same as a hyphen. */
+(function(){
+  const SEL = 'p, li, figcaption, dd, .tag, .note, .cap, .why, .aka';
+  const join = el=>{
+    if(el.closest('svg')) return;
+    const nodes = [], w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for(let n = w.nextNode(); n; n = w.nextNode()) nodes.push(n);
+    // Walk back past the last word to the space before it.
+    let seenWord = false;
+    for(let i = nodes.length - 1; i >= 0; i--){
+      const t = nodes[i].textContent;
+      for(let j = t.length - 1; j >= 0; j--){
+        const space = /\s/.test(t[j]);
+        if(!space){ seenWord = true; continue; }
+        if(!seenWord) continue;
+        if(t[j] !== ' ') return;
+        // Hyphens in the last word become non-breaking too, so "(high-mid-low)" can't leave "mid-low)" alone.
+        const nb = x=>x.replace(/-/g, '\u2011');
+        nodes[i].textContent = t.slice(0, j) + '\u00A0' + nb(t.slice(j + 1));
+        nodes.slice(i + 1).forEach(n=>{ if(n.textContent.includes('-')) n.textContent = nb(n.textContent); });
+        return;
+      }
+    }
+  };
+  const all = root=>{ if(root.matches?.(SEL)) join(root); root.querySelectorAll?.(SEL).forEach(join); };
+  all(document.body);
+  new MutationObserver(list=>{
+    const seen = new Set();
+    for(const m of list){
+      const el = m.target.nodeType === 1 ? m.target : m.target.parentElement;
+      const block = el?.closest(SEL) || el;
+      if(block && !seen.has(block)){ seen.add(block); all(block); }
+    }
+  }).observe(document.body, {subtree:true, childList:true, characterData:true});
+})();
