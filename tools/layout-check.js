@@ -1010,5 +1010,13 @@ window.layoutCheck = function layoutCheck(){
       fails.push(`outage chip "${c.textContent.trim()}": its wattage wraps at ${W}px`);
     if(!/^(left|start)$/.test(getComputedStyle(c).textAlign)) fails.push(`outage chip "${c.textContent.trim()}": text is ${getComputedStyle(c).textAlign}-aligned at ${W}px; left`);
   });
+  // 44. A spec section's row count reads on one line ("2 rows", never "2" over "rows"); a long section name
+  //     wraps instead.
+  document.querySelectorAll('.spec-cat > summary .n').forEach(n => {
+    if(!visible(n)) return;
+    const r = document.createRange(); r.selectNodeContents(n);
+    const tops = new Set([...r.getClientRects()].map(x => Math.round(x.top)));
+    if(tops.size > 1) fails.push(`spec section "${n.closest('summary').textContent.trim().replace(/\s+/g, ' ')}": its row count wraps at ${W}px`);
+  });
   return fails;
 };
