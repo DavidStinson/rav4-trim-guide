@@ -955,6 +955,12 @@ window.layoutCheck = function layoutCheck(){
       }
     }
   });
+  // Keeping a word whole mustn't change the spacing around it: in a flex or grid label, a word split off on
+  // its own becomes a separate item and picks up the gap ("Wi-Fi   router").
+  document.querySelectorAll('.nw').forEach(n => {
+    const d = getComputedStyle(n.parentElement).display;
+    if(/flex|grid/.test(d) && visible(n)) fails.push(`"${n.textContent}" sits apart from the words around it in a ${d} ${n.parentElement.tagName.toLowerCase()}.${String(n.parentElement.className).split(' ')[0]} at ${W}px`);
+  });
   // 41. In the colors panel's model picker, the picked model keeps the pressed style every other toggle
   //     uses (the camera toggle is the reference), and only its text changes: it reads in its trim's hue
   //     (within 12 degrees), at least 4.5:1 against the button (David). The pressed button is dark in light
