@@ -89,15 +89,19 @@ window.yearCheck = function yearCheck(year){
   EXPECT.featText.forEach(s=>{ if(!plug.includes(s)) fails.push(`Plug-in feature lacks "${s}"`); });
 
   // 7. Charging times. Worked by hand: wall kWh for a full charge = range x 33.7 / MPGe, plus 10%,
-  //    divided by 1.44 kW (120 V x 12 A), 3.84 kW (240 V x 16 A) and 7.68 kW (240 V x 32 A), rounded
-  //    to the nearest half hour. 2027: 50 x 33.7 / 102 x 1.1 = 18.2 kWh. 2026: 52 x 33.7 / 96 x 1.1 = 20.1.
+  //    divided by 1.44 kW (120 V x 12 A), 3.84 kW (240 V x 16 A) and 11 kW, rounded to the nearest half
+  //    hour. The biggest option is the circuit that lets the car charge at its full 11 kW (David asked for
+  //    it in place of 40 amps): 11 kW / 240 V = 46 A, so a 48 A charger on a 60-amp circuit, which the
+  //    car limits to 11 kW. 2027: 50 x 33.7 / 102 x 1.1 = 18.2 kWh. 2026: 52 x 33.7 / 96 x 1.1 = 20.1.
   const CHG = {
-    2027:{full:['12½ hr','4½ hr','2½ hr'], at30:['7½ hours','3 hours','1½ hours'], night:'about 40 miles'},
-    2026:{full:['14 hr','5 hr','2½ hr'], at30:['8 hours','3 hours','1½ hours'], night:'about 35 miles'},
+    2027:{full:['12½ hr','4½ hr','1½ hr'], at30:['7½ hours','3 hours','1 hour at 60 amps'], night:'about 40 miles'},
+    2026:{full:['14 hr','5 hr','2 hr'], at30:['8 hours','3 hours','1 hour at 60 amps'], night:'about 35 miles'},
   }[year];
   const miles = document.querySelector('#evMiles');
   const setMiles = v=>{ miles.value = v; miles.dispatchEvent(new Event('input')); };
   const rows = [...document.querySelectorAll('#chgRows b')].map(el=>txt(el).trim());
+  const names = [...document.querySelectorAll('#chgRows .cost-row > span:first-child')].map(el=>txt(el).trim());
+  if(names.join('|') !== 'Regular outlet|240 V, 20 amps|240 V, 60 amps') fails.push(`charging options ${names.join(', ')}; expected a regular outlet, 240 V at 20 amps and 240 V at 60 amps`);
   if(rows.join('|') !== CHG.full.join('|')) fails.push(`full-charge times ${rows.join(', ')||'(none)'}; expected ${CHG.full.join(', ')}`);
   if(miles){
     setMiles(30);
