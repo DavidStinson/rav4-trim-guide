@@ -376,6 +376,10 @@ section .wrap > :last-child{margin-bottom:0}
 .chg-rows .cost-row{grid-template-columns:9.2em minmax(0,1fr) 4.6em}
 .chg-need{margin:0;padding-left:1.1em;display:grid;gap:6px;font-size:var(--fs-note);color:var(--ink-2)}
 .chg-need b{color:var(--ink)}
+/* What each charging option needs, and the math: folded under the charging times (David). Its summary shares the "Toyota’s wording" disclosure style. */
+.chg-more{font-size:var(--fs-note);color:var(--ink-2)}
+.chg-more[open] > summary{margin-bottom:var(--sp-tight)}
+.chg-more .chg-need{margin-bottom:var(--sp-tight)}
 @media (max-width:520px){.cost-rows{gap:12px}.cost-row,.chg-rows .cost-row{grid-template-columns:1fr auto;gap:4px 12px}.cost-row .bar{grid-column:1/-1;order:3}}
 .ap-chips .chip{font-size:17px;padding:8px 14px;text-align:left}
 .ap-chips .chip:not([aria-pressed="true"]){background:var(--paper)}
@@ -584,10 +588,10 @@ section .wrap > :last-child{margin-bottom:0}
 .spec-table .mo{display:block;margin-top:6px;font-size:var(--fs-note);color:var(--ink-2)}
 .spec-table .mo .pill{margin-right:4px}
 .tw{margin-top:6px;font-size:var(--fs-note);color:var(--ink-2)}
-.tw summary{cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:underline;text-underline-offset:3px}
-.tw summary::-webkit-details-marker{display:none}
-.tw summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
-.tw[open] summary::before{transform:rotate(45deg)}
+.tw summary,.chg-more summary{cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:underline;text-underline-offset:3px}
+.tw summary::-webkit-details-marker,.chg-more summary::-webkit-details-marker{display:none}
+.tw summary::before,.chg-more summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.tw[open] summary::before,.chg-more[open] summary::before{transform:rotate(45deg)}
 .tw ul{margin:8px 0 2px;padding-left:18px;display:grid;gap:6px}
 .tw li span{display:block;font-weight:700;font-size:var(--fs-label)}
 #specs .tagged{margin-top:18px}

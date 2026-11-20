@@ -306,19 +306,6 @@ VIS.evDemo = ()=>{
     <div class="ev-key" aria-hidden="true"><span><i style="background:var(--phv)"></i>On electricity</span><span><i style="background:var(--no)"></i>On gas, as a regular hybrid</span></div>
     <div class="demo-result" id="evSum" aria-live="polite"></div>
     <p class="note" style="margin:0">Assumes a full charge each morning and Toyota’s EPA estimates: ${RANGE} miles on electricity, then ${MPG_PHEV} mpg. Cold weather, highway speeds and the heater shorten the electric range.</p>
-    <section class="ev-block" aria-labelledby="chgT">
-      <h5 id="chgT">How long charging takes, from empty to full</h5>
-      <div class="cost-rows chg-rows" id="chgRows">
-        ${CHARGE.ways.map((w,i)=>`<div class="cost-row" style="--c:var(--phv)"><span>${w.name}</span><span class="bar" aria-hidden="true"><span style="width:${fullHrs[i]/slowest*100}%"></span></span><b>${fmtHours(fullHrs[i]).replace(/ hours?$/,' hr')}</b></div>`).join('')}
-      </div>
-      <div class="demo-result" id="chgSum" aria-live="polite"></div>
-      <ul class="chg-need">
-        <li><b>Regular outlet.</b> Plug the cable that comes with the car into any household outlet. Nothing to install.</li>
-        <li><b>240 V, 20 amps.</b> An electrician adds a 240-volt circuit and a wall charger. The smaller circuit costs less and can fit when the electrical panel is nearly full.</li>
-        <li><b>240 V, 60 amps.</b> The smallest circuit that lets the car charge at its full speed. It needs a wall charger wired in, since plug-in 240-volt outlets go up to 50 amps, and room for a big circuit in the electrical panel.</li>
-      </ul>
-      <p class="note" style="margin:0">From Toyota’s EPA figures: about ${Math.round(CHARGE.wallKwh*10)/10} kWh from the wall for a full charge, plus 10% for the slower last stretch. A charger can draw only 80% of a circuit’s rating for hours at a time, so a 20-amp circuit charges at 16 amps and a 60-amp circuit at 48. The car takes up to 11 kW. A regular outlet and a 20-amp circuit supply less, so they set the speed; a 60-amp circuit supplies a little more, so the car does. Cold weather slows charging.</p>
-    </section>
     <section class="ev-block" aria-labelledby="evCostT">
       <h5 id="evCostT">Fuel cost over ${YEARS} years, against a Hybrid XSE</h5>
       <div class="ev-sliders">
@@ -332,6 +319,22 @@ VIS.evDemo = ()=>{
       </div>
       <div class="demo-result" id="evSave" aria-live="polite"></div>
       <p class="note" style="margin:0">Uses the miles per day above and assumes you charge at home every night. Counts only gas and electricity, not insurance, upkeep or rebates.</p>
+    </section>
+    <section class="ev-block" aria-labelledby="chgT">
+      <h5 id="chgT">How long charging takes, from empty to full</h5>
+      <div class="cost-rows chg-rows" id="chgRows">
+        ${CHARGE.ways.map((w,i)=>`<div class="cost-row" style="--c:var(--phv)"><span>${w.name}</span><span class="bar" aria-hidden="true"><span style="width:${fullHrs[i]/slowest*100}%"></span></span><b>${fmtHours(fullHrs[i]).replace(/ hours?$/,' hr')}</b></div>`).join('')}
+      </div>
+      <div class="demo-result" id="chgSum" aria-live="polite"></div>
+      <details class="chg-more">
+        <summary>What each option needs, and the math</summary>
+        <ul class="chg-need">
+          <li><b>Regular outlet.</b> Plug the cable that comes with the car into any household outlet. Nothing to install.</li>
+          <li><b>240 V, 20 amps.</b> An electrician adds a 240-volt circuit and a wall charger. The smaller circuit costs less and can fit when the electrical panel is nearly full.</li>
+          <li><b>240 V, 60 amps.</b> The smallest circuit that lets the car charge at its full speed. It needs a wall charger wired in, since plug-in 240-volt outlets go up to 50 amps, and room for a big circuit in the electrical panel.</li>
+        </ul>
+        <p class="note" style="margin:0">From Toyota’s EPA figures: about ${Math.round(CHARGE.wallKwh*10)/10} kWh from the wall for a full charge, plus 10% for the slower last stretch. A charger can draw only 80% of a circuit’s rating for hours at a time, so a 20-amp circuit charges at 16 amps and a 60-amp circuit at 48. The car takes up to 11 kW. A regular outlet and a 20-amp circuit supply less, so they set the speed; a 60-amp circuit supplies a little more, so the car does. Cold weather slows charging.</p>
+      </details>
     </section>
   </div>`, init(root){
     const $in = id=>root.querySelector('#'+id);
