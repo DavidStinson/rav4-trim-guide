@@ -178,7 +178,10 @@ section .wrap > :last-child{margin-bottom:0}
 /* A thin sliver (a trim in the middle of the row on a phone) has room for the arrow only; its name stays in the label. */
 .sl-btn.slim .sl-in > span:not(.sl-arrow),.sl-btn.slim small{display:none}
 @media (max-width:640px){.sl-arrow{width:40px;height:40px}.sl-arrow svg{width:19px;height:19px}.sl-btn{font-size:13px}}
+/* The grid gap is the only space inside the header: a paragraph's own bottom margin would add to
+   --head-after unseen, since margins don't collapse in a grid. */
 .sec-head{display:grid;gap:var(--head-gap);margin-bottom:var(--head-after)}
+.sec-head > *{margin:0}
 
 /* ---------- status pills ---------- */
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-label);font-weight:700;padding:3px 10px 3px 8px;border-radius:999px;white-space:nowrap;line-height:1.4}
