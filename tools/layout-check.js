@@ -937,5 +937,26 @@ window.layoutCheck = function layoutCheck(){
       }
     }
   });
+  // 41. In the colors panel's model picker, the picked model's name shows in its trim's color (David), at
+  //     least 4.5:1 against the button behind it, so the picker matches the trim colors used everywhere
+  //     else. Each model is tried in turn, then the original pick is restored.
+  const cpBtns = [...document.querySelectorAll('#cpModel button')];
+  if(cpBtns.length){
+    const rgb = c => (c.match(/[\d.]+/g) || []).slice(0, 4).map(Number);
+    const lum = ([r, g, b]) => [r, g, b].map(v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }).reduce((a, v, i) => a + v * [.2126, .7152, .0722][i], 0);
+    const bgOf = el => { for(let e = el; e; e = e.parentElement){ const c = rgb(getComputedStyle(e).backgroundColor); if(c.length === 3 || c[3] > 0) return c; } return [255, 255, 255]; };
+    const probe = document.createElement('span'); document.body.append(probe);
+    const was = cpBtns.find(b => b.getAttribute('aria-pressed') === 'true');
+    cpBtns.forEach(b => {
+      b.click();
+      const t = TRIMS.find(x => x.id === b.dataset.t);
+      probe.style.color = t.color;
+      const want = getComputedStyle(probe).color, got = getComputedStyle(b).color;
+      if(got !== want) fails.push(`colors picker: the picked ${t.name} reads ${got}, not its trim color ${want}`);
+      const [L1, L2] = [lum(rgb(got)), lum(bgOf(b))].sort((x, y) => y - x), ratio = (L1 + .05) / (L2 + .05);
+      if(ratio < 4.5) fails.push(`colors picker: the picked ${t.name} is ${ratio.toFixed(2)}:1 against its button; at least 4.5:1`);
+    });
+    probe.remove(); was?.click();
+  }
   return fails;
 };
