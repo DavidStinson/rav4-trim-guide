@@ -765,49 +765,54 @@ window.layoutCheck = function layoutCheck(){
   if(document.querySelector('a[href="#dealer"]')) fails.push('a link to the dealer questions is still on the page');
   if(document.querySelector('main > section:last-of-type')?.id !== 'specs') fails.push(`the last section is #${document.querySelector('main > section:last-of-type')?.id}; expected the spec list`);
 
-  // 35. One spacing scale inside every feature card (David picked 16 / 40 / 64):
-  //     16 (tight)   things that belong together: a caption under its photo or drawing, a toggle above what it
-  //                  controls, "Why it matters" under the description;
-  //     40 (part)    separate parts of one demo: the camera diagram beside its list, each block of the plug-in
-  //                  calculator, and the card's padding below its last row;
-  //     64 (section) the write-up to the picture or demo under it, and a demo to the photo row under it.
+  // 35. Spacing inside feature cards comes in three steps:
+  //     tight    things that belong together: a caption under its photo or drawing, a toggle above what it
+  //              controls, "Why it matters" under the description;
+  //     part     separate parts of one demo: the camera diagram beside its list, each block of the plug-in
+  //              calculator;
+  //     section  the write-up to the picture or demo under it, and a demo to the photo row under it.
+  //     David tried 16 / 40 / 64 on every card and liked it only on the 360° camera card, which keeps it.
+  //     Every other card takes about a third of that, rounded up to 8px steps: 8 / 16 / 24. The card's
+  //     padding is not part of the scale: on every card the last row ends 40px above the card's bottom.
   {
     const near = (a, b) => Math.abs(a - b) <= 1;
     const R = el => el.getBoundingClientRect();
+    const PAD = 40;
+    const scale = card => card.id === 'f-cam360' ? { tight: 16, part: 40, section: 64 } : { tight: 8, part: 16, section: 24 };
     const where = el => `${el.closest('.feature')?.id || 'feature'} ${el.className || el.tagName.toLowerCase()}`.trim();
     const gap = (above, below, want, what) => { const g = R(below).top - R(above).bottom; if(!near(g, want)) fails.push(`${what}: ${Math.round(g)}px at ${W}px; expected ${want}`); };
     document.querySelectorAll('.feature').forEach(card => {
       if(!visible(card)) return;
-      const copy = card.querySelector(':scope > .f-text');
-      // Section steps: whatever sits under the write-up starts 64px below it (or below the who-has-it list on a phone).
+      const sp = scale(card), copy = card.querySelector(':scope > .f-text');
+      // Section steps: whatever sits under the write-up starts one section step below it (or below the who-has-it list on a phone).
       card.querySelectorAll(':scope > .f-vis, :scope > .f-below, :scope > .trio').forEach(el => {
         if(!visible(el) || R(el).top < R(copy).bottom - 1) return; // beside the copy, not under it
         const mt = parseFloat(getComputedStyle(el).marginTop);
-        if(mt !== 64) fails.push(`${where(el)}: starts ${mt}px under the card's write-up at ${W}px; expected 64`);
+        if(mt !== sp.section) fails.push(`${where(el)}: starts ${mt}px under the card's write-up at ${W}px; expected ${sp.section}`);
       });
-      // Part step: the card's last row ends 40px above the card's bottom edge.
+      // Padding: the card's last row ends 40px above the card's bottom edge.
       const last = [...card.children].filter(visible).pop();
-      if(last && !last.classList.contains('avail') && !near(R(card).bottom - R(last).bottom, 40)) fails.push(`${where(last)}: ends ${Math.round(R(card).bottom - R(last).bottom)}px above the card's bottom at ${W}px; expected 40`);
+      if(last && !last.classList.contains('avail') && !near(R(card).bottom - R(last).bottom, PAD)) fails.push(`${where(last)}: ends ${Math.round(R(card).bottom - R(last).bottom)}px above the card's bottom at ${W}px; expected ${PAD}`);
       // Tight steps.
-      card.querySelectorAll('figcaption, .demo-cap, .demo-cols .cap').forEach(c => { const prev = c.previousElementSibling; if(visible(c) && prev && visible(prev)) gap(prev, c, 16, `${where(c)} under its picture`); });
-      card.querySelectorAll('.f-text .why').forEach(w => { const prev = w.previousElementSibling; if(visible(w) && prev) gap(prev, w, 16, `${where(w)} under the description`); });
-      card.querySelectorAll('.cam-seg').forEach(t => { const next = t.nextElementSibling; if(visible(t) && next) gap(t, next, 16, `${where(t)} above what it controls`); });
+      card.querySelectorAll('figcaption, .demo-cap, .demo-cols .cap').forEach(c => { const prev = c.previousElementSibling; if(visible(c) && prev && visible(prev)) gap(prev, c, sp.tight, `${where(c)} under its picture`); });
+      card.querySelectorAll('.f-text .why').forEach(w => { const prev = w.previousElementSibling; if(visible(w) && prev) gap(prev, w, sp.tight, `${where(w)} under the description`); });
+      card.querySelectorAll('.cam-seg').forEach(t => { const next = t.nextElementSibling; if(visible(t) && next) gap(t, next, sp.tight, `${where(t)} above what it controls`); });
+      // The plug-in calculator: each block sits one part step from the rule above it, and the rule one part step below what came before.
+      card.querySelectorAll('.ev-block').forEach(b => {
+        if(!visible(b)) return;
+        const prev = b.previousElementSibling, first = [...b.children].find(visible);
+        if(prev) gap(prev, b, sp.part, `${where(b)}: rule under the part above`);
+        if(first && !near(R(first).top - R(b).top - 1, sp.part)) fails.push(`${where(b)}: first line ${Math.round(R(first).top - R(b).top - 1)}px under its rule at ${W}px; expected ${sp.part}`);
+      });
     });
-    // The camera card: diagram and list 40px apart, the photo pair 64px under the demo.
-    const cam = document.getElementById('f-cam360');
+    // The camera card: diagram and list one part step apart, the photo pair one section step under the demo.
+    const cam = document.getElementById('f-cam360'), camSp = cam && scale(cam);
     const cols = cam && [...cam.querySelectorAll('.demo-cols > *')], pair = cam && cam.querySelector('.demo > .photo-pair');
     if(cols && cols.length === 2 && visible(cols[0])) {
       const [a, b] = cols.map(R), side = b.top < a.bottom - 1, g = side ? b.left - a.right : b.top - a.bottom;
-      if(!near(g, 40)) fails.push(`f-cam360: diagram and camera list ${Math.round(g)}px apart at ${W}px; expected 40`);
+      if(!near(g, camSp.part)) fails.push(`f-cam360: diagram and camera list ${Math.round(g)}px apart at ${W}px; expected ${camSp.part}`);
     }
-    if(pair && visible(pair)) gap(cam.querySelector('.demo-cols'), pair, 64, 'f-cam360: photo pair under the demo');
-    // The plug-in calculator: each block sits 40px from the rule above it, and the rule 40px below what came before.
-    document.querySelectorAll('.ev-block').forEach(b => {
-      if(!visible(b)) return;
-      const prev = b.previousElementSibling, first = [...b.children].find(visible);
-      if(prev) gap(prev, b, 40, `${where(b)}: rule under the part above`);
-      if(first && !near(R(first).top - R(b).top - 1, 40)) fails.push(`${where(b)}: first line ${Math.round(R(first).top - R(b).top - 1)}px under its rule at ${W}px; expected 40`);
-    });
+    if(pair && visible(pair)) gap(cam.querySelector('.demo-cols'), pair, camSp.section, 'f-cam360: photo pair under the demo');
   }
 
   // 36. A photo's caption runs the full width of its photo (David: the camera pair's caption wrapped well
