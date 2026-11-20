@@ -14,7 +14,7 @@ const YEAR_FACTS = {
     hp:{hyb:229, phv:321},
     range:50, mpge:102,                                   // Plug-in electric range (miles) and MPGe
     port:'Tesla-style (NACS)',
-    portWhy:'It can also use public fast chargers, and its charging port is the same type Tesla uses.',
+    portWhy:'It can also use public fast chargers, and its charging port is the same type Tesla uses. Most automakers in North America have adopted it as the standard.',
     trials:{remote:'5 years', drive:'3 months'},
     xleAssist:'XLE Premium Driver Assist Package',
     notes:{
