@@ -289,9 +289,10 @@ window.layoutCheck = function layoutCheck(){
   });
 
   // 12. The priority picker shows something before anything is picked: all four trim cards, each naming
-  //     its trim and price, and one prompt at body size saying what to do. The legend explains the cards'
-  //     marks, so it appears with them once a priority is picked, between the chips and the cards. An
-  //     unpicked chip's outline stands out from what's behind it (3:1, so it reads as a button).
+  //     its trim and price and nothing else (no empty bars), and no extra prompt under the chips: the
+  //     section intro already says what to do (REVIEW-DECISIONS.md, r12 rework). The legend explains
+  //     the cards' marks, so it appears with them once a priority is picked, between the chips and the
+  //     cards. An unpicked chip's outline stands out from what's behind it (3:1, so it reads as a button).
   const say = el => (el?.textContent || '').replace(/\s+/g, ' ').trim();
   const pickChips = [...document.querySelectorAll('#chips .chip')], wasPicked = pickChips.filter(c => c.getAttribute('aria-pressed') === 'true');
   wasPicked.forEach(c => c.click());
@@ -302,15 +303,17 @@ window.layoutCheck = function layoutCheck(){
   const legend = document.querySelector('.picker .legend');
   if(legend && visible(legend)) fails.push('priority picker shows the Included/Optional/Not offered legend before there is anything for it to explain');
   if([...document.querySelectorAll('#scores .best-badge')].some(b => visible(b) && getComputedStyle(b).visibility !== 'hidden')) fails.push('a priority card says "Best match" before anything is picked');
+  if(document.querySelector('#scores .meter')) fails.push('priority cards show empty bars before anything is picked');
   const prompt = [...document.querySelectorAll('.picker p')].filter(el => visible(el) && /pick|tap/i.test(say(el)));
-  const bodyPx = parseFloat(getComputedStyle(document.body).fontSize);
-  if(prompt.length !== 1 || parseFloat(getComputedStyle(prompt[0]).fontSize) < bodyPx) fails.push(`priority picker's empty prompt: ${prompt.length} found${prompt[0] ? `, ${getComputedStyle(prompt[0]).fontSize}` : ''}; expected one at body size (${bodyPx}px)`);
+  if(prompt.length) fails.push(`priority picker repeats the intro under the chips: "${say(prompt[0])}"`);
   const rgb = c => (c.match(/[\d.]+/g) || []).slice(0, 3).map(Number).map(v => (v /= 255) <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
   const lum = c => { const [r, g, b] = rgb(c); return .2126 * r + .7152 * g + .0722 * b; };
   const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + .05) / (y + .05); };
   const c0 = pickChips[0];
   if(c0){
-    const cs = getComputedStyle(c0), behind = getComputedStyle(c0.closest('.picker')).backgroundColor;
+    // What's behind the chip: the nearest ancestor with a solid background.
+    let bg = c0.parentElement; while(bg && /rgba\(.*,\s*0\)$|transparent/.test(getComputedStyle(bg).backgroundColor)) bg = bg.parentElement;
+    const cs = getComputedStyle(c0), behind = getComputedStyle(bg || document.body).backgroundColor;
     const r = ratio(cs.borderTopColor, behind);
     if(r < 3) fails.push(`an unpicked priority chip's outline is ${r.toFixed(2)}:1 against the panel; a button outline needs 3:1`);
     const tick = c0.querySelector('.tick'), tc = tick && getComputedStyle(tick).color;
@@ -322,9 +325,54 @@ window.layoutCheck = function layoutCheck(){
       if(top < chipsBottom || (firstCard && top > firstCard.getBoundingClientRect().top)) fails.push('priority legend is not between the chips and the cards');
     }
     if(document.querySelector('#scores > .score') && !document.querySelector('#scores .best-badge')) fails.push('priority cards lost their "Best match" badge');
+    // 19. On a phone, where one card shows at a time under four trim tabs, the tabs say which trim is the
+    //     best match, in what they show and in their accessible names, and no other tab does.
+    const tabs = [...document.querySelectorAll('#scoresSl .sl-tabs button')].filter(visible);
+    if(tabs.length){
+      const best = [...document.querySelectorAll('#scores > .score')].map(c => c.classList.contains('best'));
+      const name = b => (b.getAttribute('aria-label') || say(b)).toLowerCase();
+      tabs.forEach((b, i) => {
+        const marked = /best/i.test(say(b)), named = name(b).includes('best match');
+        if(best[i] && !(marked && named)) fails.push(`phone tab ${say(b)} is the best match but ${marked ? 'its accessible name doesn\'t say so' : 'doesn\'t show it'}`);
+        if(!best[i] && (marked || named)) fails.push(`phone tab ${say(b)} is marked best match but isn't`);
+      });
+    }
     c0.click();
+    if([...document.querySelectorAll('#scoresSl .sl-tabs button')].some(b => /best/i.test(say(b) + (b.getAttribute('aria-label') || '')))) fails.push('a phone tab still says best match after the picks are cleared');
   }
   wasPicked.forEach(c => c.click());
+
+  // 17. A picked chip's check mark sits in the middle of its circle (within 1px).
+  {
+    const chip = document.querySelector('#chips .chip');
+    if(chip){
+      const was = chip.getAttribute('aria-pressed') === 'true';
+      if(!was) chip.click();
+      const tick = chip.querySelector('.tick'), mark = tick && tick.querySelector('path');
+      if(!mark) fails.push('priority chip check mark is not a drawn shape, so its position can\'t be checked');
+      else {
+        const a = tick.getBoundingClientRect(), b = mark.getBoundingClientRect();
+        const dx = (b.left + b.width / 2) - (a.left + a.width / 2), dy = (b.top + b.height / 2) - (a.top + a.height / 2);
+        if(Math.abs(dx) > 1 || Math.abs(dy) > 1) fails.push(`priority chip check mark is ${dx.toFixed(1)}px across and ${dy.toFixed(1)}px down from its circle's center`);
+      }
+      if(!was) chip.click();
+    }
+  }
+
+  // 18. The priority cards sit straight in the section, like the hero cars and package cards: no box
+  //     around the row, and the row's outer edges line up with the package cards' at the same width.
+  {
+    const sl = document.getElementById('scoresSl'), sec = document.getElementById('picker'), pk = document.getElementById('pkGrid')?.closest('[data-sl]');
+    for(let el = sl?.parentElement; el && el !== sec; el = el.parentElement){
+      const cs = getComputedStyle(el);
+      if(!/rgba\(.*,\s*0\)$|transparent/.test(cs.backgroundColor) || cs.boxShadow !== 'none' || parseFloat(cs.borderTopWidth) > 0)
+        fails.push(`priority cards sit inside a box (${el.className || el.tagName}); they should sit straight in the section`);
+    }
+    if(sl && pk){
+      const a = sl.getBoundingClientRect(), b = pk.getBoundingClientRect();
+      if(Math.abs(a.left - b.left) > 1 || Math.abs(a.right - b.right) > 1) fails.push(`priority card row spans ${Math.round(a.left)} to ${Math.round(a.right)}px; the package cards span ${Math.round(b.left)} to ${Math.round(b.right)}px`);
+    }
+  }
 
 
   // 13. Step-up items: one with a write-up further down is a link that looks like one (a visible "more"
