@@ -995,5 +995,14 @@ window.layoutCheck = function layoutCheck(){
     if(!/^0(%|px)?$/.test(py)) fails.push(`roof photo crop doesn't keep the top of the picture (${cs.objectPosition}) at ${W}px`);
     if(!px.endsWith('%') || parseFloat(px) > 35) fails.push(`roof photo crop sits at ${px} across at ${W}px; at most 35% so the back seat's glass shows`);
   }
+  // 43. In the outage demo a chip's wattage reads on one line ("500 W", never "500" over "W"), and a name
+  //     that wraps lines up on the left like the rest of the text, not centered.
+  document.querySelectorAll('.ap-chips .chip').forEach(c => {
+    if(!visible(c)) return;
+    const w = c.querySelector('small');
+    if(w && w.getClientRects().length && Math.round(w.getBoundingClientRect().height) > Math.ceil(parseFloat(getComputedStyle(w).lineHeight) || 24) + 1)
+      fails.push(`outage chip "${c.textContent.trim()}": its wattage wraps at ${W}px`);
+    if(!/^(left|start)$/.test(getComputedStyle(c).textAlign)) fails.push(`outage chip "${c.textContent.trim()}": text is ${getComputedStyle(c).textAlign}-aligned at ${W}px; left`);
+  });
   return fails;
 };
