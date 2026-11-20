@@ -246,7 +246,7 @@ const FEATURES = [
    aka:'Two-tone paint, LED accent lights, fog lights, trim colors',
    what:'The <b>XSE</b> is the sporty-looking one: glossy black trim, vertical LED accent lights in the front bumper, blue stitching inside, and an optional black roof (two-tone paint). The <b>Plug-in XSE</b> looks almost the same. The <b>Limited</b> looks more upscale with silver accents, a satin-chrome grille and LED fog lights. The <b>XLE Premium</b> has a simpler, rugged look with matte black lower trim.',
    why:'Purely a matter of taste. Look at them in person, ideally in the color you want.',
-   trims:[['std','Simple, rugged'],['std','Sporty, two-tone option'],['std','Upscale, fog lights'],['std','Sporty, two-tone option']], layout:'beside', img:'RHV_MY26_0016', alt:'Rear of a blue-gray RAV4 Limited parked on a beach, showing its silver lower bumper', cap:'The Limited in Storm Cloud, with its silver lower bumper.',
+   trims:[['std','Simple, rugged'],['std','Sporty, two-tone option'],['std','Upscale, fog lights'],['std','Sporty, two-tone option']], layout:'text',
    shots:{title:'All four in white, front and back', views:[['ext','front'],['rear','back']],
      imgs:['4444-0089','4530-02VP','4534-0089','4550-02VP'],
      caps:['Matte black lower trim and dark wheels.','Black roof, black wheels, LED accent lights in the bumper.','Silver accents and fog lights.','Same sporty look as the Hybrid XSE.']}},

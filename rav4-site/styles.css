@@ -290,7 +290,8 @@ section .wrap > :last-child{margin-bottom:0}
     background:var(--well);grid-template-columns:1fr;align-content:start;gap:16px}
   /* Light mode: the column is a grey well, darker than the page, and the "Not offered" grey would fade into it, so it takes the card's white. Dark mode keeps its old blend and pills. */
   .feature > .avail .pill.no{background:var(--well-no)}
-  .feature.l-text > .avail{margin-bottom:-36px;border-bottom:0;border-bottom-left-radius:0}
+  /* With nothing under it, a copy-only card's column runs to the card's bottom edge; a row of photos under the card (shots:) keeps it ending with the copy. */
+  .feature.l-text > .avail:last-child{margin-bottom:-36px;border-bottom:0;border-bottom-left-radius:0}
   .feature.compact > .avail{margin-top:-28px}
   .feature > .avail div{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 10px}
   .feature > .avail .note{grid-column:1/-1}
