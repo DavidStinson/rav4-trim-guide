@@ -155,8 +155,10 @@ VIS.mirrorDemo = ()=>{
 // The shaded box behind the readings is only for the drawing (the caption says so); the speed differs
 // from the limit so the two can't be read as one number (David). On a phone the drawing is shorter than
 // its shape and slices off the sides (styles.css), a closer view in which the readings stay legible.
+// The readings are white with a dark outline, so they stand apart from the green trees and still read
+// over the light sky (David wanted the readings to change, not the box).
 VIS.hudDemo = ()=>{
-  const C = '#7FF2D2', HZ = 258, DASH = 294, VX = 452;
+  const C = '#FFFFFF', EDGE = '#0E2A3A', HZ = 258, DASH = 294, VX = 452;
   // Trees along the horizon: [x, height]. Fixed, so the drawing never changes between loads.
   const TREES = [[150,22],[176,30],[204,26],[236,44],[262,38],[300,60],[330,52],[362,74],[392,64],[424,84],[458,70],[486,96],
     [516,80],[548,104],[578,92],[608,118],[640,100],[668,124],[700,108],[730,128],[760,112],[792,130],[822,118],[852,132],[882,120]];
@@ -185,10 +187,11 @@ VIS.hudDemo = ()=>{
       <rect x="738" y="316" width="146" height="40" rx="5" fill="#25323D"/>
       <path class="hud-wheel" d="M216 340 A430 430 0 0 1 556 340" fill="none" stroke="#131618" stroke-width="26"/>
       <g opacity=".95">
-        <rect class="hud-box" x="254" y="${DASH - 98}" width="264" height="80" rx="12" fill="#0E2A3A" opacity=".85"/>
+        <rect class="hud-box" x="254" y="${DASH - 98}" width="264" height="80" rx="12" fill="#0E2A3A" opacity=".4"/>
+        <path class="hud-edge" d="M282 ${DASH - 30} V${DASH - 62} H306 M296 ${DASH - 74} L310 ${DASH - 62} L296 ${DASH - 50}" fill="none" stroke="${EDGE}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
         <path class="nav-arrow" d="M282 ${DASH - 30} V${DASH - 62} H306 M296 ${DASH - 74} L310 ${DASH - 62} L296 ${DASH - 50}" fill="none" stroke="${C}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-        <text class="hud-speed" x="380" y="${DASH - 50}" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="48" fill="${C}">42</text>
-        <text class="hud-unit" x="380" y="${DASH - 26}" text-anchor="middle" font-size="18" fill="${C}">mph</text>
+        <text class="hud-speed" x="380" y="${DASH - 50}" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="48" fill="${C}" stroke="${EDGE}" stroke-width="5" stroke-linejoin="round" paint-order="stroke">42</text>
+        <text class="hud-unit" x="380" y="${DASH - 26}" text-anchor="middle" font-size="18" fill="${C}" stroke="${EDGE}" stroke-width="4" stroke-linejoin="round" paint-order="stroke">mph</text>
         <rect x="442" y="${DASH - 90}" width="60" height="64" rx="6" fill="#fff" opacity=".92"/>
         <text x="472" y="${DASH - 69}" text-anchor="middle" font-size="17" fill="#222">LIMIT</text>
         <text class="hud-limit" x="472" y="${DASH - 36}" text-anchor="middle" font-size="30" font-weight="800" font-family="Overpass" fill="#222">45</text>
