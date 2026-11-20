@@ -328,5 +328,30 @@ window.yearCheck = function yearCheck(year){
     box.checked = true; box.dispatchEvent(new Event('change'));
   }
 
+  // 15. The outage demo's run times follow Toyota Japan's rating for this RAV4 Plug-in (David): about 1 day on a
+  //     full battery and about 6.5 days with a full tank as well, at a steady 400 W. So the battery-only time
+  //     counts the car's own draw while it's on, and a second line says how far a full tank stretches it.
+  //     With the default appliances (140 W): about 2 days on the battery, about 12 (2027) or 12½ (2026) with
+  //     a full tank. With 400 W (TV, box fan, laptop, CPAP, refrigerator and Wi-Fi... 405 W): about 1 day.
+  {
+    const ap = document.getElementById('apSum'), chips = [...document.querySelectorAll('.ap-chips .chip')];
+    const pick = ids => chips.forEach(c => { if((c.getAttribute('aria-pressed') === 'true') !== ids.includes(c.dataset.id)) c.click(); });
+    const was = chips.filter(c => c.getAttribute('aria-pressed') === 'true').map(c => c.dataset.id);
+    const read = () => [ap.querySelector('.note-tag')?.textContent.trim(), ap.querySelector('.demo-text')?.textContent.trim()];
+    pick(['fridge', 'wifi', 'phones', 'lamps']);
+    let [tag, text] = read();
+    if(tag !== 'About 2 days on the battery alone') fails.push(`outage demo at 140 W: tag "${tag}"; expected "About 2 days on the battery alone"`);
+    const tank = year === 2027 ? 'about 12 days' : 'about 12½ days';
+    if(!(text || '').includes(`With a full tank, the engine can stretch that to ${tank}.`)) fails.push(`outage demo at 140 W: "${text}" should say a full tank stretches it to ${tank}`);
+    pick(['fridge', 'freezer', 'cpap', 'laptop', 'fan', 'tv']);
+    [tag, text] = read();
+    const day = year === 2027 ? 'About 24 hours on the battery alone' : 'About 27 hours on the battery alone';
+    if(tag !== day) fails.push(`outage demo at 405 W: tag "${tag}"; expected "${day}"`);
+    if(!/the engine can stretch that to about 6½? days\./.test(text || '')) fails.push(`outage demo at 405 W: "${text}" should say a full tank stretches it to about 6 or 6½ days`);
+    const notes = [...document.querySelectorAll('.outage-demo .note')].map(n => n.textContent).join(' ');
+    if(!/Toyota Japan/.test(notes) || !/6\.5 days at 400 W/.test(notes) || !/160 W/.test(notes)) fails.push('outage demo notes should cite Toyota Japan\'s 6.5 days at 400 W and the car\'s own 160 W draw');
+    pick(was);
+  }
+
   return fails;
 };
