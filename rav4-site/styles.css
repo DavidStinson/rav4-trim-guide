@@ -439,7 +439,8 @@ section .wrap > :last-child{margin-bottom:0}
 .cp{--c:var(--xle);--c-soft:var(--xle-soft);background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
 .cp-top{background:var(--c-soft);padding:18px 22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
 .cp-top .seg button{min-height:44px}
-.cp-note{margin:0;flex:1 1 280px;font-size:var(--fs-note);line-height:1.45;background:var(--opt-soft);border-radius:10px;padding:8px 12px}
+/* The switch message is boxed like the model toggle beside it. */
+.cp-note{margin:0;flex:1 1 280px;font-size:var(--fs-note);line-height:1.45;background:var(--card);color:var(--ink);border:1.5px solid var(--rule);border-radius:14px;padding:8px 12px}
 .cp-note:empty{display:none}
 .cp-note.seen{visibility:hidden}
 .cp-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);border-top:1px solid var(--rule)}
