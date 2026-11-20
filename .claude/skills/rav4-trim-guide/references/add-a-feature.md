@@ -26,14 +26,14 @@ if(pills('hud').join() !== 'no,no,opt,opt') fails.push(`head-up display marks ${
  what:'Your speed, the speed limit and navigation arrows are projected onto the windshield...',
  why:`Keeps your eyes on the road. One catch: ...`,
  trims:[['no'],['no'],['opt','Stand-alone option: $600'],['opt','Comes with the Driver Assist Package ($2,865 with the packages it requires)']],
- visual:'hudDemo', layout:'beside'},
+ visual:'hudDemo', layout:'below'},
 ```
 
 - `name` is the buyer's words; `aka` is Toyota's name.
 - `trims` is in trim order. Each entry is `[state, note?]` with state `std`, `opt` or `no`; the note says how to get it or what the trim has instead.
 - Text that differs by year reads `F` (`${F.year}`), never a hard-coded year.
 - `group` must match an existing group name; the feature list and group nav are built from it.
-- `layout` is `text`, `beside` or `below`; step 4 says which.
+- `layout` is `text` or `below`; step 4 says which.
 
 ## 4. Optional: a visual, and the layout
 
@@ -53,10 +53,9 @@ Then pick the layout. The who-has-it column always sits on the panel's right, be
 | layout | use for | where the picture goes |
 | --- | --- | --- |
 | `text` | no picture | nowhere: copy and the column |
-| `beside` | one static drawing (HUD, wheels, screen sizes) | beside the copy when the copy keeps 520px; otherwise under the copy, at the copy's width (drawings stop at 520px) |
-| `below` | every photo: a lone `img` (ventilated seats, JBL, charging, liftgate) and every `imgs` pair (gear selector); and anything with controls or several photos (camera, mirror, roof, plug-in, outage demos) | under the copy and the column, across the whole panel |
+| `below` | everything else: every photo, a lone `img` (ventilated seats, JBL, charging, liftgate) or an `imgs` pair (gear selector); every drawing (HUD, screen sizes, wheels); and every demo with controls or several photos (camera, mirror, roof, plug-in, outage) | under the copy and the column, across the whole panel |
 
-The HUD is `beside` because it's one static drawing. At today's 1,060px reading width a `beside` picture always lands under the copy; the 1356px container query in `styles.css` puts it beside the copy if the features section ever gets wider. Layout check 15 fails a missing or wrong layout, and `app.js` logs an error for an `img` or `imgs` with any layout but `below`. A lone photo spans the card's content width at its own shape, uncropped (layout 37), so its `sizes` in `app.js` lists the card's content widths.
+David retired a `beside` layout: a drawing under the copy at the copy's width left an empty block next to it. A drawing spans the card like a photo, so draw it wide, at least twice as wide as tall (layout 39). When it shows two things side by side, put them at a quarter and three quarters of its width and label them in HTML with `.pair-caps`, which lines up with them; the screen and wheel drawings do this. Layout check 15 fails a missing or wrong layout, and `app.js` logs an error for an `img` or `imgs` with any layout but `below`. A lone photo spans the card's content width at its own shape, uncropped (layout 37), so its `sizes` in `app.js` lists the card's content widths.
 
 ## 5. Green, look, commit
 
