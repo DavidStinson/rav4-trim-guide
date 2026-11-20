@@ -549,7 +549,7 @@ window.layoutCheck = function layoutCheck(){
       if(!tag || tag.textContent.trim() !== 'Good to know') { fails.push(`${sel}: needs a "Good to know" tag (.tagged > .note-tag) at ${W}px`); return; }
       if(tag.getBoundingClientRect().bottom > p.getBoundingClientRect().top + 1) fails.push(`${sel}: its tag should sit above the text at ${W}px`);
     });
-    document.querySelectorAll('.year-diff, .demo-summary, .cp-note').forEach(el => {
+    document.querySelectorAll('.year-diff, .cp-note').forEach(el => {
       if(!visible(el)) return;
       const want = resolve(el.parentElement, 'var(--opt-soft)');
       if(getComputedStyle(el).backgroundColor !== want) fails.push(`${name(el)}: background ${getComputedStyle(el).backgroundColor}; expected the soft yellow ${want} at ${W}px`);
@@ -609,6 +609,26 @@ window.layoutCheck = function layoutCheck(){
       const cs = getComputedStyle(box);
       if(cs.backgroundColor !== want || parseFloat(cs.paddingLeft) < 12 || parseFloat(cs.borderTopLeftRadius) < 8) fails.push(`#${id}: expected a box filled with the page color ${want} (background ${cs.backgroundColor}, padding ${cs.paddingLeft}, radius ${cs.borderTopLeftRadius}) at ${W}px`);
     });
+    // The outlet demo's result follows the same pattern as the plug-in demo's (David): a page-color box,
+    // a yellow tag with the short answer once something is picked, plain text under it.
+    const ap = document.getElementById('apSum'), apChips = [...document.querySelectorAll('.ap-chips .chip')];
+    if(!ap || !apChips.length) fails.push('outlet demo: result (#apSum) or appliance chips not found');
+    else if(visible(ap)) {
+      const was = apChips.filter(c => c.getAttribute('aria-pressed') === 'true').map(c => c.dataset.id);
+      const pick = ids => apChips.forEach(c => { if((c.getAttribute('aria-pressed') === 'true') !== ids.includes(c.dataset.id)) c.click(); });
+      [[[], null], [['phones', 'lamps'], /^(About \d+½? (hours?|days)|Less than an hour) on the battery alone$/], [['ac', 'heater'], /^[\d,]+ W is more than the outlet’s [\d,]+ W$/]].forEach(([ids, want]) => {
+        pick(ids);
+        const tag = ap.querySelector(':scope > .note-tag'), text = ap.querySelector(':scope > .demo-text'), at = `[${ids.join(', ')}]`;
+        const got = tag ? tag.textContent.trim() : null;
+        if(want ? !want.test(got || '') : got !== null) fails.push(`#apSum with ${at}: tag reads ${got === null ? 'nothing' : `"${got}"`}; expected ${want || 'no tag'}`);
+        if(!text || text.querySelector('b')) fails.push(`#apSum with ${at}: needs plain text (.demo-text, no bold)`);
+      });
+      pick(was);
+      const i = document.createElement('i'); i.style.cssText = 'position:absolute;background:var(--paper)'; ap.parentElement.append(i);
+      const want = getComputedStyle(i).backgroundColor; i.remove();
+      const cs = getComputedStyle(ap);
+      if(cs.backgroundColor !== want || parseFloat(cs.paddingLeft) < 12) fails.push(`#apSum: expected a box filled with the page color ${want} (background ${cs.backgroundColor}) at ${W}px`);
+    }
     // These demo results are plain text, no box: the camera's heads its column, the roof's captions the photo.
     ['camSummary', 'roofSummary'].forEach(id => {
       const el = document.getElementById(id);

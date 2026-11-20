@@ -19,7 +19,7 @@ window.readingCheck = async function readingCheck(){
     label:   '.pill, .legend, .avail .tn, .yd-table thead th, .spec-table thead .tp, .spec-table tr.sub td, .count, .ev-key, .ap-scale, .cost-row, .trio figcaption b, .cp-price, .cp-lines dt a, .score .best-badge, .ap-chips .chip small, .tw li span, .lb-count, .spec-cat > summary .n, .f-text .why b',
     nav:     '.nav a, .year-switch a, .sl-tabs button, .group-nav a',
     control: '.chip, .seg button, .print-btn, .toggle',
-    ui:      '.demo-summary, .ev-demo > label, .search, .basic b, .score-price, .wheel-caps b, .rung .pp',
+    ui:      '.demo-text, .ev-demo > label, .search, .basic b, .score-price, .wheel-caps b, .rung .pp',
   };
   const ALL = Object.values(KINDS).join(', ');
   const shown = el => !el.closest('svg, dialog:not([open]), [hidden], [aria-hidden="true"], .sl-btn') && el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden';
