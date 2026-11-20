@@ -114,13 +114,20 @@ window.readingCheck = async function readingCheck(){
 
   // 6. Running text fills its container: the reading column (or the panel, box or column it sits in) is the only
   //    limit on a line, with no separate cap on paragraphs, notes, captions or leads (David, REVIEW-DECISIONS.md:
-  //    "fills its container ... with no separate cap"; he never set a character limit).
+  //    "fills its container ... with no separate cap"; he never set a character limit). The one exception
+  //    is the section lead, which keeps the width David settled on: 41em (861px at 21px), just wide enough
+  //    for the priorities lead on one line.
   const capped = new Map();
+  document.querySelectorAll('.lede').forEach(el => {
+    if(!el.getClientRects().length) return;
+    const cs = getComputedStyle(el), want = 41 * parseFloat(cs.fontSize);
+    if(!(Math.abs(parseFloat(cs.maxWidth) - want) <= 1)) fails.push(`section lead "${el.textContent.trim().slice(0, 40)}..." has max-width ${cs.maxWidth} at ${innerWidth}px; expected 41em (${want}px)`);
+  });
   document.querySelectorAll('p, li, figcaption, small, dd').forEach(el => {
     if(!el.getClientRects().length || el.closest('svg, table, [hidden], dialog:not([open])')) return;
     if(el.textContent.replace(/\s+/g, ' ').trim().length < 60) return;
     // The roof caption's container is the photo above it, so it shares the photo's limit (layout check 27).
-    if(el.id === 'roofSummary') return;
+    if(el.id === 'roofSummary' || el.classList.contains('lede')) return;
     const mw = getComputedStyle(el).maxWidth;
     if(mw !== 'none' && mw !== '100%'){
       const key = `${el.tagName.toLowerCase()}${typeof el.className === 'string' && el.className.trim() ? '.' + el.className.trim().split(/\s+/).join('.') : ''}`;
