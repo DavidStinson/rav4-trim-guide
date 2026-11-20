@@ -388,16 +388,16 @@ const PACKAGES = {
    hex values. The photos in img/colors/ are the build tool's 2027 renders; tools/build_photos.py
    rebuilds them. */
 const PAINTS = {
-  '04V8':{name:'Meteor Shower', hint:'silver', fam:'Meteor Shower', hex:['#A1A1A1']},
-  '01L6':{name:'Storm Cloud', hint:'blue-gray', fam:'Storm Cloud', hex:['#3D4A59']},
-  '08X8':{name:'Blueprint', hint:'dark blue', fam:'Blueprint', hex:['#1E2548']},
-  '0218':{name:'Midnight Black Metallic', hint:'', fam:'Midnight Black Metallic', hex:['#00031E']},
-  '0040':{name:'Ice Cap', hint:'white', fam:'Ice Cap', hex:['#FFFFFF']},
-  '0089':{name:'Wind Chill Pearl', hint:'pearl white', fam:'Wind Chill Pearl', hex:['#E3E9E9']},
-  '03T3':{name:'Ruby Flare Pearl', hint:'red', fam:'Ruby Flare Pearl', hex:['#740000']},
-  '02SQ':{name:'Meteor Shower with black roof', hint:'silver', fam:'Meteor Shower', roof:true, hex:['#00031E','#A1A1A1']},
-  '0M22':{name:'Storm Cloud with black roof', hint:'blue-gray', fam:'Storm Cloud', roof:true, hex:['#00031E','#3D4A59']},
-  '02VP':{name:'Wind Chill Pearl with black roof', hint:'pearl white', fam:'Wind Chill Pearl', roof:true, hex:['#00031E','#E3E9E9']},
+  '04V8':{name:'Meteor Shower', fam:'Meteor Shower', hex:['#A1A1A1']},
+  '01L6':{name:'Storm Cloud', fam:'Storm Cloud', hex:['#3D4A59']},
+  '08X8':{name:'Blueprint', fam:'Blueprint', hex:['#1E2548']},
+  '0218':{name:'Midnight Black Metallic', fam:'Midnight Black Metallic', hex:['#00031E']},
+  '0040':{name:'Ice Cap', fam:'Ice Cap', hex:['#FFFFFF']},
+  '0089':{name:'Wind Chill Pearl', fam:'Wind Chill Pearl', hex:['#E3E9E9']},
+  '03T3':{name:'Ruby Flare Pearl', fam:'Ruby Flare Pearl', hex:['#740000']},
+  '02SQ':{name:'Meteor Shower with black roof', fam:'Meteor Shower', roof:true, hex:['#00031E','#A1A1A1']},
+  '0M22':{name:'Storm Cloud with black roof', fam:'Storm Cloud', roof:true, hex:['#00031E','#3D4A59']},
+  '02VP':{name:'Wind Chill Pearl with black roof', fam:'Wind Chill Pearl', roof:true, hex:['#00031E','#E3E9E9']},
 };
 const SEATS = {
   // `name` labels the button; `say` is how a sentence names the seats ("Harvest Beige seats").

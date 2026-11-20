@@ -466,7 +466,6 @@ section .wrap > :last-child{margin-bottom:0}
 /* Toyota gives the XSE's black-and-blue seats one hex value (black); the stripe stands for the blue accents. */
 .cp-sw.accent{background-image:linear-gradient(90deg,transparent 44%,#2F62B0 44% 56%,transparent 56%)!important}
 .cp-name{font-weight:700;line-height:1.25}
-.cp-name small{display:block;font-weight:400;font-size:var(--fs-note);color:var(--ink-2)}
 .cp-price{font:800 var(--fs-label) Overpass,sans-serif;white-space:nowrap}
 .cp-price.inc{font-weight:500;color:var(--ink-2)}
 .cp-sum{margin-top:16px;background:var(--paper);border-radius:16px;padding:14px 16px;display:grid;gap:2px}

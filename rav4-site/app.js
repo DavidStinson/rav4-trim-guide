@@ -317,7 +317,7 @@ const PKG = (()=>{
   const paintsHTML = (t, sel)=>Object.entries(COLORS[t].paint).map(([code,price])=>{ const q = PAINTS[code];
     return `<button type="button" class="cp-opt" data-code="${code}" aria-pressed="${code===sel}">
       <span class="cp-sw" style="background:${swatch(q.hex)}" aria-hidden="true"></span>
-      <span class="cp-name">${esc(q.name)}${q.hint?`<small>${q.hint}</small>`:''}</span>
+      <span class="cp-name">${esc(q.name)}</span>
       <span class="cp-price${price?'':' inc'}">${priceTxt(price)}</span></button>`; }).join('');
   const seatsHTML = (t, sel)=>Object.entries(COLORS[t].int).map(([code,[k,hex]])=>
     `<button type="button" class="cp-opt" data-code="${code}" aria-pressed="${code===sel}">
