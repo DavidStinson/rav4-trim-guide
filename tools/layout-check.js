@@ -549,7 +549,20 @@ window.layoutCheck = function layoutCheck(){
       if(!tag || tag.textContent.trim() !== 'Good to know') { fails.push(`${sel}: needs a "Good to know" tag (.tagged > .note-tag) at ${W}px`); return; }
       if(tag.getBoundingClientRect().bottom > p.getBoundingClientRect().top + 1) fails.push(`${sel}: its tag should sit above the text at ${W}px`);
     });
-    document.querySelectorAll('.year-diff, .cp-note').forEach(el => {
+    // The year comparison is a card in the opposite scheme to the page, dark on the light page and light on the
+    // dark one, with no heading line: a yellow "2026 vs. 2027" tag names it (David).
+    const yd = document.querySelector('.year-diff');
+    if(yd && visible(yd)) {
+      const tag = yd.firstElementChild, page = getComputedStyle(document.body).backgroundColor, bg = getComputedStyle(yd).backgroundColor;
+      if(!tag || !tag.matches('h2.note-tag') || !/^\d{4} vs\. \d{4}$/.test(tag.textContent.trim())) fails.push(`.year-diff: should open with a yellow tag heading (h2.note-tag) reading "2026 vs. 2027", found "${tag ? tag.outerHTML.slice(0, 60) : 'nothing'}"`);
+      if(yd.querySelectorAll('h2:not(.note-tag), h3').length) fails.push('.year-diff: the tag replaces its heading; found another heading');
+      if((lum(page) > .5) === (lum(bg) > .5)) fails.push(`.year-diff: background ${bg} should be the opposite scheme to the page ${page} at ${W}px`);
+      yd.querySelectorAll(':scope > p, .yd-table th, .yd-table td').forEach(el => {
+        const r = ratio(getComputedStyle(el).color, bg);
+        if(r < 4.5) fails.push(`.year-diff: "${el.textContent.trim().slice(0, 30)}" is ${r.toFixed(2)}:1 on its card; needs 4.5:1`);
+      });
+    }
+    document.querySelectorAll('.cp-note').forEach(el => {
       if(!visible(el)) return;
       const want = resolve(el.parentElement, 'var(--opt-soft)');
       if(getComputedStyle(el).backgroundColor !== want) fails.push(`${name(el)}: background ${getComputedStyle(el).backgroundColor}; expected the soft yellow ${want} at ${W}px`);
