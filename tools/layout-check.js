@@ -385,5 +385,20 @@ window.layoutCheck = function layoutCheck(){
   const lede = document.querySelector('#steps .lede, .steps')?.closest('section')?.querySelector('.lede');
   if(lede && /tap any item/i.test(lede.textContent)) fails.push('step-ups intro says "Tap any item" but only some items have more to read');
 
+  // 20. In the parking diagram the camera dots stand apart from the yellow area they see: 3:1 contrast
+  //     or more between the two fills (REVIEW-DECISIONS.md, caption batch 1).
+  {
+    const hex = c => (c.match(/^#([0-9a-f]{6})$/i) || [])[1];
+    const L = h => { const v = [0, 2, 4].map(k => parseInt(h.slice(k, k + 2), 16) / 255).map(v => v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4); return .2126 * v[0] + .7152 * v[1] + .0722 * v[2]; };
+    const dots = [...document.querySelectorAll('#f-cam360 .cam-dot')], zones = [...document.querySelectorAll('#f-cam360 .view-zone')];
+    if(!dots.length || !zones.length) fails.push('parking diagram: camera dots (.cam-dot) or view areas (.view-zone) not found');
+    dots.forEach(d => zones.forEach(z => {
+      const a = hex(d.getAttribute('fill') || ''), b = hex(z.getAttribute('fill') || '');
+      if(!a || !b) { fails.push('parking diagram: camera dot and view area need plain #rrggbb fills'); return; }
+      const [x, y] = [L(a), L(b)].sort((m, n) => n - m), r = (x + .05) / (y + .05);
+      if(r < 3) fails.push(`parking diagram: camera dot #${a} is ${r.toFixed(2)}:1 against the view area #${b}; needs 3:1`);
+    }));
+  }
+
   return fails;
 };

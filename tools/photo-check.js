@@ -106,5 +106,12 @@ window.photoFilesCheck = async function photoFilesCheck(){
     if(!src) fails.push(`photo ${name} has no known source size`);
     else if(wf < src[1]) fails.push(`photo ${name} full size is ${wf}px; its source allows ${src[1]}px`);
   }
+  // A photo's alt text is its own description, not a copy of the caption under it: a screen reader would
+  // read the same words twice, and a photo whose caption goes away would be left with no alt at all.
+  const norm = t => (t || '').replace(/\s+/g, ' ').replace(/[.\s]+$/, '').trim().toLowerCase();
+  document.querySelectorAll('main figure').forEach(fig => {
+    const img = fig.querySelector('img'), cap = fig.querySelector('figcaption');
+    if(img && cap && norm(cap.textContent) && norm(img.alt) === norm(cap.textContent)) fails.push(`photo ${img.getAttribute('src')} uses its caption as its alt text`);
+  });
   return fails;
 };
