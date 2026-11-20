@@ -578,32 +578,34 @@ window.layoutCheck = function layoutCheck(){
       if(parseFloat(pos) !== 0) fails.push(`roof demo: photo crop is anchored at ${pos} from the top at ${W}px; expected the top (0%)`);
     }
     // The plug-in demo's slider-driven results lead with a yellow tag holding the short answer, and the
-    // tag follows the miles slider; the rest is plain text with no bold lead of its own. Tag wording is
+    // tag follows the sliders; the rest is plain text with no bold lead of its own. Tag wording is
     // David's: the miles result uses "a more concise version of the bold text", the charging result
-    // "X hours on your typical day of driving on a regular outlet".
-    const evIn = document.getElementById('evMiles');
-    [['evSum', [[30, /^All 30 miles electric$/], [80, /^\d+ miles electric, \d+ on gas$/]]],
-     ['chgSum', [[30, /^\d+½? hours? for your typical day of driving, on a regular outlet$/], [5, /^\d+½? (minutes|hours?) for your typical day of driving, on a regular outlet$/]]]
+    // "X hours on your typical day of driving on a regular outlet", and the savings result says "No
+    // savings with these figures" when the Plug-in costs more to fuel.
+    const sliders = ['evMiles', 'evDays', 'evGas', 'evKwh'].map(id => document.getElementById(id));
+    [['evSum', [[{evMiles: 30}, /^All 30 miles electric$/], [{evMiles: 80}, /^\d+ miles electric, \d+ on gas$/]]],
+     ['chgSum', [[{evMiles: 30}, /^\d+½? hours? for your typical day of driving, on a regular outlet$/], [{evMiles: 5}, /^\d+½? (minutes|hours?) for your typical day of driving, on a regular outlet$/]]],
+     ['evSave', [[{evMiles: 30}, /^Saves about \$[\d,]+ over 5 years$/], [{evMiles: 30, evGas: 2.5, evKwh: 40}, /^No savings with these figures$/]]]
     ].forEach(([id, cases]) => {
       const box = document.getElementById(id);
-      if(!box || !evIn) { fails.push(`plug-in demo: result (#${id}) or slider (#evMiles) not found`); return; }
+      if(!box || sliders.some(s => !s)) { fails.push(`plug-in demo: result (#${id}) or one of its sliders not found`); return; }
       if(!visible(box)) return;
-      const was = evIn.value, read = v => {
-        evIn.value = v; evIn.dispatchEvent(new Event('input', {bubbles: true}));
-        const tag = box.querySelector(':scope > .note-tag'), text = box.querySelector(':scope > .demo-text');
-        return {tag: tag ? tag.textContent.trim() : '', bold: text ? text.querySelectorAll('b').length : -1, tagBox: tag && tag.getBoundingClientRect(), textBox: text && text.getBoundingClientRect()};
-      };
-      cases.forEach(([v, want]) => {
-        const r = read(v);
-        if(!want.test(r.tag)) fails.push(`#${id} at ${v} miles: tag reads "${r.tag}"; expected ${want}`);
-        if(r.bold !== 0) fails.push(`#${id} at ${v} miles: needs plain text (.demo-text, no bold) under the tag`);
-        else if(r.tagBox && r.tagBox.bottom > r.textBox.top + 1) fails.push(`#${id}: tag should sit above the text at ${W}px`);
+      const was = sliders.map(s => s.value), set = vals => sliders.forEach((s, k) => {
+        s.value = vals[k]; s.dispatchEvent(new Event('input', {bubbles: true}));
       });
-      read(was);
+      cases.forEach(([vals, want]) => {
+        set(sliders.map((s, k) => vals[s.id] ?? was[k]));
+        const tag = box.querySelector(':scope > .note-tag'), text = box.querySelector(':scope > .demo-text');
+        const got = tag ? tag.textContent.trim() : '', at = JSON.stringify(vals);
+        if(!want.test(got)) fails.push(`#${id} at ${at}: tag reads "${got}"; expected ${want}`);
+        if(!text || text.querySelector('b')) fails.push(`#${id} at ${at}: needs plain text (.demo-text, no bold) under the tag`);
+        else if(tag && tag.getBoundingClientRect().bottom > text.getBoundingClientRect().top + 1) fails.push(`#${id}: tag should sit above the text at ${W}px`);
+      });
+      set(was);
     });
     // These demo results are plain text, no box: the camera's heads its column, the roof's captions the
     // photo, the plug-in demo's sit under their tags.
-    ['camSummary', 'roofSummary', 'evSum', 'chgSum'].forEach(id => {
+    ['camSummary', 'roofSummary', 'evSum', 'chgSum', 'evSave'].forEach(id => {
       const el = document.getElementById(id);
       if(!el) { fails.push(`demo result #${id} not found`); return; }
       const cs = getComputedStyle(el);
