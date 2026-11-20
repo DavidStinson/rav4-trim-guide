@@ -311,9 +311,9 @@ VIS.evDemo = ()=>{
       <ul class="chg-need">
         <li><b>Regular outlet.</b> Plug the cable that comes with the car into any household outlet. Nothing to install.</li>
         <li><b>240 V, 20 amps.</b> An electrician adds a 240-volt circuit and a wall charger. The smaller circuit costs less and can fit when the electrical panel is nearly full.</li>
-        <li><b>240 V, 40 amps.</b> A bigger circuit, the size an electric stove uses. The car’s cable also works on a 240-volt outlet, or use a wall charger.</li>
+        <li><b>240 V, 60 amps.</b> The smallest circuit that lets the car charge at its full speed. It needs a wall charger wired in, since plug-in 240-volt outlets go up to 50 amps, and room for a big circuit in the electrical panel.</li>
       </ul>
-      <p class="note" style="margin:0">From Toyota’s EPA figures: about ${Math.round(CHARGE.wallKwh*10)/10} kWh from the wall for a full charge, plus 10% for the slower last stretch. A charger can draw only 80% of a circuit’s rating for hours at a time, so a 20-amp circuit charges at 16 amps and a 40-amp circuit at 32. The car can take more than any of these, so the outlet sets the speed. Cold weather slows charging.</p>
+      <p class="note" style="margin:0">From Toyota’s EPA figures: about ${Math.round(CHARGE.wallKwh*10)/10} kWh from the wall for a full charge, plus 10% for the slower last stretch. A charger can draw only 80% of a circuit’s rating for hours at a time, so a 20-amp circuit charges at 16 amps and a 60-amp circuit at 48. The car takes up to 11 kW. A regular outlet and a 20-amp circuit supply less, so they set the speed; a 60-amp circuit supplies a little more, so the car does. Cold weather slows charging.</p>
     </section>
     <section class="ev-block" aria-labelledby="evCostT">
       <h5 id="evCostT">Fuel cost over ${YEARS} years, against a Hybrid XSE</h5>
@@ -341,13 +341,13 @@ VIS.evDemo = ()=>{
         ? [`All ${m} miles electric`, `The Plug-in uses no gas. A Hybrid XSE would use about ${gal(m/MPG_XSE)} gallons.`]
         : [`${RANGE} miles electric, ${g} on gas`, `The Plug-in uses about ${gal(g/MPG_PHEV)} gallons. A Hybrid XSE would use about ${gal(m/MPG_XSE)}.`];
       $in('evSum').innerHTML = `<span class="note-tag">${tag}</span><p class="demo-text">${text}</p>`;
-      const [h1,h20,h40] = CHARGE.ways.map(w=>CHARGE.hours(w,e));
+      const [h1,h20,h60] = CHARGE.ways.map(w=>CHARGE.hours(w,e));
       const what = g===0 ? `That puts back all ${m} miles.` : `That refills the battery after the first ${RANGE} miles.`;
       const night = h1<=NIGHT
         ? 'A regular outlet handles that overnight.'
         : `A regular outlet can’t do that overnight: ${NIGHT} hours puts back ${CHARGE.milesIn(CHARGE.ways[0],NIGHT)===RANGE?'a full charge':`about ${CHARGE.milesIn(CHARGE.ways[0],NIGHT)} miles`}. Either 240-volt option can.`;
       $in('chgSum').innerHTML = `<span class="note-tag">${fmtHours(h1)} for your typical day of driving, on a regular outlet</span>`
-        + `<p class="demo-text">${what} It takes ${fmtHours(h20)} at 20 amps, or ${fmtHours(h40)} at 40 amps. ${night}</p>`;
+        + `<p class="demo-text">${what} It takes ${fmtHours(h20)} at 20 amps, or ${fmtHours(h60)} at 60 amps. ${night}</p>`;
 
       const d=+days.value, gp=+gas.value, ep=+kwh.value/100;
       $in('evDaysOut').textContent=d;

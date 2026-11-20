@@ -85,8 +85,9 @@ const hybridMpgList = (f=F, tag=s=>s)=>{
 // Charging times add 10% for the slower last stretch of a charge and cable losses. That margin
 // reproduces Toyota's published times for the earlier RAV4 Prime (about 12 hours on 120 V, 2.5 on
 // 6.6 kW). A charger may draw only 80% of a circuit's rating for hours at a time, so a 20-amp circuit
-// charges at 16 A and a 40-amp one at 32 A; a regular outlet's cable draws 12 A. The Plug-in XSE's
-// 11 kW onboard charger (both years) is faster than all three, so the circuit sets the speed.
+// charges at 16 A; a regular outlet's cable draws 12 A. The Plug-in XSE's onboard charger takes up to
+// 11 kW (both years), which is 46 A at 240 V. The biggest option is the smallest circuit that reaches it
+// (David): a 60-amp circuit with a 48 A charger, 11.5 kW, which the car limits to its 11 kW.
 const CHARGE = (()=>{
   const kwhPerMile = 33.7/F.mpge;
   const SLOW_END = 1.1;
@@ -96,7 +97,7 @@ const CHARGE = (()=>{
     ways: [
       {id:'l1',  name:'Regular outlet',   kw:120*12/1000},
       {id:'l20', name:'240 V, 20 amps',   kw:240*16/1000},
-      {id:'l40', name:'240 V, 40 amps',   kw:240*32/1000},
+      {id:'l60', name:'240 V, 60 amps',   kw:Math.min(240*48/1000, 11)},
     ],
     // Hours to put back `miles` of electric range (capped at a full charge).
     hours: (way, miles)=>Math.min(miles,F.range)*kwhPerMile*SLOW_END/way.kw,
