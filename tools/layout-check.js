@@ -223,22 +223,18 @@ window.layoutCheck = function layoutCheck(){
     if(beside.length) fails.push(`feature availability column runs beside a picture or demo in ${beside.length} panels (${beside.slice(0, 4).join(', ')}): keep it beside the copy only`);
   }
 
-  // 15. Each feature panel declares its layout in FEATURES (data.js): text (copy alone), beside (a small
-  //     picture beside the copy) or below (a demo or photo set under the copy and the column).
-  //     A beside picture moves under the copy when the copy would be narrower than 520px. A picture that
-  //     sits under the copy fills the space under it: a below visual spans the panel's content width,
-  //     a beside one that moved down spans the copy's width.
+  // 15. Each feature panel declares its layout in FEATURES (data.js): text (copy alone) or below (a
+  //     picture, demo or photo set under the copy and the column, spanning the panel's content width).
+  //     David retired beside: a picture under the copy at the copy's width left an empty block beside it.
   document.querySelectorAll('.feature').forEach(f => {
     const L = f.dataset.layout, v = f.querySelector(':scope > .f-vis'), t = f.querySelector(':scope > .f-text');
-    if(!['text', 'beside', 'below'].includes(L)) { fails.push(`${f.id}: layout "${L}" is not text, beside or below (set layout: next to visual: in FEATURES)`); return; }
+    if(!['text', 'below'].includes(L)) { fails.push(`${f.id}: layout "${L}" is not text or below (set layout: next to visual: in FEATURES)`); return; }
     if((L === 'text') !== !v) { fails.push(`${f.id}: layout ${L} ${v ? 'has a picture' : 'has no picture'}`); return; }
     if(!v) return;
     const cs = getComputedStyle(f), p = f.getBoundingClientRect(), r = v.getBoundingClientRect(), c = t.getBoundingClientRect();
     const left = p.left + parseFloat(cs.paddingLeft), right = p.right - parseFloat(cs.paddingRight);
     const under = r.top >= c.bottom - 1;
-    if(L === 'beside' && !under && c.width < 519) fails.push(`${f.id} at ${W}px: copy beside its picture is ${Math.round(c.width)}px wide; move the picture under the copy below 520px`);
     if(L === 'below' && (!under || Math.abs(r.left - left) > 2 || Math.abs(r.right - right) > 2)) fails.push(`${f.id} at ${W}px: the demo doesn't span the panel under the copy (${Math.round(r.left - left)}px from the left, ${Math.round(right - r.right)}px from the right)`);
-    if(L === 'beside' && under && (Math.abs(r.left - c.left) > 2 || Math.abs(r.right - c.right) > 2)) fails.push(`${f.id} at ${W}px: the picture under the copy isn't the copy's width`);
   });
 
   // 10. Package ladders read at a glance where all four sit side by side: a package name takes at most
@@ -864,6 +860,35 @@ window.layoutCheck = function layoutCheck(){
     if((cs.boxDecorationBreak || cs.webkitBoxDecorationBreak) !== 'clone') fails.push(`${what}: wrapped lines of Toyota's name don't each get their own box at ${W}px`);
     const rg = document.createRange(); rg.selectNodeContents(p.firstChild); const label = rg.getClientRects()[0], first = name.getClientRects()[0];
     if(label && first && Math.abs(first.top - label.top) > 4) fails.push(`${what}: Toyota's name starts on a new line at ${W}px, under its label`);
+  });
+
+  // 39. The drawings (head-up display, screen sizes, wheels) span the card like a lone photo (David picked
+  //     this over a drawing in the column): their panel is the card's content width, and each drawing is a
+  //     wide shape, at least twice as wide as tall, so it fills that width without towering. The HUD shows
+  //     the navigation arrow its copy mentions; the two screens sit side by side, bottom-aligned and to scale.
+  ['hud', 'screen', 'wheels'].forEach(id => {
+    const card = document.getElementById('f-' + id); if(!card || !visible(card)) return;
+    const vis = card.querySelector(':scope > .f-vis'), panel = vis?.firstElementChild, svg = vis?.querySelector('svg[role="img"]');
+    if(!panel || !svg) { fails.push(`#f-${id}: no drawing`); return; }
+    const cs = getComputedStyle(card), c = card.getBoundingClientRect(), box = c.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const p = panel.getBoundingClientRect(), s = svg.getBoundingClientRect();
+    if(Math.abs(p.width - box) > 1) fails.push(`#f-${id}: drawing panel is ${Math.round(p.width)}px wide at ${W}px; expected the card's ${Math.round(box)}px content width`);
+    if(s.width < 2 * s.height) fails.push(`#f-${id}: drawing is ${Math.round(s.width)}x${Math.round(s.height)} at ${W}px; expected at least twice as wide as tall`);
+    if(id === 'hud') {
+      if(!svg.querySelector('.nav-arrow')) fails.push('#f-hud: the drawing has no navigation arrow, though the copy mentions one');
+      // David: the speed differs from the limit, so the two readings can't be mistaken for one; and a caption
+      // says the shaded box behind them is only there for the drawing.
+      const sp = svg.querySelector('.hud-speed')?.textContent.trim(), lim = svg.querySelector('.hud-limit')?.textContent.trim();
+      if(!sp || !lim || sp === lim) fails.push(`#f-hud: the speed (${sp}) and the speed limit (${lim}) should both show and differ`);
+      if(!/shaded box/i.test(panel.querySelector('.cap')?.textContent || '')) fails.push('#f-hud: no caption saying the shaded box is only for the drawing');
+    }
+    if(id === 'screen') {
+      const [a, b] = [...svg.querySelectorAll('.scr')].map(r => r.getBoundingClientRect());
+      if(!a || !b) { fails.push('#f-screen: expected two screens (.scr) in the drawing'); return; }
+      if(a.right > b.left) fails.push(`#f-screen: the two screens overlap at ${W}px; expected side by side`);
+      if(Math.abs(a.bottom - b.bottom) > 1) fails.push(`#f-screen: the two screens aren't bottom-aligned at ${W}px`);
+      if(Math.abs(b.width / a.width - 12.9 / 10.5) > 0.01 || Math.abs(b.height / a.height - 12.9 / 10.5) > 0.01) fails.push(`#f-screen: the screens aren't to scale (12.9 to 10.5) at ${W}px`);
+    }
   });
   return fails;
 };
