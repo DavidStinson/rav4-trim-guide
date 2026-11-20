@@ -66,14 +66,15 @@ VIS.cameraDemo = ()=>{
   </svg>`;
   const html = `
   <div class="demo">
-    <div class="seg" role="group" aria-label="Camera type">
-      <button type="button" data-mode="back" aria-pressed="true">Backup camera (XLE Premium)</button>
-      <button type="button" data-mode="360" aria-pressed="false">360° camera (the other three)</button>
-    </div>
     <div class="demo-cols">
-      <div>${svg}<p class="cap" style="margin-top:8px">Black dots are cameras. The yellow area is what the screen shows.</p></div>
-      <div style="display:grid;gap:12px;align-content:start">
-        <div class="demo-summary" id="camSummary"></div>
+      <div>
+        <div class="seg cam-seg" role="group" aria-label="Camera type">
+          <button type="button" data-mode="back" aria-pressed="true">Backup camera</button>
+          <button type="button" data-mode="360" aria-pressed="false">360° camera</button>
+        </div>
+        ${svg}<p class="cap" style="margin-top:8px">Black dots are cameras. The yellow area is what the screen shows.</p></div>
+      <div style="display:grid;gap:16px;align-content:start">
+        <p class="cam-summary" id="camSummary" aria-live="polite"></p>
         <ul class="seelist" id="camList">${objs.map(o=>`<li data-n="${o.n}"><span class="dot" style="background:${o.c}">${o.n}</span>${esc(o.label)}<span class="st"></span></li>`).join('')}</ul>
       </div>
     </div>
