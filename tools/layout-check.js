@@ -428,5 +428,27 @@ window.layoutCheck = function layoutCheck(){
     });
   }
 
+  // 22. Sections stand well apart, all by the same amount (David, after the rework: "double the spacing
+  //     between each section" and "unify the space between the sections"). The gap from the end of one
+  //     section's visible content to the next section's heading is 176px on a laptop (twice the old 88px),
+  //     144px on a tablet and 112px on a phone, where the screen is short; every gap within 2px of that.
+  {
+    const want = W >= 1100 ? 176 : W <= 640 ? 112 : 144;
+    const secs = [...document.querySelectorAll('main ~ section, body > section, main section')].filter((el, i, a) => visible(el) && a.indexOf(el) === i && el.querySelector('.sec-head h2'));
+    secs.forEach(sec => {
+      const prev = sec.previousElementSibling;
+      if(!prev || !visible(prev)) return;
+      // Measured from what you see: the lowest visible thing in the section before (a card, a line of text),
+      // not the section's own box, which can end with padding of its own.
+      // Something you can see paints text, an image, a background, a border or a shadow; wrappers don't.
+      const paints = el => { const cs = getComputedStyle(el); return [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()) || /^(IMG|SVG|INPUT)$/i.test(el.tagName) || !/rgba\(.*,\s*0\)$|transparent/.test(cs.backgroundColor) || cs.boxShadow !== 'none' || parseFloat(cs.borderBottomWidth) > 0; };
+      // A row of trim cards counts as one block as tall as its tallest card, shown or not, since that's
+      // the room the row keeps (so switching trims never moves the page).
+      const bottom = Math.max(...[...prev.querySelectorAll('*')].filter(el => el.matches('.sl-track') || !el.closest('[hidden], .sl-track, dialog:not([open]), svg *') && el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden' && paints(el)).map(el => el.getBoundingClientRect().bottom));
+      const gap = sec.querySelector('.sec-head h2').getBoundingClientRect().top - bottom;
+      if(Math.abs(gap - want) > 2) fails.push(`${Math.round(gap)}px between ${prev.id || prev.className || prev.tagName.toLowerCase()} and the ${sec.id} heading at ${W}px; expected ${want}`);
+    });
+  }
+
   return fails;
 };
