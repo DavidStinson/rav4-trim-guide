@@ -409,6 +409,10 @@ section .wrap > :last-child{margin-bottom:0}
 .roof-photo, .roof-photo + .demo-text{max-width:1320px}
 .roof-photo{margin:0}
 .roof-photo .zoom img{aspect-ratio:3/1;object-fit:cover;object-position:top}
+/* On a phone a 3:1 strip leaves the glass about 15px tall, so the crop goes to 3:2, shifted toward the back
+   of the car so both rows show: the sunroof's glass ends over the front seats, the panoramic roof's runs
+   over the back seat too (David; layout check 42). */
+@media (max-width:640px){.roof-photo .zoom img{aspect-ratio:3/2;object-position:30% 0}}
 
 /* ---------- packages ---------- */
 .pk-callouts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 40px;margin-bottom:40px}
