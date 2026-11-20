@@ -319,7 +319,7 @@ VIS.evDemo = ()=>{
       <h5 id="evCostT">Fuel cost over ${YEARS} years, against a Hybrid XSE</h5>
       <div class="ev-sliders">
         ${slider('evDays','Days you drive a year',100,365,5,300)}
-        ${slider('evGas','Gas, per gallon',2.5,5.5,0.01,3.37)}
+        ${slider('evGas','Gas, per gallon',2.5,5.5,0.01,3.5)}
         ${slider('evKwh','Home electricity, per kWh',8,40,1,12)}
       </div>
       <div class="cost-rows" aria-hidden="true">
