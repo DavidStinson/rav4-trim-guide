@@ -12,9 +12,7 @@
   /* One type scale: like elements share a size (reading check 2). Body is 19px (18px on phones), ledes 21px. */
   /* Two page widths (layout check 8): text sits in the reading column; .bleed rows that compare four trims run wider.
      --wide fits four 340px cards (data-sl-col) and three 20px gaps, so all four show once the window allows. */
-  --read:1060px; --wide:1420px; --gutter:24px; --measure:34em;
-  /* Section leads: wide enough for the priorities lead on one line at 21px (reading check 8), with a little room for font differences. */
-  --lede:41em;
+  --read:1060px; --wide:1420px; --gutter:24px;
   /* The one gap between sections, from the end of one section's content to the next heading (layout check 22). */
   --sec-gap:120px;
   /* Inside a section header: heading to lead, then header to content. The same at every width. */
@@ -69,10 +67,6 @@ figcaption,.cap,.demo-cap{text-wrap:balance}
 .small,.note{font-size:var(--fs-note)}
 .cap{font-size:var(--fs-cap);color:var(--ink-2);margin:0}
 .note{color:var(--ink-2);margin:0}
-/* Notes, steps and fine print that sit in wide panels keep a readable line: about 80 characters (em, not ch: this face's zero is wide). */
-/* Prose that runs the full reading column keeps a readable measure; text beside a column fills its space. */
-.sec-head > p,.year-diff > p,footer p,.spec-more,.pk-note,.note,.cap,.chg-need,.checklist small,.f-text .aka{max-width:var(--measure)}
-.lede,.sec-head > .lede{max-width:var(--lede)}
 
 /* ---------- top bar, then the section nav that sticks under it ---------- */
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
@@ -320,10 +314,9 @@ section .wrap > :last-child{margin-bottom:0}
 /* Demo results as plain text, no box (layout check 27): the camera's heads its column, level with the
    toggle beside it; the roof's captions its photo. */
 .cam-seg{margin-bottom:14px}
-.demo-text{margin:0;font-size:var(--fs-ui);line-height:1.45;max-width:var(--measure)}
+.demo-text{margin:0;font-size:var(--fs-ui);line-height:1.45}
 /* A slider's answer: a yellow tag over plain text, boxed in the page color so the yellow stays on the tag. */
 .demo-result{background:var(--paper);border-radius:12px;padding:14px 16px 16px}
-.demo-result > .demo-text{max-width:none}
 .photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .photo-pair figure{margin:0}
 .photo-pair img{border-radius:12px;aspect-ratio:16/10;object-fit:cover;width:100%}
@@ -404,7 +397,7 @@ section .wrap > :last-child{margin-bottom:0}
 /* A standalone note: a card with a yellow tag above its text. No stripe down the side (layout check 26). */
 .tagged{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:16px 22px 18px;width:fit-content;max-width:100%}
 .note-tag{display:block;width:fit-content;font:700 var(--fs-label)/1 Overpass,sans-serif;background:var(--lane);color:#222;border-radius:6px;padding:6px 9px 4px;margin-bottom:10px}
-.tagged > p{margin:0;max-width:var(--measure)}
+.tagged > p{margin:0}
 #packages .tagged{margin-bottom:20px}
 /* Each trim card shows its trim in a header tinted with the trim's soft color (layout check 26). */
 .pk{background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
