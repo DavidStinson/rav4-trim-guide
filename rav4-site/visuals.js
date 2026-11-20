@@ -318,7 +318,7 @@ VIS.evDemo = ()=>{
     <section class="ev-block" aria-labelledby="evCostT">
       <h5 id="evCostT">Fuel cost over ${YEARS} years, against a Hybrid XSE</h5>
       <div class="ev-sliders">
-        ${slider('evDays','Days you drive a year',100,365,5,150)}
+        ${slider('evDays','Days you drive a year',100,365,5,250)}
         ${slider('evGas','Gas, per gallon',2.5,5.5,0.01,3.5)}
         ${slider('evKwh','Home electricity, per kWh',8,40,1,12)}
       </div>
