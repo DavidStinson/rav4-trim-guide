@@ -127,7 +127,13 @@ window.readingCheck = async function readingCheck(){
       capped.set(key, mw);
     }
   });
+  // Captions run their photo's full width too: balanced wrapping would pull their lines in short (David).
+  const balanced = new Set();
+  document.querySelectorAll('figcaption, .cap, .demo-cap').forEach(el => {
+    if(el.getClientRects().length && getComputedStyle(el).textWrapStyle === 'balance') balanced.add(el.tagName.toLowerCase() + (el.classList.length ? '.' + [...el.classList].join('.') : ''));
+  });
   for(const [key, mw] of capped) fails.push(`text capped narrower than its container at ${innerWidth}px: ${key} has max-width ${mw}`);
+  for(const key of balanced) fails.push(`caption wraps short of its container at ${innerWidth}px: ${key} uses balanced wrapping`);
 
   // 7. No orphans: running text never ends on a line holding a single word ("it." alone on the last line
   //    shipped once). Checked at every width; text-wrap: pretty does most of the work.

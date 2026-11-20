@@ -673,5 +673,16 @@ window.layoutCheck = function layoutCheck(){
     });
   }
 
+  // 28. Photo pairs sit 18px apart (David: half again the old 12px), and the year comparison's table draws no
+  //     rule above its empty corner cell.
+  document.querySelectorAll('.photo-pair').forEach(pp => {
+    if(!visible(pp)) return;
+    const gap = parseFloat(getComputedStyle(pp).columnGap);
+    if(gap !== 18) fails.push(`photo pair in ${pp.closest('[id]')?.id || 'page'}: photos ${gap}px apart at ${W}px; expected 18`);
+  });
+  document.querySelectorAll('.yd-table thead th, .yd-table thead td').forEach(c => {
+    if(visible(c) && parseFloat(getComputedStyle(c).borderTopWidth) > 0) fails.push(`year comparison: header cell "${c.textContent.trim()}" draws a rule above it`);
+  });
+
   return fails;
 };
