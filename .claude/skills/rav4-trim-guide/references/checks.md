@@ -13,7 +13,7 @@ Results land in `.check/results.json`; the exit code is 1 on any failure. Option
 
 | File | Guards |
 |---|---|
-| `tools/layout-check.js` | the two page widths, sliders (card width, side arrows, trim tabs where one card fits), nav fit, overflow, the hero's first screen and blurbs, each feature panel's declared layout and who-has-it column, package ladders and the stacking callout, the priority picker (before a pick, check marks, best-match tabs, its row lining up with the package cards), the parking diagram's camera dots, step-up links: things that break at one width only |
+| `tools/layout-check.js` | the two page widths, sliders (card width, side arrows, trim tabs where one card fits), nav fit, overflow, the hero's first screen and blurbs, each feature panel's declared layout and who-has-it column, package ladders and the stacking callout, the priority picker (before a pick, check marks, best-match tabs, its row lining up with the package cards), the parking diagram's camera dots, step-up links, trim colors (green, red, bronze, blue; 4.5:1 on cards and page; vivid in dark mode): things that break at one width or in one mode only |
 | `tools/year-check.js` | the facts per year: prices, totals, mpg, charging math, paint codes, which trims have what, fine print that was removed on purpose |
 | `tools/photo-check.js` | every photo opens larger, has 1x and 2x copies, alt text of its own (never a copy of its caption), fits the expanded view; every copy exists at the width `photos.js` lists |
 | `tools/reading-check.js` | what an older reader notices: one type scale (like elements share a size, nothing under 15px), the section nav highlight, labels inside drawings, the pinned spec header, line length (80 characters at most), no single-word last lines |
