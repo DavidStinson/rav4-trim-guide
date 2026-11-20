@@ -323,6 +323,7 @@ section .wrap > :last-child{margin-bottom:0}
 .demo-text{margin:0;font-size:var(--fs-ui);line-height:1.45;max-width:var(--measure)}
 /* A slider's answer: a yellow tag over plain text, boxed in the page color so the yellow stays on the tag. */
 .demo-result{background:var(--paper);border-radius:12px;padding:14px 16px 16px}
+.demo-result > .demo-text{max-width:none}
 .photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .photo-pair figure{margin:0}
 .photo-pair img{border-radius:12px;aspect-ratio:16/10;object-fit:cover;width:100%}
