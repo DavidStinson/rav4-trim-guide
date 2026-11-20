@@ -810,5 +810,27 @@ window.layoutCheck = function layoutCheck(){
     });
   }
 
+  // 36. A photo's caption runs the full width of its photo (David: the camera pair's caption wrapped well
+  //     short of the image). The caption box matches the photo, and where the caption wraps, its first line
+  //     is full: the next line's first word would not have fit on it.
+  document.querySelectorAll('figure').forEach(fig => {
+    const img = fig.querySelector('img'), cap = fig.querySelector(':scope > figcaption');
+    if(!img || !cap || !visible(cap)) return;
+    const iw = img.getBoundingClientRect().width, cw = cap.getBoundingClientRect().width;
+    const what = `${fig.closest('.feature, section')?.id || 'page'} caption "${cap.textContent.trim().slice(0, 40)}"`;
+    if(Math.abs(cw - iw) > 1) { fails.push(`${what} is ${Math.round(cw)}px wide under a ${Math.round(iw)}px photo at ${W}px`); return; }
+    const text = [...cap.childNodes].filter(n => n.nodeType === 3).map(n => n).pop();
+    if(!text || cap.childNodes.length !== 1) return; // plain-text captions only
+    const s = text.data, rg = document.createRange(), at = i => { rg.setStart(text, i); rg.setEnd(text, i + 1); return rg.getBoundingClientRect(); };
+    const top = at(0).top;
+    let i = 0; while(i < s.length && (s[i] === ' ' || at(i).top < top + 2)) i++;
+    if(i >= s.length) return; // one line
+    let j = i; while(j < s.length && s[j] !== ' ') j++;
+    rg.setStart(text, 0); rg.setEnd(text, i);
+    const first = Math.max(...[...rg.getClientRects()].filter(r => r.top < top + 2).map(r => r.right)) - cap.getBoundingClientRect().left;
+    rg.setStart(text, i); rg.setEnd(text, j); const word = rg.getBoundingClientRect().width;
+    if(first + word + 6 < cw) fails.push(`${what}: first line stops at ${Math.round(first)}px of ${Math.round(cw)}px at ${W}px, though "${s.slice(i, j)}" would fit`);
+  });
+
   return fails;
 };
