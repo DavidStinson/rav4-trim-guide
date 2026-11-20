@@ -375,10 +375,12 @@ section{padding:88px 0 0}
 @media (max-width:1000px){.pk-callouts{grid-template-columns:1fr}}
 .pk-callout{margin:0;padding:2px 0 2px 18px;border-left:4px solid var(--lane);font-size:var(--fs-note)}
 .pk-callout b{font-family:Overpass,sans-serif}
+/* How to read the cards, so it sits right above them, set apart from the three findings. */
+.pk-stack{margin:0 0 20px;padding:14px 18px;background:var(--card);border-left:4px solid var(--lane);border-radius:0 12px 12px 0;font-weight:700;max-width:none;width:fit-content}
 .pk{background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;border-top:6px solid var(--c)}
-.pk-head{padding:20px 18px 4px}
+.pk-head{padding:20px 22px 6px}
 .pk-head h3{color:var(--c)}
-.ladder{list-style:none;margin:0;padding:8px 8px 4px;position:relative}
+.ladder{list-style:none;margin:0;padding:10px 14px 4px;position:relative}
 .rung{position:relative;isolation:isolate}
 /* Each rung draws the rail beside it in two parts: --a runs from the rung above down to this knob,
    --b runs from this knob down to the next rung. Only a stretch between two chosen packages turns yellow. */
@@ -388,7 +390,7 @@ section{padding:88px 0 0}
 .rung::before{content:"";position:absolute;left:23px;top:0;bottom:0;width:4px;z-index:1;pointer-events:none;background:linear-gradient(var(--a) 0 26px,var(--b) 26px)}
 .rung:first-child::before{top:26px;background:var(--b)}
 .rung:last-child::before{bottom:auto;height:26px;background:var(--a)}
-.rung button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:4px 12px;width:100%;padding:12px 10px 12px 12px;border-radius:14px;cursor:pointer;position:relative}
+.rung button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:4px 14px;width:100%;padding:12px 10px 12px 12px;border-radius:14px;cursor:pointer;position:relative}
 .rung button:hover{background:var(--paper)}
 .rung button:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .rung .knob{width:24px;height:24px;border-radius:50%;border:3px solid var(--rule);background:var(--card);margin-top:1px;position:relative;z-index:2;display:grid;place-items:center;font-size:13px;font-weight:800;color:#222}
@@ -400,7 +402,7 @@ section{padding:88px 0 0}
 .rung .req b{color:var(--ink)}
 .rung .req::before{content:"";flex:none;width:10px;height:10px;border-radius:2px;background:var(--lane);transform:translateY(-1px)}
 .rung.base .pp{color:var(--ink-2);font-weight:700}
-.pk-total{margin:6px 8px 18px;background:var(--paper);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
+.pk-total{margin:6px 14px 20px;background:var(--paper);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
 .pk-total .big{font:800 30px Overpass,sans-serif;line-height:1.1}
 .pk-total .small{color:var(--ink-2)}
 .pk-note{margin-top:18px;font-size:var(--fs-note);color:var(--ink-2)}
