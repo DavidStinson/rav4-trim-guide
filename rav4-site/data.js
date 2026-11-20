@@ -123,10 +123,8 @@ const TRIMS = [
 // and Plug-in alike, so the bundle is marked included.
 // layout says where a feature's picture goes (REVIEW-DECISIONS.md, "feature panel layout"):
 //   'text'   no picture, copy alone;
-//   'beside' a small diagram or demo (visual:) beside the copy, moving under it whenever the copy would
-//            be narrower than 520px;
-//   'below'  an interactive demo or photo set (visual:), a pair of photos side by side (imgs:), or a
-//            single photo (img:), under the copy and the who-has-it column, across the whole panel.
+//   'below'  a drawing or interactive demo (visual:), a pair of photos side by side (imgs:), or a single
+//            photo (img:), under the copy and the who-has-it column, across the whole panel.
 // references/add-a-feature.md has the details.
 const FEATURES = [
   /* ---------- Parking & cameras ---------- */
@@ -161,7 +159,7 @@ const FEATURES = [
    aka:'10-in. Color Head-Up Display (HUD) with Road Sign Assist',
    what:'Your speed, the speed limit and navigation arrows are projected onto the windshield, so they appear to float just above the hood. You don’t have to look down at the dashboard.',
    why:`Keeps your eyes on the road. One catch: the display is a reflection on the windshield, and polarized sunglasses can dim it or make it vanish when you tilt your head. Owners of earlier Toyotas report this, and Toyota hasn’t said how the ${F.year} version behaves. Wear your usual sunglasses on the test drive. If it fades, turning up the brightness or moving the display higher in the settings often helps.`,
-   trims:[['no'],['no'],['opt','Stand-alone option: $600'],['opt','Comes with the Driver Assist Package ($2,865 with the packages it requires)']], visual:'hudDemo', layout:'beside'},
+   trims:[['no'],['no'],['opt','Stand-alone option: $600'],['opt','Comes with the Driver Assist Package ($2,865 with the packages it requires)']], visual:'hudDemo', layout:'below'},
   {id:'wipers', group:'Safety and driver help', name:'Automatic wipers and wiper de-icer',
    aka:'Rain-sensing variable intermittent windshield wipers with de-icer function',
    what:'A sensor on the windshield detects rain and turns the wipers on, speeding them up or slowing them down on their own. The de-icer heats the bottom of the windshield where the wiper blades rest, so they don’t freeze to the glass.',
@@ -205,7 +203,7 @@ const FEATURES = [
    aka:'12.9-in. Toyota Audio Multimedia (vs 10.5-in.)',
    what:'The touchscreen in the middle of the dashboard is about a quarter larger on every trim except the XLE Premium. All four connect wirelessly to your phone with Apple CarPlay or Android Auto, so your phone’s maps, music and calls appear on the screen.',
    why:'A bigger screen means larger map, bigger buttons and an easier-to-read 360° camera picture. The 10.5-inch screen is still a good size.',
-   trims:[['no','10.5-inch'],['std','12.9-inch'],['std','12.9-inch'],['std','12.9-inch']], visual:'screenPair', layout:'beside'},
+   trims:[['no','10.5-inch'],['std','12.9-inch'],['std','12.9-inch'],['std','12.9-inch']], visual:'screenPair', layout:'below'},
   {id:'jbl', group:'Screen and sound', name:'Premium JBL sound system',
    aka:'9-speaker JBL® Premium Audio with subwoofer and amplifier',
    what:'Nine speakers instead of six, including a subwoofer for deeper bass and a separate amplifier for more power.',
@@ -241,7 +239,7 @@ const FEATURES = [
    aka:'18-in. wheels (XLE Premium, Limited) vs 20-in. wheels (both XSEs)',
    what:'Both XSEs have larger 20-inch black wheels. Bigger wheels use thinner tires, which look sporty and make steering feel sharper, but there’s less cushion between you and the road.',
    why:'Expect the XSEs to feel a bit firmer over potholes and bumpy roads, and their tires usually cost more to replace. The XLE Premium and Limited ride a bit more softly on 18-inch wheels. The Limited can add 20-inch wheels as an option.',
-   trims:[['std','18-inch'],['std','20-inch'],['std','18-inch; 20-inch package is $1,240 ($1,840 with the head-up display it requires)'],['std','20-inch']], visual:'wheelDemo', layout:'beside'},
+   trims:[['std','18-inch'],['std','20-inch'],['std','18-inch; 20-inch package is $1,240 ($1,840 with the head-up display it requires)'],['std','20-inch']], visual:'wheelDemo', layout:'below'},
   {id:'style', group:'Looks and ride', name:'Styling details',
    aka:'Two-tone paint, LED accent lights, fog lights, trim colors',
    what:'The <b>XSE</b> is the sporty-looking one: glossy black trim, vertical LED accent lights in the front bumper, blue stitching inside, and an optional black roof (two-tone paint). The <b>Plug-in XSE</b> looks almost the same. The <b>Limited</b> looks more upscale with silver accents, a satin-chrome grille and LED fog lights. The <b>XLE Premium</b> has a simpler, rugged look with matte black lower trim.',

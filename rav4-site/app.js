@@ -505,7 +505,7 @@ const trio = s=>`<div class="trio"><h5>${esc(s.title)}</h5><div class="trio-grid
       // A pair of photos side by side (imgs:), each with its own caption, like the camera demo's pair.
       else if(f.imgs){vis=`<div class="f-vis"><div class="photo-pair">${f.imgs.map(p=>`
         <figure><img ${photoAttrs(p.img, 'auto, (min-width: 700px) 660px, 90vw')} alt="${esc(p.alt)}" loading="lazy"><figcaption>${esc(p.cap)}</figcaption></figure>`).join('')}</div></div>`;}
-      if(!['text','beside','below'].includes(f.layout) || (f.layout==='text')!==!vis || ((f.img || f.imgs) && f.layout!=='below')) console.error(`feature ${f.id}: layout "${f.layout}" ${vis?'has':'lacks'} a picture; use text for none, below for a photo or a pair, beside or below for a demo.`);
+      if(!['text','below'].includes(f.layout) || (f.layout==='text')!==!vis || ((f.img || f.imgs) && f.layout!=='below')) console.error(`feature ${f.id}: layout "${f.layout}" ${vis?'has':'lacks'} a picture; use text for none and below for anything else.`);
       return `<article class="feature l-${f.layout}${f.compact?' compact':''}" data-layout="${f.layout}" id="f-${f.id}">
         <div class="f-text">
           <h4>${esc(f.name)}</h4>

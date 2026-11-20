@@ -1,4 +1,4 @@
-// The interactive demos beside some features (camera, mirror, head-up display, screens, wheels, roof,
+// The interactive demos under some features (camera, mirror, head-up display, screens, wheels, roof,
 // plug-in, outage). Each VIS entry returns {html, below?, init?}; app.js places them in the feature list.
 // Loaded before app.js; the functions run later, so they can use app.js helpers such as esc and photoAttrs.
 /* ===================== VISUALS ===================== */
@@ -148,40 +148,61 @@ VIS.mirrorDemo = ()=>{
   }};
 };
 
-// --- Head-up display ---
-VIS.hudDemo = ()=>({html:`
-  <div class="mini-demo">
-    <svg viewBox="110 90 300 210" role="img" aria-labelledby="hudT"><title id="hudT">Speed and speed limit projected on the windshield above the hood</title>
-      <rect width="520" height="300" fill="#BFD7EA"/>
-      <rect y="150" width="520" height="150" fill="#7F9A6E"/>
-      <path d="M210 150 L310 150 L520 300 L0 300 Z" fill="#5E6468"/>
-      <path d="M250 220 L270 220 L276 280 L244 280 Z" fill="#F2B705"/>
-      <path d="M0 250 Q260 210 520 250 L520 300 L0 300 Z" fill="#2B3034"/>
-      <path d="M0 0 H520 V30 Q260 10 0 30 Z" fill="#2B3034"/>
-      <g opacity=".92">
-        <rect x="170" y="150" width="180" height="60" rx="10" fill="#0E2A3A" opacity=".35"/>
-        <text x="236" y="194" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="38" fill="#7FF2D2">45</text>
-        <text x="236" y="208" text-anchor="middle" font-size="12" fill="#7FF2D2">mph</text>
-        <rect x="280" y="158" width="44" height="48" rx="5" fill="#fff" opacity=".9"/><text x="302" y="174" text-anchor="middle" font-size="11" fill="#222">LIMIT</text><text x="302" y="197" text-anchor="middle" font-size="20" font-weight="800" font-family="Overpass" fill="#222">45</text>
-      </g>
-    </svg>
-  </div>`});
-
-// --- Screen sizes: a to-scale drawing beside the copy, then (as a full-width row under the card)
-//     the same crop from two dashboards shot from the same spot. A VIS may return `below` for such a row. ---
-VIS.screenPair = ()=>{
-  const W=v=>v*26, H=v=>v*26*0.42*1.45;
+// --- Head-up display: the view through the windshield, with the display floating just above the hood ---
+// Wide like the card: sky, a road to the horizon, the pillars and the top of the dashboard. The shaded box
+// behind the readings is only for the drawing (the caption says so); the speed differs from the limit
+// so the two can't be read as one number (David).
+VIS.hudDemo = ()=>{
+  const C = '#7FF2D2';
+  // Lane dashes shrink toward the vanishing point at (440,170).
+  const dash = (y1, y2)=>{ const w = y=>1.5 + (y - 170) * 0.035; return `M${440-w(y1)} ${y1} L${440+w(y1)} ${y1} L${440+w(y2)} ${y2} L${440-w(y2)} ${y2} Z`; };
   return {html:`
-  <div class="demo">
-    <svg class="scr-scale" viewBox="0 0 400 260" role="img" aria-labelledby="scrT"><title id="scrT">The 10.5-inch and 12.9-inch screens drawn to scale</title>
-      <g transform="translate(32,40)">
-        <rect width="${W(12.9)}" height="${H(12.9)}" rx="12" fill="var(--xse)" fill-opacity=".18" stroke="var(--xse)" stroke-width="3"/>
-        <rect x="0" y="${H(12.9)-H(10.5)}" width="${W(10.5)}" height="${H(10.5)}" rx="10" fill="var(--xle)" fill-opacity=".28" stroke="var(--xle)" stroke-width="3"/>
-        <text x="${W(12.9)-10}" y="26" text-anchor="end" font-family="Overpass" font-weight="800" font-size="20" fill="var(--xse)">12.9″ the other three</text>
-        <text x="12" y="${H(12.9)-14}" font-family="Overpass" font-weight="800" font-size="20" fill="var(--xle)">10.5″ XLE Premium</text>
+  <div class="mini-demo">
+    <svg viewBox="0 0 880 340" role="img" aria-labelledby="hudT"><title id="hudT">The view through the windshield: the speed, the speed limit and a navigation arrow float just above the hood</title>
+      <defs><linearGradient id="hudSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FB9DC"/><stop offset="1" stop-color="#DCEAF3"/></linearGradient></defs>
+      <rect width="880" height="172" fill="url(#hudSky)"/>
+      <path d="M0 172 Q120 140 250 160 T520 156 T880 166 V180 H0 Z" fill="#8FA58A"/>
+      <rect y="170" width="880" height="170" fill="#7F9A6E"/>
+      <path d="M432 170 L448 170 L800 340 L80 340 Z" fill="#5E6468"/>
+      <path d="${dash(176,184)} ${dash(196,212)} ${dash(236,262)} ${dash(296,340)}" fill="#F2B705"/>
+      <path d="M0 0 H880 V26 Q440 6 0 26 Z" fill="#2B3034"/>
+      <path d="M0 0 H96 L22 316 H0 Z" fill="#2B3034"/>
+      <path d="M880 0 H784 L858 316 H880 Z" fill="#2B3034"/>
+      <path d="M0 340 V306 Q440 268 880 306 V340 Z" fill="#202427"/>
+      <g opacity=".95">
+        <rect x="306" y="192" width="284" height="84" rx="12" fill="#0E2A3A" opacity=".4"/>
+        <path class="nav-arrow" d="M334 262 V228 H358 M348 216 L362 228 L348 240" fill="none" stroke="${C}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <text class="hud-speed" x="446" y="242" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="48" fill="${C}">42</text>
+        <text x="446" y="266" text-anchor="middle" font-size="18" fill="${C}">mph</text>
+        <rect x="514" y="200" width="60" height="68" rx="6" fill="#fff" opacity=".92"/>
+        <text x="544" y="222" text-anchor="middle" font-size="17" fill="#222">LIMIT</text>
+        <text class="hud-limit" x="544" y="256" text-anchor="middle" font-size="30" font-weight="800" font-family="Overpass" fill="#222">45</text>
       </g>
     </svg>
-    <p class="cap" style="margin:0">Drawn to scale. The larger screen has about 50% more viewing area.</p>
+    <p class="cap">The shaded box is only there to make the drawing easier to read. On the real windshield the readings float on their own, with no box behind them.</p>
+  </div>`};
+};
+
+// --- Screen sizes: the two screens side by side, to scale and bottom-aligned, then (as a full-width row
+//     under the card) the same crop from two dashboards shot from the same spot. A VIS may return `below`
+//     for such a row. ---
+// [diagonal in inches, size label, who has it, color]. Both screens share one shape (width to height
+// 1 to 0.609), so a screen's width and height both scale with its diagonal.
+VIS.screenPair = ()=>{
+  const SCREENS = [[10.5,'10.5-inch screen','XLE Premium','var(--xle)'],[12.9,'12.9-inch screen','XSE, Limited and Plug-in XSE','var(--xse)']];
+  const K = 340 / 12.9, BASE = 214;
+  const rects = SCREENS.map(([d,,,c], i)=>{
+    const w = d * K, h = w * 0.609, cx = 190 + i * 380;
+    return `<rect class="scr" x="${cx - w/2}" y="${BASE - h}" width="${w}" height="${h}" rx="12" fill="${c}" fill-opacity=".18" stroke="${c}" stroke-width="3"/>
+        <text x="${cx}" y="${BASE - h/2 + 14}" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="40" fill="${c}">${d}″</text>`;
+  }).join('');
+  return {html:`
+  <div class="mini-demo">
+    <svg class="scr-scale" viewBox="0 0 760 220" role="img" aria-labelledby="scrT"><title id="scrT">The 10.5-inch and 12.9-inch screens drawn to scale, side by side</title>
+      ${rects}
+    </svg>
+    <div class="pair-caps" aria-hidden="true">${SCREENS.map(([,t,s,c])=>`<p style="--c:${c}"><b>${t}</b>${s}</p>`).join('')}</div>
+    <p class="cap">Drawn to scale. The larger screen has about 50% more viewing area.</p>
   </div>`, below:`
   <div class="f-below">
     <div class="photo-pair keep2">
@@ -195,10 +216,10 @@ VIS.screenPair = ()=>{
 // One list feeds the drawing, its accessible title and the labels under it, so they can't disagree.
 // [center x, name, what it means, rim radius, color]
 VIS.wheelDemo = ()=>{
-  const WHEELS = [[110,'18-inch wheel','Taller sidewall, softer ride',62,'var(--xle)'],[330,'20-inch wheel','Shorter sidewall, firmer ride',74,'var(--xse)']];
+  const WHEELS = [[190,'18-inch wheel','Taller sidewall, softer ride',62,'var(--xle)'],[570,'20-inch wheel','Shorter sidewall, firmer ride',74,'var(--xse)']];
   return {html:`
   <div class="mini-demo">
-    <svg viewBox="0 0 440 196" role="img" aria-labelledby="whT"><title id="whT">${WHEELS.map(([,t,s])=>`${t}: ${s.toLowerCase()}`).join('. ')}.</title>
+    <svg viewBox="0 0 760 196" role="img" aria-labelledby="whT"><title id="whT">${WHEELS.map(([,t,s])=>`${t}: ${s.toLowerCase()}`).join('. ')}.</title>
       ${WHEELS.map(([cx,,,r])=>`
         <circle cx="${cx}" cy="100" r="92" fill="#2B3034"/>
         <circle cx="${cx}" cy="100" r="${r}" fill="#A9B0B4" stroke="#fff" stroke-width="3"/>
@@ -206,8 +227,8 @@ VIS.wheelDemo = ()=>{
         <circle cx="${cx}" cy="100" r="14" fill="#5B6168"/>
         <path d="M${cx+r} 100 H${cx+92}" stroke="var(--lane)" stroke-width="5"/>`).join('')}
     </svg>
-    <div class="wheel-caps" aria-hidden="true">${WHEELS.map(([,t,s,,c])=>`<p style="--c:${c}"><b>${t}</b>${s}</p>`).join('')}</div>
-    <p class="cap" style="margin:0">Same overall tire height. The yellow line marks the sidewall, the rubber that cushions bumps.</p>
+    <div class="pair-caps" aria-hidden="true">${WHEELS.map(([,t,s,,c])=>`<p style="--c:${c}"><b>${t}</b>${s}</p>`).join('')}</div>
+    <p class="cap">Same overall tire height. The yellow line marks the sidewall, the rubber that cushions bumps.</p>
   </div>`};
 };
 

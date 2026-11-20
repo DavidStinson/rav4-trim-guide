@@ -252,9 +252,8 @@ section .wrap > :last-child{margin-bottom:0}
 .fgroup > h3{font-size:30px;font-weight:800;margin-bottom:var(--group-head);display:flex;align-items:center;gap:14px}
 .fgroup > h3::after{content:"";flex:1;height:2px;background:var(--rule)}
 /* Each feature is a flat panel (no shadow: it is read, not picked). Its layout comes from FEATURES in
-   data.js (text, beside or below; see the note there). On a narrow screen it stacks: the copy, who has
-   it as a full-width band, then any picture or demo. Wider screens are below. */
-.fgroup{container:fgroup/inline-size}
+   data.js (text or below; see the note there). On a narrow screen it stacks: the copy, who has it as a
+   full-width band, then any picture or demo. Wider screens are below. */
 /* Spacing inside a card (layout check 35): tight for things that belong together (a caption and its picture,
    a toggle and what it controls), part for separate pieces of one demo, section between the write-up and
    what sits under it. David picked 16 / 40 / 64 for the 360° camera card and a third of that for the rest. */
@@ -287,13 +286,11 @@ section .wrap > :last-child{margin-bottom:0}
 .feature.compact h4{font-size:22px}
 /* From 901px every panel lists who has it down its right edge, the four trims in the same order, so a
    reader following one trim finds it in the same place in every panel. The column sits beside the copy
-   only: its tinted box ends with a rounded corner where the copy ends, and pictures sit underneath.
-   A below demo or photo row spans the panel. A beside picture sits under the copy at the copy's width
-   until the panel is wide enough to put it beside the copy with 520px of copy left (next rule). */
+   only: its tinted box ends with a rounded corner where the copy ends, and any picture, drawing, demo
+   or photo row spans the panel underneath. */
 @media (min-width:901px){
   .feature{grid-template-columns:minmax(0,1fr) 300px;grid-template-areas:"text avail" "vis vis";padding:var(--card-pad)}
   .feature.l-text{grid-template-areas:"text avail"}
-  .feature.l-beside{grid-template-areas:"text avail" "vis ."}
   .feature > .avail{margin:calc(-1 * var(--card-pad)) calc(-1 * var(--card-pad)) 0 0;padding:32px 28px;border-top:0;border-left:1px solid var(--rule);border-bottom:1px solid var(--rule);border-bottom-left-radius:16px;
     background:var(--well);grid-template-columns:1fr;align-content:start;gap:16px}
   /* Light mode: the column is a grey well, darker than the page, and the "Not offered" grey would fade into it, so it takes the card's white. Dark mode keeps its old blend and pills. */
@@ -304,14 +301,6 @@ section .wrap > :last-child{margin-bottom:0}
   .feature > .avail div{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 10px}
   .feature > .avail .note{grid-column:1/-1}
 }
-/* Beside for real: 520px of copy + 48 gap + a 360px picture + 48 gap + the 300px column + 2 x 40px
-   padding = 1356px of panel. The reading width (1060px) is narrower, so today every beside picture
-   sits under its copy; this applies if the features section ever gets wider. */
-@container fgroup (min-width:1356px){
-  .feature.l-beside{grid-template-columns:minmax(520px,1fr) 360px 300px;grid-template-areas:"text vis avail"}
-  .feature.l-beside > .f-vis{margin-top:0}
-}
-
 
 /* ---------- interactive demos ---------- */
 .demo{padding:0;display:grid;gap:var(--sp-tight)}
@@ -344,14 +333,14 @@ section .wrap > :last-child{margin-bottom:0}
 .mirror-svg{width:100%;max-width:560px;height:auto}
 /* Captions that change with a demo, and labels under a drawing, are HTML so they stay body size. */
 .demo-cap{margin:var(--sp-tight) 0 0;text-align:center;font-size:var(--fs-cap);color:var(--ink-2)}
-.wheel-caps{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;margin:0}
-.wheel-caps p{margin:0;font-size:var(--fs-cap);color:var(--ink-2);line-height:1.35}
-.wheel-caps b{display:block;font:800 18px Overpass,sans-serif;color:var(--c)}
 .mini-demo{padding:24px;background:var(--paper);border-radius:16px;display:grid;gap:var(--sp-tight);align-content:center;height:100%}
 .mini-demo svg{width:100%;height:auto}
-/* A drawing keeps a modest size under the copy. */
-.feature.l-beside .mini-demo{max-width:520px}
-.scr-scale{display:block;width:100%;max-width:440px;height:auto;margin:0 auto}
+.scr-scale{display:block;width:100%;height:auto}
+/* Labels under a drawing of two things line up with them: each drawing puts its two at a quarter and three quarters of its width. */
+.pair-caps{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;margin:0}
+.pair-caps p{margin:0;font-size:var(--fs-cap);color:var(--ink-2);line-height:1.35}
+.pair-caps b{display:block;font:800 18px Overpass,sans-serif;color:var(--c)}
+@media (max-width:600px){.mini-demo{padding:12px}}
 .ev-demo label{font:700 18px Overpass,sans-serif;display:block}
 .ev-demo input[type=range]{width:100%;accent-color:var(--phv);margin:10px 0 2px}
 .ev-bar{display:flex;height:22px;border-radius:8px;overflow:hidden;background:var(--rule)}
