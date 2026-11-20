@@ -523,6 +523,17 @@ window.layoutCheck = function layoutCheck(){
       const w = ['Top', 'Right', 'Bottom', 'Left'].map(k => cs[`border${k}Style`] === 'none' ? 0 : parseFloat(cs[`border${k}Width`]));
       if(Math.max(...w) >= 3 && new Set(w).size > 1) fails.push(`${name(el)} has a ${Math.max(...w)}px stripe on one side of a rounded box at ${W}px; use a tinted header, a tag or a soft fill`);
     });
+    // Nor a side marker drawn as an inset shadow, like the yellow edge spec rows once had (David: "basically
+    // noise"). An inset shadow offset sideways with no blur is a stripe down one edge.
+    document.querySelectorAll('body *').forEach(el => {
+      if(el.closest('svg') || !visible(el)) return;
+      const sh = getComputedStyle(el).boxShadow;
+      if(sh === 'none' || !/inset/.test(sh)) return;
+      sh.split(/,(?![^(]*\))/).filter(x => /inset/.test(x)).forEach(x => {
+        const [dx, , blur = 0] = (x.replace(/rgba?\([^)]*\)/g, '').match(/-?[\d.]+px/g) || []).map(parseFloat);
+        if(Math.abs(dx) >= 3 && !blur) fails.push(`${name(el)} has a ${Math.abs(dx)}px inset side marker at ${W}px`);
+      });
+    });
     const tinted = (box, head, id) => {
       const want = resolve(box, `var(--${id}-soft)`), got = getComputedStyle(head).backgroundColor;
       if(got !== want) fails.push(`${name(box)} (${id}): header background ${got}; expected the trim's soft tint ${want}`);
