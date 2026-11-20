@@ -913,5 +913,29 @@ window.layoutCheck = function layoutCheck(){
       if(Math.abs(b.width / a.width - 12.9 / 10.5) > 0.01 || Math.abs(b.height / a.height - 12.9 / 10.5) > 0.01) fails.push(`#f-screen: the screens aren't to scale (12.9 to 10.5) at ${W}px`);
     }
   });
+
+  // 40. Names, headings and labels never break a line at a hyphen (David picked this over letting them
+  //     break): "Plug-in XSE", "Head-Up Display" and "bird's-eye view" stay whole. Running text may still
+  //     break at a hyphen. A hyphen that joins two word characters fails when the character after it
+  //     starts a new line.
+  const LABELS = 'h1,h2,h3,h4,h5,h6,th,button,.name,.from,.to,.tn,.pill,.pn,.cp-name,.best-badge';
+  const seenHyph = new Set();
+  document.querySelectorAll(LABELS).forEach(el => {
+    if(!visible(el)) return;
+    const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for(let n = walk.nextNode(); n; n = walk.nextNode()){
+      const t = n.data;
+      for(let i = t.indexOf('-'); i > 0 && i < t.length - 1; i = t.indexOf('-', i + 1)){
+        if(!/[\p{L}\p{N}]/u.test(t[i - 1]) || !/[\p{L}\p{N}]/u.test(t[i + 1])) continue;
+        const r = document.createRange();
+        r.setStart(n, i); r.setEnd(n, i + 1); const h = r.getBoundingClientRect();
+        r.setStart(n, i + 1); r.setEnd(n, i + 2); const a = r.getBoundingClientRect();
+        if(!h.height || !a.height || a.top < h.bottom - 2) continue;
+        const word = t.slice(0, i + 2).split(/\s/).pop() + t.slice(i + 2).split(/\s/)[0];
+        const key = `${el.tagName}:${word}`;
+        if(!seenHyph.has(key)) { seenHyph.add(key); fails.push(`"${word}" breaks at its hyphen in a ${el.tagName.toLowerCase()}${el.className ? '.' + String(el.className).split(' ')[0] : ''} at ${W}px`); }
+      }
+    }
+  });
   return fails;
 };
