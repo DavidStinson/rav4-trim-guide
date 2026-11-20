@@ -405,9 +405,10 @@ window.layoutCheck = function layoutCheck(){
   }
 
   // 21. Trim colors. Each trim keeps one color family across the page (David, after the rework): the XLE
-  //     Premium green, the XSE red, the Limited bronze, the Plug-in XSE blue. Each is readable as text on
-  //     cards and on the page (4.5:1), the XLE green stays clear of the green "Included" marks (20 degrees
-  //     of hue apart), and in dark mode each is vivid (chroma, max minus min channel, at least 0.5).
+  //     Premium violet, the XSE red, the Limited bronze, the Plug-in XSE blue. Green means "Included", so
+  //     no trim is green (David moved the XLE Premium off green: its dot beside green pills read as one).
+  //     Each is readable as text on cards and on the page (4.5:1), and in dark mode each is vivid (chroma,
+  //     max minus min channel, at least 0.5).
   {
     const root = getComputedStyle(document.documentElement), tok = n => root.getPropertyValue(n).trim();
     const rgb = h => { const m = h.match(/^#([0-9a-f]{6})$/i); return m ? [0, 2, 4].map(k => parseInt(m[1].slice(k, k + 2), 16)) : null; };
@@ -415,16 +416,16 @@ window.layoutCheck = function layoutCheck(){
     const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + .05) / (y + .05); };
     const hue = c => { const [r, g, b] = c.map(x => x / 255), M = Math.max(r, g, b), d = M - Math.min(r, g, b); if(!d) return 0; const h = M === r ? ((g - b) / d) % 6 : M === g ? (b - r) / d + 2 : (r - g) / d + 4; return (h * 60 + 360) % 360; };
     const near = (h, lo, hi) => lo <= hi ? h >= lo && h <= hi : h >= lo || h <= hi;
-    const card = rgb(tok('--card')), paper = rgb(tok('--paper')), sign = rgb(tok('--sign'));
+    const card = rgb(tok('--card')), paper = rgb(tok('--paper'));
     const dark = paper && lum(paper) < .1, mode = dark ? 'dark' : 'light';
-    [['--xle', 'XLE Premium', 'green', 100, 150], ['--xse', 'XSE', 'red', 340, 10], ['--ltd', 'Limited', 'bronze', 20, 45], ['--phv', 'Plug-in XSE', 'blue', 195, 225]].forEach(([n, name, fam, lo, hi]) => {
+    [['--xle', 'XLE Premium', 'violet', 250, 290], ['--xse', 'XSE', 'red', 340, 10], ['--ltd', 'Limited', 'bronze', 20, 45], ['--phv', 'Plug-in XSE', 'blue', 195, 225]].forEach(([n, name, fam, lo, hi]) => {
       const c = rgb(tok(n));
       if(!c || !card || !paper){ fails.push(`trim color ${n} (${mode}) needs a plain #rrggbb value`); return; }
       if(!near(hue(c), lo, hi)) fails.push(`${name} color ${tok(n)} (${mode}) has hue ${Math.round(hue(c))}; expected ${fam} (${lo} to ${hi})`);
       [['card', card], ['page', paper]].forEach(([w, bg]) => { const r = ratio(c, bg); if(r < 4.5) fails.push(`${name} color ${tok(n)} is ${r.toFixed(2)}:1 on the ${mode} ${w}; needs 4.5:1`); });
       const chroma = (Math.max(...c) - Math.min(...c)) / 255;
       if(dark && chroma < .5) fails.push(`${name} color ${tok(n)} is dull in dark mode (chroma ${chroma.toFixed(2)}); needs 0.5`);
-      if(n === '--xle' && sign){ const dh = Math.abs(hue(c) - hue(sign)); if(Math.min(dh, 360 - dh) < 20) fails.push(`XLE Premium green ${tok(n)} (${mode}) is within ${Math.round(Math.min(dh, 360 - dh))} degrees of the "Included" green ${tok('--sign')}`); }
+      if(near(hue(c), 90, 170)) fails.push(`${name} color ${tok(n)} (${mode}) is green, the color of "Included"`);
     });
   }
 
