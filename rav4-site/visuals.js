@@ -74,7 +74,7 @@ VIS.cameraDemo = ()=>{
         </div>
         ${svg}<p class="cap" style="margin-top:8px">Black dots are cameras. The yellow area is what the screen shows.</p></div>
       <div style="display:grid;gap:16px;align-content:start">
-        <p class="cam-summary" id="camSummary" aria-live="polite"></p>
+        <p class="demo-text" id="camSummary" aria-live="polite"></p>
         <ul class="seelist" id="camList">${objs.map(o=>`<li data-n="${o.n}"><span class="dot" style="background:${o.c}">${o.n}</span>${esc(o.label)}<span class="st"></span></li>`).join('')}</ul>
       </div>
     </div>
@@ -227,7 +227,7 @@ VIS.roofPhotos = ()=>{
       ${Object.entries(MODES).map(([k,m],i)=>`<button type="button" data-mode="${k}" aria-pressed="${i===0}">${m.label}</button>`).join('')}
     </div>
     <figure class="roof-photo"><img id="roofImg" ${photoAttrs(MODES.solid.img, 'auto, (min-width: 1100px) 1330px, 90vw')} alt="${MODES.solid.alt}" loading="lazy"></figure>
-    <div class="demo-summary" id="roofSummary" aria-live="polite"></div>
+    <p class="demo-text" id="roofSummary" aria-live="polite"></p>
   </div>`;
   return {html, init(root){
     // Warm the cache so switching is instant.
