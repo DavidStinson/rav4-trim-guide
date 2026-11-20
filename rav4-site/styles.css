@@ -17,8 +17,8 @@
   --lede:41em;
   /* The one gap between sections, from the end of one section's content to the next heading (layout check 22). */
   --sec-gap:120px;
-  /* Inside a section header: heading to lead, then header to content. Scaled with --sec-gap. */
-  --head-gap:16px;--head-after:48px;
+  /* Inside a section header: heading to lead, then header to content. The same at every width. */
+  --head-gap:8px;--head-after:24px;
   /* Features steps down from there: before a group heading, between panels, group heading to its first panel. */
   --group-gap:72px;--panel-gap:32px;--group-head:24px;
   --fs-ui:18px; --fs-table:17px; --fs-control:17px; --fs-nav:16px; --fs-note:16px; --fs-cap:15px; --fs-label:15px;
@@ -56,7 +56,7 @@ img{max-width:100%;height:auto;display:block}
 .wrap{max-width:calc(var(--read) + 2 * var(--gutter));margin:0 auto;padding:0 var(--gutter)}
 .wrap.wide{max-width:calc(var(--wide) + 2 * var(--gutter))}
 @media (max-width:1099px){:root{--sec-gap:96px}}
-@media (max-width:640px){:root{--gutter:16px;--sec-gap:80px;--head-gap:12px;--head-after:32px;--group-gap:48px;--panel-gap:20px;--group-head:16px}body{font-size:18px}}
+@media (max-width:640px){:root{--gutter:16px;--sec-gap:80px;--group-gap:48px;--panel-gap:20px;--group-head:16px}body{font-size:18px}}
 /* A row that compares the four trims breaks out of the reading column into the side margins, up to the
    wide width. body is the size container, so 100cqw is the page width without the scrollbar. */
 body{container:page/inline-size}
