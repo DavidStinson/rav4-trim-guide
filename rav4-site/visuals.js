@@ -392,6 +392,13 @@ VIS.outageDemo = ()=>{
   // charging losses (about 10%), that's about 15 kWh in the battery, and about 13.5 kWh at the outlet
   // after its power converter (assumed 90% efficient). Rounded to the nearest half kWh.
   const OUTLET_KWH = Math.round(CHARGE.wallKwh*0.9*0.9*2)/2;
+  // Toyota Japan rates this RAV4 Plug-in (same 22.7 kWh battery and 1,500 W outlet) at about 1 day on a
+  // full battery and about 6.5 days from a full battery and a full tank, both at a steady 400 W (HV power
+  // supply mode, toyota.jp/rav4/phev). Our 2027 battery figure lasts 1 day at 400 W only if the car itself
+  // draws about 160 W while it's on (13.5 kWh / 24 h = 560 W), so that's counted. The other 5.5 days at
+  // 560 W put a full tank's worth at about 74 kWh at the outlet. Since the engine runs more efficiently
+  // under heavier loads, this undercounts there: a conservative figure (David).
+  const CAR_W = 160, TANK_KWH = 5.5*24*(400+CAR_W)/1000;
   // Typical draws. The refrigerator and freezer are averages, since their compressors cycle.
   const APPS=[
     {id:'fridge', name:'Refrigerator', w:70, on:true},
@@ -416,7 +423,8 @@ VIS.outageDemo = ()=>{
       <div class="ap-scale"><span>Plugged in: <b id="apW"></b></span><span>Outlet limit: ${fmtW(LIMIT)}</span></div>
     </div>
     <div class="demo-result" id="apSum" aria-live="polite"></div>
-    <p class="note" style="margin:0">A rough estimate. Toyota doesn’t say how much of the 22.7 kWh battery the outlet can use, so this assumes about ${OUTLET_KWH} kWh, worked out from the ${F.range}-mile range and ${F.mpge} MPGe. Your appliance’s label gives its real wattage. The car has to be on for the outlet to work.</p>
+    <p class="note" style="margin:0">A rough estimate. Toyota doesn’t say how much of the 22.7 kWh battery the outlet can use, so this assumes about ${OUTLET_KWH} kWh, worked out from the ${F.range}-mile range and ${F.mpge} MPGe. The car has to be on for the outlet to work, and it uses about ${CAR_W} W itself. Your appliance’s label gives its real wattage.</p>
+    <p class="note" style="margin:0">The full-tank figure follows Toyota Japan’s rating for this RAV4: from a full charge and a full tank, about 6.5 days at 400 W. With bigger loads the engine runs more efficiently, so it may last longer than shown.</p>
     <p class="note" style="margin:0">The engine can run in Park to recharge a low battery. If you do, keep the car outdoors. Engine exhaust is deadly in a garage.</p>
   </div>`, init(root){
     const chips=[...root.querySelectorAll('.ap-chips .chip')];
@@ -436,7 +444,7 @@ VIS.outageDemo = ()=>{
       root.querySelector('#apW').textContent=fmtW(W);
       const [tag, text] = !W ? [null, 'Tap a few things above to see how long the battery could run them.']
         : over ? [`${fmtW(W)} is more than the outlet’s ${fmtW(LIMIT)}`, 'It would shut off. Unplug something, or run the big items one at a time.']
-        : [`${runTime(OUTLET_KWH*1000/W)} on the battery alone`, `For ${fmtW(W)} of appliances, running nonstop.`];
+        : [`${runTime(OUTLET_KWH*1000/(W+CAR_W))} on the battery alone`, `For ${fmtW(W)} of appliances, running nonstop. With a full tank, the engine can stretch that to ${runTime((OUTLET_KWH+TANK_KWH)*1000/(W+CAR_W)).toLowerCase()}.`];
       root.querySelector('#apSum').innerHTML = (tag ? `<span class="note-tag">${tag}</span>` : '') + `<p class="demo-text">${text}</p>`;
     };
     root.querySelector('.ap-chips').addEventListener('click',e=>{const b=e.target.closest('.chip'); if(!b) return; b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true'); set();});
