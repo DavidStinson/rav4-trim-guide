@@ -727,7 +727,6 @@ window.layoutCheck = function layoutCheck(){
 
   // 31. The gear selector card shows the two shifters side by side under its copy: the regular lever and
   //     the toggle switch, each a photo with a caption, so a reader sees the difference before a test drive.
-  //     The single-photo rules (a tall photo that fills its figure) must not reach the pair.
   {
     const card = document.getElementById('f-shifter');
     const pair = card?.querySelector('.f-vis .photo-pair');

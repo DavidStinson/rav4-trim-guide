@@ -53,10 +53,10 @@ Then pick the layout. The who-has-it column always sits on the panel's right, be
 | layout | use for | where the picture goes |
 | --- | --- | --- |
 | `text` | no picture | nowhere: copy and the column |
-| `beside` | one photo or one static drawing (HUD, wheels, screen sizes) | beside the copy when the copy keeps 520px; otherwise under the copy, at the copy's width (drawings stop at 520px) |
-| `below` | anything with controls or several photos (camera, mirror, roof, plug-in, outage demos), and every `imgs` pair (gear selector) | under the copy and the column, across the whole panel |
+| `beside` | one static drawing (HUD, wheels, screen sizes) | beside the copy when the copy keeps 520px; otherwise under the copy, at the copy's width (drawings stop at 520px) |
+| `below` | every photo: a lone `img` (ventilated seats, JBL, charging, liftgate) and every `imgs` pair (gear selector); and anything with controls or several photos (camera, mirror, roof, plug-in, outage demos) | under the copy and the column, across the whole panel |
 
-The HUD is `beside` because it's one static drawing. At today's 1,060px reading width a `beside` picture always lands under the copy; the 1356px container query in `styles.css` puts it beside the copy if the features section ever gets wider. Layout check 15 fails a missing or wrong layout.
+The HUD is `beside` because it's one static drawing. At today's 1,060px reading width a `beside` picture always lands under the copy; the 1356px container query in `styles.css` puts it beside the copy if the features section ever gets wider. Layout check 15 fails a missing or wrong layout, and `app.js` logs an error for an `img` or `imgs` with any layout but `below`. A lone photo spans the card's content width at its own shape, uncropped (layout 37), so its `sizes` in `app.js` lists the card's content widths.
 
 ## 5. Green, look, commit
 
