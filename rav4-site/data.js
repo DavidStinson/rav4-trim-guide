@@ -35,7 +35,7 @@ const YEAR_FACTS = {
     hp:{hyb:236, phv:324},
     range:52, mpge:96,
     port:'CCS1',
-    portWhy:'It can also use public fast chargers. Its charging port is the CCS1 type; the 2027 switched to the port Tesla uses.',
+    portWhy:'It can also use public fast chargers. Its charging port is the CCS1 type; the 2027 switched to the port Tesla uses, which most automakers in North America have now adopted as the standard.',
     trials:{remote:'1 year', drive:'1 year'},
     xleAssist:'XLE Driver Assist Package',
     notes:{
