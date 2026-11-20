@@ -3,8 +3,8 @@
   --paper:#F6F7F5; --card:#FFFFFF; --ink:#202427; --ink-2:#3F454A; --rule:#D9DDDA; --edge:#7E868B;
   --asphalt:#2B3034; --lane:#F2B705; --sign:#0B6B47; --sign-soft:#E3F1EA;
   --opt:#8A5A00; --opt-soft:#FDF1D2; --no:#7A8086; --no-soft:#EEF0F1; --well:#E8EBE8; --well-no:var(--card); --bad:#B3261E;
-  --xle:#237A30; --xse:#B0303F; --ltd:#8C6224;
-  --xle-soft:#E6F2E7; --xse-soft:#F8E7E9; --ltd-soft:#F4ECDF;
+  --xle:#6A3FA6; --xse:#B0303F; --ltd:#8C6224;
+  --xle-soft:#EFE9F7; --xse-soft:#F8E7E9; --ltd-soft:#F4ECDF;
   --phv:#2F6699; --phv-soft:#E6EEF6;
   --shadow:0 1px 2px rgba(20,30,40,.06),0 8px 24px rgba(20,30,40,.06);
   --focus:#1D5FD1;
@@ -30,7 +30,7 @@
   :root:not([data-theme="light"]){
     --paper:#16191B; --card:#1F2326; --ink:#ECEEEC; --ink-2:#AEB5BA; --rule:#343A3F; --edge:#737B80;
     --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --well:color-mix(in srgb,var(--paper) 60%,var(--card)); --well-no:var(--no-soft); --bad:#FF8A80;
-    --xle:#4ED860; --xse:#FF6E80; --ltd:#F5A040; --xle-soft:#1C2E20; --xse-soft:#35202A; --ltd-soft:#2F2719;
+    --xle:#AD7BFF; --xse:#FF6E80; --ltd:#F5A040; --xle-soft:#2A2238; --xse-soft:#35202A; --ltd-soft:#2F2719;
     --phv:#6DB0FE; --phv-soft:#1D2A36;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --focus:#8AB4FF; color-scheme:dark;
     --inv-card:#E4E8E6; --inv-ink:#202427; --inv-ink-2:#3F454A; --inv-rule:#C3C9C5; --inv-focus:#1D5FD1;
@@ -39,7 +39,7 @@
 :root[data-theme="dark"]{
   --paper:#16191B; --card:#1F2326; --ink:#ECEEEC; --ink-2:#AEB5BA; --rule:#343A3F; --edge:#737B80;
   --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --well:color-mix(in srgb,var(--paper) 60%,var(--card)); --well-no:var(--no-soft); --bad:#FF8A80;
-  --xle:#4ED860; --xse:#FF6E80; --ltd:#F5A040; --xle-soft:#1C2E20; --xse-soft:#35202A; --ltd-soft:#2F2719;
+  --xle:#AD7BFF; --xse:#FF6E80; --ltd:#F5A040; --xle-soft:#2A2238; --xse-soft:#35202A; --ltd-soft:#2F2719;
     --phv:#6DB0FE; --phv-soft:#1D2A36;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --focus:#8AB4FF; color-scheme:dark;
     --inv-card:#E4E8E6; --inv-ink:#202427; --inv-ink-2:#3F454A; --inv-rule:#C3C9C5; --inv-focus:#1D5FD1;
