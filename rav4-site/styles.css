@@ -377,9 +377,9 @@ section .wrap > :last-child{margin-bottom:0}
 .chg-need{margin:0;padding-left:1.1em;display:grid;gap:6px;font-size:var(--fs-note);color:var(--ink-2)}
 .chg-need b{color:var(--ink)}
 @media (max-width:520px){.cost-rows{gap:12px}.cost-row,.chg-rows .cost-row{grid-template-columns:1fr auto;gap:4px 12px}.cost-row .bar{grid-column:1/-1;order:3}}
-.ap-chips .chip{font-size:17px;padding:8px 14px}
+.ap-chips .chip{font-size:17px;padding:8px 14px;text-align:left}
 .ap-chips .chip:not([aria-pressed="true"]){background:var(--paper)}
-.ap-chips .chip small{font-size:var(--fs-label);opacity:.75}
+.ap-chips .chip small{font-size:var(--fs-label);opacity:.75;white-space:nowrap}
 .ap-track{height:22px;border-radius:8px;background:var(--rule);overflow:hidden}
 .ap-fill{display:block;height:100%;width:0;background:var(--phv);transition:width .25s,background-color .2s}
 .ap-meter.over .ap-fill{background:var(--bad)}
