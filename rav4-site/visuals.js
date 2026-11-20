@@ -269,7 +269,7 @@ VIS.evDemo = ()=>{
       <div class="cost-rows chg-rows" id="chgRows">
         ${CHARGE.ways.map((w,i)=>`<div class="cost-row" style="--c:var(--phv)"><span>${w.name}</span><span class="bar" aria-hidden="true"><span style="width:${fullHrs[i]/slowest*100}%"></span></span><b>${fmtHours(fullHrs[i]).replace(/ hours?$/,' hr')}</b></div>`).join('')}
       </div>
-      <p class="demo-summary" id="chgSum" aria-live="polite"></p>
+      <div id="chgSum" aria-live="polite"></div>
       <ul class="chg-need">
         <li><b>Regular outlet.</b> Plug the cable that comes with the car into any household outlet. Nothing to install.</li>
         <li><b>240 V, 20 amps.</b> An electrician adds a 240-volt circuit and a wall charger. The smaller circuit costs less and can fit when the electrical panel is nearly full.</li>
@@ -304,11 +304,12 @@ VIS.evDemo = ()=>{
         : [`${RANGE} miles electric, ${g} on gas`, `The Plug-in uses about ${gal(g/MPG_PHEV)} gallons. A Hybrid XSE would use about ${gal(m/MPG_XSE)}.`];
       $in('evSum').innerHTML = `<span class="note-tag">${tag}</span><p class="demo-text">${text}</p>`;
       const [h1,h20,h40] = CHARGE.ways.map(w=>CHARGE.hours(w,e));
-      const what = g===0 ? `To put back today’s ${m} miles` : `To refill the battery after today’s drive`;
+      const what = g===0 ? `That puts back all ${m} miles.` : `That refills the battery after the first ${RANGE} miles.`;
       const night = h1<=NIGHT
         ? 'A regular outlet handles that overnight.'
         : `A regular outlet can’t do that overnight: ${NIGHT} hours puts back ${CHARGE.milesIn(CHARGE.ways[0],NIGHT)===RANGE?'a full charge':`about ${CHARGE.milesIn(CHARGE.ways[0],NIGHT)} miles`}. Either 240-volt option can.`;
-      $in('chgSum').innerHTML = `<b>${what}: about ${fmtHours(h1)} from a regular outlet</b>, ${fmtHours(h20)} at 20 amps, or ${fmtHours(h40)} at 40 amps. ${night}`;
+      $in('chgSum').innerHTML = `<span class="note-tag">${fmtHours(h1)} for your typical day of driving, on a regular outlet</span>`
+        + `<p class="demo-text">${what} It takes ${fmtHours(h20)} at 20 amps, or ${fmtHours(h40)} at 40 amps. ${night}</p>`;
 
       const d=+days.value, gp=+gas.value, ep=+kwh.value/100;
       $in('evDaysOut').textContent=d;
