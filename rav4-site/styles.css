@@ -281,8 +281,7 @@ section .wrap > :last-child{margin-bottom:0}
 @media (max-width:900px){.feature > .avail:last-child{padding-bottom:0}}
 @container (max-width:380px){.avail{grid-template-columns:1fr}.avail div{grid-template-columns:120px 1fr;align-items:center}.avail .note{grid-column:2}}
 .f-vis{display:flex;flex-direction:column;min-width:0}
-.f-vis figure{margin:0;display:flex;flex-direction:column;height:100%}
-.f-vis figure > img{width:100%;height:100%;object-fit:cover;min-height:260px;flex:1}
+.f-vis figure{margin:0}
 .f-vis figcaption{font-size:var(--fs-cap);color:var(--ink-2);margin-top:var(--sp-tight)}
 .feature.compact{padding-top:28px}
 .feature.compact h4{font-size:22px}
@@ -350,7 +349,7 @@ section .wrap > :last-child{margin-bottom:0}
 .wheel-caps b{display:block;font:800 18px Overpass,sans-serif;color:var(--c)}
 .mini-demo{padding:24px;background:var(--paper);border-radius:16px;display:grid;gap:var(--sp-tight);align-content:center;height:100%}
 .mini-demo svg{width:100%;height:auto}
-/* A drawing keeps a modest size under the copy; photos take the copy's full width. */
+/* A drawing keeps a modest size under the copy. */
 .feature.l-beside .mini-demo{max-width:520px}
 .scr-scale{display:block;width:100%;max-width:440px;height:auto;margin:0 auto}
 .ev-demo label{font:700 18px Overpass,sans-serif;display:block}
@@ -507,13 +506,11 @@ section .wrap > :last-child{margin-bottom:0}
 .zoom:hover img{transform:scale(1.02)}
 .zoom .zi{position:absolute;right:10px;bottom:10px;width:38px;height:38px;border-radius:50%;background:rgba(20,24,26,.72);display:grid;place-items:center;pointer-events:none}
 .zoom .zi svg{width:20px;height:20px}
-.f-vis figure > .zoom{flex:1;border-radius:16px;display:flex}
-.f-vis figure > .zoom img{height:100%;object-fit:cover;min-height:260px}
+/* A card's lone photo spans the card at its own shape, uncropped (layout check 37). Until it loads it holds
+   a 3:2 space, the shape of most press photos, so the page doesn't jump as much when it arrives. */
+.f-vis > figure > .zoom{border-radius:16px}
+.f-vis > figure > .zoom img{aspect-ratio:auto 3/2}
 .photo-pair .zoom img{aspect-ratio:16/10;object-fit:cover}
-/* Photos inside a demo or a photo pair keep their own shape; the tall-card rule above is for single feature photos. */
-.f-vis .demo figure,.f-vis .photo-pair figure{height:auto}
-.f-vis .demo figure > .zoom,.f-vis .photo-pair figure > .zoom{flex:none;border-radius:12px;display:block}
-.f-vis .demo figure > .zoom img,.f-vis .photo-pair figure > .zoom img{min-height:0;height:auto}
 .photo-pair.keep2{grid-template-columns:1fr 1fr}
 @media (max-width:600px){.photo-pair.keep2 .zoom .zi{width:28px;height:28px;right:6px;bottom:6px}.photo-pair.keep2 .zoom .zi svg{width:14px;height:14px}}
 .lb{border:0;padding:0;margin:0;width:100vw;height:100vh;max-width:none;max-height:none;background:rgba(10,12,13,.94);color:#fff}

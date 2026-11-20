@@ -123,10 +123,10 @@ const TRIMS = [
 // and Plug-in alike, so the bundle is marked included.
 // layout says where a feature's picture goes (REVIEW-DECISIONS.md, "feature panel layout"):
 //   'text'   no picture, copy alone;
-//   'beside' one photo or small diagram (visual: or img:) beside the copy, moving under it whenever the
-//            copy would be narrower than 520px;
-//   'below'  an interactive demo or photo set (visual:), or a pair of photos side by side (imgs:), under
-//            the copy and the who-has-it column, across the whole panel.
+//   'beside' a small diagram or demo (visual:) beside the copy, moving under it whenever the copy would
+//            be narrower than 520px;
+//   'below'  an interactive demo or photo set (visual:), a pair of photos side by side (imgs:), or a
+//            single photo (img:), under the copy and the who-has-it column, across the whole panel.
 // references/add-a-feature.md has the details.
 const FEATURES = [
   /* ---------- Parking & cameras ---------- */
@@ -173,7 +173,7 @@ const FEATURES = [
    aka:'Heated and ventilated front seats (high-mid-low)',
    what:'Small fans inside the front seats pull air through tiny holes in the seat covering. In summer it stops your back and legs from getting hot and sticky. The seats are also heated, with three levels instead of two.',
    why:'If you live somewhere warm, people who have cooled seats tend to say they would never go without them again. All four have heated front seats; the XLE Premium is the only one that doesn’t also cool.',
-   trims:[['no','Heated only (2 levels)'],['std'],['std'],['std']], layout:'beside', img:'RHV_MY26_0039', alt:'Close-up of a RAV4 front seat back, its leather covering dotted with tiny ventilation holes'},
+   trims:[['no','Heated only (2 levels)'],['std'],['std'],['std']], layout:'below', img:'RHV_MY26_0039', alt:'Close-up of a RAV4 front seat back, its leather covering dotted with tiny ventilation holes'},
   {id:'rearheat', group:'Comfort', name:'Heated back seats',
    aka:'Heated rear seats (on-off)',
    what:'The two outer back seats have their own heaters, with a switch for back-seat passengers.',
@@ -210,19 +210,19 @@ const FEATURES = [
    aka:'9-speaker JBL® Premium Audio with subwoofer and amplifier',
    what:'Nine speakers instead of six, including a subwoofer for deeper bass and a separate amplifier for more power.',
    why:'If music, audiobooks or talk radio are a big part of your drives, voices and instruments sound clearer and fuller. If the radio is mostly background, you may not notice much difference.',
-   trims:[['no','6 speakers'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)'],['std'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)']], layout:'beside', img:'RHV_MY26_0049', alt:'A round JBL speaker grille set into the trim at the base of the windshield pillar', cap:'One of the JBL speakers, by the windshield pillar.'},
+   trims:[['no','6 speakers'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)'],['std'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)']], layout:'below', img:'RHV_MY26_0049', alt:'A round JBL speaker grille set into the trim at the base of the windshield pillar', cap:'One of the JBL speakers, by the windshield pillar.'},
   {id:'charge', group:'Screen and sound', name:'Wireless phone charging for two',
    aka:'Dual Qi-compatible wireless charging',
    what:'Set your phone on a pad in the console and it charges with no cable. The Limited has two pads, so the driver and passenger can both charge at once.',
    why:'All four have one pad. Two only matters if you regularly ride with someone whose phone also needs a charge.',
-   trims:[['no','1 pad'],['no','1 pad'],['std','2 pads'],['no','1 pad']], layout:'beside', img:'RHV_MY27_0010', alt:'Wireless phone charging tray in the RAV4 center console, under the climate control buttons', cap:'The charging tray sits below the climate controls.'},
+   trims:[['no','1 pad'],['no','1 pad'],['std','2 pads'],['no','1 pad']], layout:'below', img:'RHV_MY27_0010', alt:'Wireless phone charging tray in the RAV4 center console, under the climate control buttons', cap:'The charging tray sits below the climate controls.'},
 
   /* ---------- Convenience ---------- */
   {id:'liftgate', group:'Convenience', name:'Hands-free tailgate',
    aka:'Hands-free power liftgate with jam protection',
    what:'With the key in your pocket or purse, swing your foot under the middle of the back bumper and the tailgate opens by itself. All four have a power tailgate that opens with a button; every trim except the XLE Premium adds the foot sensor.',
    why:'Wonderful when your arms are full of groceries. The XLE Premium’s power tailgate also lets you set how high it opens, which helps in a low garage.',
-   trims:[['no','Power tailgate with button'],['std'],['std'],['std']], layout:'beside', img:'RHV_MY26_0045', alt:'A person with full hands swinging a foot under the RAV4 rear bumper as the tailgate lifts', cap:'Swing a foot under the bumper and the tailgate opens.'},
+   trims:[['no','Power tailgate with button'],['std'],['std'],['std']], layout:'below', img:'RHV_MY26_0045', alt:'A person with full hands swinging a foot under the RAV4 rear bumper as the tailgate lifts', cap:'Swing a foot under the bumper and the tailgate opens.'},
   {id:'lights', group:'Convenience', name:'Puddle lights and soft cabin lighting',
    aka:'Puddle lights in outside mirrors; white ambient illuminated foot wells',
    what:'Puddle lights are small lights under the side mirrors that light up the ground by the front doors when you unlock the car. Ambient lighting is a soft glow in the footwells and cupholders at night.',
