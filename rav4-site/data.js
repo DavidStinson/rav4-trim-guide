@@ -112,10 +112,10 @@ const fmtHours = h=>{
 
 /* ===================== DATA ===================== */
 const TRIMS = [
-  {id:'xle', name:'XLE Premium', color:'var(--xle)'},
-  {id:'xse', name:'XSE', color:'var(--xse)'},
-  {id:'ltd', name:'Limited', color:'var(--ltd)'},
-  {id:'phv', name:'Plug-in XSE', color:'var(--phv)'},
+  {id:'xle', name:'XLE Premium', color:'var(--xle)', soft:'var(--xle-soft)'},
+  {id:'xse', name:'XSE', color:'var(--xse)', soft:'var(--xse-soft)'},
+  {id:'ltd', name:'Limited', color:'var(--ltd)', soft:'var(--ltd-soft)'},
+  {id:'phv', name:'Plug-in XSE', color:'var(--phv)', soft:'var(--phv-soft)'},
 ];
 // Status per trim, in TRIMS order: ['std'|'opt'|'no', note?]. ('nl', "not listed", is only for the
 // spec list, where Toyota's pages leave a line out.) Toyota's spec data for the Plug-in leaves out the

@@ -123,7 +123,7 @@ figcaption,.cap,.demo-cap{text-wrap:balance}
 .road-foot{background:var(--card);border-radius:0 0 28px 28px;box-shadow:var(--shadow);padding:18px 24px;display:flex;flex-wrap:wrap;gap:10px 28px;font-size:var(--fs-note);color:var(--ink-2)}
 .road-foot b{color:var(--ink)}
 /* 2026 only: how it differs from the 2027. */
-.year-diff{margin-top:28px;background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:22px 26px 24px;border-left:6px solid var(--lane)}
+.year-diff{margin-top:28px;background:var(--opt-soft);border-radius:24px;padding:22px 26px 24px}
 .year-diff h2{font-size:clamp(22px,2.6vw,28px);margin:0 0 6px}
 .year-diff > p{margin:0;color:var(--ink-2)}
 .yd-table{width:100%;border-collapse:collapse;margin:14px 0 12px;font-size:17px}
@@ -317,7 +317,7 @@ section .wrap > :last-child{margin-bottom:0}
 .seelist li .dot{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:16px;color:#fff}
 .seelist li.hidden{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule)}
 .seelist li .st{margin-left:auto}
-.demo-summary{font-size:18px;background:var(--paper);border-radius:12px;padding:14px 16px;border-left:4px solid var(--lane)}
+.demo-summary{font-size:18px;background:var(--opt-soft);border-radius:12px;padding:14px 16px}
 .photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .photo-pair figure{margin:0}
 .photo-pair img{border-radius:12px;aspect-ratio:16/10;object-fit:cover;width:100%}
@@ -394,9 +394,14 @@ section .wrap > :last-child{margin-bottom:0}
 .pk-callout{margin:0;padding:2px 0 2px 18px;border-left:4px solid var(--lane);font-size:var(--fs-note)}
 .pk-callout b{font-family:Overpass,sans-serif}
 /* How to read the cards, so it sits right above them, set apart from the three findings. */
-.pk-stack{margin:0 0 20px;padding:14px 18px;background:var(--card);border-left:4px solid var(--lane);border-radius:0 12px 12px 0;font-weight:700;max-width:none;width:fit-content}
-.pk{background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;border-top:6px solid var(--c)}
-.pk-head{padding:20px 22px 6px}
+/* A standalone note: a card with a yellow tag above its text. No stripe down the side (layout check 26). */
+.tagged{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:16px 22px 18px;width:fit-content;max-width:100%}
+.note-tag{display:block;width:fit-content;font:700 var(--fs-label)/1 Overpass,sans-serif;background:var(--lane);color:#222;border-radius:6px;padding:6px 9px 4px;margin-bottom:10px}
+.tagged > p{margin:0;max-width:var(--measure)}
+#packages .tagged{margin-bottom:20px}
+/* Each trim card shows its trim in a header tinted with the trim's soft color (layout check 26). */
+.pk{background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.pk-head{padding:18px 22px 16px;margin-bottom:8px;background:var(--c-soft)}
 .pk-head h3{color:var(--c)}
 .ladder{list-style:none;margin:0;padding:10px 14px 4px;position:relative}
 .rung{position:relative;isolation:isolate}
@@ -427,10 +432,10 @@ section .wrap > :last-child{margin-bottom:0}
 
 /* ---------- paint and interior colors ---------- */
 /* The photos sit on a light studio backdrop in both themes, since a black car vanishes on a dark card. */
-.cp{--c:var(--xle);background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden;border-top:6px solid var(--c)}
-.cp-top{padding:18px 22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.cp{--c:var(--xle);--c-soft:var(--xle-soft);background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.cp-top{background:var(--c-soft);padding:18px 22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
 .cp-top .seg button{min-height:44px}
-.cp-note{margin:0;flex:1 1 280px;font-size:var(--fs-note);line-height:1.45;background:var(--opt-soft);border-left:4px solid var(--lane);border-radius:10px;padding:8px 12px}
+.cp-note{margin:0;flex:1 1 280px;font-size:var(--fs-note);line-height:1.45;background:var(--opt-soft);border-radius:10px;padding:8px 12px}
 .cp-note:empty{display:none}
 .cp-note.seen{visibility:hidden}
 .cp-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);border-top:1px solid var(--rule)}
@@ -552,7 +557,8 @@ section .wrap > :last-child{margin-bottom:0}
 .tw[open] summary::before{transform:rotate(45deg)}
 .tw ul{margin:8px 0 2px;padding-left:18px;display:grid;gap:6px}
 .tw li span{display:block;font-weight:700;font-size:var(--fs-label)}
-.spec-more{margin-top:18px;background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:16px 22px;font-size:var(--fs-note);border-left:6px solid var(--lane)}
+#specs .tagged{margin-top:18px}
+.spec-more{font-size:var(--fs-note)}
 @media (max-width:760px){
   .spec-table,.spec-table tbody{display:block}
   .spec-table thead{display:none}

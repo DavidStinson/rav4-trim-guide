@@ -236,7 +236,7 @@ const PKG = (()=>{
         <span class="pc">${k.gets.map(([,txt])=>esc(txt)).join(', ')}</span>
         ${req?`<span class="req"><span>${req}</span></span>`:''}</button></li>`;
     }).join('');
-    return `<article class="pk" style="--c:${t.color}" data-t="${t.id}">
+    return `<article class="pk" style="--c:${t.color};--c-soft:${t.soft}" data-t="${t.id}">
       <div class="pk-head"><h3>${t.name}</h3></div>
       <ol class="ladder" aria-label="${t.name} packages, in the order Toyota requires them">
         <li class="rung base on" data-i="0"><button type="button" aria-pressed="true"><span class="knob" aria-hidden="true"></span><span class="pn">No packages</span><span class="pp">${money(p.base)}</span><span class="pc">Everything listed as included for the ${t.name}.</span></button></li>
@@ -342,7 +342,7 @@ const PKG = (()=>{
 
   function render(){
     const c = COLORS[st.t], t = trimOf(st.t), p = PAINTS[st.paint], seat = seatOf(st.t, st.int);
-    box.style.setProperty('--c', t.color);
+    box.style.setProperty('--c', t.color); box.style.setProperty('--c-soft', t.soft);
     box.querySelectorAll('#cpModel button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.t===st.t));
     $('#cpPaint').innerHTML = paintsHTML(st.t, st.paint);
     $('#cpInt').innerHTML = seatsHTML(st.t, st.int);
