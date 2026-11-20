@@ -15,6 +15,8 @@
   --read:1060px; --wide:1420px; --gutter:24px; --measure:34em;
   /* Section leads: wide enough for the priorities lead on one line at 21px (reading check 8), with a little room for font differences. */
   --lede:41em;
+  /* The one gap between sections, from the end of one section's content to the next heading (layout check 22). */
+  --sec-gap:176px;
   --fs-ui:18px; --fs-table:17px; --fs-control:17px; --fs-nav:16px; --fs-note:16px; --fs-cap:15px; --fs-label:15px;
   color-scheme:light;
 }
@@ -49,7 +51,8 @@ img{max-width:100%;height:auto;display:block}
 :focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
 .wrap{max-width:calc(var(--read) + 2 * var(--gutter));margin:0 auto;padding:0 var(--gutter)}
 .wrap.wide{max-width:calc(var(--wide) + 2 * var(--gutter))}
-@media (max-width:640px){:root{--gutter:16px}body{font-size:18px}}
+@media (max-width:1099px){:root{--sec-gap:144px}}
+@media (max-width:640px){:root{--gutter:16px;--sec-gap:112px}body{font-size:18px}}
 /* A row that compares the four trims breaks out of the reading column into the side margins, up to the
    wide width. body is the size container, so 100cqw is the page width without the scrollbar. */
 body{container:page/inline-size}
@@ -126,7 +129,9 @@ figcaption,.cap,.demo-cap{text-wrap:balance}
 .yd-table td.now{font-weight:700}
 @media (max-width:640px){.year-diff{padding:18px 18px 20px}.yd-table{font-size:16px}.yd-table tbody th{width:auto}}
 
-section{padding:88px 0 0}
+section{padding:var(--sec-gap) 0 0}
+/* A section's last block brings no space of its own, so --sec-gap is the whole gap to the next section. */
+section .wrap > :last-child,section .fgroup:last-child > :last-child{margin-bottom:0}
 
 /* ---------- side-arrow sliders ----------
    Each slider shows as many trims as fit side by side: all four on a wide screen, fewer on smaller ones.
