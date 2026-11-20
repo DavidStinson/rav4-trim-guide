@@ -243,7 +243,7 @@ section .wrap > :last-child{margin-bottom:0}
 .gain span.why{display:block;font-size:var(--fs-note);color:var(--ink-2)}
 
 /* ---------- feature explainers ---------- */
-.group-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:var(--head-after)}
+.group-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
 .group-nav a{font-size:16px;text-decoration:none;border:1.5px solid var(--rule);border-radius:999px;padding:7px 14px;background:var(--card)}
 .group-nav a:hover{border-color:var(--ink-2)}
 .fgroup + .fgroup{margin-top:var(--group-gap)}
