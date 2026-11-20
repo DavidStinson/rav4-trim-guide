@@ -259,7 +259,7 @@ const FEATURES = [
   {id:'outlet', group:'Plug-in Hybrid', name:'Household-style power outlet',
    aka:'One 120V/1500W AC power outlet in cargo area',
    what:'A regular three-prong outlet in the cargo area, like the ones in your house. It runs off the Plug-in’s big battery and can power up to 1,500 watts at once: a refrigerator, lamps, Wi-Fi and phone chargers, or one small space heater.',
-   why:'Most useful in a power outage. A charged battery could keep a refrigerator, Wi-Fi and a few lamps going for a few days. It’s handy for camping and tailgating too. The Hybrids have 12-volt cigarette lighter sockets (120 W each, one up front and one in the cargo area) and USB-C ports (45 W up front, 15 W in back). Those can charge a few devices in a pinch, but nothing substantial.',
+   why:'Most useful in a power outage. A charged battery could keep a refrigerator, Wi-Fi and a few lamps going for about 2 days, and over a week with a full tank. It’s handy for camping and tailgating too. The Hybrids have 12-volt cigarette lighter sockets (120 W each, one up front and one in the cargo area) and USB-C ports (45 W up front, 15 W in back). Those can charge a few devices in a pinch, but nothing substantial.',
    trims:[['no','12-volt sockets only'],['no','12-volt sockets only'],['no','12-volt sockets only'],['std']], visual:'outageDemo', layout:'below'},
 ];
 
