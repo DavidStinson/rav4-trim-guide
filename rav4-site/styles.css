@@ -15,6 +15,8 @@
   /* Two page widths (layout check 8): text sits in the reading column; .bleed rows that compare four trims run wider.
      --wide fits four 340px cards (data-sl-col) and three 20px gaps, so all four show once the window allows. */
   --read:1060px; --wide:1420px; --gutter:24px;
+  /* Spacing inside feature cards (layout check 35): tight for things that belong together (a caption and its picture, a toggle and what it controls), part for separate pieces of one demo and the card's padding, section between the write-up and what sits under it. */
+  --sp-tight:16px; --sp-part:40px; --sp-section:64px;
   /* The one gap between sections, from the end of one section's content to the next heading (layout check 22). */
   --sec-gap:120px;
   /* Inside a section header: heading to lead, then header to content. The same at every width. */
@@ -252,16 +254,16 @@ section .wrap > :last-child{margin-bottom:0}
    data.js (text, beside or below; see the note there). On a narrow screen it stacks: the copy, who has
    it as a full-width band, then any picture or demo. Wider screens are below. */
 .fgroup{container:fgroup/inline-size}
-.feature{background:var(--card);border-radius:20px;padding:28px 22px 0;overflow:hidden;display:grid;column-gap:48px;grid-template-columns:minmax(0,1fr);grid-template-areas:"text" "avail" "vis";container-type:inline-size}
+.feature{background:var(--card);border-radius:20px;padding:28px 22px var(--sp-part);overflow:hidden;display:grid;column-gap:48px;grid-template-columns:minmax(0,1fr);grid-template-areas:"text" "avail" "vis";container-type:inline-size}
 .feature + .feature{margin-top:var(--panel-gap)}
 .feature > .f-text{grid-area:text}
-.feature > .f-vis{grid-area:vis;margin:24px 0 22px}
+.feature > .f-vis{grid-area:vis;margin:var(--sp-section) 0 0}
 .feature > .avail{grid-area:avail;margin:32px -22px 0;padding:16px 22px 20px;border-top:1px solid var(--rule)}
 .f-text{padding:0}
 .f-text h4{font-size:26px;font-weight:800}
 .f-text .aka{font-size:var(--fs-note);color:var(--ink-2);margin:6px 0 16px}
 .f-text .aka i{display:inline-block;max-width:100%;font-style:normal;background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:1px 7px}
-.f-text .why{border-left:4px solid var(--lane);padding:2px 0 2px 14px;margin:14px 0 0;color:var(--ink)}
+.f-text .why{border-left:4px solid var(--lane);padding:2px 0 2px 14px;margin:var(--sp-tight) 0 0;color:var(--ink)}
 .f-text .why b{display:block;font-size:var(--fs-label);color:var(--ink-2);font-weight:700}
 .avail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 16px}
 @container (max-width:600px){.avail{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -269,12 +271,12 @@ section .wrap > :last-child{margin-bottom:0}
 .avail .tn{font:700 var(--fs-label) Overpass,sans-serif;display:flex;align-items:center;gap:6px}
 .avail .tn::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c)}
 .avail .note{font-size:var(--fs-note);color:var(--ink-2);line-height:1.35}
+@media (max-width:900px){.feature > .avail:last-child{padding-bottom:0}}
 @container (max-width:380px){.avail{grid-template-columns:1fr}.avail div{grid-template-columns:120px 1fr;align-items:center}.avail .note{grid-column:2}}
 .f-vis{display:flex;flex-direction:column;min-width:0}
 .f-vis figure{margin:0;display:flex;flex-direction:column;height:100%}
 .f-vis figure > img{width:100%;height:100%;object-fit:cover;min-height:260px;flex:1}
-.f-vis figcaption{font-size:var(--fs-cap);color:var(--ink-2);padding:10px 0 0}
-.feature.l-below > .f-vis{margin:28px 0 32px}
+.f-vis figcaption{font-size:var(--fs-cap);color:var(--ink-2);margin-top:var(--sp-tight)}
 .feature.compact{padding-top:28px}
 .feature.compact h4{font-size:22px}
 /* From 901px every panel lists who has it down its right edge, the four trims in the same order, so a
@@ -283,19 +285,18 @@ section .wrap > :last-child{margin-bottom:0}
    A below demo or photo row spans the panel. A beside picture sits under the copy at the copy's width
    until the panel is wide enough to put it beside the copy with 520px of copy left (next rule). */
 @media (min-width:901px){
-  .feature{grid-template-columns:minmax(0,1fr) 300px;grid-template-areas:"text avail" "vis vis";padding:36px 40px}
+  .feature{grid-template-columns:minmax(0,1fr) 300px;grid-template-areas:"text avail" "vis vis";padding:var(--sp-part)}
   .feature.l-text{grid-template-areas:"text avail"}
   .feature.l-beside{grid-template-areas:"text avail" "vis ."}
-  .feature > .avail{margin:-36px -40px 0 0;padding:32px 28px;border-top:0;border-left:1px solid var(--rule);border-bottom:1px solid var(--rule);border-bottom-left-radius:16px;
+  .feature > .avail{margin:calc(-1 * var(--sp-part)) calc(-1 * var(--sp-part)) 0 0;padding:32px 28px;border-top:0;border-left:1px solid var(--rule);border-bottom:1px solid var(--rule);border-bottom-left-radius:16px;
     background:var(--well);grid-template-columns:1fr;align-content:start;gap:16px}
   /* Light mode: the column is a grey well, darker than the page, and the "Not offered" grey would fade into it, so it takes the card's white. Dark mode keeps its old blend and pills. */
   .feature > .avail .pill.no{background:var(--well-no)}
   /* With nothing under it, a copy-only card's column runs to the card's bottom edge; a row of photos under the card (shots:) keeps it ending with the copy. */
-  .feature.l-text > .avail:last-child{margin-bottom:-36px;border-bottom:0;border-bottom-left-radius:0}
+  .feature.l-text > .avail:last-child{margin-bottom:calc(-1 * var(--sp-part));border-bottom:0;border-bottom-left-radius:0}
   .feature.compact > .avail{margin-top:-28px}
   .feature > .avail div{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 10px}
   .feature > .avail .note{grid-column:1/-1}
-  .feature > .f-vis,.feature.l-below > .f-vis{margin:28px 0 0}
 }
 /* Beside for real: 520px of copy + 48 gap + a 360px picture + 48 gap + the 300px column + 2 x 40px
    padding = 1356px of panel. The reading width (1060px) is narrower, so today every beside picture
@@ -311,7 +312,7 @@ section .wrap > :last-child{margin-bottom:0}
 .seg{display:inline-flex;background:var(--card);border:1.5px solid var(--rule);border-radius:14px;padding:4px;gap:4px;justify-self:start;flex-wrap:wrap}
 .seg button{font:inherit;font-size:17px;font-weight:700;border:0;border-radius:10px;padding:10px 18px;background:transparent;color:var(--ink-2);cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.demo-cols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:22px;align-items:start}
+.demo-cols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:var(--sp-part);align-items:start}
 @media (max-width:900px){.demo-cols{grid-template-columns:1fr}}
 .scene{width:100%;height:auto;border-radius:16px;background:#C9CEC9;display:block}
 .seelist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
@@ -321,23 +322,26 @@ section .wrap > :last-child{margin-bottom:0}
 .seelist li .st{margin-left:auto}
 /* Demo results as plain text, no box (layout check 27): the camera's heads its column, level with the
    toggle beside it; the roof's captions its photo. */
-.cam-seg{margin-bottom:14px}
+.cam-seg{margin-bottom:var(--sp-tight)}
+.demo-cols .cap{margin-top:var(--sp-tight)}
+/* A photo row under a demo is a new section: the demo's own tight gap plus the rest of the section step. */
+.demo > .photo-pair{margin-top:calc(var(--sp-section) - var(--sp-tight))}
 .demo-text{margin:0;font-size:var(--fs-ui);line-height:1.45}
 /* A slider's answer: a yellow tag over plain text, boxed in the page color so the yellow stays on the tag. */
 .demo-result{background:var(--paper);border-radius:12px;padding:14px 16px 16px}
 .photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .photo-pair figure{margin:0}
 .photo-pair img{border-radius:12px;aspect-ratio:16/10;object-fit:cover;width:100%}
-.photo-pair figcaption{font-size:var(--fs-cap);color:var(--ink-2);margin-top:6px}
+.photo-pair figcaption{font-size:var(--fs-cap);color:var(--ink-2);margin-top:var(--sp-tight)}
 @media (max-width:600px){.photo-pair{grid-template-columns:1fr}}
 .mirror-wrap{display:grid;place-items:center;padding:12px 0}
 .mirror-svg{width:100%;max-width:560px;height:auto}
 /* Captions that change with a demo, and labels under a drawing, are HTML so they stay body size. */
-.demo-cap{margin:8px 0 0;text-align:center;font-size:var(--fs-cap);color:var(--ink-2)}
+.demo-cap{margin:var(--sp-tight) 0 0;text-align:center;font-size:var(--fs-cap);color:var(--ink-2)}
 .wheel-caps{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;margin:0}
 .wheel-caps p{margin:0;font-size:var(--fs-cap);color:var(--ink-2);line-height:1.35}
 .wheel-caps b{display:block;font:800 18px Overpass,sans-serif;color:var(--c)}
-.mini-demo{padding:24px;background:var(--paper);border-radius:16px;display:grid;gap:14px;align-content:center;height:100%}
+.mini-demo{padding:24px;background:var(--paper);border-radius:16px;display:grid;gap:var(--sp-tight);align-content:center;height:100%}
 .mini-demo svg{width:100%;height:auto}
 /* A drawing keeps a modest size under the copy; photos take the copy's full width. */
 .feature.l-beside .mini-demo{max-width:520px}
@@ -350,7 +354,7 @@ section .wrap > :last-child{margin-bottom:0}
 .ev-bar .g{background:var(--no)}
 .ev-key{display:flex;gap:16px;flex-wrap:wrap;font-size:var(--fs-label);color:var(--ink-2)}
 .ev-key i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-.ev-block{display:grid;gap:14px;border-top:1px solid var(--rule);padding-top:20px;margin-top:6px}
+.ev-block{display:grid;gap:var(--sp-tight);border-top:1px solid var(--rule);padding-top:var(--sp-part);margin-top:calc(var(--sp-part) - var(--sp-tight))}
 .ev-block h5,.ap-q{font:800 21px Overpass,sans-serif;margin:0}
 .ev-sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px 24px}
 .ev-sliders label{font-size:var(--fs-note)}
@@ -374,9 +378,9 @@ section .wrap > :last-child{margin-bottom:0}
 .ap-meter.over .ap-scale b{color:var(--bad)}
 
 /* ---------- same view, three trims ---------- */
-.f-below{grid-column:1/-1;margin-top:28px;display:grid;gap:12px}
-.trio{grid-column:1/-1;margin-top:28px}
-.trio h5{font:700 17px Overpass,sans-serif;margin:0 0 12px}
+.f-below{grid-column:1/-1;margin-top:var(--sp-section);display:grid;gap:var(--sp-tight)}
+.trio{grid-column:1/-1;margin-top:var(--sp-section)}
+.trio h5{font:700 17px Overpass,sans-serif;margin:0 0 var(--sp-tight)}
 .trio-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .trio figure{margin:0}
 .trio-views{display:grid;gap:6px}
@@ -384,7 +388,7 @@ section .wrap > :last-child{margin-bottom:0}
 .trio .zoom img{object-fit:contain;padding:6px 8px}
 .trio .v-ext{aspect-ratio:680/296}
 .trio .v-rear{aspect-ratio:500/320}
-.trio figcaption{font-size:var(--fs-cap);color:var(--ink-2);margin-top:6px;line-height:1.35}
+.trio figcaption{font-size:var(--fs-cap);color:var(--ink-2);margin-top:var(--sp-tight);line-height:1.35}
 .trio figcaption b{display:flex;align-items:center;gap:6px;color:var(--ink);font:700 var(--fs-label) Overpass,sans-serif}
 .trio figcaption b::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c)}
 @media (max-width:820px){.trio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}

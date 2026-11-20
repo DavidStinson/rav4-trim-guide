@@ -72,7 +72,7 @@ VIS.cameraDemo = ()=>{
           <button type="button" data-mode="back" aria-pressed="true">Backup camera</button>
           <button type="button" data-mode="360" aria-pressed="false">360° camera</button>
         </div>
-        ${svg}<p class="cap" style="margin-top:8px">Black dots are cameras. The yellow area is what the screen shows.</p></div>
+        ${svg}<p class="cap">Black dots are cameras. The yellow area is what the screen shows.</p></div>
       <div style="display:grid;gap:16px;align-content:start">
         <p class="demo-text" id="camSummary" aria-live="polite"></p>
         <ul class="seelist" id="camList">${objs.map(o=>`<li data-n="${o.n}"><span class="dot" style="background:${o.c}">${o.n}</span>${esc(o.label)}<span class="st"></span></li>`).join('')}</ul>
