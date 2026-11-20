@@ -568,6 +568,15 @@ window.layoutCheck = function layoutCheck(){
       const a = seg.getBoundingClientRect(), b = sum.getBoundingClientRect();
       if(b.left - a.left > 200 && Math.abs(b.top - a.top) > 2) fails.push(`camera demo: result starts ${Math.round(b.top - a.top)}px below the toggle at ${W}px; expected level with it`);
     }
+    // The roof caption spans its photo, and the photo's 3:1 crop keeps the top of the picture, where the
+    // roof is (David).
+    const roofImg = document.querySelector('.roof-photo img'), roofCap = document.getElementById('roofSummary');
+    if(roofImg && roofCap && visible(roofImg)) {
+      const iw = roofImg.getBoundingClientRect().width, cw = roofCap.getBoundingClientRect().width;
+      if(Math.abs(iw - cw) > 2) fails.push(`roof demo: caption is ${Math.round(cw)}px wide under a ${Math.round(iw)}px photo at ${W}px; expected the photo's width`);
+      const pos = getComputedStyle(roofImg).objectPosition.split(' ')[1];
+      if(parseFloat(pos) !== 0) fails.push(`roof demo: photo crop is anchored at ${pos} from the top at ${W}px; expected the top (0%)`);
+    }
     // These demo results are plain text, no box: the camera's heads its column, the roof's captions the photo.
     ['camSummary', 'roofSummary'].forEach(id => {
       const el = document.getElementById(id);

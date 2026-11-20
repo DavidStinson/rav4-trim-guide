@@ -122,6 +122,9 @@ window.readingCheck = async function readingCheck(){
     if([...el.children].some(c => getComputedStyle(c).display === 'block')) return;
     const text = el.textContent.replace(/\s+/g, ' ').trim();
     if(text.length < 60) return;
+    // The roof demo's caption spans its photo (David: "it needs to go the full width of the photo"); it runs
+    // one or two lines, so the long measure costs little.
+    if(el.id === 'roofSummary') return;
     const lines = Math.max(1, Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
     const cpl = Math.round(text.length / lines);
     if(cpl > (el.classList.contains('lede') ? 90 : 80)){
