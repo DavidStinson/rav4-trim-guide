@@ -259,7 +259,7 @@ window.layoutCheck = function layoutCheck(){
   //     not again in the section intro (REVIEW-DECISIONS.md, r08 rework).
   {
     const sec = document.getElementById('packages'), grid = document.getElementById('pkGrid');
-    const said = [...sec.querySelectorAll('p')].filter(p => /every package above it/.test(p.textContent));
+    const said = [...sec.querySelectorAll('p')].filter(p => /every package above\s+it/.test(p.textContent));
     const stack = sec.querySelector('.pk-stack'), slider = grid && grid.closest('[data-sl]');
     if(said.length !== 1 || said[0] !== stack) fails.push(`the packages-stack rule appears ${said.length} times in #packages; say it once, in the .pk-stack callout`);
     else {
@@ -503,6 +503,46 @@ window.layoutCheck = function layoutCheck(){
       if(Math.abs(gap(tools, cats[0]) - 24) > 1) fails.push(`specs: ${Math.round(gap(tools, cats[0]))}px from the search bar to the first table at ${W}px; expected 24`);
       cats.slice(1).forEach((c, k) => { const g = gap(cats[k], c); if(Math.abs(g - 20) > 1) fails.push(`specs: ${Math.round(g)}px between tables at ${W}px; expected 20`); });
     }
+  }
+
+  // 26. No rounded box wears a thick stripe down one side (David: "very kind of AI looking"). Instead:
+  //     a trim card shows its trim with a header tinted in the trim's soft color, its name still 4.5:1
+  //     against the tint; the two standalone notes ("Packages stack" and the spec footnote) open with a
+  //     yellow "Good to know" tag above their text; the year comparison, demo summaries and the colors
+  //     switch message take a soft yellow fill.
+  {
+    const rgb = c => (c.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
+    const lum = c => { const v = rgb(c).map(x => x / 255).map(x => x <= .03928 ? x / 12.92 : ((x + .055) / 1.055) ** 2.4); return .2126 * v[0] + .7152 * v[1] + .0722 * v[2]; };
+    const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + .05) / (y + .05); };
+    const resolve = (host, value) => { const i = document.createElement('i'); i.style.cssText = `position:absolute;background:${value}`; host.append(i); const c = getComputedStyle(i).backgroundColor; i.remove(); return c; };
+    const name = el => el.id ? '#' + el.id : '.' + [...el.classList].join('.');
+    document.querySelectorAll('body *').forEach(el => {
+      if(el.closest('svg') || !visible(el)) return;
+      const cs = getComputedStyle(el);
+      if(!['TopLeft', 'TopRight', 'BottomLeft', 'BottomRight'].some(k => parseFloat(cs[`border${k}Radius`]) > 0)) return;
+      const w = ['Top', 'Right', 'Bottom', 'Left'].map(k => cs[`border${k}Style`] === 'none' ? 0 : parseFloat(cs[`border${k}Width`]));
+      if(Math.max(...w) >= 3 && new Set(w).size > 1) fails.push(`${name(el)} has a ${Math.max(...w)}px stripe on one side of a rounded box at ${W}px; use a tinted header, a tag or a soft fill`);
+    });
+    const tinted = (box, head, id) => {
+      const want = resolve(box, `var(--${id}-soft)`), got = getComputedStyle(head).backgroundColor;
+      if(got !== want) fails.push(`${name(box)} (${id}): header background ${got}; expected the trim's soft tint ${want}`);
+      const h = head.querySelector('h3');
+      if(h && ratio(getComputedStyle(h).color, got) < 4.5) fails.push(`${name(box)} (${id}): trim name is ${ratio(getComputedStyle(h).color, got).toFixed(2)}:1 on its tinted header; needs 4.5:1`);
+    };
+    document.querySelectorAll('.pk[data-t]').forEach(pk => { const head = pk.querySelector('.pk-head'); if(visible(pk) && head) tinted(pk, head, pk.dataset.t); });
+    const cp = document.querySelector('.cp'), on = cp && cp.querySelector('#cpModel button[aria-pressed="true"]');
+    if(cp && on && cp.querySelector('.cp-top')) tinted(cp, cp.querySelector('.cp-top'), on.dataset.t);
+    ['.pk-stack', '.spec-more'].forEach(sel => {
+      const p = document.querySelector(sel), box = p && p.closest('.tagged'), tag = box && box.querySelector(':scope > .note-tag');
+      if(!p || !visible(p)) return;
+      if(!tag || tag.textContent.trim() !== 'Good to know') { fails.push(`${sel}: needs a "Good to know" tag (.tagged > .note-tag) at ${W}px`); return; }
+      if(tag.getBoundingClientRect().bottom > p.getBoundingClientRect().top + 1) fails.push(`${sel}: its tag should sit above the text at ${W}px`);
+    });
+    document.querySelectorAll('.year-diff, .demo-summary, .cp-note').forEach(el => {
+      if(!visible(el)) return;
+      const want = resolve(el.parentElement, 'var(--opt-soft)');
+      if(getComputedStyle(el).backgroundColor !== want) fails.push(`${name(el)}: background ${getComputedStyle(el).backgroundColor}; expected the soft yellow ${want} at ${W}px`);
+    });
   }
 
   return fails;
