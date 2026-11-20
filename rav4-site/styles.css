@@ -514,7 +514,7 @@ section .wrap > :last-child{margin-bottom:0}
 
 /* ---------- spec table ---------- */
 /* The search bar scrolls with the page: the pinned row while reading is the trim header, and both pinned would take a quarter of a laptop screen. */
-.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:18px;background:var(--card);padding:14px;border-radius:18px;box-shadow:var(--shadow)}
+.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:24px;background:var(--card);padding:14px;border-radius:18px;box-shadow:var(--shadow)}
 .search{flex:1 1 260px;font:inherit;font-size:18px;padding:11px 14px;border:1.5px solid var(--rule);border-radius:12px;background:var(--paper);color:var(--ink);min-width:0}
 .toggle{display:inline-flex;align-items:center;gap:10px;font-size:17px;cursor:pointer;user-select:none}
 .toggle input{appearance:none;width:48px;height:28px;border-radius:999px;background:var(--rule);position:relative;cursor:pointer;margin:0;flex:none;transition:background .15s}
@@ -523,7 +523,7 @@ section .wrap > :last-child{margin-bottom:0}
 .toggle input:checked::after{transform:translateX(20px)}
 .count{font-size:var(--fs-label);color:var(--ink-2);margin-left:auto}
 /* overflow:clip, not hidden: hidden would make each category a scroll box and stop its header row from sticking. */
-.spec-cat{margin-bottom:12px;background:var(--card);border-radius:18px;box-shadow:var(--shadow);overflow:clip}
+.spec-cat{margin-bottom:20px;background:var(--card);border-radius:18px;box-shadow:var(--shadow);overflow:clip}
 .spec-cat > summary{list-style:none;cursor:pointer;padding:18px 22px;font:800 22px Overpass,sans-serif;display:flex;align-items:center;gap:12px}
 .spec-cat > summary::-webkit-details-marker{display:none}
 .spec-cat > summary::after{content:"";width:12px;height:12px;border-right:3px solid var(--ink-2);border-bottom:3px solid var(--ink-2);transform:rotate(45deg);margin-left:auto;transition:transform .2s;margin-top:-6px}
