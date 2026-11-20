@@ -451,10 +451,10 @@ window.layoutCheck = function layoutCheck(){
   }
 
   // 23. Inside each section's header, the lead sits close under its heading and the content stands clear
-  //     of the lead (David: "8 above / 24 below"): 8px from heading to lead and 24px from the header to
-  //     the content, at every width.
+  //     of the lead (David: "8 above / 24 below", then 36 below once the lead's stray margin was gone):
+  //     8px from heading to lead and 36px from the lead to the content, at every width.
   {
-    const [head, after] = [8, 24];
+    const [head, after] = [8, 36];
     document.querySelectorAll('main .sec-head, body > section .sec-head').forEach(h => {
       if(!visible(h)) return;
       const id = h.closest('section')?.id || 'a section', h2 = h.querySelector('h2'), next = h2?.nextElementSibling, body = h.nextElementSibling;
