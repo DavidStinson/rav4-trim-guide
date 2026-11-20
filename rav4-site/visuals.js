@@ -185,10 +185,10 @@ VIS.hudDemo = ()=>{
       <rect x="738" y="316" width="146" height="40" rx="5" fill="#25323D"/>
       <path class="hud-wheel" d="M216 340 A430 430 0 0 1 556 340" fill="none" stroke="#131618" stroke-width="26"/>
       <g opacity=".95">
-        <rect class="hud-box" x="254" y="${DASH - 98}" width="264" height="80" rx="12" fill="#0E2A3A" opacity=".4"/>
+        <rect class="hud-box" x="254" y="${DASH - 98}" width="264" height="80" rx="12" fill="#0E2A3A" opacity=".85"/>
         <path class="nav-arrow" d="M282 ${DASH - 30} V${DASH - 62} H306 M296 ${DASH - 74} L310 ${DASH - 62} L296 ${DASH - 50}" fill="none" stroke="${C}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
         <text class="hud-speed" x="380" y="${DASH - 50}" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="48" fill="${C}">42</text>
-        <text x="380" y="${DASH - 26}" text-anchor="middle" font-size="18" fill="${C}">mph</text>
+        <text class="hud-unit" x="380" y="${DASH - 26}" text-anchor="middle" font-size="18" fill="${C}">mph</text>
         <rect x="442" y="${DASH - 90}" width="60" height="64" rx="6" fill="#fff" opacity=".92"/>
         <text x="472" y="${DASH - 69}" text-anchor="middle" font-size="17" fill="#222">LIMIT</text>
         <text class="hud-limit" x="472" y="${DASH - 36}" text-anchor="middle" font-size="30" font-weight="800" font-family="Overpass" fill="#222">45</text>
