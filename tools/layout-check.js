@@ -450,5 +450,25 @@ window.layoutCheck = function layoutCheck(){
     });
   }
 
+  // 23. Inside each section's header, the lead sits close under its heading and the content stands clear
+  //     of the lead, in proportion to the doubled section gap (David picked 16 / 48 after the sections
+  //     moved apart): 16px from heading to lead and 48px from the header to the content, 12px and 32px
+  //     on a phone.
+  {
+    const [head, after] = W <= 640 ? [12, 32] : [16, 48];
+    document.querySelectorAll('main .sec-head, body > section .sec-head').forEach(h => {
+      if(!visible(h)) return;
+      const id = h.closest('section')?.id || 'a section', h2 = h.querySelector('h2'), next = h2?.nextElementSibling, body = h.nextElementSibling;
+      if(next && visible(next)) {
+        const g = next.getBoundingClientRect().top - h2.getBoundingClientRect().bottom;
+        if(Math.abs(g - head) > 1) fails.push(`${id}: ${Math.round(g)}px from the heading to the lead at ${W}px; expected ${head}`);
+      }
+      if(body && visible(body)) {
+        const g = body.getBoundingClientRect().top - h.getBoundingClientRect().bottom;
+        if(Math.abs(g - after) > 1) fails.push(`${id}: ${Math.round(g)}px from the header to the content at ${W}px; expected ${after}`);
+      }
+    });
+  }
+
   return fails;
 };
