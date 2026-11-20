@@ -898,6 +898,22 @@ window.layoutCheck = function layoutCheck(){
       const sp = svg.querySelector('.hud-speed')?.textContent.trim(), lim = svg.querySelector('.hud-limit')?.textContent.trim();
       if(!sp || !lim || sp === lim) fails.push(`#f-hud: the speed (${sp}) and the speed limit (${lim}) should both show and differ`);
       if(!/shaded box/i.test(panel.querySelector('.cap')?.textContent || '')) fails.push('#f-hud: no caption saying the shaded box is only for the drawing');
+      // The readings stand out from the trees and sky behind them (David): each reading is at least 4.5:1
+      // against the shaded box, taking the worst case of the box laid over pure white.
+      const hb = svg.querySelector('.hud-box');
+      if(hb){
+        const hex = c => { const m = String(c).match(/^#([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i); return m ? m.slice(1).map(h => parseInt(h, 16)) : null; };
+        const lin = v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; };
+        const L = c => .2126 * lin(c[0]) + .7152 * lin(c[1]) + .0722 * lin(c[2]);
+        const a = +(hb.getAttribute('opacity') ?? 1) * +(hb.getAttribute('fill-opacity') ?? 1), boxC = hex(hb.getAttribute('fill'));
+        const under = boxC && boxC.map(v => a * v + (1 - a) * 255);
+        [['speed', svg.querySelector('.hud-speed'), 'fill'], ['mph', svg.querySelector('.hud-unit'), 'fill'], ['arrow', svg.querySelector('.nav-arrow'), 'stroke']].forEach(([name, el, attr]) => {
+          const c = el && hex(el.getAttribute(attr));
+          if(!c || !under) { fails.push(`#f-hud: can't read the ${name}'s color or the box's`); return; }
+          const [hi, lo] = [L(c), L(under)].sort((x, y) => y - x), r = (hi + .05) / (lo + .05);
+          if(r < 4.5) fails.push(`#f-hud: the ${name} is ${r.toFixed(1)}:1 against the shaded box over a light sky; at least 4.5:1`);
+        });
+      }
       // A windshield seen from the driver's seat, like Toyota's own HUD photo (David): the glass fills the
       // view, cut by the left pillar and the long flat dashboard, with the top of the steering wheel; the
       // display floats in front of the driver, over the wheel.
