@@ -321,7 +321,6 @@ section .wrap > :last-child{margin-bottom:0}
    toggle beside it; the roof's captions its photo. */
 .cam-seg{margin-bottom:14px}
 .demo-text{margin:0;font-size:var(--fs-ui);line-height:1.45;max-width:var(--measure)}
-.demo-summary{font-size:18px;background:var(--opt-soft);border-radius:12px;padding:14px 16px}
 /* A slider's answer: a yellow tag over plain text, boxed in the page color so the yellow stays on the tag. */
 .demo-result{background:var(--paper);border-radius:12px;padding:14px 16px 16px}
 .photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}

@@ -371,7 +371,7 @@ VIS.outageDemo = ()=>{
       <div class="ap-track"><span class="ap-fill"></span></div>
       <div class="ap-scale"><span>Plugged in: <b id="apW"></b></span><span>Outlet limit: ${fmtW(LIMIT)}</span></div>
     </div>
-    <p class="demo-summary" id="apSum" aria-live="polite"></p>
+    <div class="demo-result" id="apSum" aria-live="polite"></div>
     <p class="note" style="margin:0">A rough estimate. Toyota doesn’t say how much of the 22.7 kWh battery the outlet can use, so this assumes about ${OUTLET_KWH} kWh, worked out from the ${F.range}-mile range and ${F.mpge} MPGe. Your appliance’s label gives its real wattage. The car has to be on for the outlet to work.</p>
     <p class="note" style="margin:0">The engine can run in Park to recharge a low battery. If you do, keep the car outdoors. Engine exhaust is deadly in a garage.</p>
   </div>`, init(root){
@@ -390,10 +390,10 @@ VIS.outageDemo = ()=>{
       root.querySelector('.ap-meter').classList.toggle('over',over);
       root.querySelector('.ap-fill').style.width=Math.min(W/LIMIT,1)*100+'%';
       root.querySelector('#apW').textContent=fmtW(W);
-      root.querySelector('#apSum').innerHTML =
-        !W ? 'Tap a few things above to see how long the battery could run them.'
-        : over ? `<b>${fmtW(W)} is more than the outlet’s ${fmtW(LIMIT)}.</b> It would shut off. Unplug something, or run the big items one at a time.`
-        : `<b>${runTime(OUTLET_KWH*1000/W)} on the battery alone</b> for ${fmtW(W)} of appliances, running nonstop.`;
+      const [tag, text] = !W ? [null, 'Tap a few things above to see how long the battery could run them.']
+        : over ? [`${fmtW(W)} is more than the outlet’s ${fmtW(LIMIT)}`, 'It would shut off. Unplug something, or run the big items one at a time.']
+        : [`${runTime(OUTLET_KWH*1000/W)} on the battery alone`, `For ${fmtW(W)} of appliances, running nonstop.`];
+      root.querySelector('#apSum').innerHTML = (tag ? `<span class="note-tag">${tag}</span>` : '') + `<p class="demo-text">${text}</p>`;
     };
     root.querySelector('.ap-chips').addEventListener('click',e=>{const b=e.target.closest('.chip'); if(!b) return; b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true'); set();});
     set();
