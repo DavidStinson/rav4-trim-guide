@@ -501,10 +501,9 @@ section .wrap > :last-child{margin-bottom:0}
 .zoom:hover img{transform:scale(1.02)}
 .zoom .zi{position:absolute;right:10px;bottom:10px;width:38px;height:38px;border-radius:50%;background:rgba(20,24,26,.72);display:grid;place-items:center;pointer-events:none}
 .zoom .zi svg{width:20px;height:20px}
-/* A card's lone photo spans the card at its own shape, uncropped (layout check 37). Until it loads it holds
-   a 3:2 space, the shape of most press photos, so the page doesn't jump as much when it arrives. */
+/* A card's lone photo spans the card at its own shape, uncropped (layout check 37). Its width and height
+   attributes hold that shape before it loads. */
 .f-vis > figure > .zoom{border-radius:16px}
-.f-vis > figure > .zoom img{aspect-ratio:auto 3/2}
 .photo-pair .zoom img{aspect-ratio:16/10;object-fit:cover}
 .photo-pair.keep2{grid-template-columns:1fr 1fr}
 @media (max-width:600px){.photo-pair.keep2 .zoom .zi{width:28px;height:28px;right:6px;bottom:6px}.photo-pair.keep2 .zoom .zi svg{width:14px;height:14px}}

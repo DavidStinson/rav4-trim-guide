@@ -13,15 +13,16 @@ const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;
 
 /* ===================== PHOTOS ===================== */
 // Every photo has a page copy, a 2x copy for sharp screens and a full-size copy for the expanded view.
-// tools/build_photos.py makes them and lists their widths in photos.js. `sizes` says how wide the photo
-// shows, so the browser picks the copy it needs; "auto" lets lazy-loaded photos use their real width.
-// The full-size copy is in the list too, where it is larger than the 2x copy, for a photo shown wider than
-// half its 2x copy (a lone photo across a card, layout check 37) on a sharp screen.
+// tools/build_photos.py makes them and lists their widths and heights in photos.js. `sizes` says how wide
+// the photo shows, so the browser picks the copy it needs; "auto" lets lazy-loaded photos use their real
+// width. The srcset lists only the page copies; the full-size copy is for the expanded view. The page
+// copy's width and height go on the img as well, so the browser holds the photo's own shape before the
+// file arrives. CSS still sets the size it shows at, with height:auto keeping that shape.
 const photoSet = name=>{
   const p = PHOTOS[name];
   if(!p){ console.error(`photo "${name}" isn't in photos.js; run tools/build_photos.py`); return {}; }
-  const full = p[2] > p[1] ? `, img/full/${name}.webp ${p[2]}w` : '';
-  return {srcset:`img/${name}.webp ${p[0]}w, img/${name}@2x.webp ${p[1]}w${full}`, src:`img/${name}.webp`, 'data-full':`img/full/${name}.webp`};
+  const [w1, w2] = p.widths;
+  return {srcset:`img/${name}.webp ${w1}w, img/${name}@2x.webp ${w2}w`, src:`img/${name}.webp`, width:w1, height:p.heights[0], 'data-full':`img/full/${name}.webp`};
 };
 const photoAttrs = (name, sizes)=>Object.entries({...photoSet(name), sizes}).map(([k,v])=>`${k}="${v}"`).join(' ');
 const setPhoto = (img, name)=>Object.entries(photoSet(name)).forEach(([k,v])=>img.setAttribute(k,v));
@@ -499,8 +500,7 @@ const trio = s=>`<div class="trio"><h5>${esc(s.title)}</h5><div class="trio-grid
       if(f.visual){const v=VIS[f.visual](); vis=`<div class="f-vis" data-vis="${f.id}">${v.html}</div>`; if(v.init) inits.push([f.id,v.init]); below=v.below||'';}
       // A lone photo spans the card's content box (layout check 37): 980px once the reading column is full
       // width, less the gutters and the card's padding below that (40px a side from 901px, 22px under it).
-      // No "auto": the browser would then size the photo 150px tall until told its shape, and photos.js
-      // lists widths only, so the photo takes its own shape from the file once it loads.
+      // These sizes are exact, so they need no "auto"; photoAttrs gives the photo its width and height.
       else if(f.img){vis=`<div class="f-vis"><figure><img ${photoAttrs(f.img, '(min-width: 1108px) 980px, (min-width: 901px) calc(100vw - 128px), (min-width: 641px) calc(100vw - 92px), calc(100vw - 76px)')} alt="${esc(f.alt)}" loading="lazy">${f.cap?`<figcaption>${esc(f.cap)}</figcaption>`:''}</figure></div>`;}
       // A pair of photos side by side (imgs:), each with its own caption, like the camera demo's pair.
       else if(f.imgs){vis=`<div class="f-vis"><div class="photo-pair">${f.imgs.map(p=>`

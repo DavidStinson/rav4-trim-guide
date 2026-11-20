@@ -25,7 +25,7 @@
    "width": 820
   },
   "scr": {
-   "width": 660,
+   "width": 500,
    "crop": [
     340,
     145,
@@ -34,7 +34,7 @@
    ]
   },
   "console": {
-   "width": 660,
+   "width": 540,
    "crop": [
     351,
     284,
@@ -52,16 +52,19 @@
    ]
   },
   "press": {
-   "width": 720
+   "width": 1000
   },
   "press-left-trim": {
-   "width": 720,
+   "width": 1000,
    "crop": [
     4.5,
     0,
     895.5,
     600.25
    ]
+  },
+  "pair": {
+   "width": 540
   }
  },
  "photos": [
@@ -288,12 +291,12 @@
   },
   {
    "name": "RHV_MY27_0015",
-   "kind": "press",
+   "kind": "pair",
    "url": "https://delivery.tcom.assetscs.toyota.com/adobe/assets/urn:aaid:aem:3e12f964-dde6-4de2-998f-8f3c13161a40/as/RHV_MY27_0015_V001.png"
   },
   {
    "name": "backup-edmunds",
-   "kind": "press",
+   "kind": "pair",
    "file": "rav4-cfg/edmunds-backup.jpg"
   }
  ]
