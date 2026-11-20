@@ -983,5 +983,17 @@ window.layoutCheck = function layoutCheck(){
     });
     probe.remove(); was?.click();
   }
+  // 42. On a phone the roof photo is tall enough to tell the roofs apart (David): a 3:1 strip left the glass
+  //     about 15px tall. Below 641px it's a 3:2 crop, at least 190px tall, keeping the top of the picture
+  //     where the roof is, and shifted toward the left (the back of the car, at most 35% across) so the
+  //     panoramic glass over the back seat stays in view. Wider screens keep the 3:1 crop.
+  const roofImg = document.querySelector('.roof-photo img');
+  if(roofImg && visible(roofImg) && W < 641){
+    const h = roofImg.getBoundingClientRect().height, cs = getComputedStyle(roofImg);
+    if(h < 190) fails.push(`roof photo is ${Math.round(h)}px tall at ${W}px; at least 190 so the roofs can be told apart`);
+    const [px, py] = cs.objectPosition.split(' ');
+    if(!/^0(%|px)?$/.test(py)) fails.push(`roof photo crop doesn't keep the top of the picture (${cs.objectPosition}) at ${W}px`);
+    if(!px.endsWith('%') || parseFloat(px) > 35) fails.push(`roof photo crop sits at ${px} across at ${W}px; at most 35% so the back seat's glass shows`);
+  }
   return fails;
 };
