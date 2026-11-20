@@ -286,13 +286,18 @@ const PKG = (()=>{
   // The note explains a model switch. Picking a paint or seat afterwards hides it but keeps its
   // space, so the picker doesn't jump.
   let note = '', noteSeen = false;
+  // The message when a model switch changes the paint or seats. Trim names don't break across lines ("XLE / Premium").
+  const nm = id=>trimOf(id).name.replace(/ /g,'\u00a0');
+  const switchMsg = (to, from, kind)=>`The ${nm(to)} doesn't have the same ${kind} options as the ${nm(from)} you had picked. This shows the closest match.`;
+  // An invisible copy of the longest message holds the message's space open, so nothing moves when it shows.
+  const longestMsg = TRIMS.flatMap(a=>TRIMS.map(b=>switchMsg(a.id, b.id, 'paint and interior'))).reduce((x,y)=>y.length>x.length?y:x);
 
   box.innerHTML = `
     <div class="cp-top">
       <div class="seg" role="group" aria-label="Model" id="cpModel">
         ${TRIMS.map(t=>`<button type="button" data-t="${t.id}" aria-pressed="false">${t.name}</button>`).join('')}
       </div>
-      <p class="cp-note" id="cpNote" aria-live="polite"></p>
+      <div class="cp-note"><span class="cp-ghost" aria-hidden="true">${longestMsg}</span><p id="cpNote" aria-live="polite"></p></div>
     </div>
     <div class="cp-grid">
       <figure class="cp-stage"><img id="cpExt" alt="" width="680" height="296" loading="lazy" sizes="auto, (min-width: 700px) 680px, 80vw"></figure>
@@ -362,7 +367,7 @@ const PKG = (()=>{
         <div class="cp-total"><dt>Total</dt><dd class="big">${money(start+pk+paintCost)}</dd></div>
       </dl>`;
     const noteEl = $('#cpNote');
-    noteEl.textContent = note; noteEl.classList.toggle('seen', noteSeen);
+    noteEl.textContent = note; noteEl.parentElement.classList.toggle('on', !!note && !noteSeen);
     store.set('rav4-colors', st);
   }
 
@@ -379,10 +384,7 @@ const PKG = (()=>{
     let int = st.int in c.int ? st.int : Object.keys(c.int).find(k=>seatFam(to,k)===fam);
     if(!int) int = Object.keys(c.int)[0];
     const kind = [paint!==st.paint && 'paint', seatOf(to,int)!==oldSeat && 'interior'].filter(Boolean).join(' and ');
-    // Trim names don't break across lines ("XLE / Premium").
-    const nm = id=>trimOf(id).name.replace(/ /g,'\u00a0');
-    const msgs = kind ? [`The ${nm(to)} doesn't have the same ${kind} options as the ${nm(from)} you had picked. This shows the closest match.`] : [];
-    Object.assign(st, {t:to, paint, int}); note = msgs.join(' '); noteSeen = false;
+    Object.assign(st, {t:to, paint, int}); note = kind ? switchMsg(to, from, kind) : ''; noteSeen = false;
     warm(to); render();
   }
 
