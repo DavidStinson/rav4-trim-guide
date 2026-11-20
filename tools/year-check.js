@@ -212,14 +212,13 @@ window.yearCheck = function yearCheck(year){
   if(pills('assist').join() !== 'opt,std,std,std') fails.push(`driver-assist bundle marks ${pills('assist').join()}; expected opt,std,std,std`);
   const notes = [...document.querySelectorAll('#f-assist .avail .note')].map(n=>txt(n));
   if(notes.length > 1) fails.push(`driver-assist bundle has notes beyond the XLE Premium's package: ${notes.join(' | ')}`);
-  const above = [...document.querySelectorAll('main > section')].filter(s=>!['specs','dealer'].includes(s.id));
+  const above = [...document.querySelectorAll('main > section')].filter(s=>s.id!=='specs');
   above.forEach(s=>{ if(s.querySelector('.pill.nl')) fails.push(`"Not listed" pill in #${s.id}`); });
   const chipSafety = document.querySelector('#chips [data-id="safety"]');
   const wasOn = chipSafety?.getAttribute('aria-pressed')==='true';
   if(chipSafety && !wasOn) chipSafety.click();
   if(document.querySelector('#scores .pill.nl')) fails.push('priority cards show "Not listed" for the driver-assist bundle');
   if(chipSafety && !wasOn) chipSafety.click();
-  if(/Driver Monitor|driver-assist bundle/.test(txt(document.querySelector('#checklist')))) fails.push('dealer checklist still asks about the Plug-in driver-assist bundle');
 
   // Price steps: every "+$N over the X" chip under a hero car, and every step-up heading, matches the
   // difference between the two prices shown, and each chip names the same comparison the step-ups make.

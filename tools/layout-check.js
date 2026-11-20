@@ -759,5 +759,11 @@ window.layoutCheck = function layoutCheck(){
   //     prices (David cut it).
   document.querySelectorAll('#specs .tagged, #specs .spec-more').forEach(el => fails.push(`#specs: a note sits under the spec list ("${el.textContent.trim().slice(0, 40)}...")`));
 
+  // 34. The page ends with the spec list: no dealer-questions section, no checklist, no print button, and no
+  //     nav link to them (David cut them).
+  if(document.querySelector('#dealer, #checklist, .print-btn')) fails.push('the dealer questions, checklist or print button is still on the page');
+  if(document.querySelector('a[href="#dealer"]')) fails.push('a link to the dealer questions is still on the page');
+  if(document.querySelector('main > section:last-of-type')?.id !== 'specs') fails.push(`the last section is #${document.querySelector('main > section:last-of-type')?.id}; expected the spec list`);
+
   return fails;
 };
