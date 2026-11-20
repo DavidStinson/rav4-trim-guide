@@ -883,9 +883,16 @@ window.layoutCheck = function layoutCheck(){
     const cs = getComputedStyle(card), c = card.getBoundingClientRect(), box = c.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
     const p = panel.getBoundingClientRect(), s = svg.getBoundingClientRect();
     if(Math.abs(p.width - box) > 1) fails.push(`#f-${id}: drawing panel is ${Math.round(p.width)}px wide at ${W}px; expected the card's ${Math.round(box)}px content width`);
-    if(id !== 'screen' && s.width < 2 * s.height) fails.push(`#f-${id}: drawing is ${Math.round(s.width)}x${Math.round(s.height)} at ${W}px; expected at least twice as wide as tall`);
+    if(id !== 'screen' && !(id === 'hud' && W < 641) && s.width < 2 * s.height) fails.push(`#f-${id}: drawing is ${Math.round(s.width)}x${Math.round(s.height)} at ${W}px; expected at least twice as wide as tall`);
     if(id === 'hud') {
       if(!svg.querySelector('.nav-arrow')) fails.push('#f-hud: the drawing has no navigation arrow, though the copy mentions one');
+      // On a phone the whole windshield would shrink the readings to about 6px, so the drawing crops in
+      // closer (David): the speed reads at least 24px tall and the whole display stays in view.
+      if(W < 641){
+        const big = svg.querySelector('.hud-speed')?.getBoundingClientRect(), box = svg.querySelector('.hud-box')?.getBoundingClientRect();
+        if(!big || big.height < 24) fails.push(`#f-hud: the speed reads ${big ? Math.round(big.height) : 0}px tall at ${W}px; crop in so it's at least 24px`);
+        if(!box || box.left < s.left - 1 || box.right > s.right + 1) fails.push(`#f-hud: the display is cut off by the phone crop at ${W}px`);
+      }
       // David: the speed differs from the limit, so the two readings can't be mistaken for one; and a caption
       // says the shaded box behind them is only there for the drawing.
       const sp = svg.querySelector('.hud-speed')?.textContent.trim(), lim = svg.querySelector('.hud-limit')?.textContent.trim();
