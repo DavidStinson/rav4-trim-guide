@@ -278,7 +278,6 @@ const PKG = (()=>{
   const firstPaint = t=>Object.keys(COLORS[t].paint).find(c=>COLORS[t].paint[c]===0);
   const priceTxt = n=>n ? '+'+money(n) : 'Included';
   const swatch = hex=>hex.length>1 ? `linear-gradient(${hex[0]} 0 38%, ${hex[1]} 38%)` : hex[0];
-  const cap = s=>s[0].toUpperCase()+s.slice(1);
 
   // Restore the last pick only if it still names a real combination.
   const saved = store.get('rav4-colors',{});
@@ -368,22 +367,21 @@ const PKG = (()=>{
   }
 
   // Moving to another model: keep the paint if it's offered, else the same color with or without the
-  // black roof, else the first included paint. Seats work the same way.
+  // black roof, else the first included paint. Seats work the same way. When either changes, one plain
+  // message says which (the picker itself shows what it changed to).
   function switchModel(to){
     if(to===st.t) return;
-    const from = st.t, c = COLORS[to], name = trimOf(to).name, msgs = [];
+    const from = st.t, c = COLORS[to];
     const old = PAINTS[st.paint];
     let paint = st.paint in c.paint ? st.paint : Object.keys(c.paint).find(k=>PAINTS[k].fam===old.fam);
-    if(!paint){ paint = firstPaint(to); msgs.push(`${old.name} isn't offered on the ${name}, so this shows ${PAINTS[paint].name}.`); }
-    else if(paint!==st.paint) msgs.push(PAINTS[paint].roof
-      ? `The ${name} has ${old.fam} only with a black roof (${priceTxt(c.paint[paint])}).`
-      : `The ${name} has ${old.fam} without the black roof (${priceTxt(c.paint[paint]).toLowerCase()}).`);
+    if(!paint) paint = firstPaint(to);
     const oldSeat = seatOf(from, st.int), fam = seatFam(from, st.int);
     let int = st.int in c.int ? st.int : Object.keys(c.int).find(k=>seatFam(to,k)===fam);
-    // A second sentence about the same model says "its" or "either" rather than naming it again.
-    const again = msgs.length>0;
-    if(!int){ int = Object.keys(c.int)[0]; msgs.push(`${cap(oldSeat.say)} seats aren't offered on the ${name}${again?' either':''}, so this shows ${seatOf(to,int).say} seats.`); }
-    else if(seatOf(to,int)!==oldSeat) msgs.push(`${again?'Its':`The ${name}'s`} seats are ${seatOf(to,int).say} rather than ${oldSeat.say}.`);
+    if(!int) int = Object.keys(c.int)[0];
+    const kind = [paint!==st.paint && 'paint', seatOf(to,int)!==oldSeat && 'interior'].filter(Boolean).join(' and ');
+    // Trim names don't break across lines ("XLE / Premium").
+    const nm = id=>trimOf(id).name.replace(/ /g,'\u00a0');
+    const msgs = kind ? [`The ${nm(to)} doesn't have the same ${kind} options as the ${nm(from)} you had picked. This shows the closest match.`] : [];
     Object.assign(st, {t:to, paint, int}); note = msgs.join(' '); noteSeen = false;
     warm(to); render();
   }
