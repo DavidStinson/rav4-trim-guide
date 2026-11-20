@@ -1018,5 +1018,13 @@ window.layoutCheck = function layoutCheck(){
     const tops = new Set([...r.getClientRects()].map(x => Math.round(x.top)));
     if(tops.size > 1) fails.push(`spec section "${n.closest('summary').textContent.trim().replace(/\s+/g, ' ')}": its row count wraps at ${W}px`);
   });
+  // 45. The spec search box's placeholder fits the box at every width, so it's never cut off mid-word.
+  const search = document.getElementById('specSearch');
+  if(search && visible(search)){
+    const cs = getComputedStyle(search), ctx = document.createElement('canvas').getContext('2d');
+    ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const room = search.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), need = ctx.measureText(search.placeholder).width;
+    if(need > room) fails.push(`spec search placeholder needs ${Math.round(need)}px in a ${Math.round(room)}px box at ${W}px`);
+  }
   return fails;
 };
