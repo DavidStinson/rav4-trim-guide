@@ -87,6 +87,14 @@ window.yearCheck = function yearCheck(year){
   // 6. Feature text reads that year's numbers.
   const plug = txt(document.querySelector('#f-plugin'));
   EXPECT.featText.forEach(s=>{ if(!plug.includes(s)) fails.push(`Plug-in feature lacks "${s}"`); });
+  // 6b. Charging at home is a given for this reader (David: "the ability to charge is not a concern"), so no
+  //     copy hedges on whether she can plug in.
+  const page = document.body.innerText;
+  [/(if|and) you can (charge|plug in)/i, /can[’']t (charge|plug in)/i, /somewhere to plug in/i, /without that, it[’']s a heavier hybrid/i].forEach(re=>{
+    const m = page.match(re); if(m) fails.push(`copy hedges on charging at home: "${m[0]}"`);
+  });
+  // The priority card label shows only after a pick, so read it from the data.
+  if(typeof SPECIAL !== 'undefined' && SPECIAL.mpg.label !== 'Uses the least gas') fails.push(`least-gas priority reads "${SPECIAL.mpg.label}"; expected "Uses the least gas"`);
 
   // 7b. The fuel-cost sliders start at David's figures: gas at $3.50 a gallon, home electricity at 12¢ a kWh.
   const kwhIn = document.querySelector('#evKwh'), gasIn = document.querySelector('#evGas');
