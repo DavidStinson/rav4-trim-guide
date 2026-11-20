@@ -27,13 +27,16 @@ window.layoutCheck = function layoutCheck(){
     fails.push(`section nav overflows at ${W}px: ${nav.scrollWidth}px of links in ${nav.clientWidth}px`);
 
   // 3. On a wide desktop, every slider shows all four trims side by side with no arrows where four fit:
-  //    the hero always, the package ladders and priority cards once their row is wide enough for four
-  //    cards at their data-sl-col width. Where four don't fit, a next arrow shows (check 6 tries it).
+  //    the hero always, the package ladders and priority cards whenever the window has room for four
+  //    cards at their data-sl-col width plus three 20px gaps inside the 24px gutters (David: "show all
+  //    the columns at once, when the screen width will allow"). Where four don't fit, a next arrow
+  //    shows (check 6 tries it). The room is measured from the window, not the slider, so a slider
+  //    held too narrow by the page fails here rather than skipping.
   if(W >= 1280) sliders.forEach((sl, i) => {
     const items = [...sl.querySelector('.sl-track').children];
     if(!items.length) return;
     const col = +sl.dataset.slCol || 0;
-    if(col && sl.clientWidth < 4 * col + 3 * 20) return;
+    if(col && document.documentElement.clientWidth - 2 * 24 < 4 * col + 3 * 20) return;
     const out = items.filter(el => el.classList.contains('sl-out')).length;
     const btns = [...sl.querySelectorAll('.sl-btn')].filter(visible).length;
     const box = sl.querySelector('.sl-view').getBoundingClientRect();
@@ -164,12 +167,13 @@ window.layoutCheck = function layoutCheck(){
 
   // 8. Two page widths (REVIEW-DECISIONS.md, "two page widths"). Text sits in one centered reading
   //    column of 1,060px. The rows that compare four trims (hero cars, priority cards, package ladders,
-  //    spec table) break out wider, up to 1,372px, when the window allows; below about 1,100px the two
-  //    match. Every section heading starts on the reading column's left edge. The top bar stops at 1420px.
-  const READ = 1060, WIDE = 1372, vw = document.documentElement.clientWidth;
+  //    spec table) break out wider, up to 1,420px (four 340px cards and three 20px gaps, check 3), when
+  //    the window allows; below about 1,100px the two match. Every section heading starts on the reading
+  //    column's left edge. The top bar spans the wide width plus its gutters.
+  const READ = 1060, WIDE = 1420, vw = document.documentElement.clientWidth;
   const content = el => { const r = el.getBoundingClientRect(), cs = getComputedStyle(el); return { left: r.left + parseFloat(cs.paddingLeft), right: r.right - parseFloat(cs.paddingRight) }; };
   const wrapW = Math.round(document.querySelector('.topbar .wrap').getBoundingClientRect().width);
-  if(wrapW > 1420) fails.push(`top bar is ${wrapW}px wide at ${W}px; at most 1420`);
+  if(wrapW > WIDE + 48) fails.push(`top bar is ${wrapW}px wide at ${W}px; at most ${WIDE + 48}`);
   const col = content(document.querySelector('#steps > .wrap'));
   const colW = Math.round(col.right - col.left);
   if(colW > READ + 1) fails.push(`reading column is ${colW}px wide at ${W}px; at most ${READ}`);
