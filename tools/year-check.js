@@ -80,8 +80,8 @@ window.yearCheck = function yearCheck(year){
   if(diffBox && diffBox.checked){ diffBox.checked = false; diffBox.dispatchEvent(new Event('change')); }
   const specs = txt(document.querySelector('#specList'));
   EXPECT.specText.forEach(s=>{ if(!specs.includes(s)) fails.push(`spec list lacks "${s}"`); });
-  const merged = document.querySelectorAll('#specList details.tw').length;
-  const wanted = SPEC_MERGES.filter(m=>!m.years || m.years.includes(year)).length;
+  const merged = document.querySelectorAll('#specList tr.merged').length;
+  const wanted = SPEC_MERGES.filter(m=>(!m.years || m.years.includes(year)) && !(typeof SPEC_CUTS !== 'undefined' && SPEC_CUTS.has(m.label))).length;
   if(merged !== wanted) fails.push(`${merged} merged spec rows, expected ${wanted} (a merge didn't find Toyota's ${year} wording)`);
 
   // 6. Feature text reads that year's numbers.
@@ -246,6 +246,57 @@ window.yearCheck = function yearCheck(year){
     const got = req ? txt(req).trim() : '';
     if(got !== want) fails.push(`${id} package "${k.name}" note reads "${got}"; expected "${want}"`);
   }));
+
+  // 14. The spec list in plain words (David's sweep). With every row showing:
+  //     - no "Not listed": the Plug-in XSE has the shift-linked door locks and the silver door handles (David);
+  //     - one lead line and no Toyota sub-headings; a heading's unit moves into its rows' names;
+  //     - the too-technical rows are gone, and long Toyota names read plainly, Toyota's own words one click away;
+  //     - no notes about which Toyota page says what.
+  {
+    const box = document.querySelector('#diffOnly');
+    if(box && box.checked){ box.checked = false; box.dispatchEvent(new Event('change')); }
+    const head = document.querySelector('#specs .sec-head');
+    const paras = [...head.querySelectorAll('p')].map(p=>txt(p).trim());
+    if(paras.join(' | ') !== 'Everything Toyota lists for these four trims.') fails.push(`spec list intro reads "${paras.join(' | ')}"; expected one line, "Everything Toyota lists for these four trims."`);
+    if(document.querySelector('.pill.nl') || /Not listed/.test(txt(document.querySelector('#specList')))) fails.push('the spec list still shows "Not listed"');
+    if(document.querySelector('#specList tr.sub')) fails.push(`the spec list still shows Toyota's sub-headings: ${[...document.querySelectorAll('#specList tr.sub')].map(t=>txt(t).trim()).join(', ')}`);
+    const rows = [...document.querySelectorAll('#specList tbody tr')];
+    const name = tr => txt(tr.querySelector('.lab .ln')).trim();
+    const byName = Object.fromEntries(rows.map(tr=>[name(tr), tr]));
+    const cells = n => [...(byName[n]?.querySelectorAll('td.c') || [])].map(c=>txt(c).trim());
+    ['Doors lock when you shift out of Park','Silver inside door handles'].forEach(n=>{
+      if(cells(n).join('|') !== 'Included|Included|Included|Included') fails.push(`"${n}" reads ${cells(n).join(', ') || 'missing'}; expected Included on all four`);
+    });
+    const cut = ['Rain-sensing variable intermittent windshield wipers with de-icer function','Final drive gear ratio','Final gear ratio','Electric motor output (front/rear)',
+      'Automatic CVT fluid warmer','Systems max voltage: 650V','Cargo minimum/maximum height','Cargo minimum/maximum width','Head room with moonroof (max)',
+      'EPA passenger volume','EPA passenger volume w/o moonroof','Payload (lb.)','Gross Vehicle Weight Rating (GVWR) (lb.)'];
+    cut.forEach(n=>{ if(byName[n]) fails.push(`spec row "${n}" should be cut`); });
+    const plain = {2027:['Remote Connect app (lock, start and find the car)','Drive Connect (cloud navigation and voice assistant)','Doors lock when you shift out of Park',
+        'Head-up display','Overhead console with map lights','Overhead console with map lights, plus moonroof buttons','Footwell lighting','Cupholder lighting','Dash shelf lighting',
+        '360° camera','Plug-in drive modes (Sport, Eco, Normal, EV, Snow)','DC fast charging','Charging cable for regular and 240-volt outlets','Tesla-style charging port (NACS)',
+        '11 kW onboard charger','Silver inside door handles','Non-slip dash trays','Blue stitching','Silver dash, soft-touch panels, leather armrests',
+        'Cargo space behind the back seat (cu. ft.)'],
+      2026:['Remote Connect app (lock, start and find the car)','Drive Connect (cloud navigation and voice assistant)','Safety Connect (emergency button, roadside help and crash alerts)',
+        'Service Connect (maintenance reminders)','Doors lock when you shift out of Park','Head-up display','360° camera','Plug-in drive modes (Sport, Eco, Normal, EV, Snow, Trail)',
+        'Fast-charging port (CCS1, driver’s side)','Charging cable for regular and 240-volt outlets','Cargo space behind the back seat (cu. ft.)']}[year];
+    plain.forEach(n=>{ if(!byName[n]) fails.push(`spec list has no row named "${n}"`); else if(!byName[n].querySelector('details.tw')) fails.push(`"${n}" doesn't keep Toyota's wording one click away`); });
+    // Units from Toyota's dropped sub-headings, and front/back for the two-number rows.
+    ['Overall length (in.)','Overall width (in.)','Overall height (in.)','Wheelbase (in.)','Cargo length behind the back seat (in.)',
+     'Hip room, front/back seat (in.)','Leg room, front/back seat (in.)','Shoulder room, front/back seat (in.)'].forEach(n=>{ if(!byName[n]) fails.push(`spec list has no row named "${n}"`); });
+    const common = {'Outside mirrors':'Heated and power-adjusted, with turn signals, on all four.','Steering wheel':'Leather-trimmed, tilts and telescopes, on all four.',
+      'Center console':'Covered storage and two cupholders on all four.','Touchscreen and speakers':'Wireless Apple CarPlay and Android Auto on all four.',
+      'Wireless phone charging':'','Interior lights':''};
+    Object.entries(common).forEach(([n, want])=>{ const got = txt(byName[n]?.querySelector('.common')).trim(); if(got !== want) fails.push(`"${n}" line under its name reads "${got}"; expected "${want}"`); });
+    const want = {'Bumper and fender trim':[3,'Glossy black lower front bumper and fender flares'],'Power liftgate':[1,'Opens hands-free with a foot swipe'],
+      'Interior lights':[3,'Front map lights'],'Seats':[3,'Same as XSE'],'Hybrid battery':[3,'22.7 kWh lithium-ion, much larger'],
+      'Blind spot warning':[3, year===2027 ? 'All three' : 'Blind Spot Monitor and Rear Cross-Traffic Alert'],
+      'Seats\u00a0':[1,'Adds cooled seats, a memory driver’s seat, a power passenger seat and suede-like inserts.']};
+    if(year===2027) want['Center console'] = [3,'Snow, Normal and EV buttons'];
+    Object.entries(want).forEach(([n,[i,w]])=>{ const got = cells(n.trim())[i]; if(got !== w) fails.push(`"${n.trim()}" ${TRIMS[i].name} cell reads "${got}"; expected "${w}"`); });
+    if(/Toyota doesn’t|Toyota’s (2026 )?Plug-in page|Mixed Media|per Toyota Canada|Toyota lists|Qi-compatible/.test(rows.map(tr=>txt(tr.querySelector('.lab .ln'))+' '+txt(tr.querySelector('.lab .common'))+' '+[...tr.querySelectorAll('td.c')].map(txt).join(' ')).join(' ')))
+      fails.push('the spec list still says which Toyota page says what');
+    box.checked = true; box.dispatchEvent(new Event('change'));
+  }
 
   return fails;
 };
