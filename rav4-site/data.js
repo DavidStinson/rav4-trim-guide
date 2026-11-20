@@ -63,6 +63,8 @@ const DESTINATION = 1595;
 const START = Object.fromEntries(TRIM_IDS.map(id=>[id, F.base[id]+DESTINATION]));
 const HYBRID_IDS = ['xle','xse','ltd'];
 const HYBRID_NAMES = {xle:'XLE Premium', xse:'XSE', ltd:'Limited'};
+// A chip's check mark (priority picker and outlet demo), drawn as a path centered in its 12px box so it sits in the middle of the chip's circle.
+const TICK = '<svg viewBox="0 0 12 12"><path d="M2.5 6.2 5 8.5 9.5 3.5"/></svg>';
 const money = n=>'$'+n.toLocaleString('en-US');
 // "41 mpg", or "40 to 41 mpg" when the Hybrids differ.
 const hybridMpgRange = (f=F)=>{
@@ -171,7 +173,7 @@ const FEATURES = [
    aka:'Heated and ventilated front seats (high-mid-low)',
    what:'Small fans inside the front seats pull air through tiny holes in the seat covering. In summer it stops your back and legs from getting hot and sticky. The seats are also heated, with three levels instead of two.',
    why:'If you live somewhere warm, people who have cooled seats tend to say they would never go without them again. All four have heated front seats; the XLE Premium is the only one that doesn’t also cool.',
-   trims:[['no','Heated only (2 levels)'],['std'],['std'],['std']], layout:'beside', img:'RHV_MY26_0039', cap:'The perforated seat covering lets the fans move air through it.'},
+   trims:[['no','Heated only (2 levels)'],['std'],['std'],['std']], layout:'beside', img:'RHV_MY26_0039', alt:'Close-up of a RAV4 front seat back, its leather covering dotted with tiny ventilation holes'},
   {id:'rearheat', group:'Comfort', name:'Heated back seats',
    aka:'Heated rear seats (on-off)',
    what:'The two outer back seats have their own heaters, with a switch for back-seat passengers.',
@@ -208,19 +210,19 @@ const FEATURES = [
    aka:'9-speaker JBL® Premium Audio with subwoofer and amplifier',
    what:'Nine speakers instead of six, including a subwoofer for deeper bass and a separate amplifier for more power.',
    why:'If music, audiobooks or talk radio are a big part of your drives, voices and instruments sound clearer and fuller. If the radio is mostly background, you may not notice much difference.',
-   trims:[['no','6 speakers'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)'],['std'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)']], layout:'beside', img:'RHV_MY26_0049', cap:'One of the JBL speakers, mounted by the windshield pillar.'},
+   trims:[['no','6 speakers'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)'],['std'],['opt','JBL Premium Audio Package: $620 ($995 with the Weather Package it requires)']], layout:'beside', img:'RHV_MY26_0049', alt:'A round JBL speaker grille set into the trim at the base of the windshield pillar', cap:'One of the JBL speakers, by the windshield pillar.'},
   {id:'charge', group:'Screen and sound', name:'Wireless phone charging for two',
    aka:'Dual Qi-compatible wireless charging',
    what:'Set your phone on a pad in the console and it charges with no cable. The Limited has two pads, so the driver and passenger can both charge at once.',
    why:'All four have one pad. Two only matters if you regularly ride with someone whose phone also needs a charge.',
-   trims:[['no','1 pad'],['no','1 pad'],['std','2 pads'],['no','1 pad']], layout:'beside', img:'RHV_MY27_0010', cap:'The charging tray sits below the climate controls.'},
+   trims:[['no','1 pad'],['no','1 pad'],['std','2 pads'],['no','1 pad']], layout:'beside', img:'RHV_MY27_0010', alt:'Wireless phone charging tray in the RAV4 center console, under the climate control buttons', cap:'The charging tray sits below the climate controls.'},
 
   /* ---------- Convenience ---------- */
   {id:'liftgate', group:'Convenience', name:'Hands-free tailgate',
    aka:'Hands-free power liftgate with jam protection',
    what:'With the key in your pocket or purse, swing your foot under the middle of the back bumper and the tailgate opens by itself. All four have a power tailgate that opens with a button; every trim except the XLE Premium adds the foot sensor.',
    why:'Wonderful when your arms are full of groceries. The XLE Premium’s power tailgate also lets you set how high it opens, which helps in a low garage.',
-   trims:[['no','Power tailgate with button'],['std'],['std'],['std']], layout:'beside', img:'RHV_MY26_0045', cap:'A kick under the bumper opens the tailgate.'},
+   trims:[['no','Power tailgate with button'],['std'],['std'],['std']], layout:'beside', img:'RHV_MY26_0045', alt:'A person with full hands swinging a foot under the RAV4 rear bumper as the tailgate lifts', cap:'Swing a foot under the bumper and the tailgate opens.'},
   {id:'lights', group:'Convenience', name:'Puddle lights and soft cabin lighting',
    aka:'Puddle lights in outside mirrors; white ambient illuminated foot wells',
    what:'Puddle lights are small lights under the side mirrors that light up the ground by the front doors when you unlock the car. Ambient lighting is a soft glow in the footwells and cupholders at night.',
@@ -242,7 +244,7 @@ const FEATURES = [
    aka:'Two-tone paint, LED accent lights, fog lights, trim colors',
    what:'The <b>XSE</b> is the sporty-looking one: glossy black trim, vertical LED accent lights in the front bumper, blue stitching inside, and an optional black roof (two-tone paint). The <b>Plug-in XSE</b> looks almost the same. The <b>Limited</b> looks more upscale with silver accents, a satin-chrome grille and LED fog lights. The <b>XLE Premium</b> has a simpler, rugged look with matte black lower trim.',
    why:'Purely a matter of taste. Look at them in person, ideally in the color you want.',
-   trims:[['std','Simple, rugged'],['std','Sporty, two-tone option'],['std','Upscale, fog lights'],['std','Sporty, two-tone option']], layout:'beside', img:'RHV_MY26_0016', cap:'The Limited, shown in Storm Cloud, with its silver lower bumper.',
+   trims:[['std','Simple, rugged'],['std','Sporty, two-tone option'],['std','Upscale, fog lights'],['std','Sporty, two-tone option']], layout:'beside', img:'RHV_MY26_0016', alt:'Rear of a blue-gray RAV4 Limited parked on a beach, showing its silver lower bumper', cap:'The Limited in Storm Cloud, with its silver lower bumper.',
    shots:{title:'All four in white, front and back', views:[['ext','front'],['rear','back']],
      imgs:['4444-0089','4530-02VP','4534-0089','4550-02VP'],
      caps:['Matte black lower trim and dark wheels.','Black roof, black wheels, LED accent lights in the bumper.','Silver accents and fog lights.','Same sporty look as the Hybrid XSE.']}},

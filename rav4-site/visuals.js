@@ -52,14 +52,14 @@ VIS.cameraDemo = ()=>{
     <!-- coverage overlays -->
     <g id="ovBack" class="ov" style="transition:opacity .35s">
       <rect width="600" height="460" fill="url(#hatch)" opacity=".62" mask="url(#mBack)"/>
-      <path d="M308 282 L128 460 L488 460 Z" fill="#F2B705" opacity=".22"/>
+      <path class="view-zone" d="M308 282 L128 460 L488 460 Z" fill="#F2B705" opacity=".22"/>
       <path d="M308 282 L128 460 M308 282 L488 460" stroke="#F2B705" stroke-width="3" stroke-dasharray="8 6"/>
-      <circle cx="308" cy="282" r="7" fill="#F2B705" stroke="#202427" stroke-width="2"/>
+      <circle class="cam-dot" cx="308" cy="282" r="7" fill="#202427" stroke="#FFFFFF" stroke-width="2.5"/>
     </g>
     <g id="ov360" class="ov" style="transition:opacity .35s;opacity:0">
       <rect width="600" height="460" fill="url(#hatch)" opacity=".62" mask="url(#m360)"/>
-      <rect x="150" y="6" width="340" height="446" rx="70" fill="#F2B705" opacity=".16" stroke="#F2B705" stroke-width="3" stroke-dasharray="8 6"/>
-      ${[[308,46],[308,282],[254,90],[362,90]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="7" fill="#F2B705" stroke="#202427" stroke-width="2"/>`).join('')}
+      <rect class="view-zone" x="150" y="6" width="340" height="446" rx="70" fill="#F2B705" opacity=".16" stroke="#F2B705" stroke-width="3" stroke-dasharray="8 6"/>
+      ${[[308,46],[308,282],[254,90],[362,90]].map(([x,y])=>`<circle class="cam-dot" cx="${x}" cy="${y}" r="7" fill="#202427" stroke="#FFFFFF" stroke-width="2.5"/>`).join('')}
     </g>
     <!-- markers -->
     ${objs.map(o=>`<g class="mk" data-n="${o.n}"><circle cx="${o.x}" cy="${o.y}" r="16" fill="${o.c}" stroke="#fff" stroke-width="3"/><text x="${o.x}" y="${o.y+6}" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="17" fill="#fff">${o.n}</text></g>`).join('')}
@@ -71,15 +71,15 @@ VIS.cameraDemo = ()=>{
       <button type="button" data-mode="360" aria-pressed="false">360° camera (the other three)</button>
     </div>
     <div class="demo-cols">
-      <div>${svg}<p class="cap" style="margin-top:8px">Yellow dots are cameras. The yellow zone is what you can see on the screen; the dark area is hidden.</p></div>
+      <div>${svg}<p class="cap" style="margin-top:8px">Black dots are cameras. The yellow area is what the screen shows.</p></div>
       <div style="display:grid;gap:12px;align-content:start">
         <div class="demo-summary" id="camSummary"></div>
         <ul class="seelist" id="camList">${objs.map(o=>`<li data-n="${o.n}"><span class="dot" style="background:${o.c}">${o.n}</span>${esc(o.label)}<span class="st"></span></li>`).join('')}</ul>
       </div>
     </div>
     <div class="photo-pair">
-      <figure><img ${photoAttrs('backup-edmunds', 'auto, (min-width: 700px) 660px, 90vw')} alt="RAV4 center screen in reverse, showing the street behind the car with yellow, red and green guide lines" loading="lazy"><figcaption>What the XLE Premium’s backup camera shows on its 10.5-inch screen: only the area straight behind the car, with guide lines that bend as you turn the wheel.</figcaption></figure>
-      <figure><img ${photoAttrs('RHV_MY27_0015', 'auto, (min-width: 700px) 660px, 90vw')} alt="RAV4 dashboard screen showing an overhead view of the car on the left and a 3D view of the car on the right" loading="lazy"><figcaption>What the 360° camera on the other three shows on the screen: the overhead view on the left and a 3D view you can rotate on the right.</figcaption></figure>
+      <figure><img ${photoAttrs('backup-edmunds', 'auto, (min-width: 700px) 660px, 90vw')} alt="RAV4 center screen in reverse, showing the street behind the car with yellow, red and green guide lines" loading="lazy"><figcaption>XLE Premium: the backup camera on the 10.5-inch screen. Guide lines bend as you turn the wheel.</figcaption></figure>
+      <figure><img ${photoAttrs('RHV_MY27_0015', 'auto, (min-width: 700px) 660px, 90vw')} alt="RAV4 dashboard screen showing an overhead view of the car on the left and a 3D view of the car on the right" loading="lazy"><figcaption>The other three: an overhead view (left) and a 3D view you can rotate (right).</figcaption></figure>
     </div>
   </div>`;
   return {html, init(root){
@@ -95,8 +95,8 @@ VIS.cameraDemo = ()=>{
         li.querySelector('.st').innerHTML = vis?pill('std','Visible'):pill('no','Hidden');
       });
       root.querySelector('#camSummary').innerHTML = mode==='back'
-        ? `<b>Backup camera:</b> you see ${seen} of 6, and only once you shift into reverse. To check that you’re between the lines, or how close the parking block is, you have to open the door and look.`
-        : `<b>360° camera:</b> you see all 6 from above, pulling in <i>and</i> backing out. One look at the screen shows you’re a bit close to the right-hand line and just short of the parking block, without opening a door.`;
+        ? `<b>Backup camera:</b> you see ${seen} of 6. To check the lines, you open the door and look.`
+        : `<b>360° camera:</b> you see all 6 from above, pulling in or backing out, without opening a door.`;
     };
     root.querySelector('.seg').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) set(b.dataset.mode);});
     set('back');
@@ -140,7 +140,7 @@ VIS.mirrorDemo = ()=>{
     const set=m=>{
       root.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===m));
       root.querySelector('#mirGlass').style.opacity = m==='glass'?1:0;
-      root.querySelector('#mirCap').textContent = m==='glass'?'Headrests, a passenger and boxes block most of the view':'Clear, wide view of the road behind you';
+      root.querySelector('#mirCap').textContent = m==='glass'?'Headrests, a passenger and boxes block most of the view':'Camera mode: the road behind, with nothing in the way';
     };
     root.querySelector('.seg').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) set(b.dataset.mode);});
     set('glass');
@@ -191,36 +191,41 @@ VIS.screenPair = ()=>{
 };
 
 // --- Wheels: sidewall comparison ---
-VIS.wheelDemo = ()=>({html:`
+// One list feeds the drawing, its accessible title and the labels under it, so they can't disagree.
+// [center x, name, what it means, rim radius, color]
+VIS.wheelDemo = ()=>{
+  const WHEELS = [[110,'18-inch wheel','Taller sidewall, softer ride',62,'var(--xle)'],[330,'20-inch wheel','Shorter sidewall, firmer ride',74,'var(--xse)']];
+  return {html:`
   <div class="mini-demo">
-    <svg viewBox="0 0 440 196" role="img" aria-labelledby="whT"><title id="whT">An 18-inch wheel has a taller tire sidewall than a 20-inch wheel of the same overall size</title>
-      ${[[110,'18-inch wheel','More rubber cushion: softer ride',62,'var(--xle)'],[330,'20-inch wheel','Thinner tire: sportier, firmer',74,'var(--xse)']].map(([cx,t,s,r,c])=>`
+    <svg viewBox="0 0 440 196" role="img" aria-labelledby="whT"><title id="whT">${WHEELS.map(([,t,s])=>`${t}: ${s.toLowerCase()}`).join('. ')}.</title>
+      ${WHEELS.map(([cx,,,r])=>`
         <circle cx="${cx}" cy="100" r="92" fill="#2B3034"/>
         <circle cx="${cx}" cy="100" r="${r}" fill="#A9B0B4" stroke="#fff" stroke-width="3"/>
         ${[0,72,144,216,288].map(a=>`<rect x="${cx-5}" y="${100-r+6}" width="10" height="${r-12}" rx="4" fill="#7C8488" transform="rotate(${a} ${cx} 100)"/>`).join('')}
         <circle cx="${cx}" cy="100" r="14" fill="#5B6168"/>
         <path d="M${cx+r} 100 H${cx+92}" stroke="var(--lane)" stroke-width="5"/>`).join('')}
     </svg>
-    <div class="wheel-caps">${[['18-inch wheel','More rubber cushion: softer ride','var(--xle)'],['20-inch wheel','Thinner tire: sportier, firmer','var(--xse)']].map(([t,s,c])=>`<p style="--c:${c}"><b>${t}</b>${s}</p>`).join('')}</div>
-    <p class="cap" style="margin:0">Same overall tire height, different wheel size. The yellow line marks the tire sidewall that cushions bumps.</p>
-  </div>`});
+    <div class="wheel-caps" aria-hidden="true">${WHEELS.map(([,t,s,,c])=>`<p style="--c:${c}"><b>${t}</b>${s}</p>`).join('')}</div>
+    <p class="cap" style="margin:0">Same overall tire height. The yellow line marks the sidewall, the rubber that cushions bumps.</p>
+  </div>`};
+};
 
 // --- Roof options: the same interior photo from Toyota's build tool for each trim ---
 VIS.roofPhotos = ()=>{
   const MODES = {
     solid:{label:'Solid roof', img:'roof-xle', alt:'XLE Premium interior with a solid roof',
-      text:'<b>XLE Premium, as standard:</b> a solid roof. Light comes in only through the windows.'},
+      text:'<b>XLE Premium, as standard:</b> a solid roof. The panoramic roof is available as a package.'},
     sun:{label:'Regular sunroof', img:'roof-xse', alt:'XSE interior with a regular sunroof over the front seats',
       text:'<b>Both XSEs, as standard:</b> a glass panel over the front seats that tilts up or slides back. The back seat stays under a solid roof.'},
     pano:{label:'Panoramic roof', img:'roof-ltd', alt:'Limited interior with a panoramic glass roof over both rows',
-      text:'<b>Limited, or as a package on the others:</b> glass over both rows. The front section opens and the back stays fixed. A power shade slides across underneath at the press of a button when you want to block the sun.'},
+      text:'<b>Limited, or as a package on the others:</b> glass over both rows. The front section opens and the back stays fixed. A power shade closes underneath to block the sun.'},
   };
   const html = `
   <div class="demo">
     <div class="seg" role="group" aria-label="Roof type">
       ${Object.entries(MODES).map(([k,m],i)=>`<button type="button" data-mode="${k}" aria-pressed="${i===0}">${m.label}</button>`).join('')}
     </div>
-    <figure class="roof-photo"><img id="roofImg" ${photoAttrs(MODES.solid.img, 'auto, (min-width: 1100px) 1330px, 90vw')} alt="${MODES.solid.alt}" loading="lazy"><figcaption id="roofCap"></figcaption></figure>
+    <figure class="roof-photo"><img id="roofImg" ${photoAttrs(MODES.solid.img, 'auto, (min-width: 1100px) 1330px, 90vw')} alt="${MODES.solid.alt}" loading="lazy"></figure>
     <div class="demo-summary" id="roofSummary" aria-live="polite"></div>
   </div>`;
   return {html, init(root){
@@ -231,7 +236,6 @@ VIS.roofPhotos = ()=>{
       root.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===k));
       setPhoto(img, m.img); img.alt=m.alt;
       const zb=img.closest('.zoom'); if(zb) zb.setAttribute('aria-label','Expand photo: '+m.alt);
-      root.querySelector('#roofCap').textContent = m.alt+'.';
       root.querySelector('#roofSummary').innerHTML = m.text;
     };
     root.querySelector('.seg').addEventListener('click',e=>{const b=e.target.closest('button'); if(b) set(b.dataset.mode);});
@@ -258,7 +262,7 @@ VIS.evDemo = ()=>{
     <div class="ev-bar" aria-hidden="true"><span class="e"></span><span class="g"></span></div>
     <div class="ev-key" aria-hidden="true"><span><i style="background:var(--phv)"></i>On electricity</span><span><i style="background:var(--no)"></i>On gas, as a regular hybrid</span></div>
     <p class="demo-summary" id="evSum" aria-live="polite"></p>
-    <p class="note" style="margin:0">Starting each day with a full charge, using Toyota’s EPA estimates: ${RANGE} miles on electricity, then ${MPG_PHEV} mpg. Cold weather, highway speeds and running the heater shorten the electric range.</p>
+    <p class="note" style="margin:0">Assumes a full charge each morning and Toyota’s EPA estimates: ${RANGE} miles on electricity, then ${MPG_PHEV} mpg. Cold weather, highway speeds and the heater shorten the electric range.</p>
     <section class="ev-block" aria-labelledby="chgT">
       <h5 id="chgT">How long charging takes, from empty to full</h5>
       <div class="cost-rows chg-rows" id="chgRows">
@@ -270,7 +274,7 @@ VIS.evDemo = ()=>{
         <li><b>240 V, 20 amps.</b> An electrician adds a 240-volt circuit and a wall charger. The smaller circuit costs less and can fit when the electrical panel is nearly full.</li>
         <li><b>240 V, 40 amps.</b> A bigger circuit, the size an electric stove uses. The car’s cable also works on a 240-volt outlet, or use a wall charger.</li>
       </ul>
-      <p class="note" style="margin:0">Worked out from Toyota’s EPA figures: a full charge takes about ${Math.round(CHARGE.wallKwh*10)/10} kWh from the wall, plus about 10% because the last stretch of a charge goes slower. A charger can draw only 80% of a circuit’s rating for hours at a time, so a 20-amp circuit charges at 16 amps and a 40-amp circuit at 32. The car itself can take up to 11 kW, more than any of these supply, so the outlet sets the speed. Cold weather slows charging.</p>
+      <p class="note" style="margin:0">From Toyota’s EPA figures: about ${Math.round(CHARGE.wallKwh*10)/10} kWh from the wall for a full charge, plus 10% for the slower last stretch. A charger can draw only 80% of a circuit’s rating for hours at a time, so a 20-amp circuit charges at 16 amps and a 40-amp circuit at 32. The car can take more than any of these, so the outlet sets the speed. Cold weather slows charging.</p>
     </section>
     <section class="ev-block" aria-labelledby="evCostT">
       <h5 id="evCostT">Fuel cost over ${YEARS} years, against a Hybrid XSE</h5>
@@ -284,7 +288,7 @@ VIS.evDemo = ()=>{
         <div class="cost-row" style="--c:var(--phv)"><span>Plug-in XSE</span><span class="bar"><span id="evBarP"></span></span><b id="evCostP"></b></div>
       </div>
       <p class="demo-summary" id="evSave" aria-live="polite"></p>
-      <p class="note" style="margin:0">Uses the miles per day above and assumes you charge at home every night. Only gas and electricity are counted, not insurance, upkeep or rebates.</p>
+      <p class="note" style="margin:0">Uses the miles per day above and assumes you charge at home every night. Counts only gas and electricity, not insurance, upkeep or rebates.</p>
     </section>
   </div>`, init(root){
     const $in = id=>root.querySelector('#'+id);
@@ -359,13 +363,14 @@ VIS.outageDemo = ()=>{
   return {html:`
   <div class="demo outage-demo">
     <p class="ap-q" id="apQ">What would you plug in during an outage?</p>
-    <div class="chips ap-chips" role="group" aria-labelledby="apQ">${APPS.map(a=>`<button type="button" class="chip" data-id="${a.id}" aria-pressed="${!!a.on}"><span class="tick" aria-hidden="true">✓</span>${esc(a.name)} <small>${fmtW(a.w)}</small></button>`).join('')}</div>
+    <div class="chips ap-chips" role="group" aria-labelledby="apQ">${APPS.map(a=>`<button type="button" class="chip" data-id="${a.id}" aria-pressed="${!!a.on}"><span class="tick" aria-hidden="true">${TICK}</span>${esc(a.name)} <small>${fmtW(a.w)}</small></button>`).join('')}</div>
     <div class="ap-meter" aria-hidden="true">
       <div class="ap-track"><span class="ap-fill"></span></div>
       <div class="ap-scale"><span>Plugged in: <b id="apW"></b></span><span>Outlet limit: ${fmtW(LIMIT)}</span></div>
     </div>
     <p class="demo-summary" id="apSum" aria-live="polite"></p>
-    <p class="note" style="margin:0">A rough estimate. Toyota doesn’t say how much of the 22.7 kWh battery the outlet can use, so this assumes about ${OUTLET_KWH} kWh, worked out from Toyota’s ${F.range}-mile range and ${F.mpge} MPGe. Wattages are typical; the label on your own appliance gives the real number. The car has to be switched on for the outlet to work. On the earlier RAV4 Prime, Toyota’s manual says to let the engine run in Park to recharge a low battery, which would stretch this a long way on a tank of gas. If you ever do that, keep the car outdoors, never in a garage: engine exhaust is deadly indoors.</p>
+    <p class="note" style="margin:0">A rough estimate. Toyota doesn’t say how much of the 22.7 kWh battery the outlet can use, so this assumes about ${OUTLET_KWH} kWh, worked out from the ${F.range}-mile range and ${F.mpge} MPGe. Your appliance’s label gives its real wattage. The car has to be on for the outlet to work.</p>
+    <p class="note" style="margin:0">The engine can run in Park to recharge a low battery. If you do, keep the car outdoors. Engine exhaust is deadly in a garage.</p>
   </div>`, init(root){
     const chips=[...root.querySelectorAll('.ap-chips .chip')];
     const byId=Object.fromEntries(APPS.map(a=>[a.id,a]));

@@ -155,7 +155,7 @@ const VIEW = (function(){
 (function(){
   const chips = $('#chips'), scores = $('#scores'), legend = $('#pickLegend');
   let picked = new Set(store.get('rav4-picks',[]));
-  chips.innerHTML = PRIORITIES.map(p=>`<button type="button" class="chip" data-id="${p.id}" aria-pressed="${picked.has(p.id)}"><span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2 5 8.5 9.5 3.5"/></svg></span>${esc(p.label)}</button>`).join('');
+  chips.innerHTML = PRIORITIES.map(p=>`<button type="button" class="chip" data-id="${p.id}" aria-pressed="${picked.has(p.id)}"><span class="tick" aria-hidden="true">${TICK}</span>${esc(p.label)}</button>`).join('');
   chips.addEventListener('click',e=>{
     const b=e.target.closest('.chip'); if(!b) return;
     const id=b.dataset.id; picked.has(id)?picked.delete(id):picked.add(id);
@@ -494,7 +494,7 @@ const trio = s=>`<div class="trio"><h5>${esc(s.title)}</h5><div class="trio-grid
     ${FEATURES.filter(f=>f.group===g).map(f=>{
       let vis='', below='';
       if(f.visual){const v=VIS[f.visual](); vis=`<div class="f-vis" data-vis="${f.id}">${v.html}</div>`; if(v.init) inits.push([f.id,v.init]); below=v.below||'';}
-      else if(f.img){vis=`<div class="f-vis"><figure><img ${photoAttrs(f.img, 'auto, (min-width: 700px) 705px, 90vw')} alt="${esc(f.cap)}" loading="lazy"><figcaption>${esc(f.cap)}</figcaption></figure></div>`;}
+      else if(f.img){vis=`<div class="f-vis"><figure><img ${photoAttrs(f.img, 'auto, (min-width: 700px) 705px, 90vw')} alt="${esc(f.alt)}" loading="lazy">${f.cap?`<figcaption>${esc(f.cap)}</figcaption>`:''}</figure></div>`;}
       if(!['text','beside','below'].includes(f.layout) || (f.layout==='text')!==!vis) console.error(`feature ${f.id}: layout "${f.layout}" ${vis?'has':'lacks'} a picture; use text for none, beside or below for one.`);
       return `<article class="feature l-${f.layout}${f.compact?' compact':''}" data-layout="${f.layout}" id="f-${f.id}">
         <div class="f-text">
