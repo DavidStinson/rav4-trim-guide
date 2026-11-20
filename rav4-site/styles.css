@@ -471,6 +471,12 @@ section .wrap > :last-child{margin-bottom:0}
 .cp-ghost{visibility:hidden}
 .cp-note.on{background:var(--card);border-color:var(--rule)}
 .cp-note:not(.on) > p{visibility:hidden}
+/* The message sits beside the toggle where both fit (the toggle's 462px, a 20px gap, the message's 280px and
+   the header's 44px of padding), keeping its space so showing it moves nothing. Narrower, it drops under the
+   toggle, and there an empty reserved space read as a blank band (David), so it takes no room until it
+   shows (layout check 26). The query states the wrap point so the two can't disagree. */
+.cp{container:cp/inline-size}
+@container cp (max-width:805px){.cp-note{flex-basis:100%} .cp-note:not(.on){display:none}}
 .cp-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);border-top:1px solid var(--rule)}
 .cp-stage{margin:0;display:grid;place-items:center;padding:28px 24px;background:radial-gradient(120% 100% at 50% 20%,#FFFFFF,#DDE2DF 75%)}
 .cp-stage img{width:100%;max-width:680px;height:auto;aspect-ratio:680/296}
