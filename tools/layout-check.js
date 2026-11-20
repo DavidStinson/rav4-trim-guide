@@ -602,10 +602,15 @@ window.layoutCheck = function layoutCheck(){
         else if(tag && tag.getBoundingClientRect().bottom > text.getBoundingClientRect().top + 1) fails.push(`#${id}: tag should sit above the text at ${W}px`);
       });
       set(was);
+      // Each sits in a box of its own, filled with the page color rather than yellow (David: "bring
+      // those back ... just not yellow"), so the yellow stays on the tag.
+      const i = document.createElement('i'); i.style.cssText = 'position:absolute;background:var(--paper)'; box.parentElement.append(i);
+      const want = getComputedStyle(i).backgroundColor; i.remove();
+      const cs = getComputedStyle(box);
+      if(cs.backgroundColor !== want || parseFloat(cs.paddingLeft) < 12 || parseFloat(cs.borderTopLeftRadius) < 8) fails.push(`#${id}: expected a box filled with the page color ${want} (background ${cs.backgroundColor}, padding ${cs.paddingLeft}, radius ${cs.borderTopLeftRadius}) at ${W}px`);
     });
-    // These demo results are plain text, no box: the camera's heads its column, the roof's captions the
-    // photo, the plug-in demo's sit under their tags.
-    ['camSummary', 'roofSummary', 'evSum', 'chgSum', 'evSave'].forEach(id => {
+    // These demo results are plain text, no box: the camera's heads its column, the roof's captions the photo.
+    ['camSummary', 'roofSummary'].forEach(id => {
       const el = document.getElementById(id);
       if(!el) { fails.push(`demo result #${id} not found`); return; }
       const cs = getComputedStyle(el);
