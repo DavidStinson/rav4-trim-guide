@@ -837,5 +837,23 @@ window.layoutCheck = function layoutCheck(){
     if(first + word + 6 < cw) fails.push(`${what}: first line stops at ${Math.round(first)}px of ${Math.round(cw)}px at ${W}px, though "${s.slice(i, j)}" would fit`);
   });
 
+
+  // 37. Images take up the full width of the card where it's the only image (David). A card whose only
+  //     picture is one photo (no demo, drawing, second photo or row of trims) shows it under the copy, with
+  //     layout below, as wide as the card's content box: the card's width less its side padding. The photo
+  //     keeps its own shape, with no CSS crop (checked once it has loaded).
+  document.querySelectorAll('.feature').forEach(card => {
+    if(!visible(card)) return;
+    const imgs = [...card.querySelectorAll('img')];
+    if(imgs.length !== 1 || card.querySelector('.f-vis svg:not(.zi svg), .f-vis canvas, .demo, .mini-demo, .f-below, .trio')) return;
+    const img = imgs[0], copy = card.querySelector(':scope > .f-text'), cs = getComputedStyle(card);
+    const r = img.getBoundingClientRect(), c = card.getBoundingClientRect(), box = c.width - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    if(card.dataset.layout !== 'below') fails.push(`${card.id}: its only photo has layout "${card.dataset.layout}"; expected below`);
+    if(r.top < copy.getBoundingClientRect().bottom - 1) fails.push(`${card.id}: its only photo sits beside the copy at ${W}px; expected under it`);
+    if(Math.abs(r.width - box) > 1) fails.push(`${card.id}: its only photo is ${Math.round(r.width)}px wide at ${W}px; expected the card's ${Math.round(box)}px content width`);
+    if(img.complete && img.naturalWidth && Math.abs(r.height - r.width * img.naturalHeight / img.naturalWidth) > 1)
+      fails.push(`${card.id}: its only photo shows at ${Math.round(r.width)}x${Math.round(r.height)} at ${W}px; its own shape is ${img.naturalWidth}x${img.naturalHeight}`);
+  });
+
   return fails;
 };
