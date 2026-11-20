@@ -18,6 +18,17 @@ The site is plain files with no build step. `index.html` holds the markup and lo
 
 Top-level `const`s are shared across these scripts (classic scripts share one global scope), so load order matters only for code that runs at load: `data.js`, then `visuals.js`, then `app.js`.
 
+## The spec list
+
+Toyota's lines reach the page through tables in `data.js` and `app.js`, so a change is an entry, not code:
+
+- `specFixes` (per year in `YEAR_FACTS`) corrects a cell where Toyota's page leaves a fact out and David has confirmed it. There is no "not listed": a leftover `nl` cell logs an error and shows a dash.
+- `SPEC_MERGES` combines related lines into one plain row, with Toyota's lines under "Toyota’s wording".
+- `SPEC_CUTS` drops rows too technical to help choose a trim.
+- `SPEC_NAMES` and `SPEC_NAME_PREFIXES` give long lines a plain name, keeping Toyota's line one click away.
+
+Toyota's sub-headings are dropped and their units move into the row names. Year check 14 holds the result.
+
 ## The loop
 
 1. Write or change the check in `tools/` and run it **red**: `npm run check -- --quick --no-shots` (about 20 s).

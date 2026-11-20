@@ -27,3 +27,7 @@ The photo zoom wraps every `main` and `header` photo in a button that opens the 
 1. Add `{name, kind, render|url|file}` to `photos.json` (add a new `kind` only if no crop and width fits).
 2. Add its source width to `SOURCE_WIDTH` in `tools/photo-check.js` if the name pattern is new; run the check red.
 3. `python3 tools/build_photos.py`, use the name in the page, `npm run check`.
+
+## A source with a bad edge
+
+Crops live only on kinds, never on a photo entry. When one source has a flaw at an edge (the seat close-up `RHV_MY26_0039` has an 18 px white band down its left), give it a kind of its own with the trimmed crop (`press-left-trim`) rather than changing a shared kind. Its full-size width then differs from its pattern's, so add an exact `SOURCE_WIDTH` entry for it above the general one: the first match wins.
