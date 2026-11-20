@@ -234,5 +234,16 @@ window.yearCheck = function yearCheck(year){
     if(!steps.some(s => s.from === from && s.to === to)) fails.push(`${to} chip compares it with the ${from}, but the step-ups compare it with the ${steps.filter(s => s.to === to).map(s => s.from).join(', ') || 'nothing'}`);
   });
 
+  // 13. Each package after the first shows what it really costs: itself plus every package above it on
+  //     that model's list, as "$995 with the one above" (REVIEW-DECISIONS.md, r08 rework).
+  const word = n => ['one', 'two', 'three', 'four', 'five'][n - 1];
+  Object.entries(PACKAGES).forEach(([id, p]) => p.ladder.forEach((k, i) => {
+    const req = document.querySelector(`#pkGrid [data-t="${id}"] .rung[data-i="${i + 1}"] .req`);
+    const sum = p.ladder.slice(0, i + 1).reduce((a, b) => a + b.price, 0);
+    const want = i ? `$${sum.toLocaleString('en-US')} with the ${word(i)} above` : '';
+    const got = req ? txt(req).trim() : '';
+    if(got !== want) fails.push(`${id} package "${k.name}" note reads "${got}"; expected "${want}"`);
+  }));
+
   return fails;
 };

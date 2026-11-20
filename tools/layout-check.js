@@ -244,13 +244,27 @@ window.layoutCheck = function layoutCheck(){
     if(long.length) fails.push(`package ladder text wraps past two lines: ${long.slice(0, 3).join('; ')}`);
     if(document.querySelector('#pkGrid .pk-head p')) fails.push('package cards repeat the base price under the heading');
   }
-  // At any width, a package's "needs the ones above" note breaks only where it is written to (what it needs,
-  // then what that costs), never leaving a word alone on a line.
+  // At any width, a package's "with the ones above" total stays on one line.
   const ragged = [...document.querySelectorAll('#pkGrid .rung .req')].filter(el => {
-    const lh = parseFloat(getComputedStyle(el).lineHeight), n = Math.round(el.getBoundingClientRect().height / lh);
-    return el.getClientRects().length && n !== el.querySelectorAll('br').length + 1;
+    const lh = parseFloat(getComputedStyle(el).lineHeight);
+    return el.getClientRects().length && Math.round(el.getBoundingClientRect().height / lh) > 1;
   }).map(el => `"${el.textContent.trim()}"`);
-  if(ragged.length) fails.push(`package note wraps where it isn't written to break at ${W}px: ${ragged.slice(0, 2).join('; ')}`);
+  if(ragged.length) fails.push(`package total wraps at ${W}px: ${ragged.slice(0, 2).join('; ')}`);
+
+  // 16. The packages-stack rule is said once, in its own callout right above the package cards, and
+  //     not again in the section intro (REVIEW-DECISIONS.md, r08 rework).
+  {
+    const sec = document.getElementById('packages'), grid = document.getElementById('pkGrid');
+    const said = [...sec.querySelectorAll('p')].filter(p => /every package above it/.test(p.textContent));
+    const stack = sec.querySelector('.pk-stack'), slider = grid && grid.closest('[data-sl]');
+    if(said.length !== 1 || said[0] !== stack) fails.push(`the packages-stack rule appears ${said.length} times in #packages; say it once, in the .pk-stack callout`);
+    else {
+      const gap = slider.getBoundingClientRect().top - stack.getBoundingClientRect().bottom;
+      const between = [...sec.querySelectorAll('*')].some(el => el !== stack && !stack.contains(el) && !slider.contains(el) && !el.contains(stack) && el.getClientRects().length
+        && (stack.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) && (el.compareDocumentPosition(slider) & Node.DOCUMENT_POSITION_FOLLOWING));
+      if(gap < 0 || gap > 48 || between) fails.push(`the packages-stack callout isn't directly above the package cards (${Math.round(gap)}px gap${between ? ', with something between' : ''})`);
+    }
+  }
 
   // 11. The hero gets to the cars quickly. On a laptop the heading is one line and the first car's
   //     name, price and price chip are on the first screen; on any width the slider's arrow and its
