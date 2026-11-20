@@ -254,7 +254,7 @@ const FEATURES = [
   {id:'plugin', group:'Plug-in Hybrid', name:'Driving on electricity',
    aka:`Plug-in Hybrid: EPA-estimated ${F.range}-mile all-electric range, ${F.mpge} MPGe`,
    what:`The Plug-in has a much bigger battery that you charge by plugging the car in, at home or at a public charger. On a full charge it can drive about ${F.range} miles on electricity alone (Toyota’s EPA estimate). After that it drives like a regular hybrid, at ${F.mpg.phv} mpg combined. It also has more power: ${F.hp.phv} horsepower, against ${F.hp.hyb} for the Hybrids.`,
-   why:`If most of your days are under ${F.range} miles and you can plug in at home, you could go weeks between gas fill-ups. If you can’t charge at home, you’re paying extra for a battery you won’t use much. Toyota includes a cable that works with a regular household outlet (slow) or a 240-volt outlet (much faster); the charging times are in the calculator here. ${F.portWhy}`,
+   why:`If most of your days are under ${F.range} miles, charging at home means you could go weeks between gas fill-ups. Toyota includes a cable that works with a regular household outlet (slow) or a 240-volt outlet (much faster); the charging times are in the calculator here. ${F.portWhy}`,
    trims:[['no'],['no'],['no'],['std',`About ${F.range} miles per charge`]], visual:'evDemo', layout:'below'},
   {id:'outlet', group:'Plug-in Hybrid', name:'Household-style power outlet',
    aka:'One 120V/1500W AC power outlet in cargo area',
@@ -304,7 +304,7 @@ const SPECIAL = {
   smooth:{label:'Smoothest ride (smaller wheels)', trims:[['std'],['no','20-inch wheels ride firmer'],['std'],['no','20-inch wheels ride firmer']]},
   sporty:{label:'Sporty look', trims:[['no'],['std'],['no'],['std']]},
   price:{label:'Lowest price', trims:TRIM_IDS.map(id=>[id==='xle'?'std':'no', money(START[id])])},
-  mpg:{label:'Uses the least gas (if you can charge at home)', trims:[...HYBRID_IDS.map(id=>['no',`${F.mpg[id]} mpg`]),['std',`About ${F.range} miles on electricity, then ${F.mpg.phv} mpg`]]},
+  mpg:{label:'Uses the least gas', trims:[...HYBRID_IDS.map(id=>['no',`${F.mpg[id]} mpg`]),['std',`About ${F.range} miles on electricity, then ${F.mpg.phv} mpg`]]},
 };
 
 const STEP1_GAIN = [
@@ -350,7 +350,6 @@ const STEP3_GAIN = [
   ['hud','Head-up display available','Comes in the Driver Assist Package, along with paddle shifters.'],
 ];
 const STEP3_LOSE = [
-  ['plugin','You need somewhere to plug in',`The savings depend on charging at home or work. Without that, it’s a heavier hybrid at ${F.mpg.phv} mpg.`],
   [null,'Less cargo space','33.6 cubic feet behind the back seat instead of 37.8.'],
   ['park','Self-parking costs more','$1,170 for the Driver Assist Package instead of $420, though it adds more.'],
 ];
