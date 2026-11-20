@@ -689,5 +689,34 @@ window.layoutCheck = function layoutCheck(){
   // 29. The paint list shows Toyota's paint names only, with no plain color word under them (David).
   document.querySelectorAll('#cpPaint .cp-name small').forEach(s => fails.push(`paint list: "${s.textContent.trim()}" sits under a paint name`));
 
+  // 30. Where the who-has-it column sits at the card's right edge with a fill of its own, the fill is a
+  //     grey clearly darker than the page, in both schemes (David: the old fill nearly matched the page).
+  //     "Clearly" is a CIELAB difference of 4 or more (2.3 is the smallest a reader notices). Every pill
+  //     in the column keeps the same distance from the fill, so no pill's shape fades into it.
+  {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 1;
+    const cx = cv.getContext('2d', {willReadFrequently: true});
+    const rgba = c => { cx.clearRect(0, 0, 1, 1); cx.fillStyle = '#000'; cx.fillStyle = c; cx.fillRect(0, 0, 1, 1); return [...cx.getImageData(0, 0, 1, 1).data]; };
+    const lab = ([r, g, b]) => {
+      const [R, G, B] = [r, g, b].map(v => v / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+      const f = t => t > 216 / 24389 ? Math.cbrt(t) : (24389 / 27 * t + 16) / 116;
+      const [x, y, z] = [(.4124 * R + .3576 * G + .1805 * B) / .95047, .2126 * R + .7152 * G + .0722 * B, (.0193 * R + .1192 * G + .9505 * B) / 1.08883].map(f);
+      return [116 * y - 16, 500 * (x - y), 200 * (y - z)];
+    };
+    const dE = (a, b) => Math.hypot(...lab(a).map((v, k) => v - lab(b)[k]));
+    const page = rgba(getComputedStyle(document.body).backgroundColor);
+    document.querySelectorAll('.feature > .avail').forEach(col => {
+      if(!visible(col)) return;
+      const bg = rgba(getComputedStyle(col).backgroundColor);
+      if(bg[3] === 0) return;
+      const id = col.closest('.feature')?.id || 'feature', d = dE(bg, page);
+      if(lab(bg)[0] >= lab(page)[0] || d < 4) fails.push(`${id}: who-has-it fill rgb(${bg.slice(0, 3)}) is ${d.toFixed(1)} from the page rgb(${page.slice(0, 3)}) at ${W}px; needs a darker grey, 4 or more away`);
+      col.querySelectorAll('.pill').forEach(pl => {
+        const pb = rgba(getComputedStyle(pl).backgroundColor);
+        if(pb[3] && dE(pb, bg) < 4) fails.push(`${id}: "${pl.textContent.trim()}" pill fill is ${dE(pb, bg).toFixed(1)} from the column's at ${W}px; needs 4`);
+      });
+    });
+  }
+
   return fails;
 };
