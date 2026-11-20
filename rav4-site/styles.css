@@ -562,7 +562,7 @@ section .wrap > :last-child{margin-bottom:0}
 .spec-cat > summary::-webkit-details-marker{display:none}
 .spec-cat > summary::after{content:"";width:12px;height:12px;border-right:3px solid var(--ink-2);border-bottom:3px solid var(--ink-2);transform:rotate(45deg);margin-left:auto;transition:transform .2s;margin-top:-6px}
 .spec-cat[open] > summary::after{transform:rotate(225deg);margin-top:6px}
-.spec-cat > summary .n{font:400 var(--fs-label) var(--text);color:var(--ink-2)}
+.spec-cat > summary .n{font:400 var(--fs-label) var(--text);color:var(--ink-2);white-space:nowrap}
 .spec-table{width:100%;border-collapse:collapse;font-size:17px}
 .spec-table th,.spec-table td{padding:12px 16px;text-align:left;vertical-align:top;border-top:1px solid var(--rule)}
 /* The trim names and prices stay pinned under the section nav (--stick, its height, set in app.js) while you read down a category. */
