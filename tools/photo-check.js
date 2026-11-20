@@ -35,6 +35,9 @@ window.photoCheck = async function photoCheck(){
     const odd = [...img.attributes].map(a => a.name).filter(n => !/^(src|srcset|sizes|alt|loading|decoding|class|id|width|height|style|data-[\w-]+|aria-[\w-]+)$/.test(n));
     if(odd.length) fails.push(`photo ${name} has stray attributes: ${odd.join(' ')}`);
     if(!img.closest('button.zoom') || !img.dataset.full){ fails.push(`photo ${name} can't be opened larger at ${W}px`); continue; }
+    // The hero's four cars open larger but show no expand icon (David); every other photo shows one.
+    const icon = !!img.closest('button.zoom').querySelector('.zi'), hero = !!img.closest('.car');
+    if(icon === hero) fails.push(`photo ${name} ${hero ? 'is a hero car and shows' : 'shows no'} an expand icon at ${W}px`);
     const copies = (img.getAttribute('srcset') || '').split(',').map(s => parseInt(s.trim().split(/\s+/)[1])).filter(Boolean);
     if(copies.length < 2){ fails.push(`photo ${name} has no 1x and 2x copies (srcset "${img.getAttribute('srcset') || ''}")`); continue; }
     const shown = Math.round(img.getBoundingClientRect().width), biggest = Math.max(...copies);
