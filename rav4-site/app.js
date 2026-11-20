@@ -915,14 +915,16 @@ function mergeSpecs(raw){
    Names, headings and labels never break a line at a hyphen (David chose this; layout check 40):
    "Plug-in XSE", "Head-Up Display", "bird’s-eye view". Running text may still break there. Each
    hyphenated word in them is wrapped in a no-wrap span, so the text itself stays the same for copying
-   and find-in-page. Labels that a slider or demo renders later get the same treatment. */
+   and find-in-page. The whole run of text goes in one span around it: in a flex or grid label, a word
+   split off on its own would become a separate item and pick up the gap. Labels that a slider or demo
+   renders later get the same treatment. */
 (function(){
   const SEL = 'h1, h2, h3, h4, h5, h6, th, button, .name, .from, .to, .tn, .pill, .pn, .cp-name, .best-badge';
   const WORD = /[\p{L}\p{N}’']+(?:-[\p{L}\p{N}’']+)+/gu;
   const wrap = n=>{
     const t = n.data;
-    if(!t.includes('-') || n.parentElement.closest('.nw, svg')) return;
-    const f = document.createDocumentFragment(); let at = 0;
+    if(!t.includes('-') || n.parentElement.closest('.hy, svg')) return;
+    const f = document.createElement('span'); f.className = 'hy'; let at = 0;
     for(const m of t.matchAll(WORD)){
       const s = document.createElement('span'); s.className = 'nw'; s.textContent = m[0];
       f.append(t.slice(at, m.index), s); at = m.index + m[0].length;
