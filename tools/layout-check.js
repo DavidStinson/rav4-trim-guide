@@ -258,11 +258,13 @@ window.layoutCheck = function layoutCheck(){
   if(ragged.length) fails.push(`package total wraps at ${W}px: ${ragged.slice(0, 2).join('; ')}`);
 
   // 16. The packages-stack rule is said once, in its own callout right above the package cards, and
-  //     not again in the section intro (REVIEW-DECISIONS.md, r08 rework).
+  //     not again in the section intro (REVIEW-DECISIONS.md, r08 rework), in David's words.
   {
     const sec = document.getElementById('packages'), grid = document.getElementById('pkGrid');
     const said = [...sec.querySelectorAll('p')].filter(p => /every package above\s+it/.test(p.textContent));
     const stack = sec.querySelector('.pk-stack'), slider = grid && grid.closest('[data-sl]');
+    const words = 'Packages stack. Some packages require others, so each trim lists its available packages in that order. Adding a package adds every package above it.';
+    if(stack && stack.textContent.replace(/\s+/g, ' ').trim() !== words) fails.push(`the packages-stack callout reads "${stack.textContent.replace(/\s+/g, ' ').trim()}"; expected "${words}"`);
     if(said.length !== 1 || said[0] !== stack) fails.push(`the packages-stack rule appears ${said.length} times in #packages; say it once, in the .pk-stack callout`);
     else {
       const gap = slider.getBoundingClientRect().top - stack.getBoundingClientRect().bottom;
