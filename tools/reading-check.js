@@ -113,7 +113,7 @@ window.readingCheck = async function readingCheck(){
   }
 
   // 6. Running text keeps a readable measure: a paragraph, list item, caption or note averages at most
-  //    85 characters a line, so the eye finds the start of the next line. (Table cells are exempt; their
+  //    80 characters a line (aim: 70 to 75), so the eye finds the start of the next line. (Table cells are exempt; their
   //    width comes from the table.)
   const wide = new Map();
   document.querySelectorAll('p, li, figcaption, small, dd').forEach(el => {
@@ -123,12 +123,34 @@ window.readingCheck = async function readingCheck(){
     if(text.length < 60) return;
     const lines = Math.max(1, Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
     const cpl = Math.round(text.length / lines);
-    if(cpl > 85){
+    if(cpl > 80){
       const key = `${el.tagName.toLowerCase()}${typeof el.className === 'string' && el.className.trim() ? '.' + el.className.trim().split(/\s+/).join('.') : ''}`;
       if(!wide.has(key) || wide.get(key)[0] < cpl) wide.set(key, [cpl, text.slice(0, 40)]);
     }
   });
   for(const [key, [cpl, text]] of wide) fails.push(`lines too long to read at ${innerWidth}px: ${key} runs about ${cpl} characters a line, e.g. "${text}"`);
+
+  // 7. No orphans: running text never ends on a line holding a single word ("it." alone on the last line
+  //    shipped once). Checked at every width; text-wrap: pretty does most of the work.
+  const orphans = new Map();
+  document.querySelectorAll('p, li, figcaption, dd, .tag, .note, .cap, .why').forEach(el => {
+    if(!el.getClientRects().length || el.closest('svg, table, [hidden], dialog:not([open]), [aria-hidden="true"]')) return;
+    if([...el.children].some(c => ['block', 'flex', 'grid'].includes(getComputedStyle(c).display))) return;
+    // A hyphenated word can break across lines; its last piece is what shares a line with the next word.
+    const words = [];
+    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for(let n = w.nextNode(); n; n = w.nextNode()){
+      const re = /\S+/g; let m;
+      while((m = re.exec(n.textContent))){ const r = document.createRange(); r.setStart(n, m.index); r.setEnd(n, m.index + m[0].length); const rects = r.getClientRects(), box = rects[rects.length - 1]; if(box) words.push([m[0], box]); }
+    }
+    if(words.length < 4) return;
+    const [lastWord, last] = words.at(-1), prev = words.at(-2)[1];
+    if(last.top > prev.top + last.height / 2){
+      const key = `${el.tagName.toLowerCase()}${typeof el.className === 'string' && el.className.trim() ? '.' + el.className.trim().split(/\s+/).join('.') : ''}`;
+      if(!orphans.has(key)) orphans.set(key, [lastWord, el.textContent.trim().slice(0, 40)]);
+    }
+  });
+  for(const [key, [word, text]] of orphans) fails.push(`orphan at ${innerWidth}px: ${key} ends with "${word}" alone on its last line, in "${text}"`);
 
   return fails;
 };

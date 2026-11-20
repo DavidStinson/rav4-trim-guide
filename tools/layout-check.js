@@ -26,16 +26,19 @@ window.layoutCheck = function layoutCheck(){
   if(nav && W >= 1024 && nav.scrollWidth > nav.clientWidth + 1)
     fails.push(`section nav overflows at ${W}px: ${nav.scrollWidth}px of links in ${nav.clientWidth}px`);
 
-  // 3. On a wide desktop, every slider shows all four trims side by side with no arrows, the package
-  //    ladders and priority cards included, so the reader compares four without clicking.
+  // 3. On a wide desktop, every slider shows all four trims side by side with no arrows where four fit:
+  //    the hero always, the package ladders and priority cards once their row is wide enough for four
+  //    cards at their data-sl-col width. Where four don't fit, a next arrow shows (check 6 tries it).
   if(W >= 1280) sliders.forEach((sl, i) => {
     const items = [...sl.querySelector('.sl-track').children];
     if(!items.length) return;
+    const col = +sl.dataset.slCol || 0;
+    if(col && sl.clientWidth < 4 * col + 3 * 20) return;
     const out = items.filter(el => el.classList.contains('sl-out')).length;
     const btns = [...sl.querySelectorAll('.sl-btn')].filter(visible).length;
     const box = sl.querySelector('.sl-view').getBoundingClientRect();
     const clipped = items.filter(el => { const r = el.getBoundingClientRect(); return r.left < box.left - 1 || r.right > box.right + 1; }).length;
-    if(out || btns || clipped) fails.push(`slider ${i} at ${W}px: ${out} cards out of view, ${clipped} clipped, ${btns} arrows showing; expected all four`);
+    if(out || btns || clipped) fails.push(`slider ${i} at ${W}px (${sl.clientWidth}px wide): ${out} cards out of view, ${clipped} clipped, ${btns} arrows showing; expected all four`);
   });
 
   // 4. On narrower screens (below 1000px, where four never fit), sliders still slide: something is hidden
@@ -81,7 +84,7 @@ window.layoutCheck = function layoutCheck(){
     fails.push(`page is ${document.documentElement.scrollWidth}px wide at ${W}px viewport`);
 
   // 6. The package ladders and priority cards need room: their cards are never narrower than their
-  //    data-sl-col minimum, and they share one width. Where four don't fit (laptop widths below 1280),
+  //    data-sl-col minimum, and they share one width. Where four don't fit at that width,
   //    an arrow shows and brings the last card in. The priority cards only show once a priority is
   //    picked, so pick one for the check and put it back after.
   const chip = document.querySelector('#chips [data-id="price"]');
@@ -98,13 +101,15 @@ window.layoutCheck = function layoutCheck(){
     const minW = Math.min(...shownEls().map(el => el.getBoundingClientRect().width));
     widths[id] = minW;
     if(minW < Math.min(minCol, W - 120) - 1) fails.push(`${id} cards are ${Math.round(minW)}px wide at ${W}px; expected at least ${minCol}`);
-    if(W >= 1000 && W < 1280){
+    if(W >= 1000 && sl.clientWidth < 4 * minCol + 3 * 20){
       const next = sl.querySelector('.sl-next');
       if(shownEls().length >= items.length || !next || !visible(next)) fails.push(`${id} slider at ${W}px: ${shownEls().length} of ${items.length} cards and ${next && visible(next) ? 'a' : 'no'} next arrow; expected some hidden behind an arrow`);
       else {
-        next.click();
+        // Click next until the last card is in view (two clicks where only two cards fit), then back.
+        let clicks = 0;
+        while(clicks < 3 && items[items.length-1].classList.contains('sl-out') && visible(next)){ next.click(); clicks++; }
         if(items[items.length-1].classList.contains('sl-out')) fails.push(`${id} slider at ${W}px: the next arrow didn't bring the last card into view`);
-        sl.querySelector('.sl-prev')?.click();
+        for(let k = 0; k < clicks; k++) sl.querySelector('.sl-prev')?.click();
       }
     }
   });
@@ -157,10 +162,41 @@ window.layoutCheck = function layoutCheck(){
     }
   }
 
-  // 8. Content and the top bar stop widening at 1420px.
+  // 8. Two page widths (REVIEW-DECISIONS.md, "two page widths"). Text sits in one centered reading
+  //    column of 1,060px. The rows that compare four trims (hero cars, priority cards, package ladders,
+  //    spec table) break out wider, up to 1,372px, when the window allows; below about 1,100px the two
+  //    match. Every section heading starts on the reading column's left edge. The top bar stops at 1420px.
+  const READ = 1060, WIDE = 1372, vw = document.documentElement.clientWidth;
+  const content = el => { const r = el.getBoundingClientRect(), cs = getComputedStyle(el); return { left: r.left + parseFloat(cs.paddingLeft), right: r.right - parseFloat(cs.paddingRight) }; };
   const wrapW = Math.round(document.querySelector('.topbar .wrap').getBoundingClientRect().width);
-  if(wrapW > 1420) fails.push(`content is ${wrapW}px wide at ${W}px; at most 1420`);
-  if(W >= 1440 && wrapW !== 1420) fails.push(`content is ${wrapW}px wide at ${W}px; expected 1420`);
+  if(wrapW > 1420) fails.push(`top bar is ${wrapW}px wide at ${W}px; at most 1420`);
+  const col = content(document.querySelector('#steps > .wrap'));
+  const colW = Math.round(col.right - col.left);
+  if(colW > READ + 1) fails.push(`reading column is ${colW}px wide at ${W}px; at most ${READ}`);
+  if(Math.abs(col.left - (vw - col.right)) > 2) fails.push(`reading column isn't centered at ${W}px: ${Math.round(col.left)}px left, ${Math.round(vw - col.right)}px right`);
+  document.querySelectorAll('section > .wrap, main > .wrap, footer > .wrap').forEach(w => {
+    if(!visible(w)) return;
+    const c = content(w);
+    if(Math.abs(c.left - col.left) > 1 || Math.abs(c.right - col.right) > 1) fails.push(`${w.parentElement.id || w.parentElement.tagName.toLowerCase()} text column runs ${Math.round(c.left)}-${Math.round(c.right)}px at ${W}px; the reading column is ${Math.round(col.left)}-${Math.round(col.right)}px`);
+  });
+  document.querySelectorAll('main h1, section .sec-head h2').forEach(h => {
+    if(visible(h) && Math.abs(h.getBoundingClientRect().left - col.left) > 1) fails.push(`heading "${h.textContent.trim().slice(0, 30)}" starts at ${Math.round(h.getBoundingClientRect().left)}px at ${W}px; the reading column starts at ${Math.round(col.left)}px`);
+  });
+  const want = Math.min(WIDE, vw - 2 * (col.left > 20 && vw > READ + 48 ? 24 : col.left));
+  [['hero cars', '.road'], ['priority cards', '#scoresSl'], ['package ladders', '#pkGrid'], ['spec table', '#specList']].forEach(([name, sel]) => {
+    let el = document.querySelector(sel); if(sel === '#pkGrid') el = el?.closest('[data-sl]');
+    if(!el || !visible(el)) return;
+    const r = el.getBoundingClientRect(), w = Math.round(r.width);
+    const expect = vw <= 1100 ? colW : Math.round(want);
+    if(Math.abs(w - expect) > 2) fails.push(`${name} row is ${w}px wide at ${W}px; expected ${expect} (${vw <= 1100 ? 'the reading column' : 'the wide width'})`);
+    if(Math.abs(r.left - (vw - r.right)) > 2) fails.push(`${name} row isn't centered at ${W}px`);
+  });
+
+  // 14. Hero blurbs take at most two lines on a laptop, so the four cars read as one even row.
+  if(W >= 1100) document.querySelectorAll('.road .car .tag').forEach(t => {
+    const n = Math.round(t.getBoundingClientRect().height / parseFloat(getComputedStyle(t).lineHeight));
+    if(n > 2) fails.push(`hero blurb "${t.textContent.trim().slice(0, 30)}" takes ${n} lines at ${W}px; at most 2`);
+  });
 
   // 9. Who has each feature sits in the same place in every feature panel: from 901px, a column down
   //    the panel's right edge listing the four trims top to bottom, so a reader following one trim
