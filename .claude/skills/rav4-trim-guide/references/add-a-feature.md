@@ -39,13 +39,22 @@ if(pills('hud').join() !== 'no,no,opt,opt') fails.push(`head-up display marks ${
 
 Either `img:'<photo name>', cap:'<caption>'` for a photo (see `photos.md`), or `visual:'<name>'` with a `VIS.<name> = ()=>({html, below?, init?})` entry in `rav4-site/visuals.js`. `html` is the picture, `below` is an extra full-width row under the panel (the screen photos), and `init(root)` runs after the row is in the page.
 
+For two photos side by side and nothing else, use `imgs:[{img, alt, cap}, {img, alt, cap}]` instead of a `VIS` entry. `app.js` builds the same `.photo-pair` as the camera demo, and the layout must be `below`. The gear selector row shows the lever and the toggle switch this way:
+
+```js
+imgs:[{img:'shifter-xle', alt:'RAV4 center console with a tall gear lever in a stitched boot, beside the cupholders', cap:'XLE Premium, and the XSEs without the option: a regular gear lever.'},
+      {img:'shifter-ltd', alt:'RAV4 center console with a small silver-topped switch where a gear lever would be, beside the cupholders', cap:'Limited, and an option on the XSEs: a small toggle switch instead of a lever.'}]
+```
+
+Each caption leads with who has it. The alt text describes the photo and never repeats the caption (`photo-check.js` fails a copy).
+
 Then pick the layout. The who-has-it column always sits on the panel's right, beside the copy only.
 
 | layout | use for | where the picture goes |
 | --- | --- | --- |
 | `text` | no picture | nowhere: copy and the column |
 | `beside` | one photo or one static drawing (HUD, wheels, screen sizes) | beside the copy when the copy keeps 520px; otherwise under the copy, at the copy's width (drawings stop at 520px) |
-| `below` | anything with controls or several photos (camera, mirror, roof, plug-in, outage demos) | under the copy and the column, across the whole panel |
+| `below` | anything with controls or several photos (camera, mirror, roof, plug-in, outage demos), and every `imgs` pair (gear selector) | under the copy and the column, across the whole panel |
 
 The HUD is `beside` because it's one static drawing. At today's 1,060px reading width a `beside` picture always lands under the copy; the 1356px container query in `styles.css` puts it beside the copy if the features section ever gets wider. Layout check 15 fails a missing or wrong layout.
 
