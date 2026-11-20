@@ -114,10 +114,10 @@ const fmtHours = h=>{
 
 /* ===================== DATA ===================== */
 const TRIMS = [
-  {id:'xle', name:'XLE Premium', color:'var(--xle)', soft:'var(--xle-soft)'},
-  {id:'xse', name:'XSE', color:'var(--xse)', soft:'var(--xse-soft)'},
-  {id:'ltd', name:'Limited', color:'var(--ltd)', soft:'var(--ltd-soft)'},
-  {id:'phv', name:'Plug-in XSE', color:'var(--phv)', soft:'var(--phv-soft)'},
+  {id:'xle', name:'XLE Premium', color:'var(--xle)', soft:'var(--xle-soft)', ink:'var(--xle-on-ink)'},
+  {id:'xse', name:'XSE', color:'var(--xse)', soft:'var(--xse-soft)', ink:'var(--xse-on-ink)'},
+  {id:'ltd', name:'Limited', color:'var(--ltd)', soft:'var(--ltd-soft)', ink:'var(--ltd-on-ink)'},
+  {id:'phv', name:'Plug-in XSE', color:'var(--phv)', soft:'var(--phv-soft)', ink:'var(--phv-on-ink)'},
 ];
 // Status per trim, in TRIMS order: ['std'|'opt'|'no', note?]. Toyota's spec data for the Plug-in leaves out the
 // driver-assist bundle, but its 2026 launch announcement lists those features for every XSE, Hybrid

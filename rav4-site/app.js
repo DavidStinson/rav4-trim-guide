@@ -350,7 +350,7 @@ const PKG = (()=>{
 
   function render(){
     const c = COLORS[st.t], t = trimOf(st.t), p = PAINTS[st.paint], seat = seatOf(st.t, st.int);
-    box.style.setProperty('--c', t.color); box.style.setProperty('--c-soft', t.soft);
+    box.style.setProperty('--c', t.color); box.style.setProperty('--c-soft', t.soft); box.style.setProperty('--c-ink', t.ink);
     box.querySelectorAll('#cpModel button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.t===st.t));
     $('#cpPaint').innerHTML = paintsHTML(st.t, st.paint);
     $('#cpInt').innerHTML = seatsHTML(st.t, st.int);

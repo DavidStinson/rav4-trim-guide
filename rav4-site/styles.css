@@ -6,6 +6,8 @@
   --xle:#6A3FA6; --xse:#B0303F; --ltd:#8C6224;
   --xle-soft:#EFE9F7; --xse-soft:#F8E7E9; --ltd-soft:#F4ECDF;
   --phv:#2F6699; --phv-soft:#E6EEF6;
+  /* Trim colors on the pressed toggle (dark in light mode): the dark theme's shades. */
+  --xle-on-ink:#AD7BFF; --xse-on-ink:#FF6E80; --ltd-on-ink:#F5A040; --phv-on-ink:#6DB0FE;
   --shadow:0 1px 2px rgba(20,30,40,.06),0 8px 24px rgba(20,30,40,.06);
   --focus:#1D5FD1;
   /* The opposite scheme, for a card that stands out from the page (the year comparison): dark here, light in dark mode. */
@@ -32,6 +34,7 @@
     --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --well:color-mix(in srgb,var(--paper) 60%,var(--card)); --well-no:var(--no-soft); --bad:#FF8A80;
     --xle:#AD7BFF; --xse:#FF6E80; --ltd:#F5A040; --xle-soft:#2A2238; --xse-soft:#35202A; --ltd-soft:#2F2719;
     --phv:#6DB0FE; --phv-soft:#1D2A36;
+    --xle-on-ink:#6A3FA6; --xse-on-ink:#B0303F; --ltd-on-ink:#8C6224; --phv-on-ink:#2F6699;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --focus:#8AB4FF; color-scheme:dark;
     --inv-card:#E4E8E6; --inv-ink:#202427; --inv-ink-2:#3F454A; --inv-rule:#C3C9C5; --inv-focus:#1D5FD1;
   }
@@ -41,6 +44,7 @@
   --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --well:color-mix(in srgb,var(--paper) 60%,var(--card)); --well-no:var(--no-soft); --bad:#FF8A80;
   --xle:#AD7BFF; --xse:#FF6E80; --ltd:#F5A040; --xle-soft:#2A2238; --xse-soft:#35202A; --ltd-soft:#2F2719;
     --phv:#6DB0FE; --phv-soft:#1D2A36;
+    --xle-on-ink:#6A3FA6; --xse-on-ink:#B0303F; --ltd-on-ink:#8C6224; --phv-on-ink:#2F6699;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --focus:#8AB4FF; color-scheme:dark;
     --inv-card:#E4E8E6; --inv-ink:#202427; --inv-ink-2:#3F454A; --inv-rule:#C3C9C5; --inv-focus:#1D5FD1;
 }
@@ -453,8 +457,9 @@ section .wrap > :last-child{margin-bottom:0}
 .cp{--c:var(--xle);--c-soft:var(--xle-soft);background:var(--card);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
 .cp-top{background:var(--c-soft);padding:18px 22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
 .cp-top .seg button{min-height:44px}
-/* The picked model reads in its trim's color on that trim's tint, ringed in the color (David; layout check 41). */
-.cp-top .seg button[aria-pressed="true"]{background:var(--c-soft);color:var(--c);box-shadow:inset 0 0 0 2px var(--c)}
+/* The picked model keeps the shared pressed style; only its text takes the trim color, in the shade that
+   reads on the pressed button (the other theme's shade, --*-on-ink). David; layout check 41. */
+.cp-top .seg button[aria-pressed="true"]{color:var(--c-ink)}
 /* The switch message is boxed like the model toggle beside it. Its space is always held open by an invisible copy of the
    longest message in the same grid cell, so nothing moves when it shows or hides; on a laptop it is no taller than the toggle. */
 .cp-note{margin:0;flex:1 1 280px;display:grid;font-size:var(--fs-note);line-height:1.45;color:var(--ink);border:1.5px solid transparent;border-radius:14px;padding:4px 12px}
