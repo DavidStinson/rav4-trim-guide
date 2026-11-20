@@ -10,8 +10,9 @@
   --focus:#1D5FD1;
   --text:"Atkinson Hyperlegible",system-ui,sans-serif;
   /* One type scale: like elements share a size (reading check 2). Body is 19px (18px on phones), ledes 21px. */
-  /* Two page widths (layout check 8): text sits in the reading column; .bleed rows that compare four trims run wider. */
-  --read:1060px; --wide:1372px; --gutter:24px; --measure:34em;
+  /* Two page widths (layout check 8): text sits in the reading column; .bleed rows that compare four trims run wider.
+     --wide fits four 340px cards (data-sl-col) and three 20px gaps, so all four show once the window allows. */
+  --read:1060px; --wide:1420px; --gutter:24px; --measure:34em;
   --fs-ui:18px; --fs-table:17px; --fs-control:17px; --fs-nav:16px; --fs-note:16px; --fs-cap:15px; --fs-label:15px;
   color-scheme:light;
 }

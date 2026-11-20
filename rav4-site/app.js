@@ -110,7 +110,8 @@ const VIEW = (function(){
       const prev=sl.querySelector('.sl-prev'), next=sl.querySelector('.sl-next');
       if(!n || !w){ prev.hidden=next.hidden=true; maxOf.set(sl,0); return; }
       const minCol=+sl.dataset.slCol||0;
-      const fits=l=>(w-2*l.peek-(l.shown+1)*l.gap)/l.shown>=minCol || l.shown===1;
+      // The same card width the layout below gives: with every card shown there is no peek and no edge gap.
+      const fits=l=>(l.shown>=n ? (w-(n-1)*l.gap)/n : (w-2*l.peek-(l.shown+1)*l.gap)/l.shown)>=minCol || l.shown===1;
       const L=LAYOUTS.find(l=>w>=l.min && fits(l)), shown=Math.min(L.shown,n), max=n-shown, o=Math.min(off,max);
       maxOf.set(sl,max);
       const tabs=sl.querySelector('.sl-tabs'), tabbed = shown===1 && n>1;
