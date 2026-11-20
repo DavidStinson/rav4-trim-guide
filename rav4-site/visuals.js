@@ -262,7 +262,7 @@ VIS.evDemo = ()=>{
     <input type="range" id="evMiles" min="5" max="120" step="5" value="30" aria-describedby="evSum">
     <div class="ev-bar" aria-hidden="true"><span class="e"></span><span class="g"></span></div>
     <div class="ev-key" aria-hidden="true"><span><i style="background:var(--phv)"></i>On electricity</span><span><i style="background:var(--no)"></i>On gas, as a regular hybrid</span></div>
-    <p class="demo-summary" id="evSum" aria-live="polite"></p>
+    <div id="evSum" aria-live="polite"></div>
     <p class="note" style="margin:0">Assumes a full charge each morning and Toyota’s EPA estimates: ${RANGE} miles on electricity, then ${MPG_PHEV} mpg. Cold weather, highway speeds and the heater shorten the electric range.</p>
     <section class="ev-block" aria-labelledby="chgT">
       <h5 id="chgT">How long charging takes, from empty to full</h5>
@@ -299,9 +299,10 @@ VIS.evDemo = ()=>{
       const m=+inp.value, e=Math.min(m,RANGE), g=m-e;
       $in('evOut').textContent=m;
       root.querySelector('.ev-bar .e').style.flexGrow=e; root.querySelector('.ev-bar .g').style.flexGrow=g;
-      $in('evSum').innerHTML = g===0
-        ? `<b>All ${m} miles on electricity.</b> The Plug-in uses no gas. A Hybrid XSE would use about ${gal(m/MPG_XSE)} gallons.`
-        : `<b>The first ${RANGE} miles on electricity, the last ${g} on gas.</b> The Plug-in uses about ${gal(g/MPG_PHEV)} gallons. A Hybrid XSE would use about ${gal(m/MPG_XSE)}.`;
+      const [tag, text] = g===0
+        ? [`All ${m} miles electric`, `The Plug-in uses no gas. A Hybrid XSE would use about ${gal(m/MPG_XSE)} gallons.`]
+        : [`${RANGE} miles electric, ${g} on gas`, `The Plug-in uses about ${gal(g/MPG_PHEV)} gallons. A Hybrid XSE would use about ${gal(m/MPG_XSE)}.`];
+      $in('evSum').innerHTML = `<span class="note-tag">${tag}</span><p class="demo-text">${text}</p>`;
       const [h1,h20,h40] = CHARGE.ways.map(w=>CHARGE.hours(w,e));
       const what = g===0 ? `To put back today’s ${m} miles` : `To refill the battery after today’s drive`;
       const night = h1<=NIGHT
