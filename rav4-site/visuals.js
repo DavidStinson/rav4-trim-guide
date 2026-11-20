@@ -262,14 +262,14 @@ VIS.evDemo = ()=>{
     <input type="range" id="evMiles" min="5" max="120" step="5" value="30" aria-describedby="evSum">
     <div class="ev-bar" aria-hidden="true"><span class="e"></span><span class="g"></span></div>
     <div class="ev-key" aria-hidden="true"><span><i style="background:var(--phv)"></i>On electricity</span><span><i style="background:var(--no)"></i>On gas, as a regular hybrid</span></div>
-    <div id="evSum" aria-live="polite"></div>
+    <div class="demo-result" id="evSum" aria-live="polite"></div>
     <p class="note" style="margin:0">Assumes a full charge each morning and Toyota’s EPA estimates: ${RANGE} miles on electricity, then ${MPG_PHEV} mpg. Cold weather, highway speeds and the heater shorten the electric range.</p>
     <section class="ev-block" aria-labelledby="chgT">
       <h5 id="chgT">How long charging takes, from empty to full</h5>
       <div class="cost-rows chg-rows" id="chgRows">
         ${CHARGE.ways.map((w,i)=>`<div class="cost-row" style="--c:var(--phv)"><span>${w.name}</span><span class="bar" aria-hidden="true"><span style="width:${fullHrs[i]/slowest*100}%"></span></span><b>${fmtHours(fullHrs[i]).replace(/ hours?$/,' hr')}</b></div>`).join('')}
       </div>
-      <div id="chgSum" aria-live="polite"></div>
+      <div class="demo-result" id="chgSum" aria-live="polite"></div>
       <ul class="chg-need">
         <li><b>Regular outlet.</b> Plug the cable that comes with the car into any household outlet. Nothing to install.</li>
         <li><b>240 V, 20 amps.</b> An electrician adds a 240-volt circuit and a wall charger. The smaller circuit costs less and can fit when the electrical panel is nearly full.</li>
@@ -288,7 +288,7 @@ VIS.evDemo = ()=>{
         <div class="cost-row" style="--c:var(--xse)"><span>Hybrid XSE</span><span class="bar"><span id="evBarH"></span></span><b id="evCostH"></b></div>
         <div class="cost-row" style="--c:var(--phv)"><span>Plug-in XSE</span><span class="bar"><span id="evBarP"></span></span><b id="evCostP"></b></div>
       </div>
-      <div id="evSave" aria-live="polite"></div>
+      <div class="demo-result" id="evSave" aria-live="polite"></div>
       <p class="note" style="margin:0">Uses the miles per day above and assumes you charge at home every night. Counts only gas and electricity, not insurance, upkeep or rebates.</p>
     </section>
   </div>`, init(root){
