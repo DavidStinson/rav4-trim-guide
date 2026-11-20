@@ -15,7 +15,7 @@ window.readingCheck = async function readingCheck(){
   //    Kinds come from David's review of the climb (REVIEW-DECISIONS.md, "Text size and line length").
   const KINDS = {
     caption: 'figcaption, .cap, .demo-cap, .wheel-caps p',
-    note:    '.note, .small, .gain span.why, .basic span, .score ul, .rung .pc, .rung .req, .cp-name small, .checklist small, .car .tag, .road-foot, .avail .note, .f-text .aka, .chg-need, .ev-sliders label, .pk-note, .pk-callout, .cp-note, .spec-more, .tw summary, .spec-table .common, .spec-table .mo, .cp-sub, footer p, .seelist li',
+    note:    '.note, .small, .gain span.why, .basic span, .score ul, .rung .pc, .rung .req, .checklist small, .car .tag, .road-foot, .avail .note, .f-text .aka, .chg-need, .ev-sliders label, .pk-note, .pk-callout, .cp-note, .spec-more, .tw summary, .spec-table .common, .spec-table .mo, .cp-sub, footer p, .seelist li',
     label:   '.pill, .legend, .avail .tn, .yd-table thead th, .spec-table thead .tp, .spec-table tr.sub td, .count, .ev-key, .ap-scale, .cost-row, .trio figcaption b, .cp-price, .cp-lines dt a, .score .best-badge, .ap-chips .chip small, .tw li span, .lb-count, .spec-cat > summary .n, .f-text .why b',
     nav:     '.nav a, .year-switch a, .sl-tabs button, .group-nav a',
     control: '.chip, .seg button, .print-btn, .toggle',

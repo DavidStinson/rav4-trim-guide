@@ -684,5 +684,8 @@ window.layoutCheck = function layoutCheck(){
     if(visible(c) && parseFloat(getComputedStyle(c).borderTopWidth) > 0) fails.push(`year comparison: header cell "${c.textContent.trim()}" draws a rule above it`);
   });
 
+  // 29. The paint list shows Toyota's paint names only, with no plain color word under them (David).
+  document.querySelectorAll('#cpPaint .cp-name small').forEach(s => fails.push(`paint list: "${s.textContent.trim()}" sits under a paint name`));
+
   return fails;
 };
