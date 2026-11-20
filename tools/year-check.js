@@ -160,22 +160,25 @@ window.yearCheck = function yearCheck(year){
     if(!/Packages/.test(sum()) || !sum().includes(usd(2225))) fails.push(`colors: total should list the packages: ${sum()}`);
     pkLevel(0);
     if(total() !== usd(base.xle+475)) fails.push(`colors: total didn't follow the packages back to none: ${sum()}`);
+    // A switch that can't keep the paint or interior says so in one plain message naming both models and
+    // what changed, not the specific paint or seat (David, after the rework).
+    const switched = (to, from, kind) => `The ${to} doesn't have the same ${kind} options as the ${from} you had picked. This shows the closest match.`;
     // Switching to the XSE can't keep red or beige: it falls back to its included black and its one
-    // interior, and says why.
+    // interior, and says so.
     click('#cpModel [data-t="xse"]');
     if(pressed('#cpPaint').join() !== '0218' || pressed('#cpInt').join() !== 'EC20') fails.push(`colors: XSE after red/beige picked ${pressed('#cpPaint')} / ${pressed('#cpInt')}; expected 0218 / EC20`);
-    if(!/Ruby Flare Pearl/.test(note()) || !/Beige/i.test(note())) fails.push(`colors: switching to the XSE should explain the red and beige changes: ${note()}`);
+    if(note() !== switched('XSE', 'XLE Premium', 'paint and interior')) fails.push(`colors: switching red and beige to the XSE says "${note()}"; expected "${switched('XSE', 'XLE Premium', 'paint and interior')}"`);
     if(total() !== usd(base.xse)) fails.push(`colors: XSE in black should be ${usd(base.xse)}: ${sum()}`);
     // Storm Cloud carries over to the Plug-in as its two-tone version, at +$500.
     click('#cpModel [data-t="xle"]'); click('#cpPaint [data-code="01L6"]'); click('#cpModel [data-t="phv"]');
     if(pressed('#cpPaint').join() !== '0M22') fails.push(`colors: Storm Cloud on the Plug-in picked ${pressed('#cpPaint')}; expected 0M22`);
     if(total() !== usd(base.phv+500)) fails.push(`colors: two-tone Plug-in total should be ${usd(base.phv+500)}: ${sum()}`);
-    if(!/roof/.test(note())) fails.push(`colors: carrying Storm Cloud to the Plug-in should mention the black roof: ${note()}`);
+    if(!note().startsWith("The Plug-in XSE doesn't have the same paint") || !note().endsWith('as the XLE Premium you had picked. This shows the closest match.')) fails.push(`colors: carrying Storm Cloud to the Plug-in says "${note()}"; expected the paint message`);
     // Ice Cap is XLE-only; the Limited falls back to an included paint.
     click('#cpModel [data-t="xle"]'); click('#cpPaint [data-code="0040"]'); click('#cpModel [data-t="ltd"]');
     const lp = pressed('#cpPaint').join();
     if(COLORS.ltd.paint[lp] !== 0) fails.push(`colors: Ice Cap on the Limited fell back to ${lp}; expected an included paint`);
-    if(!/Ice Cap/.test(note())) fails.push(`colors: switching Ice Cap to the Limited should say so: ${note()}`);
+    if(!note().startsWith("The Limited doesn't have the same paint") || !note().endsWith('as the XLE Premium you had picked. This shows the closest match.')) fails.push(`colors: switching Ice Cap to the Limited says "${note()}"; expected the paint message`);
     // Picking a paint on the same model hides the note but keeps its space, so nothing below moves.
     const noteEl = cp.querySelector('#cpNote'), noteH = noteEl.getBoundingClientRect().height;
     click(`#cpPaint [data-code="0089"]`);
