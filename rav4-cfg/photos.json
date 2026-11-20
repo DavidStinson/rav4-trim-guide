@@ -53,6 +53,15 @@
   },
   "press": {
    "width": 720
+  },
+  "press-left-trim": {
+   "width": 720,
+   "crop": [
+    4.5,
+    0,
+    895.5,
+    600.25
+   ]
   }
  },
  "photos": [
@@ -259,7 +268,7 @@
   },
   {
    "name": "RHV_MY26_0039",
-   "kind": "press",
+   "kind": "press-left-trim",
    "url": "https://delivery.tcom.assetscs.toyota.com/adobe/assets/urn:aaid:aem:9fb4678e-f8bc-4fc1-9d38-45869fa4c7bc/as/RHV_MY26_0039_V001.png"
   },
   {
