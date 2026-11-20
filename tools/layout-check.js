@@ -562,11 +562,19 @@ window.layoutCheck = function layoutCheck(){
         if(r < 4.5) fails.push(`.year-diff: "${el.textContent.trim().slice(0, 30)}" is ${r.toFixed(2)}:1 on its card; needs 4.5:1`);
       });
     }
-    document.querySelectorAll('.cp-note').forEach(el => {
-      if(!visible(el)) return;
-      const want = resolve(el.parentElement, 'var(--opt-soft)');
-      if(getComputedStyle(el).backgroundColor !== want) fails.push(`${name(el)}: background ${getComputedStyle(el).backgroundColor}; expected the soft yellow ${want} at ${W}px`);
-    });
+    // The colors switch message sits in a box filled like the model toggle beside it (David). Switching from
+    // the Plug-in XSE to the XLE Premium always changes the paint, so it brings the message up.
+    const cpNote = document.getElementById('cpNote'), cpModel = document.getElementById('cpModel');
+    if(cpNote && cpModel && visible(cpModel)) {
+      const was = cpModel.querySelector('button[aria-pressed="true"]'), btn = t => cpModel.querySelector(`button[data-t="${t}"]`);
+      btn('phv').click(); btn('xle').click();
+      if(!visible(cpNote) || !cpNote.textContent.trim()) fails.push('colors panel: switching from the Plug-in XSE to the XLE Premium shows no message');
+      else {
+        const want = getComputedStyle(cpModel).backgroundColor, got = getComputedStyle(cpNote).backgroundColor;
+        if(got !== want) fails.push(`#cpNote: background ${got}; expected ${want}, the model toggle's fill, at ${W}px`);
+      }
+      if(was) was.click();
+    }
   }
 
   // 27. The camera demo's toggle names the cameras only, not the trims (who has which is in the panel's
