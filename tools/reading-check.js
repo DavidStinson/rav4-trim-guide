@@ -114,7 +114,8 @@ window.readingCheck = async function readingCheck(){
 
   // 6. Running text keeps a readable measure: a paragraph, list item, caption or note averages at most
   //    80 characters a line (aim: 70 to 75), so the eye finds the start of the next line. (Table cells are exempt; their
-  //    width comes from the table.)
+  //    width comes from the table.) Section leads may run to 90: they are short, at 21px, and share one width set by
+  //    the priorities lead fitting on one line (check 8).
   const wide = new Map();
   document.querySelectorAll('p, li, figcaption, small, dd').forEach(el => {
     if(!el.getClientRects().length || el.closest('svg, table, [hidden], dialog:not([open])')) return;
@@ -123,7 +124,7 @@ window.readingCheck = async function readingCheck(){
     if(text.length < 60) return;
     const lines = Math.max(1, Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
     const cpl = Math.round(text.length / lines);
-    if(cpl > 80){
+    if(cpl > (el.classList.contains('lede') ? 90 : 80)){
       const key = `${el.tagName.toLowerCase()}${typeof el.className === 'string' && el.className.trim() ? '.' + el.className.trim().split(/\s+/).join('.') : ''}`;
       if(!wide.has(key) || wide.get(key)[0] < cpl) wide.set(key, [cpl, text.slice(0, 40)]);
     }
@@ -151,6 +152,20 @@ window.readingCheck = async function readingCheck(){
     }
   });
   for(const [key, [word, text]] of orphans) fails.push(`orphan at ${innerWidth}px: ${key} ends with "${word}" alone on its last line, in "${text}"`);
+
+  // 8. Section leads share one width, set so the priorities lead ("Tap the things you care about...") reads as one
+  //    line on a laptop (David, after the rework). Every other lead wraps at that same right edge.
+  {
+    const ledes = [...document.querySelectorAll('.lede')].filter(el => el.getClientRects().length);
+    const widths = new Set(ledes.map(el => getComputedStyle(el).maxWidth));
+    if(widths.size > 1) fails.push(`section leads have different max widths at ${innerWidth}px: ${[...widths].join(', ')}`);
+    const pick = document.querySelector('#picker .lede');
+    if(pick && innerWidth >= 1100){
+      const rg = document.createRange(); rg.selectNodeContents(pick);
+      const lines = new Set([...rg.getClientRects()].map(x => Math.round(x.top))).size;
+      if(lines > 1) fails.push(`the priorities lead takes ${lines} lines at ${innerWidth}px; it should fit on one`);
+    }
+  }
 
   return fails;
 };
