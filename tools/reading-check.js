@@ -125,6 +125,9 @@ window.readingCheck = async function readingCheck(){
     // The roof demo's caption spans its photo (David: "it needs to go the full width of the photo"); it runs
     // one or two lines, so the long measure costs little.
     if(el.id === 'roofSummary') return;
+    // A demo's answer box fills its row, and its text runs the box's full width (David: "use the full width
+    // of the available space here for text"); each answer is one to three lines.
+    if(el.closest('.demo-result')) return;
     const lines = Math.max(1, Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
     const cpl = Math.round(text.length / lines);
     if(cpl > (el.classList.contains('lede') ? 90 : 80)){

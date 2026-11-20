@@ -629,6 +629,13 @@ window.layoutCheck = function layoutCheck(){
       const cs = getComputedStyle(ap);
       if(cs.backgroundColor !== want || parseFloat(cs.paddingLeft) < 12) fails.push(`#apSum: expected a box filled with the page color ${want} (background ${cs.backgroundColor}) at ${W}px`);
     }
+    // Text in a demo's answer box runs the box's full width (David: no "awkward blank space").
+    document.querySelectorAll('.demo-result').forEach(box => {
+      const text = box.querySelector(':scope > .demo-text');
+      if(!text || !visible(box)) return;
+      const cs = getComputedStyle(box), inner = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      if(Math.abs(text.getBoundingClientRect().width - inner) > 2) fails.push(`#${box.id}: text is ${Math.round(text.getBoundingClientRect().width)}px wide in a ${Math.round(inner)}px box at ${W}px; expected the box's full width`);
+    });
     // These demo results are plain text, no box: the camera's heads its column, the roof's captions the photo.
     ['camSummary', 'roofSummary'].forEach(id => {
       const el = document.getElementById(id);
