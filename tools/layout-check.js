@@ -725,5 +725,26 @@ window.layoutCheck = function layoutCheck(){
     });
   }
 
+  // 31. The gear selector card shows the two shifters side by side under its copy: the regular lever and
+  //     the toggle switch, each a photo with a caption, so a reader sees the difference before a test drive.
+  //     The single-photo rules (a tall photo that fills its figure) must not reach the pair.
+  {
+    const card = document.getElementById('f-shifter');
+    const pair = card?.querySelector('.f-vis .photo-pair');
+    const copy = card?.querySelector('.f-text');
+    if(!card) fails.push('feature #f-shifter not found');
+    else if(!pair || !visible(pair)) fails.push(`#f-shifter shows no photo pair at ${W}px`);
+    else {
+      const figs = [...pair.querySelectorAll(':scope > figure')];
+      if(figs.length !== 2 || figs.some(f => !f.querySelector('img') || !f.querySelector('figcaption')?.textContent.trim()))
+        fails.push(`#f-shifter: photo pair has ${figs.length} photos at ${W}px; expected 2, each with a caption`);
+      if(card.dataset.layout !== 'below' || pair.getBoundingClientRect().top < copy.getBoundingClientRect().bottom - 1)
+        fails.push(`#f-shifter: photo pair sits beside its copy (layout "${card.dataset.layout}") at ${W}px; expected below`);
+      // Both photos keep the pair's 16:10 shape, so neither is cropped harder than the other.
+      const sizes = figs.map(f => f.querySelector('img')?.getBoundingClientRect()).filter(Boolean).map(r => [Math.round(r.width), Math.round(r.height)]);
+      if(sizes.some(([w, h]) => Math.abs(w / h - 1.6) > .02)) fails.push(`#f-shifter: photos are ${sizes.map(s => s.join('x')).join(' and ')}px at ${W}px; expected both 16:10`);
+    }
+  }
+
   return fails;
 };

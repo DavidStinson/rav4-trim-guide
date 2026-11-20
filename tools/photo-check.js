@@ -8,7 +8,7 @@
 // roof), the press photos at most 3600px, and the Edmunds photo at 1200px.
 const SOURCE_WIDTH = [
   [/^colors\/ext-/, 3022], [/^colors\/rear-/, 2222], [/^colors\/int-/, 4000],
-  [/^roof-/, 4000], [/^scr-/, 1244], [/^RHV_/, 3600], [/^backup-edmunds$/, 1200],
+  [/^roof-/, 4000], [/^scr-/, 1244], [/^shifter-/, 1200], [/^RHV_/, 3600], [/^backup-edmunds$/, 1200],
 ];
 // Every photo the color picker and the roof switch can show, not only the ones on screen now.
 const SWAPPED = [
