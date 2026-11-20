@@ -112,30 +112,22 @@ window.readingCheck = async function readingCheck(){
     await settle();
   }
 
-  // 6. Running text keeps a readable measure: a paragraph, list item, caption or note averages at most
-  //    80 characters a line (aim: 70 to 75), so the eye finds the start of the next line. (Table cells are exempt; their
-  //    width comes from the table.) Section leads may run to 90: they are short, at 21px, and share one width set by
-  //    the priorities lead fitting on one line (check 8).
-  const wide = new Map();
+  // 6. Running text fills its container: the reading column (or the panel, box or column it sits in) is the only
+  //    limit on a line, with no separate cap on paragraphs, notes, captions or leads (David, REVIEW-DECISIONS.md:
+  //    "fills its container ... with no separate cap"; he never set a character limit).
+  const capped = new Map();
   document.querySelectorAll('p, li, figcaption, small, dd').forEach(el => {
     if(!el.getClientRects().length || el.closest('svg, table, [hidden], dialog:not([open])')) return;
-    if([...el.children].some(c => getComputedStyle(c).display === 'block')) return;
-    const text = el.textContent.replace(/\s+/g, ' ').trim();
-    if(text.length < 60) return;
-    // The roof demo's caption spans its photo (David: "it needs to go the full width of the photo"); it runs
-    // one or two lines, so the long measure costs little.
+    if(el.textContent.replace(/\s+/g, ' ').trim().length < 60) return;
+    // The roof caption's container is the photo above it, so it shares the photo's limit (layout check 27).
     if(el.id === 'roofSummary') return;
-    // A demo's answer box fills its row, and its text runs the box's full width (David: "use the full width
-    // of the available space here for text"); each answer is one to three lines.
-    if(el.closest('.demo-result')) return;
-    const lines = Math.max(1, Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
-    const cpl = Math.round(text.length / lines);
-    if(cpl > (el.classList.contains('lede') ? 90 : 80)){
+    const mw = getComputedStyle(el).maxWidth;
+    if(mw !== 'none' && mw !== '100%'){
       const key = `${el.tagName.toLowerCase()}${typeof el.className === 'string' && el.className.trim() ? '.' + el.className.trim().split(/\s+/).join('.') : ''}`;
-      if(!wide.has(key) || wide.get(key)[0] < cpl) wide.set(key, [cpl, text.slice(0, 40)]);
+      capped.set(key, mw);
     }
   });
-  for(const [key, [cpl, text]] of wide) fails.push(`lines too long to read at ${innerWidth}px: ${key} runs about ${cpl} characters a line, e.g. "${text}"`);
+  for(const [key, mw] of capped) fails.push(`text capped narrower than its container at ${innerWidth}px: ${key} has max-width ${mw}`);
 
   // 7. No orphans: running text never ends on a line holding a single word ("it." alone on the last line
   //    shipped once). Checked at every width; text-wrap: pretty does most of the work.
