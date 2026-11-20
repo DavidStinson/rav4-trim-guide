@@ -92,6 +92,16 @@ window.yearCheck = function yearCheck(year){
   const kwhIn = document.querySelector('#evKwh'), gasIn = document.querySelector('#evGas');
   if(kwhIn && kwhIn.defaultValue !== '12') fails.push(`home electricity starts at ${kwhIn.defaultValue}¢ a kWh; expected 12¢`);
   if(gasIn && +gasIn.defaultValue !== 3.5) fails.push(`gas starts at $${gasIn.defaultValue} a gallon; expected $3.50`);
+  // Driving days start at 150, and the savings result shows the yearly miles they add up to (David).
+  const daysIn = document.querySelector('#evDays'), milesIn = document.querySelector('#evMiles');
+  if(daysIn && daysIn.defaultValue !== '150') fails.push(`driving days start at ${daysIn.defaultValue} a year; expected 150`);
+  if(daysIn && milesIn){
+    const was = [milesIn.value, daysIn.value], put = (el, v)=>{ el.value = v; el.dispatchEvent(new Event('input', {bubbles: true})); };
+    put(milesIn, 30); put(daysIn, 150);
+    const save = txt(document.querySelector('#evSave'));
+    if(!save.includes('about 4,500 miles a year (30 miles a day, 150 days a year)')) fails.push(`savings result doesn't show the yearly miles for 30 miles a day, 150 days: ${save}`);
+    put(milesIn, was[0]); put(daysIn, was[1]);
+  }
 
   // 7. Charging times. Worked by hand: wall kWh for a full charge = range x 33.7 / MPGe, plus 10%,
   //    divided by 1.44 kW (120 V x 12 A), 3.84 kW (240 V x 16 A) and 11 kW, rounded to the nearest half
