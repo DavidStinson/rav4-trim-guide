@@ -18,14 +18,15 @@ const YEAR_FACTS = {
     trials:{remote:'5 years', drive:'3 months'},
     xleAssist:'XLE Premium Driver Assist Package',
     notes:{
-      seaPhv:'All three. Toyota’s Plug-in page leaves out Safe Exit Alert, but its 2027 announcement lists it on every RAV4.',
+      seaPhv:'All three',
       material:'Toyota’s Plug-in page uses the vaguer name “Mixed Media”, but Toyota’s 2027 announcement and Toyota Canada both describe the same suede and SofTex mix.',
-      consolePhv:'Toyota lists Snow, Normal and EV buttons here, and the Trail mode under the engine',
+      consolePhv:'Snow, Normal and EV buttons',
       powertrainPhv:'321 hp combined; adds a Trail drive mode',
-      batteryPhv:'A much larger lithium-ion battery (22.7 kWh, per Toyota Canada). Toyota’s US page doesn’t give its voltage.',
+      batteryPhv:'22.7 kWh lithium-ion, much larger',
     },
-    specGaps:'Where Toyota’s 2027 RAV4 announcement or Toyota Canada fills a gap, the row says so.',
     sources:'Features, prices and fuel economy come from Toyota\'s 2027 RAV4 comparison page for the XLE Premium AWD (4444), XSE AWD (4530) and Limited AWD (4534), and its 2027 RAV4 Plug-in Hybrid comparison page for the XSE (4550), as published in November 2026. Package and paint prices come from Toyota\'s online build tool in the same month. Items the Plug-in page leaves out were checked against Toyota\'s 2027 RAV4 press release (November 5, 2026) and Toyota Canada\'s 2026 RAV4 Plug-in Hybrid product summary, which is also the source of the Plug-in\'s battery size. Toyota\'s 2026 RAV4 launch press release lists the XSE\'s extra driver-assist features (Front Cross-Traffic Alert, Lane Change Assist and Traffic Jam Assist) for both the Hybrid and the Plug-in, so the Plug-in XSE is marked as having the whole bundle.',
+    // The Plug-in XSE has the shift-linked door locks and the silver door handles (David); its Toyota page leaves both out.
+    specFixes:[{cat:'Inside', label:'Power door locks with shift-linked', trim:3, cell:['std','']}, {cat:'Inside', label:'Silver-colored interior door handles', trim:3, cell:['std','']}],
   },
   2026:{
     year:2026, specs:'RAV4_SPECS_2026',
@@ -38,17 +39,17 @@ const YEAR_FACTS = {
     trials:{remote:'1 year', drive:'1 year'},
     xleAssist:'XLE Driver Assist Package',
     notes:{
-      seaPhv:'Blind Spot Monitor and Rear Cross-Traffic Alert. Toyota’s 2026 Plug-in page leaves out Safe Exit Alert; its 2027 announcement lists it on every 2027 RAV4.',
+      seaPhv:'Blind Spot Monitor and Rear Cross-Traffic Alert',
       material:'Toyota’s Plug-in page uses the vaguer name “Mixed Media”, but Toyota Canada describes the same suede and SofTex mix.',
       consolePhv:'Same as XLE Premium',
       powertrainPhv:'324 hp combined',
-      batteryPhv:'A much larger lithium-ion battery: 391 volts, and 22.7 kWh per Toyota Canada',
+      batteryPhv:'22.7 kWh lithium-ion, much larger',
     },
-    specGaps:'Where Toyota Canada fills a gap, the row says so. Toyota’s 2027 announcement is mentioned only where it hints at what the 2026 has.',
     sources:'Features, prices and fuel economy come from Toyota\'s 2026 RAV4 comparison page for the XLE Premium AWD (4444), XSE AWD (4530) and Limited AWD (4534), and its 2026 RAV4 Plug-in Hybrid comparison page for the XSE (4550), as published in November 2026. Package and paint prices come from Toyota\'s online build tool in the same month. Toyota\'s 2026 comparison page marks the JBL system as not offered on the Hybrid XSE, but the build tool sells the JBL Premium Audio Package for it, so this page follows the build tool. Items the Plug-in page leaves out were checked against Toyota Canada\'s 2026 RAV4 Plug-in Hybrid product summary, which is also the source of the Plug-in\'s battery size. Toyota\'s 2026 RAV4 launch press release lists the XSE\'s extra driver-assist features (Front Cross-Traffic Alert, Lane Change Assist and Traffic Jam Assist) for both the Hybrid and the Plug-in, so the Plug-in XSE is marked as having the whole bundle. The 2026 and 2027 are the same generation, so the photos fit both.',
     // Toyota's 2026 comparison page says the Hybrid XSE can't get JBL; the 2026 build tool sells the
     // $620 JBL Premium Audio Package for it, and the same page's package list agrees.
-    specFixes:[{cat:'Screen & sound', label:'12.9-in. Toyota Audio Multimedia, 9-speaker JBL', trim:1, cell:['opt','']}],
+    // The Plug-in XSE has the shift-linked door locks and the silver door handles (David); its Toyota page leaves both out.
+    specFixes:[{cat:'Screen & sound', label:'12.9-in. Toyota Audio Multimedia, 9-speaker JBL', trim:1, cell:['opt','']}, {cat:'Inside', label:'Power door locks with shift-linked', trim:3, cell:['std','']}, {cat:'Inside', label:'Silver-colored interior door handles', trim:3, cell:['std','']}],
   },
 };
 const F = (()=>{
@@ -117,8 +118,7 @@ const TRIMS = [
   {id:'ltd', name:'Limited', color:'var(--ltd)', soft:'var(--ltd-soft)'},
   {id:'phv', name:'Plug-in XSE', color:'var(--phv)', soft:'var(--phv-soft)'},
 ];
-// Status per trim, in TRIMS order: ['std'|'opt'|'no', note?]. ('nl', "not listed", is only for the
-// spec list, where Toyota's pages leave a line out.) Toyota's spec data for the Plug-in leaves out the
+// Status per trim, in TRIMS order: ['std'|'opt'|'no', note?]. Toyota's spec data for the Plug-in leaves out the
 // driver-assist bundle, but its 2026 launch announcement lists those features for every XSE, Hybrid
 // and Plug-in alike, so the bundle is marked included.
 // layout says where a feature's picture goes (REVIEW-DECISIONS.md, "feature panel layout"):

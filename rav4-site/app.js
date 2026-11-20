@@ -6,9 +6,8 @@ const ICON = {
   std:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   opt:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
   no:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 8h8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
-  nl:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.6 5.8a2.4 2.4 0 1 1 3.4 2.2c-.7.3-1 .8-1 1.5v.4M8 12.4v.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
 };
-const WORD = {std:'Included', opt:'Optional', no:'Not offered', nl:'Not listed'};
+const WORD = {std:'Included', opt:'Optional', no:'Not offered'};
 const pill = (s,txt)=>`<span class="pill ${s}">${ICON[s]}${txt||WORD[s]}</span>`;
 const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
@@ -426,7 +425,7 @@ const PKG = (()=>{
   });
 
   // Text that names a year-specific fact: <span data-f="key">.
-  const TEXT = {year:String(F.year), range:String(F.range), specGaps:F.specGaps, sources:F.sources,
+  const TEXT = {year:String(F.year), range:String(F.range), sources:F.sources,
     ...Object.fromEntries(TRIM_IDS.map(id=>['price.'+id, money(START[id])])),
     // Each step up, as the hero chips and step-up headings name it: the Plug-in is the XSE with a plug,
     // so its step is from the Hybrid XSE, not from the Limited beside it.
@@ -546,11 +545,11 @@ const SPEC_MERGES = [
    cells:[{t:'Satin black lower front bumper, fender flares and rear bumper'},
           {t:'Glossy black lower front bumper and fender flares; silver rear bumper'},
           {t:'Satin black fender flares; silver lower front bumper and rear bumper'},
-          {t:'Glossy black lower front bumper and fender flares. Toyota doesn’t describe the rear bumper.'}]},
+          {t:'Glossy black lower front bumper and fender flares'}]},
   {cat:'Outside', label:'Power liftgate', common:'Power liftgate with jam protection on all four.',
    from:['Height-adjustable power liftgate with jam protection','Hands-free power liftgate with jam protection'],
    cells:[{t:'Opening height can be set'},
-          {t:'Opens hands-free with a foot swipe. Toyota doesn’t list the height setting.'},
+          {t:'Opens hands-free with a foot swipe'},
           {t:'Same as XSE'},
           {t:'Same as XSE'}]},
   {cat:'Outside', label:'Wheels',
@@ -569,18 +568,18 @@ const SPEC_MERGES = [
   {cat:'Outside', label:'Grille', common:'Body-colored grille on all four.',
    from:['Body-colored grille','Body-colored grille with dark chrome accents','Body-colored grille with satin chrome accents'],
    cells:[{t:'No accents'},{t:'Dark chrome accents'},{t:'Satin chrome accents'},{t:'Dark chrome accents'}]},
-  {cat:'Outside', label:'Outside mirrors', common:'Glossy black, heated and power-adjusted, with turn signals and blind spot warning lights on all four.',
+  {cat:'Outside', label:'Outside mirrors', common:'Heated and power-adjusted, with turn signals, on all four.',
    from:['Piano-black heated power outside mirrors with turn signal and blind spot warning indicators',
          'Piano-black heated power outside mirrors with turn signal and blind spot warning indicators, and puddle lights'],
    cells:[{t:'No puddle lights'},{t:'XLE Premium plus puddle lights'},{t:'Same as XSE'},{t:'Same as XSE'}]},
-  {cat:'Inside', label:'Wireless phone charging', common:'Qi-compatible, with a charge indicator light.',
+  {cat:'Inside', label:'Wireless phone charging',
    from:['Single Qi-compatible wireless charging with charge indicator light','Dual Qi-compatible wireless charging with charge indicator light'],
    cells:[{t:'1 charging pad'},{t:'1 charging pad'},{t:'2 charging pads'},{t:'1 charging pad'}]},
-  {cat:'Inside', label:'Interior lights', common:'A cargo area light on all four.',
+  {cat:'Inside', label:'Interior lights',
    from:['LED front-seat reading lights, dome light and cargo area light','Cargo area light'],
    cells:[{t:'LED reading lights up front and a dome light'},{t:'Same as XLE Premium'},{t:'Same as XLE Premium'},
-          {t:'Front map lights (listed with the overhead console). Toyota doesn’t mention a dome light.'}]},
-  {cat:'Inside', label:'Center console', common:'Covered storage, a reversible armrest tray, two cupholders, a front storage tray, and parking brake and Brake Hold buttons on all four.',
+          {t:'Front map lights'}]},
+  {cat:'Inside', label:'Center console', common:'Covered storage and two cupholders on all four.',
    from:['Center console with covered storage compartment, reversible armrest/console tray, two cup holders, drive mode (Trail, Snow, Normal and EV Mode ), auto LSD/VSC, Electric Parking Brake (EPB) and automatic Brake Hold controls, and front storage tray',
          ['Center console with covered storage compartment, reversible armrest/console tray, two cup holders, drive mode (snow, normal and EV mode), Electric Parking Brake (EPB) and automatic Brake Hold controls, and front storage tray',
           'Center console with covered storage compartment, reversible armrest/console tray, two cup holders, drive mode (trail, snow, normal and EV mode), auto LSD/VSC, Electric Parking Brake (EPB) and automatic Brake Hold controls, and front storage tray']],
@@ -599,9 +598,9 @@ const SPEC_MERGES = [
          ['Mixed Media/SofTex-trimmed seats, heated and ventilated front seats (high-mid-low); 8-way power-adjustable driver\'s seat with memory function and lumbar support; 8-way power front passenger seat with seatback pocket',
           'Mixed Media/SofTex®-trimmed seats, heated and ventilated front seats (high-mid-low); 8-way power-adjustable driver\'s seat with memory function and lumbar support; 8-way power front passenger seat with seatback pocket']],
    cells:[{t:'Heated front seats (2 levels); 6-way manual passenger seat'},
-          {t:'XLE Premium plus suede-like inserts, cooled front seats with 3 heat levels, driver’s seat memory, and an 8-way power passenger seat'},
+          {t:'Adds cooled seats, a memory driver’s seat, a power passenger seat and suede-like inserts.'},
           {t:'Same as XSE without the suede-like inserts, plus heated back seats'},
-          {t:'Same as XSE. Toyota’s Plug-in page calls the trim “Mixed Media”.'}]},
+          {t:'Same as XSE'}]},
   {cat:'Inside', label:'Power outlets',
    from:['One 12V/120W auxiliary power outlet in front instrument panel storage tray and one 12V/120W auxiliary power outlet in cargo area',
          'One 12V/120W auxiliary power outlet in front instrument panel storage tray',
@@ -614,14 +613,14 @@ const SPEC_MERGES = [
           {t:'Auto-dimming, with garage door opener', opt:'Camera mirror (Panoramic Moonroof Package)'},
           {t:'Camera mirror, with garage door opener'},
           {t:'Auto-dimming, with garage door opener', opt:'Camera mirror (Panoramic Moonroof Package)'}]},
-  {cat:'Inside', label:'Steering wheel', common:'Leather-trimmed, tilts and telescopes, with buttons for audio, phone, voice, cruise control and lane assist on all four.',
+  {cat:'Inside', label:'Steering wheel', common:'Leather-trimmed, tilts and telescopes, on all four.',
    from:['Leather-trimmed tilt/telescopic 3-spoke steering wheel with silver accent and controls for audio, Multi-Information Display (MID), Bluetooth® hands-free phone, voice-command, Dynamic Radar Cruise Control (DRCC), Lane Departure Alert (LDA), and Lane Trace Assist (LTA)',
          'Heated leather-trimmed tilt/telescopic 3-spoke steering wheel with silver accent and controls for audio, Multi-Information Display (MID), Bluetooth® hands-free phone, voice-command, Dynamic Radar Cruise Control (DRCC), Lane Departure Alert (LDA), and Lane Trace Assist (LTA)'],
    cells:[{t:'Not heated', opt:'Heated (Weather Package)'},
           {t:'Not heated', opt:'Heated (Weather Package)'},
           {t:'Heated'},
           {t:'Not heated', opt:'Heated (Weather Package)'}]},
-  {cat:'Screen & sound', label:'Touchscreen and speakers', common:'Wireless Apple CarPlay and Android Auto, and a 3-month SiriusXM trial on all four.',
+  {cat:'Screen & sound', label:'Touchscreen and speakers', common:'Wireless Apple CarPlay and Android Auto on all four.',
    from:['10.5-in. Toyota Audio Multimedia, six speakers, with wireless Apple CarPlay® & Android Auto™ compatibility, SiriusXM® with 360L 3-month trial subscription. See toyota.com/connected-services for details.',
          '12.9-in. Toyota Audio Multimedia, six speakers, with wireless Apple CarPlay® & Android Auto™ compatibility, SiriusXM® with 360L 3-month trial subscription. See toyota.com/connected-services for details.',
          '12.9-in. Toyota Audio Multimedia, 9-speaker JBL® Premium Audio including subwoofer and amplifier, with wireless Apple CarPlay® & Android Auto™ compatibility, SiriusXM® with 360L 3-month trial subscription. See toyota.com/connected-services for details.',
@@ -656,6 +655,51 @@ const SPEC_MERGES = [
 ];
 // Packages and single options have their own section with prices.
 const SPEC_SKIP_CATS = new Set(['Option packages','Single options']);
+// Rows too technical to help choose a trim, or repeated elsewhere (David's spec sweep). Matched on the
+// row's name after merging, so a merged row (Electric motor output) can be cut too.
+const SPEC_CUTS = new Set(['Rain-sensing variable intermittent windshield wipers with de-icer function','Final drive gear ratio','Final gear ratio',
+  'Electric motor output (front/rear)','Automatic CVT fluid warmer','Systems max voltage: 650V','Cargo minimum/maximum height','Cargo minimum/maximum width',
+  'Head room with moonroof (max)','EPA passenger volume','EPA passenger volume w/o moonroof','Payload (lb.)','Gross Vehicle Weight Rating (GVWR) (lb.)']);
+// Plain names for Toyota's long lines. Toyota's own wording stays one click away under the name.
+const SPEC_NAMES = {
+  'Power door locks with shift-linked automatic lock/unlock feature':'Doors lock when you shift out of Park',
+  'Color Head-Up Display (HUD) with speedometer and Road Sign Assist (RSA)':'Head-up display',
+  'Overhead console with maplights, sunglasses storage and Safety Connect® button':'Overhead console with map lights',
+  'Overhead console with maplights, sunglasses storage, Safety Connect® button and power tilt/slide moonroof controls':'Overhead console with map lights, plus moonroof buttons',
+  'White ambient illuminated foot wells':'Footwell lighting',
+  'White ambient illumination for front cup holders':'Cupholder lighting',
+  'White ambient illumination for in-dash shelves':'Dash shelf lighting',
+  'Panoramic View Monitor (PVM) with 3D 360-degree Overhead View in low-speed drive and reverse, and Curb View':'360° camera',
+  'Drive mode button with SPORT, Eco and NORMAL modes, AUTO EV/AV mode and SNOW mode':'Plug-in drive modes (Sport, Eco, Normal, EV, Snow)',
+  'Drive mode button with SPORT, Eco and NORMAL modes, AUTO EV/AV mode and SNOW and TRAIL mode':'Plug-in drive modes (Sport, Eco, Normal, EV, Snow, Trail)',
+  'DC Fast Charging capable':'DC fast charging',
+  'Dual-voltage charging cable with Level 1 and Level 2 charging capability':'Charging cable for regular and 240-volt outlets',
+  'NACS (North American Charging Standard) inlet':'Tesla-style charging port (NACS)',
+  '11 kW AC onboard charger':'11 kW onboard charger',
+  'Level 1-3 CCS1 charging port (driver-side)':'Fast-charging port (CCS1, driver’s side)',
+  'Silver-colored interior door handles':'Silver inside door handles',
+  'Black anti-slip in-dash storage trays':'Non-slip dash trays',
+  'Blue interior stitching accents':'Blue stitching',
+  'Silver-painted dash with soft-touch dash panels and leather-wrapped armrests':'Silver dash, soft-touch panels, leather armrests',
+  'Cargo volume (rear)':'Cargo space behind the back seat',
+};
+// Toyota's connected-service lines run to four lines of marketing copy; each starts with the service name.
+const SPEC_NAME_PREFIXES = [
+  ['Remote Connect —','Remote Connect app (lock, start and find the car)'],
+  ['Drive Connect —','Drive Connect (cloud navigation and voice assistant)'],
+  ['Safety Connect® —','Safety Connect (emergency button, roadside help and crash alerts)'],
+  ['Service Connect —','Service Connect (maintenance reminders)'],
+];
+// Toyota's sub-headings are dropped, so a heading's unit moves into its rows' names. Where a row gives
+// two numbers (front/second row), the name says so.
+const SPEC_UNIT_NAMES = {'Cargo length behind rear seat':'Cargo length behind the back seat','Hip room':'Hip room, front/back seat',
+  'Leg room':'Leg room, front/back seat','Shoulder room':'Shoulder room, front/back seat'};
+function plainName(r, unit){
+  const named = SPEC_NAMES[r.label] || SPEC_NAME_PREFIXES.find(([p])=>r.label.startsWith(p))?.[1];
+  const base = named || SPEC_UNIT_NAMES[r.label] || r.label;
+  const label = unit && !/\(/.test(base) ? `${base} ${unit}` : base;
+  return label===r.label ? r : {...r, label, toyota: named ? r.label : undefined};
+}
 
 // Corrections to Toyota's comparison data, listed per year in YEAR_FACTS with the reason.
 function fixSpecs(raw, fixes){
@@ -678,6 +722,12 @@ function mergeSpecs(raw){
       const merged = {label:m.label, merged:m, sources:src};
       rows = rows.map(r=>r===src[0]?merged:r).filter(r=>!src.includes(r));
     });
+    // Drop Toyota's sub-headings, carrying a heading's unit, e.g. "(in.)", into the names below it.
+    let unit = null;
+    rows = rows.flatMap(r=>{
+      if(r.header){ unit = r.label.match(/\((in\.|cu\. ft\.)\)$/)?.[0] || null; return []; }
+      return SPEC_CUTS.has(r.label) ? [] : [r.merged ? r : plainName(r, unit)];
+    });
     return {...cat, rows};
   });
 }
@@ -686,32 +736,32 @@ function mergeSpecs(raw){
   const data = mergeSpecs(fixSpecs(window[F.specs]||[], F.specFixes||[]));
   const list=$('#specList'), q=$('#specSearch'), diff=$('#diffOnly'), count=$('#specCount');
   const openState = store.get('rav4-open',{});
-  const cell=([s,v])=> s==='nl'? pill('nl') : s==='val'? `<span class="val">${esc(v||'–')}</span>` : (v && s!=='std'? pill(s, s==='opt'?'Optional':undefined)+`<div class="note" style="margin-top:4px">${esc(v)}</div>` : pill(s));
+  const cell=([s,v])=> s==='nl'? (console.error('Spec cell still “not listed”; add a specFixes entry:', v), '–') : s==='val'? `<span class="val">${esc(v||'–')}</span>` : (v && s!=='std'? pill(s, s==='opt'?'Optional':undefined)+`<div class="note" style="margin-top:4px">${esc(v)}</div>` : pill(s));
   const mcell=c=> `<span>${esc(c.t)}</span>${c.opt?`<span class="mo">${pill('opt','Optional')}${esc(c.opt)}</span>`:''}`;
   const isDiff=r=> r.merged ? new Set(r.merged.cells.map(c=>c.t+'|'+(c.opt||''))).size>1
                             : r.cells && new Set(r.cells.map(c=>c.join('|'))).size>1;
-  const haystack=r=> r.merged ? [r.label, r.merged.common||'', ...r.merged.cells.flatMap(c=>[c.t,c.opt||'']), ...r.merged.from].join(' ') : r.label;
+  const haystack=r=> r.merged ? [r.label, r.merged.common||'', ...r.merged.cells.flatMap(c=>[c.t,c.opt||'']), ...r.merged.from].join(' ') : [r.label, r.toyota||''].join(' ');
   const hi=(t,term)=>{ const e=esc(t); if(!term) return e; const i=e.toLowerCase().indexOf(term.toLowerCase()); return i<0?e:e.slice(0,i)+'<mark>'+e.slice(i,i+term.length)+'</mark>'+e.slice(i+term.length); };
   const whoHas=src=> TRIMS.map((t,i)=>{const s=src.cells[i][0]; return s==='std'?t.name : s==='opt'?t.name+' (optional)' : null;}).filter(Boolean).join(', ');
-  const labelCell=(r,term)=> !r.merged ? hi(r.label,term) :
-    `${hi(r.label,term)}${r.merged.common?`<span class="common">${esc(r.merged.common)}</span>`:''}
-     <details class="tw"><summary>Toyota’s wording</summary><ul>${r.sources.map(src=>`<li>${esc(src.label)}<span>${esc(whoHas(src))}</span></li>`).join('')}</ul></details>`;
+  const wording=items=> `<details class="tw"><summary>Toyota’s wording</summary><ul>${items}</ul></details>`;
+  const labelCell=(r,term)=> `<span class="ln">${hi(r.label,term)}</span>` + (
+    r.merged ? `${r.merged.common?`<span class="common">${esc(r.merged.common)}</span>`:''}
+     ${wording(r.sources.map(src=>`<li>${esc(src.label)}<span>${esc(whoHas(src))}</span></li>`).join(''))}`
+    : r.toyota ? wording(`<li>${esc(r.toyota)}</li>`) : '');
   function render(){
     const term=q.value.trim(); let shown=0;
     list.innerHTML = data.map((cat,ci)=>{
-      let sub=null, rows=[];
+      const rows=[];
       cat.rows.forEach(r=>{
-        if(r.header){sub=r.label;return;}
         if(diff.checked && !isDiff(r)) return;
-        if(term && !(haystack(r)+' '+(sub||'')).toLowerCase().includes(term.toLowerCase())) return;
-        if(sub){rows.push(`<tr class="sub"><td colspan="${TRIMS.length+1}">${esc(sub)}</td></tr>`); sub=null;}
+        if(term && !haystack(r).toLowerCase().includes(term.toLowerCase())) return;
         const cells = r.merged ? r.merged.cells.map(mcell) : r.cells.map(cell);
-        rows.push(`<tr class="${isDiff(r)?'diff':''}"><td class="lab">${labelCell(r,term)}</td>${cells.map((c,i)=>`<td class="c" data-t="${TRIMS[i].name}">${c}</td>`).join('')}</tr>`);
+        rows.push(`<tr class="${[r.merged&&'merged', isDiff(r)&&'diff'].filter(Boolean).join(' ')}"><td class="lab">${labelCell(r,term)}</td>${cells.map((c,i)=>`<td class="c" data-t="${TRIMS[i].name}">${c}</td>`).join('')}</tr>`);
         shown++;
       });
       if(!rows.length) return '';
       const open = term || openState[cat.cat]!==false;
-      return `<details class="spec-cat" data-cat="${esc(cat.cat)}" ${open?'open':''}><summary>${esc(cat.cat)} <span class="n">${(n=>n+(n===1?' row':' rows'))(rows.filter(r=>!r.startsWith('<tr class="sub"')).length)}</span></summary>
+      return `<details class="spec-cat" data-cat="${esc(cat.cat)}" ${open?'open':''}><summary>${esc(cat.cat)} <span class="n">${(n=>n+(n===1?' row':' rows'))(rows.length)}</span></summary>
         <table class="spec-table"><thead><tr><th scope="col">Feature</th>${TRIMS.map(t=>`<th class="t" scope="col" style="--c:${t.color}"><span class="tn">${t.name}</span><span class="tp">from ${money(START[t.id])}</span></th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></details>`;
     }).join('') || `<p class="lede">No rows match “${esc(term)}”. Try a shorter word, or turn off “Only show differences”.</p>`;
     count.textContent = `${shown} row${shown===1?'':'s'}`;
