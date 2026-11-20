@@ -8,6 +8,8 @@
   --phv:#2F6699; --phv-soft:#E6EEF6;
   --shadow:0 1px 2px rgba(20,30,40,.06),0 8px 24px rgba(20,30,40,.06);
   --focus:#1D5FD1;
+  /* The opposite scheme, for a card that stands out from the page (the year comparison): dark here, light in dark mode. */
+  --inv-card:#2B3034; --inv-ink:#ECEEEC; --inv-ink-2:#BCC3C7; --inv-rule:#454C51; --inv-focus:#8AB4FF;
   --text:"Atkinson Hyperlegible",system-ui,sans-serif;
   /* One type scale: like elements share a size (reading check 2). Body is 19px (18px on phones), ledes 21px. */
   /* Two page widths (layout check 8): text sits in the reading column; .bleed rows that compare four trims run wider.
@@ -29,6 +31,7 @@
     --xle:#4ED860; --xse:#FF6E80; --ltd:#F5A040; --xle-soft:#1C2E20; --xse-soft:#35202A; --ltd-soft:#2F2719;
     --phv:#6DB0FE; --phv-soft:#1D2A36;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --focus:#8AB4FF; color-scheme:dark;
+    --inv-card:#E4E8E6; --inv-ink:#202427; --inv-ink-2:#3F454A; --inv-rule:#C3C9C5; --inv-focus:#1D5FD1;
   }
 }
 :root[data-theme="dark"]{
@@ -37,6 +40,7 @@
   --xle:#4ED860; --xse:#FF6E80; --ltd:#F5A040; --xle-soft:#1C2E20; --xse-soft:#35202A; --ltd-soft:#2F2719;
     --phv:#6DB0FE; --phv-soft:#1D2A36;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --focus:#8AB4FF; color-scheme:dark;
+    --inv-card:#E4E8E6; --inv-ink:#202427; --inv-ink-2:#3F454A; --inv-rule:#C3C9C5; --inv-focus:#1D5FD1;
 }
 *{box-sizing:border-box}
 /* The hidden attribute always wins over a component's display rule. */
@@ -117,8 +121,8 @@ figcaption,.cap,.demo-cap{text-wrap:balance}
 .road-foot{background:var(--card);border-radius:0 0 28px 28px;box-shadow:var(--shadow);padding:18px 24px;display:flex;flex-wrap:wrap;gap:10px 28px;font-size:var(--fs-note);color:var(--ink-2)}
 .road-foot b{color:var(--ink)}
 /* 2026 only: how it differs from the 2027. */
-.year-diff{margin-top:28px;background:var(--opt-soft);border-radius:24px;padding:22px 26px 24px}
-.year-diff h2{font-size:clamp(22px,2.6vw,28px);margin:0 0 6px}
+.year-diff{--ink:var(--inv-ink);--ink-2:var(--inv-ink-2);--rule:var(--inv-rule);--focus:var(--inv-focus);margin-top:28px;background:var(--inv-card);color:var(--ink);box-shadow:var(--shadow);border-radius:24px;padding:22px 26px 24px}
+.year-diff > .note-tag{margin:0 0 12px}
 .year-diff > p{margin:0;color:var(--ink-2)}
 .yd-table{width:100%;border-collapse:collapse;margin:14px 0 12px;font-size:17px}
 .yd-table th,.yd-table td{text-align:left;padding:9px 12px 9px 0;border-top:1px solid var(--rule);vertical-align:top}

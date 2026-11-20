@@ -453,7 +453,7 @@ const PKG = (()=>{
   ].filter(([,get])=>get(F)!==get(O));
   const panel = $('#yearDiff');
   panel.innerHTML = `
-    <h2 id="yearDiffT">How the ${F.year} differs from the ${O.year}</h2>
+    <h2 class="note-tag" id="yearDiffT">${F.year} vs. ${O.year}</h2>
     <p>The two years look the same and have nearly all the same features, and the option packages cost the same. These are the differences Toyota’s pages list.</p>
     <table class="yd-table">
       <thead><tr><td></td><th scope="col">${F.year}, shown on this page</th><th scope="col">${O.year}</th></tr></thead>
