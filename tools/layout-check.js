@@ -898,22 +898,24 @@ window.layoutCheck = function layoutCheck(){
       const sp = svg.querySelector('.hud-speed')?.textContent.trim(), lim = svg.querySelector('.hud-limit')?.textContent.trim();
       if(!sp || !lim || sp === lim) fails.push(`#f-hud: the speed (${sp}) and the speed limit (${lim}) should both show and differ`);
       if(!/shaded box/i.test(panel.querySelector('.cap')?.textContent || '')) fails.push('#f-hud: no caption saying the shaded box is only for the drawing');
-      // The readings stand out from the trees and sky behind them (David): each reading is at least 4.5:1
-      // against the shaded box, taking the worst case of the box laid over pure white.
-      const hb = svg.querySelector('.hud-box');
-      if(hb){
-        const hex = c => { const m = String(c).match(/^#([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i); return m ? m.slice(1).map(h => parseInt(h, 16)) : null; };
-        const lin = v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; };
-        const L = c => .2126 * lin(c[0]) + .7152 * lin(c[1]) + .0722 * lin(c[2]);
-        const a = +(hb.getAttribute('opacity') ?? 1) * +(hb.getAttribute('fill-opacity') ?? 1), boxC = hex(hb.getAttribute('fill'));
-        const under = boxC && boxC.map(v => a * v + (1 - a) * 255);
-        [['speed', svg.querySelector('.hud-speed'), 'fill'], ['mph', svg.querySelector('.hud-unit'), 'fill'], ['arrow', svg.querySelector('.nav-arrow'), 'stroke']].forEach(([name, el, attr]) => {
-          const c = el && hex(el.getAttribute(attr));
-          if(!c || !under) { fails.push(`#f-hud: can't read the ${name}'s color or the box's`); return; }
-          const [hi, lo] = [L(c), L(under)].sort((x, y) => y - x), r = (hi + .05) / (lo + .05);
-          if(r < 4.5) fails.push(`#f-hud: the ${name} is ${r.toFixed(1)}:1 against the shaded box over a light sky; at least 4.5:1`);
-        });
-      }
+      // The readings stand out from the trees and sky behind them (David), through their own color, not a
+      // darker box: each reading is at least 7:1 against both tree greens, and edged with a dark outline at
+      // least 4.5:1 from it so it holds up over the light sky too. Text takes the outline as its stroke,
+      // painted under the fill; the arrow sits on a wider dark copy of itself (.hud-edge).
+      const hex = c => { const m = String(c).match(/^#([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i); return m ? m.slice(1).map(h => parseInt(h, 16)) : null; };
+      const lin = v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; };
+      const L = c => .2126 * lin(c[0]) + .7152 * lin(c[1]) + .0722 * lin(c[2]);
+      const ratio = (x, y) => { const [hi, lo] = [L(x), L(y)].sort((a, b) => b - a); return (hi + .05) / (lo + .05); };
+      const greens = ['#2C4634', '#3A5A41'].map(hex);
+      const edge = svg.querySelector('.hud-edge');
+      [['speed', svg.querySelector('.hud-speed'), 'fill'], ['mph', svg.querySelector('.hud-unit'), 'fill'], ['arrow', svg.querySelector('.nav-arrow'), 'stroke']].forEach(([name, el, attr]) => {
+        const c = el && hex(el.getAttribute(attr));
+        if(!c) { fails.push(`#f-hud: can't read the ${name}'s color`); return; }
+        const worst = Math.min(...greens.map(g => ratio(c, g)));
+        if(worst < 7) fails.push(`#f-hud: the ${name} is ${worst.toFixed(1)}:1 against the trees; at least 7:1`);
+        const out = name === 'arrow' ? edge && hex(edge.getAttribute('stroke')) : el.getAttribute('paint-order') === 'stroke' && hex(el.getAttribute('stroke'));
+        if(!out || ratio(c, out) < 4.5) fails.push(`#f-hud: the ${name} has no dark outline at least 4.5:1 from it`);
+      });
       // A windshield seen from the driver's seat, like Toyota's own HUD photo (David): the glass fills the
       // view, cut by the left pillar and the long flat dashboard, with the top of the steering wheel; the
       // display floats in front of the driver, over the wheel.
@@ -953,9 +955,11 @@ window.layoutCheck = function layoutCheck(){
       }
     }
   });
-  // 41. In the colors panel's model picker, the picked model's name shows in its trim's color (David), at
-  //     least 4.5:1 against the button behind it, so the picker matches the trim colors used everywhere
-  //     else. Each model is tried in turn, then the original pick is restored.
+  // 41. In the colors panel's model picker, the picked model keeps the pressed style every other toggle
+  //     uses (the camera toggle is the reference), and only its text changes: it reads in its trim's hue
+  //     (within 12 degrees), at least 4.5:1 against the button (David). The pressed button is dark in light
+  //     mode and light in dark mode, so the text takes the other theme's shade of the trim color. Each
+  //     model is tried in turn, then the original pick is restored.
   const cpBtns = [...document.querySelectorAll('#cpModel button')];
   if(cpBtns.length){
     const rgb = c => (c.match(/[\d.]+/g) || []).slice(0, 4).map(Number);
@@ -967,8 +971,13 @@ window.layoutCheck = function layoutCheck(){
       b.click();
       const t = TRIMS.find(x => x.id === b.dataset.t);
       probe.style.color = t.color;
-      const want = getComputedStyle(probe).color, got = getComputedStyle(b).color;
-      if(got !== want) fails.push(`colors picker: the picked ${t.name} reads ${got}, not its trim color ${want}`);
+      const want = rgb(getComputedStyle(probe).color), got = getComputedStyle(b).color;
+      const hue = ([r, g, bl]) => { const mx = Math.max(r, g, bl), mn = Math.min(r, g, bl), d = mx - mn; if(!d) return NaN;
+        const h = mx === r ? ((g - bl) / d) % 6 : mx === g ? (bl - r) / d + 2 : (r - g) / d + 4; return (h * 60 + 360) % 360; };
+      const dh = Math.abs(hue(rgb(got)) - hue(want)), off = Math.min(dh, 360 - dh);
+      if(!(off <= 12)) fails.push(`colors picker: the picked ${t.name} reads ${got}, not in its trim's hue (${Math.round(off)} degrees off)`);
+      const ref = document.querySelector('.cam-seg button[aria-pressed="true"]');
+      if(ref && getComputedStyle(b).backgroundColor !== getComputedStyle(ref).backgroundColor) fails.push(`colors picker: the picked ${t.name}'s button isn't the shared pressed style (${getComputedStyle(b).backgroundColor} vs ${getComputedStyle(ref).backgroundColor})`);
       const [L1, L2] = [lum(rgb(got)), lum(bgOf(b))].sort((x, y) => y - x), ratio = (L1 + .05) / (L2 + .05);
       if(ratio < 4.5) fails.push(`colors picker: the picked ${t.name} is ${ratio.toFixed(2)}:1 against its button; at least 4.5:1`);
     });
