@@ -18,7 +18,7 @@
   /* The one gap between sections, from the end of one section's content to the next heading (layout check 22). */
   --sec-gap:120px;
   /* Inside a section header: heading to lead, then header to content. The same at every width. */
-  --head-gap:8px;--head-after:24px;
+  --head-gap:8px;--head-after:36px;
   /* Features steps down from there: before a group heading, between panels, group heading to its first panel. */
   --group-gap:72px;--panel-gap:32px;--group-head:24px;
   --fs-ui:18px; --fs-table:17px; --fs-control:17px; --fs-nav:16px; --fs-note:16px; --fs-cap:15px; --fs-label:15px;
