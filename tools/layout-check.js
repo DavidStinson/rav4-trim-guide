@@ -746,5 +746,14 @@ window.layoutCheck = function layoutCheck(){
     }
   }
 
+  // 32. The styling card has no photo of its own: David removed the Limited-on-the-beach rear shot. The four
+  //     trims in white, front and back, still sit under the card.
+  {
+    const card = document.getElementById('f-style');
+    if(card?.querySelector('.f-vis')) fails.push(`#f-style still shows a photo beside its copy at ${W}px`);
+    if(card && card.dataset.layout !== 'text') fails.push(`#f-style: layout "${card.dataset.layout}"; expected text`);
+    if(document.querySelector('img[src*="RHV_MY26_0016"]')) fails.push('the Limited beach photo (RHV_MY26_0016) is still on the page');
+  }
+
   return fails;
 };
