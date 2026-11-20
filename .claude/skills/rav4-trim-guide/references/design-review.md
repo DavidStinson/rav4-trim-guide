@@ -17,9 +17,9 @@ The overnight run of 2026-11-19 keeps its plan, rubric, references and log in `.
 
 David reviewed every climb change one by one (`.claude/hill-climb/REVIEW-DECISIONS.md`) and the rework built the result. Each rule below is held by a check, so a redesign that breaks one fails `npm run check`:
 
-- Two page widths. Text sits in one centered reading column (`--read`, 1060px); rows of cards and big demos break out to the wide width (`--wide`, 1372px) with `.bleed` (layout 8).
+- Two page widths. Text sits in one centered reading column (`--read`, 1060px); rows of cards and big demos break out to the wide width (`--wide`, 1420px: four 340px cards and three 20px gaps) with `.bleed` (layout 8).
 - Each feature panel declares `layout:'text'|'beside'|'below'` in `FEATURES`, and the panel follows it. Who has the feature sits in a column at the right from 901px and ends where the copy ends (layout 9 and 15; see `add-a-feature.md`).
-- Cards are at least 340px wide. Sliders show four side by side where four fit (about a 1,490px window) and arrows otherwise; where one card fits, one full-width card with trim tabs and no peeking sliver (layout 3, 4, 4b and 6).
+- Cards are at least 340px wide. Sliders show four side by side where four fit (from a 1,468px window) and arrows otherwise; where one card fits, one full-width card with trim tabs and no peeking sliver (layout 3, 4, 4b and 6).
 - On a laptop the hero heading is one line, each car's blurb at most two lines, and all four cars, prices and the fee note fit the first 900px (layout 11 and 14).
 - One type scale: like elements share one size at each width, captions sit below notes and notes below body text, and nothing a reader needs is under 15px (reading 2). Running text averages at most 80 characters a line (reading 6) and never ends on a single word (reading 7).
 - The priority picker shows each trim's name and price before a pick and nothing else; a picked chip's check mark is a drawn path centered in its circle; on a phone the best match shows on its tab (layout 12, 17 and 19).
