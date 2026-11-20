@@ -689,10 +689,11 @@ window.layoutCheck = function layoutCheck(){
   // 29. The paint list shows Toyota's paint names only, with no plain color word under them (David).
   document.querySelectorAll('#cpPaint .cp-name small').forEach(s => fails.push(`paint list: "${s.textContent.trim()}" sits under a paint name`));
 
-  // 30. Where the who-has-it column sits at the card's right edge with a fill of its own, the fill is a
-  //     grey clearly darker than the page, in both schemes (David: the old fill nearly matched the page).
+  // 30. Where the who-has-it column sits at the card's right edge with a fill of its own, in light mode
+  //     the fill is a grey clearly darker than the page (David: the old fill nearly matched the page).
   //     "Clearly" is a CIELAB difference of 4 or more (2.3 is the smallest a reader notices). Every pill
-  //     in the column keeps the same distance from the fill, so no pill's shape fades into it.
+  //     in the column keeps the same distance from the fill, so no pill's shape fades into it. Dark mode
+  //     keeps its old fill, 60% page and 40% card, and its old pills (David: "it was fine how it was").
   {
     const cv = document.createElement('canvas'); cv.width = cv.height = 1;
     const cx = cv.getContext('2d', {willReadFrequently: true});
@@ -710,6 +711,12 @@ window.layoutCheck = function layoutCheck(){
       const bg = rgba(getComputedStyle(col).backgroundColor);
       if(bg[3] === 0) return;
       const id = col.closest('.feature')?.id || 'feature', d = dE(bg, page);
+      if(lab(page)[0] < 50) {
+        const card = rgba(getComputedStyle(col.closest('.feature')).backgroundColor), want = page.slice(0, 3).map((v, k) => .6 * v + .4 * card[k]);
+        if(want.some((v, k) => Math.abs(v - bg[k]) > 1.5)) fails.push(`${id}: dark who-has-it fill rgb(${bg.slice(0, 3)}) at ${W}px; expected the old blend rgb(${want.map(Math.round)})`);
+        col.querySelectorAll('.pill.no').forEach(pl => { if(getComputedStyle(pl).backgroundColor !== getComputedStyle(document.documentElement).getPropertyValue('--no-soft').trim() && rgba(getComputedStyle(pl).backgroundColor).join() !== rgba(getComputedStyle(document.documentElement).getPropertyValue('--no-soft')).join()) fails.push(`${id}: dark "Not offered" pill changed its fill at ${W}px`); });
+        return;
+      }
       if(lab(bg)[0] >= lab(page)[0] || d < 4) fails.push(`${id}: who-has-it fill rgb(${bg.slice(0, 3)}) is ${d.toFixed(1)} from the page rgb(${page.slice(0, 3)}) at ${W}px; needs a darker grey, 4 or more away`);
       col.querySelectorAll('.pill').forEach(pl => {
         const pb = rgba(getComputedStyle(pl).backgroundColor);
