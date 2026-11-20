@@ -208,16 +208,32 @@ window.layoutCheck = function layoutCheck(){
     if(odd.length) fails.push(`feature availability is not in one right-hand column: ${odd.length} of ${lists.length} panels place it elsewhere (${odd.slice(0, 4).join(', ')})`);
     const rows = lists.filter(a => new Set([...a.children].map(d => Math.round(d.getBoundingClientRect().left))).size > 1).map(a => a.closest('.feature').id);
     if(rows.length) fails.push(`feature availability is laid out side by side instead of as a list in ${rows.length} panels (${rows.slice(0, 4).join(', ')})`);
-    // The column runs to the panel's bottom, or, above a full-width demo, to a rule that crosses the
-    // whole panel, so it never stops partway down with a loose corner.
-    const short = lists.filter(a => {
-      const f = a.closest('.feature'), p = f.getBoundingClientRect(), b = a.getBoundingClientRect().bottom;
-      if(Math.abs(p.bottom - b) <= 1) return false;
-      const v = f.querySelector(':scope > .f-vis'), r = v && v.getBoundingClientRect();
-      return !(r && Math.abs(r.top - b) <= 1 && r.width >= p.width - 2 && parseFloat(getComputedStyle(v).borderTopWidth) >= 1);
+    // The column sits beside the copy only (REVIEW-DECISIONS.md, "feature panel layout"): it never runs
+    // down beside a picture, demo or photo row, which sit underneath it.
+    const beside = lists.filter(a => {
+      const f = a.closest('.feature'), b = a.getBoundingClientRect().bottom;
+      return [...f.querySelectorAll(':scope > .f-vis, :scope > .f-below, :scope > .trio')].some(v => v.getBoundingClientRect().top < b - 1);
     }).map(a => a.closest('.feature').id);
-    if(short.length) fails.push(`feature availability column stops partway down ${short.length} panels (${short.slice(0, 4).join(', ')}): run it to the bottom or to a full-width rule`);
+    if(beside.length) fails.push(`feature availability column runs beside a picture or demo in ${beside.length} panels (${beside.slice(0, 4).join(', ')}): keep it beside the copy only`);
   }
+
+  // 15. Each feature panel declares its layout in FEATURES (data.js): text (copy alone), beside (a small
+  //     picture beside the copy) or below (a demo or photo set under the copy and the column).
+  //     A beside picture moves under the copy when the copy would be narrower than 520px. A picture that
+  //     sits under the copy fills the space under it: a below visual spans the panel's content width,
+  //     a beside one that moved down spans the copy's width.
+  document.querySelectorAll('.feature').forEach(f => {
+    const L = f.dataset.layout, v = f.querySelector(':scope > .f-vis'), t = f.querySelector(':scope > .f-text');
+    if(!['text', 'beside', 'below'].includes(L)) { fails.push(`${f.id}: layout "${L}" is not text, beside or below (set layout: next to visual: in FEATURES)`); return; }
+    if((L === 'text') !== !v) { fails.push(`${f.id}: layout ${L} ${v ? 'has a picture' : 'has no picture'}`); return; }
+    if(!v) return;
+    const cs = getComputedStyle(f), p = f.getBoundingClientRect(), r = v.getBoundingClientRect(), c = t.getBoundingClientRect();
+    const left = p.left + parseFloat(cs.paddingLeft), right = p.right - parseFloat(cs.paddingRight);
+    const under = r.top >= c.bottom - 1;
+    if(L === 'beside' && !under && c.width < 519) fails.push(`${f.id} at ${W}px: copy beside its picture is ${Math.round(c.width)}px wide; move the picture under the copy below 520px`);
+    if(L === 'below' && (!under || Math.abs(r.left - left) > 2 || Math.abs(r.right - right) > 2)) fails.push(`${f.id} at ${W}px: the demo doesn't span the panel under the copy (${Math.round(r.left - left)}px from the left, ${Math.round(right - r.right)}px from the right)`);
+    if(L === 'beside' && under && (Math.abs(r.left - c.left) > 2 || Math.abs(r.right - c.right) > 2)) fails.push(`${f.id} at ${W}px: the picture under the copy isn't the copy's width`);
+  });
 
   // 10. Package ladders read at a glance where all four sit side by side: a package name takes at most
   //     two lines, its "with the ones above" price at most two, and the card names its base price once
