@@ -2,7 +2,7 @@
 :root{
   --paper:#F6F7F5; --card:#FFFFFF; --ink:#202427; --ink-2:#3F454A; --rule:#D9DDDA; --edge:#7E868B;
   --asphalt:#2B3034; --lane:#F2B705; --sign:#0B6B47; --sign-soft:#E3F1EA;
-  --opt:#8A5A00; --opt-soft:#FDF1D2; --no:#7A8086; --no-soft:#EEF0F1; --bad:#B3261E;
+  --opt:#8A5A00; --opt-soft:#FDF1D2; --no:#7A8086; --no-soft:#EEF0F1; --well:#E8EBE8; --bad:#B3261E;
   --xle:#237A30; --xse:#B0303F; --ltd:#8C6224;
   --xle-soft:#E6F2E7; --xse-soft:#F8E7E9; --ltd-soft:#F4ECDF;
   --phv:#2F6699; --phv-soft:#E6EEF6;
@@ -27,7 +27,7 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --paper:#16191B; --card:#1F2326; --ink:#ECEEEC; --ink-2:#AEB5BA; --rule:#343A3F; --edge:#737B80;
-    --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --bad:#FF8A80;
+    --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --well:#0C0F11; --bad:#FF8A80;
     --xle:#4ED860; --xse:#FF6E80; --ltd:#F5A040; --xle-soft:#1C2E20; --xse-soft:#35202A; --ltd-soft:#2F2719;
     --phv:#6DB0FE; --phv-soft:#1D2A36;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --focus:#8AB4FF; color-scheme:dark;
@@ -36,7 +36,7 @@
 }
 :root[data-theme="dark"]{
   --paper:#16191B; --card:#1F2326; --ink:#ECEEEC; --ink-2:#AEB5BA; --rule:#343A3F; --edge:#737B80;
-  --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --bad:#FF8A80;
+  --asphalt:#0F1112; --sign:#4CC28E; --sign-soft:#173327; --opt:#F2C14E; --opt-soft:#3A2F14; --no:#8B9298; --no-soft:#262B2E; --well:#0C0F11; --bad:#FF8A80;
   --xle:#4ED860; --xse:#FF6E80; --ltd:#F5A040; --xle-soft:#1C2E20; --xse-soft:#35202A; --ltd-soft:#2F2719;
     --phv:#6DB0FE; --phv-soft:#1D2A36;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --focus:#8AB4FF; color-scheme:dark;
@@ -286,7 +286,9 @@ section .wrap > :last-child{margin-bottom:0}
   .feature.l-text{grid-template-areas:"text avail"}
   .feature.l-beside{grid-template-areas:"text avail" "vis ."}
   .feature > .avail{margin:-36px -40px 0 0;padding:32px 28px;border-top:0;border-left:1px solid var(--rule);border-bottom:1px solid var(--rule);border-bottom-left-radius:16px;
-    background:color-mix(in srgb,var(--paper) 60%,var(--card));grid-template-columns:1fr;align-content:start;gap:16px}
+    background:var(--well);grid-template-columns:1fr;align-content:start;gap:16px}
+  /* The column is a grey well, darker than the page; the "Not offered" grey would fade into it, so it takes the card's white. */
+  .feature > .avail .pill.no{background:var(--card)}
   .feature.l-text > .avail{margin-bottom:-36px;border-bottom:0;border-bottom-left-radius:0}
   .feature.compact > .avail{margin-top:-28px}
   .feature > .avail div{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 10px}
