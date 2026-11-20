@@ -320,7 +320,7 @@ VIS.evDemo = ()=>{
       <div class="ev-sliders">
         ${slider('evDays','Days you drive a year',100,365,5,300)}
         ${slider('evGas','Gas, per gallon',2.5,5.5,0.01,3.37)}
-        ${slider('evKwh','Home electricity, per kWh',8,40,1,15)}
+        ${slider('evKwh','Home electricity, per kWh',8,40,1,12)}
       </div>
       <div class="cost-rows" aria-hidden="true">
         <div class="cost-row" style="--c:var(--xse)"><span>Hybrid XSE</span><span class="bar"><span id="evBarH"></span></span><b id="evCostH"></b></div>
