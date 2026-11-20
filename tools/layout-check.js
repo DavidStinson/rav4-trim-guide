@@ -547,7 +547,7 @@ window.layoutCheck = function layoutCheck(){
     document.querySelectorAll('.pk[data-t]').forEach(pk => { const head = pk.querySelector('.pk-head'); if(visible(pk) && head) tinted(pk, head, pk.dataset.t); });
     const cp = document.querySelector('.cp'), on = cp && cp.querySelector('#cpModel button[aria-pressed="true"]');
     if(cp && on && cp.querySelector('.cp-top')) tinted(cp, cp.querySelector('.cp-top'), on.dataset.t);
-    ['.pk-stack', '.spec-more'].forEach(sel => {
+    ['.pk-stack'].forEach(sel => {
       const p = document.querySelector(sel), box = p && p.closest('.tagged'), tag = box && box.querySelector(':scope > .note-tag');
       if(!p || !visible(p)) return;
       if(!tag || tag.textContent.trim() !== 'Good to know') { fails.push(`${sel}: needs a "Good to know" tag (.tagged > .note-tag) at ${W}px`); return; }
@@ -754,6 +754,10 @@ window.layoutCheck = function layoutCheck(){
     if(card && card.dataset.layout !== 'text') fails.push(`#f-style: layout "${card.dataset.layout}"; expected text`);
     if(document.querySelector('img[src*="RHV_MY26_0016"]')) fails.push('the Limited beach photo (RHV_MY26_0016) is still on the page');
   }
+
+  // 33. The spec list ends with the list itself: no "Good to know" note under it pointing back to the package
+  //     prices (David cut it).
+  document.querySelectorAll('#specs .tagged, #specs .spec-more').forEach(el => fails.push(`#specs: a note sits under the spec list ("${el.textContent.trim().slice(0, 40)}...")`));
 
   return fails;
 };
