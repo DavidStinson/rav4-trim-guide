@@ -183,26 +183,29 @@ VIS.hudDemo = ()=>{
   </div>`};
 };
 
-// --- Screen sizes: the two screens side by side, to scale and bottom-aligned, then (as a full-width row
-//     under the card) the same crop from two dashboards shot from the same spot. A VIS may return `below`
-//     for such a row. ---
-// [diagonal in inches, size label, who has it, color]. Both screens share one shape (width to height
-// 1 to 0.609), so a screen's width and height both scale with its diagonal.
+// --- Screen sizes: the two screens overlapping to scale, with labels beside them, then (as a full-width
+//     row under the card) the same crop from two dashboards shot from the same spot. A VIS may return
+//     `below` for such a row. ---
+// [diagonal in inches, size label, who has it, color], largest first so the smaller draws on top. Both
+// screens share one shape (width to height 1 to 0.609), so width and height both scale with the diagonal.
+// They share the bottom-left corner, so the extra size shows as the band along the top and the right.
 VIS.screenPair = ()=>{
-  const SCREENS = [[10.5,'10.5-inch screen','XLE Premium','var(--xle)'],[12.9,'12.9-inch screen','XSE, Limited and Plug-in XSE','var(--xse)']];
-  const K = 340 / 12.9, BASE = 214;
-  const rects = SCREENS.map(([d,,,c], i)=>{
-    const w = d * K, h = w * 0.609, cx = 190 + i * 380;
-    return `<rect class="scr" x="${cx - w/2}" y="${BASE - h}" width="${w}" height="${h}" rx="12" fill="${c}" fill-opacity=".18" stroke="${c}" stroke-width="3"/>
-        <text x="${cx}" y="${BASE - h/2 + 14}" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="40" fill="${c}">${d}″</text>`;
+  const SCREENS = [[12.9,'12.9-inch screen','XSE, Limited and Plug-in XSE','var(--xse)'],[10.5,'10.5-inch screen','XLE Premium','var(--xle)']];
+  const K = 340 / 12.9, X = 10, BASE = 217;
+  const rects = SCREENS.map(([d,,,c])=>{
+    const w = d * K, h = w * 0.609;
+    return `<rect class="scr" x="${X}" y="${BASE - h}" width="${w}" height="${h}" rx="12" fill="${c}" fill-opacity="${d > 12 ? .18 : .28}" stroke="${c}" stroke-width="3"/>
+        <text x="${X + w - 14}" y="${BASE - h + 34}" text-anchor="end" font-family="Overpass" font-weight="800" font-size="26" fill="${c}">${d}″</text>`;
   }).join('');
   return {html:`
-  <div class="mini-demo">
-    <svg class="scr-scale" viewBox="0 0 760 220" role="img" aria-labelledby="scrT"><title id="scrT">The 10.5-inch and 12.9-inch screens drawn to scale, side by side</title>
+  <div class="mini-demo scr-demo">
+    <svg class="scr-scale" viewBox="0 0 360 227" role="img" aria-labelledby="scrT"><title id="scrT">The 10.5-inch screen drawn inside the 12.9-inch screen, to scale</title>
       ${rects}
     </svg>
-    <div class="pair-caps" aria-hidden="true">${SCREENS.map(([,t,s,c])=>`<p style="--c:${c}"><b>${t}</b>${s}</p>`).join('')}</div>
-    <p class="cap">Drawn to scale. The larger screen has about 50% more viewing area.</p>
+    <div class="scr-key">
+      ${SCREENS.slice().reverse().map(([,t,s,c])=>`<p style="--c:${c}"><b>${t}</b>${s}</p>`).join('')}
+      <p class="cap">Drawn to scale, lined up at the bottom-left corner. The larger screen has about 50% more viewing area.</p>
+    </div>
   </div>`, below:`
   <div class="f-below">
     <div class="photo-pair keep2">

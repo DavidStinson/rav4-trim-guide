@@ -336,7 +336,13 @@ section .wrap > :last-child{margin-bottom:0}
 .mini-demo{padding:24px;background:var(--paper);border-radius:16px;display:grid;gap:var(--sp-tight);align-content:center;height:100%}
 .mini-demo svg{width:100%;height:auto}
 .scr-scale{display:block;width:100%;height:auto}
-/* Labels under a drawing of two things line up with them: each drawing puts its two at a quarter and three quarters of its width. */
+/* The screen drawing overlaps the two sizes, so it is not wide: its labels sit beside it from 641px (layout 39). */
+.scr-demo{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:var(--sp-section);align-items:center}
+.scr-key{display:grid;gap:var(--sp-part);align-content:center}
+.scr-key p{margin:0;font-size:var(--fs-cap);color:var(--ink-2);line-height:1.35}
+.scr-key b{display:block;font:800 18px Overpass,sans-serif;color:var(--c)}
+@media (max-width:640px){.scr-demo{grid-template-columns:minmax(0,1fr)}}
+/* Labels under the wheel drawing line up with the wheels, which sit at a quarter and three quarters of its width. */
 .pair-caps{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;margin:0}
 .pair-caps p{margin:0;font-size:var(--fs-cap);color:var(--ink-2);line-height:1.35}
 .pair-caps b{display:block;font:800 18px Overpass,sans-serif;color:var(--c)}
