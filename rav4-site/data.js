@@ -125,8 +125,8 @@ const TRIMS = [
 //   'text'   no picture, copy alone;
 //   'beside' one photo or small diagram (visual: or img:) beside the copy, moving under it whenever the
 //            copy would be narrower than 520px;
-//   'below'  an interactive demo or photo set (visual:) under the copy and the who-has-it column, across
-//            the whole panel.
+//   'below'  an interactive demo or photo set (visual:), or a pair of photos side by side (imgs:), under
+//            the copy and the who-has-it column, across the whole panel.
 // references/add-a-feature.md has the details.
 const FEATURES = [
   /* ---------- Parking & cameras ---------- */
@@ -232,7 +232,9 @@ const FEATURES = [
    aka:'Toggle shift-by-wire shifter',
    what:'Instead of a traditional gear lever, you push or pull a small switch to choose Drive or Reverse.',
    why:'It frees up a little console space, but it’s a matter of taste. Some people prefer the familiar lever, so try both.',
-   trims:[['no','Regular lever'],['opt','Comes with the self-parking package ($2,115 with the packages it requires)'],['std'],['opt','Comes with the Driver Assist Package ($2,865 with the packages it requires)']], layout:'text'},
+   trims:[['no','Regular lever'],['opt','Comes with the self-parking package ($2,115 with the packages it requires)'],['std'],['opt','Comes with the Driver Assist Package ($2,865 with the packages it requires)']], layout:'below',
+   imgs:[{img:'shifter-xle', alt:'RAV4 center console with a tall gear lever in a stitched boot, beside the cupholders', cap:'XLE Premium, and the XSEs without the option: a regular gear lever.'},
+         {img:'shifter-ltd', alt:'RAV4 center console with a small silver-topped switch where a gear lever would be, beside the cupholders', cap:'Limited, and an option on the XSEs: a small toggle switch instead of a lever.'}]},
 
   /* ---------- Looks ---------- */
   {id:'wheels', group:'Looks and ride', name:'Wheel size and ride comfort',

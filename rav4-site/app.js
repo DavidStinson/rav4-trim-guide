@@ -496,7 +496,10 @@ const trio = s=>`<div class="trio"><h5>${esc(s.title)}</h5><div class="trio-grid
       let vis='', below='';
       if(f.visual){const v=VIS[f.visual](); vis=`<div class="f-vis" data-vis="${f.id}">${v.html}</div>`; if(v.init) inits.push([f.id,v.init]); below=v.below||'';}
       else if(f.img){vis=`<div class="f-vis"><figure><img ${photoAttrs(f.img, 'auto, (min-width: 700px) 705px, 90vw')} alt="${esc(f.alt)}" loading="lazy">${f.cap?`<figcaption>${esc(f.cap)}</figcaption>`:''}</figure></div>`;}
-      if(!['text','beside','below'].includes(f.layout) || (f.layout==='text')!==!vis) console.error(`feature ${f.id}: layout "${f.layout}" ${vis?'has':'lacks'} a picture; use text for none, beside or below for one.`);
+      // A pair of photos side by side (imgs:), each with its own caption, like the camera demo's pair.
+      else if(f.imgs){vis=`<div class="f-vis"><div class="photo-pair">${f.imgs.map(p=>`
+        <figure><img ${photoAttrs(p.img, 'auto, (min-width: 700px) 660px, 90vw')} alt="${esc(p.alt)}" loading="lazy"><figcaption>${esc(p.cap)}</figcaption></figure>`).join('')}</div></div>`;}
+      if(!['text','beside','below'].includes(f.layout) || (f.layout==='text')!==!vis || (f.imgs && f.layout!=='below')) console.error(`feature ${f.id}: layout "${f.layout}" ${vis?'has':'lacks'} a picture; use text for none, beside or below for one, below for a pair.`);
       return `<article class="feature l-${f.layout}${f.compact?' compact':''}" data-layout="${f.layout}" id="f-${f.id}">
         <div class="f-text">
           <h4>${esc(f.name)}</h4>

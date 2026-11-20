@@ -498,10 +498,10 @@ section .wrap > :last-child{margin-bottom:0}
 .f-vis figure > .zoom{flex:1;border-radius:16px;display:flex}
 .f-vis figure > .zoom img{height:100%;object-fit:cover;min-height:260px}
 .photo-pair .zoom img{aspect-ratio:16/10;object-fit:cover}
-/* Photos inside a demo keep their own shape; the tall-card rule above is for single feature photos. */
-.f-vis .demo figure{height:auto}
-.f-vis .demo figure > .zoom{flex:none;border-radius:12px;display:block}
-.f-vis .demo figure > .zoom img{min-height:0;height:auto}
+/* Photos inside a demo or a photo pair keep their own shape; the tall-card rule above is for single feature photos. */
+.f-vis .demo figure,.f-vis .photo-pair figure{height:auto}
+.f-vis .demo figure > .zoom,.f-vis .photo-pair figure > .zoom{flex:none;border-radius:12px;display:block}
+.f-vis .demo figure > .zoom img,.f-vis .photo-pair figure > .zoom img{min-height:0;height:auto}
 .photo-pair.keep2{grid-template-columns:1fr 1fr}
 @media (max-width:600px){.photo-pair.keep2 .zoom .zi{width:28px;height:28px;right:6px;bottom:6px}.photo-pair.keep2 .zoom .zi svg{width:14px;height:14px}}
 .lb{border:0;padding:0;margin:0;width:100vw;height:100vh;max-width:none;max-height:none;background:rgba(10,12,13,.94);color:#fff}

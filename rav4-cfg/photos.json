@@ -33,6 +33,15 @@
     175
    ]
   },
+  "console": {
+   "width": 660,
+   "crop": [
+    351,
+    284,
+    270,
+    169
+   ]
+  },
   "roof": {
    "width": 1340,
    "crop": [
@@ -237,6 +246,16 @@
    "name": "roof-ltd",
    "kind": "roof",
    "render": "rav4/4534/138/ed466b22656508770b4cf90e033ca73de1abeae950f7e2f9a46c9a11067cec0e"
+  },
+  {
+   "name": "shifter-xle",
+   "kind": "console",
+   "render": "rav4/4444/615/356daadffdf46434df8b2119baa690a08a5514db85e5cb6b043af9f58c3ba60e"
+  },
+  {
+   "name": "shifter-ltd",
+   "kind": "console",
+   "render": "rav4/4534/777/215692b1f6bb9f43e963ec06243e433cba9d1fb2a7010ad16490fb2aab6f60b1"
   },
   {
    "name": "RHV_MY26_0016",
