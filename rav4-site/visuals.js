@@ -148,49 +148,49 @@ VIS.mirrorDemo = ()=>{
   }};
 };
 
-// --- Head-up display: the view from the driver's seat, with the display floating just above the hood ---
-// Wide like the card. The driver sits left of the car's center, so the road runs straight ahead of the
-// steering wheel, the center line passes to the left, and the display floats in front of the driver, over
-// the wheel. The windshield is framed by the roof, the pillars and the dashboard, with the mirror at the
-// top center. The shaded box behind the readings is only for the drawing (the caption says so); the speed
-// differs from the limit so the two can't be read as one number (David).
+// --- Head-up display: the view through the windshield from the driver's seat ---
+// Drawn after Toyota's own HUD photo (David): the glass fills the view, cut only by the left pillar and
+// the long, flat dashboard, with the top of the steering wheel and the center screen below. Mostly sky,
+// a treeline and a short stretch of road. The display floats over the wheel, just above the dashboard.
+// The shaded box behind the readings is only for the drawing (the caption says so); the speed differs
+// from the limit so the two can't be read as one number (David).
 VIS.hudDemo = ()=>{
-  const C = '#7FF2D2', VX = 300, VY = 160; // vanishing point, straight ahead of the driver
-  // A painted line from the vanishing point to x at the bottom; dashes shrink toward the horizon.
-  const line = (x, from, to, w0)=>{ const at = t=>[VX + (x - VX) * t, VY + (340 - VY) * t], hw = t=>.6 + w0 * t;
-    const [ax, ay] = at(from), [bx, by] = at(to); return `M${ax-hw(from)} ${ay} L${ax+hw(from)} ${ay} L${bx+hw(to)} ${by} L${bx-hw(to)} ${by} Z`; };
-  const glass = 'M120 34 Q440 16 760 34 Q782 36 788 56 L850 300 L30 300 L92 56 Q98 36 120 34 Z';
+  const C = '#7FF2D2', HZ = 258, DASH = 294, VX = 452;
+  // Trees along the horizon: [x, height]. Fixed, so the drawing never changes between loads.
+  const TREES = [[150,22],[176,30],[204,26],[236,44],[262,38],[300,60],[330,52],[362,74],[392,64],[424,84],[458,70],[486,96],
+    [516,80],[548,104],[578,92],[608,118],[640,100],[668,124],[700,108],[730,128],[760,112],[792,130],[822,118],[852,132],[882,120]];
+  // A fir: three stacked tiers, each wider and lower than the one above.
+  const tree = ([x, h])=>[0, 1, 2].map(k=>{ const top = HZ - h + k * h * .28, bot = k < 2 ? top + h * .42 : HZ, w = h * (.16 + k * .09);
+    return `M${x} ${top} L${x + w} ${bot} L${x - w} ${bot} Z`; }).join(' ');
+  const CLOUDS = [[180,52,120,14],[420,34,160,12],[700,64,190,16],[560,96,110,9]];
   return {html:`
   <div class="mini-demo">
-    <svg viewBox="0 0 880 340" role="img" aria-labelledby="hudT"><title id="hudT">The view from the driver's seat: the speed, the speed limit and a navigation arrow float on the windshield just above the hood, in front of the steering wheel</title>
-      <defs>
-        <linearGradient id="hudSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FB9DC"/><stop offset="1" stop-color="#DCEAF3"/></linearGradient>
-        <clipPath id="hudGlass"><path d="${glass}"/></clipPath>
-      </defs>
-      <rect width="880" height="340" fill="#2B3034"/>
-      <g clip-path="url(#hudGlass)">
-        <rect width="880" height="${VY + 2}" fill="url(#hudSky)"/>
-        <path d="M0 ${VY + 2} Q140 128 300 150 T620 140 T880 154 V${VY + 10} H0 Z" fill="#8FA58A"/>
-        <rect y="${VY}" width="880" height="${340 - VY}" fill="#7F9A6E"/>
-        <path d="M${VX - 6} ${VY} L${VX + 6} ${VY} L980 340 L-420 340 Z" fill="#5E6468"/>
-        <path d="${line(-60, .04, .1, 3)} ${line(-60, .2, .32, 3)} ${line(-60, .48, .7, 3)}" fill="#F2B705"/>
-        <path d="${line(860, 0, 1, 4)}" fill="#E8EAEA"/>
-        <path d="M0 300 Q440 262 880 300 V340 H0 Z" fill="#46525C"/>
-        <path d="M120 292 Q440 262 760 292" fill="none" stroke="#6C7A85" stroke-width="3"/>
-        <path d="M560 40 L640 40 L520 300 L440 300 Z" fill="#fff" opacity=".07"/>
-      </g>
-      <path d="${glass}" fill="none" stroke="#3A4146" stroke-width="6"/>
-      <path class="hud-mirror" d="M434 0 H446 V30 H434 Z M392 30 H488 Q496 30 496 38 V58 Q496 66 488 66 H392 Q384 66 384 58 V38 Q384 30 392 30 Z" fill="#1E2225"/>
-      <path d="M0 340 V302 Q90 296 150 290 Q300 252 450 290 Q660 300 880 304 V340 Z" fill="#202427"/>
-      <path class="hud-wheel" d="M134 340 A250 250 0 0 1 466 340" fill="none" stroke="#131618" stroke-width="24"/>
+    <svg viewBox="0 0 880 340" role="img" aria-labelledby="hudT"><title id="hudT">The view through the windshield from the driver's seat: the speed, the speed limit and a navigation arrow float on the glass above the steering wheel</title>
+      <defs><linearGradient id="hudSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9DB3C7"/><stop offset=".75" stop-color="#E9E4D8"/></linearGradient></defs>
+      <rect width="880" height="${HZ + 2}" fill="url(#hudSky)"/>
+      ${CLOUDS.map(([x,y,rx,ry])=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#fff" opacity=".35"/>`).join('')}
+      <path d="${TREES.filter((t,i)=>i%2).map(tree).join(' ')}" fill="#2C4634"/>
+      <path d="${TREES.filter((t,i)=>!(i%2)).map(tree).join(' ')}" fill="#3A5A41"/>
+      <rect y="${HZ}" width="880" height="${340 - HZ}" fill="#B9A673"/>
+      <path d="M${VX + 40} ${HZ} H880 V${DASH} H${VX + 120} Z" fill="#8E9A62"/>
+      <path d="M${VX - 6} ${HZ} L${VX + 6} ${HZ} L${VX + 92} ${DASH + 6} L${VX - 92} ${DASH + 6} Z" fill="#6A6E70"/>
+      <path d="M${VX - 1} ${HZ} L${VX + 1} ${HZ} L${VX + 4} ${DASH + 6} L${VX - 4} ${DASH + 6} Z M${VX + 2} ${HZ} L${VX + 3} ${HZ} L${VX + 11} ${DASH + 6} L${VX + 7} ${DASH + 6} Z" fill="#F2B705"/>
+      <path class="hud-pillar" d="M0 0 H64 L196 ${DASH + 4} H118 L0 70 Z" fill="#8A8F93"/>
+      <path d="M64 0 L196 ${DASH + 4}" stroke="#5E6468" stroke-width="3"/>
+      <path d="M0 ${DASH + 4} Q440 ${DASH - 6} 880 ${DASH} V340 H0 Z" fill="#23272A"/>
+      <path d="M0 ${DASH + 4} Q440 ${DASH - 6} 880 ${DASH}" fill="none" stroke="#0E1012" stroke-width="4"/>
+      <path d="M0 316 Q440 306 880 312" fill="none" stroke="#30363A" stroke-width="2"/>
+      <rect x="726" y="306" width="170" height="60" rx="10" fill="#0E1012"/>
+      <rect x="738" y="316" width="146" height="40" rx="5" fill="#25323D"/>
+      <path class="hud-wheel" d="M216 340 A430 430 0 0 1 556 340" fill="none" stroke="#131618" stroke-width="26"/>
       <g opacity=".95">
-        <rect x="168" y="178" width="264" height="80" rx="12" fill="#0E2A3A" opacity=".4"/>
-        <path class="nav-arrow" d="M196 246 V214 H220 M210 202 L224 214 L210 226" fill="none" stroke="${C}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-        <text class="hud-speed" x="294" y="226" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="48" fill="${C}">42</text>
-        <text x="294" y="250" text-anchor="middle" font-size="18" fill="${C}">mph</text>
-        <rect x="356" y="186" width="60" height="64" rx="6" fill="#fff" opacity=".92"/>
-        <text x="386" y="207" text-anchor="middle" font-size="17" fill="#222">LIMIT</text>
-        <text class="hud-limit" x="386" y="240" text-anchor="middle" font-size="30" font-weight="800" font-family="Overpass" fill="#222">45</text>
+        <rect x="254" y="${DASH - 98}" width="264" height="80" rx="12" fill="#0E2A3A" opacity=".4"/>
+        <path class="nav-arrow" d="M282 ${DASH - 30} V${DASH - 62} H306 M296 ${DASH - 74} L310 ${DASH - 62} L296 ${DASH - 50}" fill="none" stroke="${C}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <text class="hud-speed" x="380" y="${DASH - 50}" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="48" fill="${C}">42</text>
+        <text x="380" y="${DASH - 26}" text-anchor="middle" font-size="18" fill="${C}">mph</text>
+        <rect x="442" y="${DASH - 90}" width="60" height="64" rx="6" fill="#fff" opacity=".92"/>
+        <text x="472" y="${DASH - 69}" text-anchor="middle" font-size="17" fill="#222">LIMIT</text>
+        <text class="hud-limit" x="472" y="${DASH - 36}" text-anchor="middle" font-size="30" font-weight="800" font-family="Overpass" fill="#222">45</text>
       </g>
     </svg>
     <p class="cap">The shaded box is only there to make the drawing easier to read. On the real windshield the readings float on their own, with no box behind them.</p>
