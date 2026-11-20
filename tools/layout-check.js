@@ -836,7 +836,8 @@ window.layoutCheck = function layoutCheck(){
   // 37. Images take up the full width of the card where it's the only image (David). A card whose only
   //     picture is one photo (no demo, drawing, second photo or row of trims) shows it under the copy, with
   //     layout below, as wide as the card's content box: the card's width less its side padding. The photo
-  //     keeps its own shape, with no CSS crop (checked once it has loaded).
+  //     keeps its own shape, with no CSS crop: the file's shape once it has loaded, and before that the shape
+  //     its width and height attributes give it, so the page doesn't jump when the file arrives.
   document.querySelectorAll('.feature').forEach(card => {
     if(!visible(card)) return;
     const imgs = [...card.querySelectorAll('img')];
@@ -846,8 +847,14 @@ window.layoutCheck = function layoutCheck(){
     if(card.dataset.layout !== 'below') fails.push(`${card.id}: its only photo has layout "${card.dataset.layout}"; expected below`);
     if(r.top < copy.getBoundingClientRect().bottom - 1) fails.push(`${card.id}: its only photo sits beside the copy at ${W}px; expected under it`);
     if(Math.abs(r.width - box) > 1) fails.push(`${card.id}: its only photo is ${Math.round(r.width)}px wide at ${W}px; expected the card's ${Math.round(box)}px content width`);
-    if(img.complete && img.naturalWidth && Math.abs(r.height - r.width * img.naturalHeight / img.naturalWidth) > 1)
-      fails.push(`${card.id}: its only photo shows at ${Math.round(r.width)}x${Math.round(r.height)} at ${W}px; its own shape is ${img.naturalWidth}x${img.naturalHeight}`);
+    const aw = +img.getAttribute('width'), ah = +img.getAttribute('height');
+    if(img.complete && img.naturalWidth){
+      if(Math.abs(r.height - r.width * img.naturalHeight / img.naturalWidth) > 1)
+        fails.push(`${card.id}: its only photo shows at ${Math.round(r.width)}x${Math.round(r.height)} at ${W}px; its own shape is ${img.naturalWidth}x${img.naturalHeight}`);
+    }
+    else if(!aw || !ah) fails.push(`${card.id}: its only photo has no width and height at ${W}px, so nothing holds its shape before it loads`);
+    else if(Math.abs(r.height - r.width * ah / aw) > 1)
+      fails.push(`${card.id}: its only photo holds ${Math.round(r.width)}x${Math.round(r.height)} at ${W}px before it loads; its width and height say ${aw}x${ah}`);
   });
 
 

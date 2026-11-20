@@ -1,7 +1,8 @@
 // Photo checks for rav4-site. `npm run check` runs them in the page; they're async because they load images.
-// photoCheck(): at this width, every photo opens larger when clicked and is sharp on a 2x screen.
-// photoFilesCheck(): every copy of every photo exists at the width the page says, and each full-size
-//   copy is as large as its source allows. `npm run check` runs it once.
+// photoCheck(): at this width, every photo opens larger when clicked, holds its own shape before it loads,
+//   and is sharp on a 1x and a 2x screen from its page copies alone.
+// photoFilesCheck(): every copy of every photo exists at the width and height the page says, and each
+//   full-size copy is as large as its source allows. `npm run check` runs it once.
 
 // The width of each source photo after cropping, taken from the sources themselves, not from the page:
 // Toyota's build-tool renders come at most 4000px wide (cropped to the car, the seats' screen or the
@@ -23,7 +24,7 @@ const SWAPPED = [
   'roof-xle', 'roof-xse', 'roof-ltd',
 ];
 
-const loadWidth = src => new Promise(res => { const i = new Image(); i.onload = () => res(i.naturalWidth); i.onerror = () => res(0); i.src = src; });
+const loadSize = src => new Promise(res => { const i = new Image(); i.onload = () => res([i.naturalWidth, i.naturalHeight]); i.onerror = () => res([0, 0]); i.src = src; });
 const fullName = img => (img.dataset.full || '').replace(/^img\/full\//, '').replace(/\.webp$/, '');
 const photos = () => [...document.querySelectorAll('header img, main img')]
   .filter(el => getComputedStyle(el).display !== 'none' && el.getClientRects().length > 0);
@@ -41,12 +42,42 @@ window.photoCheck = async function photoCheck(){
     // The hero's four cars open larger but show no expand icon (David); every other photo shows one.
     const icon = !!img.closest('button.zoom').querySelector('.zi'), hero = !!img.closest('.car');
     if(icon === hero) fails.push(`photo ${name} ${hero ? 'is a hero car and shows' : 'shows no'} an expand icon at ${W}px`);
-    const copies = (img.getAttribute('srcset') || '').split(',').map(s => parseInt(s.trim().split(/\s+/)[1])).filter(Boolean);
-    if(copies.length < 2){ fails.push(`photo ${name} has no 1x and 2x copies (srcset "${img.getAttribute('srcset') || ''}")`); continue; }
-    const shown = Math.round(img.getBoundingClientRect().width), biggest = Math.max(...copies);
-    const full = await loadWidth(img.dataset.full);
-    // Sharp on a 2x screen, unless the source itself is smaller than that.
+    const [full, fullH] = await loadSize(img.dataset.full);
+
+    // Its width and height attributes give its own shape, so the browser holds the right space before the file arrives.
+    const aw = +img.getAttribute('width'), ah = +img.getAttribute('height');
+    if(!aw || !ah) fails.push(`photo ${name} has no width and height attributes at ${W}px, so nothing holds its shape before it loads`);
+    else if(full && Math.abs(ah - aw * fullH / full) > 1) fails.push(`photo ${name}'s width and height are ${aw}x${ah}; its own shape is ${full}x${fullH}`);
+    // A photo with no CSS crop (object-fit fill) shows at its own shape. A stand-in with no file to load gets the
+    // space the photo holds before it loads; the photo itself, loaded or not, must hold the same shape. The
+    // stand-in drops `sizes` too: Chrome lays out an img with "auto" sizes and no file at all differently from
+    // a lazy photo whose file is still to come.
+    if(full && getComputedStyle(img).objectFit === 'fill'){
+      const ghost = img.cloneNode(false);
+      ['src', 'srcset', 'sizes', 'id'].forEach(a => ghost.removeAttribute(a));
+      ghost.alt = '';
+      img.after(ghost);
+      const g = ghost.getBoundingClientRect();
+      ghost.remove();
+      if(Math.abs(g.height - g.width * fullH / full) > 1) fails.push(`photo ${name} holds a ${Math.round(g.width)}x${Math.round(g.height)} space at ${W}px before it loads; its own shape is ${full}x${fullH}`);
+      const r = img.getBoundingClientRect();
+      if(Math.abs(r.height - r.width * fullH / full) > 1) fails.push(`photo ${name} shows at ${Math.round(r.width)}x${Math.round(r.height)} at ${W}px, out of its own ${full}x${fullH} shape`);
+    }
+
+    // The full-size copy is for the expanded view only; the page picks from the page copies.
+    const srcset = img.getAttribute('srcset') || '';
+    if(/(^|,)\s*img\/full\//.test(srcset)) fails.push(`photo ${name}'s srcset lists its full-size copy at ${W}px; only the expanded view uses it`);
+    const copies = srcset.split(',').map(s => s.trim().split(/\s+/)).filter(([f]) => f && !f.startsWith('img/full/')).map(([, w]) => parseInt(w)).filter(Boolean);
+    if(copies.length < 2){ fails.push(`photo ${name} has no 1x and 2x copies (srcset "${srcset}")`); continue; }
+    const shown = Math.round(img.getBoundingClientRect().width), smallest = Math.min(...copies), biggest = Math.max(...copies);
+    // Sharp on a 1x screen and on a 2x screen, unless the source itself is smaller than that.
+    if(smallest < Math.min(shown, full) - 2) fails.push(`photo ${name} shows ${shown}px wide at ${W}px; its page copy is ${smallest}px, under 1x (full size ${full}px)`);
     if(biggest < Math.min(2 * shown, full) - 2) fails.push(`photo ${name} shows ${shown}px wide at ${W}px; its largest page copy is ${biggest}px, under 2x (full size ${full}px)`);
+    // A card's lone photo (layout check 37) is at its widest once the reading column is. Its page copy then
+    // covers that width without much to spare, so phones and 1x screens don't load more than they show.
+    const col = img.closest('.f-vis > figure') && img.closest('.wrap');
+    if(col && col.getBoundingClientRect().width >= parseFloat(getComputedStyle(col).maxWidth) - 1 && smallest > 1.1 * shown)
+      fails.push(`photo ${name} shows at most ${shown}px wide; its page copy is ${smallest}px, more than 10% over`);
   }
 
   // Opening the color picker's car photo shows the full-size copy of the paint that's picked.
@@ -104,9 +135,11 @@ window.photoFilesCheck = async function photoFilesCheck(){
   for(const name of names){
     const p = PHOTOS[name];
     if(!p){ fails.push(`photo ${name} isn't in photos.js`); continue; }
-    const [w1, w2, wf] = p;
-    const got = await Promise.all([`img/${name}.webp`, `img/${name}@2x.webp`, `img/full/${name}.webp`].map(loadWidth));
-    if(got.join() !== [w1, w2, wf].join()) fails.push(`photo ${name} copies are ${got.join(', ')}px wide; photos.js says ${w1}, ${w2}, ${wf}`);
+    if(![p.widths, p.heights].every(a => Array.isArray(a) && a.length === 3)){ fails.push(`photo ${name} in photos.js doesn't list the widths and heights of its three copies`); continue; }
+    const [w1, w2, wf] = p.widths;
+    const got = (await Promise.all([`img/${name}.webp`, `img/${name}@2x.webp`, `img/full/${name}.webp`].map(loadSize))).map(s => s.join('x')).join(', ');
+    const says = p.widths.map((w, i) => `${w}x${p.heights[i]}`).join(', ');
+    if(got !== says) fails.push(`photo ${name} copies are ${got}px; photos.js says ${says}`);
     if(w2 !== Math.min(2 * w1, wf)) fails.push(`photo ${name}'s 2x copy is ${w2}px; expected ${Math.min(2 * w1, wf)}`);
     const src = SOURCE_WIDTH.find(([re]) => re.test(name));
     if(!src) fails.push(`photo ${name} has no known source size`);
