@@ -10,6 +10,8 @@
   --focus:#1D5FD1;
   --text:"Atkinson Hyperlegible",system-ui,sans-serif;
   /* One type scale: like elements share a size (reading check 2). Body is 19px (18px on phones), ledes 21px. */
+  /* Two page widths (layout check 8): text sits in the reading column; .bleed rows that compare four trims run wider. */
+  --read:1060px; --wide:1372px; --gutter:24px; --measure:34em;
   --fs-ui:18px; --fs-table:17px; --fs-control:17px; --fs-nav:16px; --fs-note:16px; --fs-cap:15px; --fs-label:15px;
   color-scheme:light;
 }
@@ -42,15 +44,24 @@ p{margin:0 0 .8em}
 a{color:inherit}
 img{max-width:100%;height:auto;display:block}
 :focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1420px;margin:0 auto;padding:0 24px}
-@media (max-width:640px){.wrap{padding:0 16px}body{font-size:18px}}
-.lede{font-size:21px;color:var(--ink-2);max-width:62ch}
+.wrap{max-width:calc(var(--read) + 2 * var(--gutter));margin:0 auto;padding:0 var(--gutter)}
+.wrap.wide{max-width:calc(var(--wide) + 2 * var(--gutter))}
+@media (max-width:640px){:root{--gutter:16px}body{font-size:18px}}
+/* A row that compares the four trims breaks out of the reading column into the side margins, up to the
+   wide width. body is the size container, so 100cqw is the page width without the scrollbar. */
+body{container:page/inline-size}
+.bleed{margin-inline:calc((100% - min(100cqw - 2 * var(--gutter), var(--wide))) / 2)}
+/* Running text wraps to avoid a lone word on its last line (reading check 7); short captions balance their lines. */
+body{text-wrap:pretty}
+figcaption,.cap,.demo-cap{text-wrap:balance}
+.lede{font-size:21px;color:var(--ink-2);max-width:var(--measure)}
 .muted{color:var(--ink-2)}
 .small,.note{font-size:var(--fs-note)}
 .cap{font-size:var(--fs-cap);color:var(--ink-2);margin:0}
 .note{color:var(--ink-2);margin:0}
 /* Notes, steps and fine print that sit in wide panels keep a readable line: about 80 characters (em, not ch: this face's zero is wide). */
-.note,.cap,.chg-need,.checklist small,footer p{max-width:36em}
+/* Prose that runs the full reading column keeps a readable measure; text beside a column fills its space. */
+.sec-head > p,.year-diff > p,footer p,.spec-more,.pk-note,.note,.cap,.chg-need,.checklist small,.f-text .aka{max-width:var(--measure)}
 
 /* ---------- top bar, then the section nav that sticks under it ---------- */
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
@@ -83,6 +94,7 @@ img{max-width:100%;height:auto;display:block}
 .road{position:relative;margin-top:32px;background:var(--asphalt);color:#fff;border-radius:28px 28px 0 0;padding:32px 0 34px;overflow:hidden}
 /* The lane line runs the full width of the road, behind the cars. */
 .road::before{content:"";position:absolute;left:0;right:0;top:156px;height:6px;background:repeating-linear-gradient(90deg,var(--lane) 0 46px,transparent 46px 82px);opacity:.9}
+.road-in{padding:0 var(--gutter)}
 .road .sl{--sl-bg:var(--asphalt);--sl-ink:#fff}
 .car{text-align:center;text-decoration:none;color:#fff;display:block;padding:0 6px;position:relative}
 .car .zoom{overflow:visible;border-radius:0}
@@ -102,7 +114,7 @@ img{max-width:100%;height:auto;display:block}
 /* 2026 only: how it differs from the 2027. */
 .year-diff{margin-top:28px;background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:22px 26px 24px;border-left:6px solid var(--lane)}
 .year-diff h2{font-size:clamp(22px,2.6vw,28px);margin:0 0 6px}
-.year-diff > p{margin:0;color:var(--ink-2);max-width:70ch}
+.year-diff > p{margin:0;color:var(--ink-2)}
 .yd-table{width:100%;border-collapse:collapse;margin:14px 0 12px;font-size:17px}
 .yd-table th,.yd-table td{text-align:left;padding:9px 12px 9px 0;border-top:1px solid var(--rule);vertical-align:top}
 .yd-table thead th{border-top:0;font:700 var(--fs-label) Overpass,sans-serif;color:var(--ink-2)}
@@ -164,18 +176,15 @@ section{padding:88px 0 0}
 .legend{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:var(--fs-label);color:var(--ink-2)}
 
 /* ---------- priorities ---------- */
-.picker{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:28px}
-@media (max-width:640px){.picker{padding:20px 16px}}
 .chips{display:flex;flex-wrap:wrap;gap:10px}
-.chip{font:inherit;font-size:17px;border:2px solid var(--edge);background:var(--paper);color:var(--ink);padding:10px 16px;border-radius:999px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;transition:background .15s,border-color .15s}
+.chip{font:inherit;font-size:var(--fs-control);border:2px solid var(--edge);background:var(--card);color:var(--ink);padding:10px 16px;border-radius:999px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;transition:background .15s,border-color .15s}
 .chip:hover{border-color:var(--ink-2)}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 /* An unpicked chip shows an empty circle; the check appears only once it's picked. */
 .chip .tick{width:18px;height:18px;border-radius:50%;border:2px solid var(--edge);display:grid;place-items:center;font-size:12px;color:transparent}
 .chip[aria-pressed="true"] .tick{background:var(--lane);border-color:var(--lane);color:#222}
-.picker .sl{--sl-bg:var(--card);margin:26px -28px 0}
-@media (max-width:640px){.picker .sl{margin-inline:-16px}}
-.score{border-radius:18px;padding:20px;border:2px solid transparent;background:var(--paper);transition:border-color .2s}
+.picker .sl{margin-top:26px}
+.score{border-radius:24px;padding:22px;border:2px solid transparent;background:var(--card);box-shadow:var(--shadow);transition:border-color .2s}
 .score.best{border-color:var(--lane)}
 .score h4{font-size:22px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .score-price{margin:2px 0 0;font:700 18px Overpass,sans-serif;color:var(--ink-2)}
@@ -231,7 +240,6 @@ section{padding:88px 0 0}
 .feature > .avail{grid-area:avail;margin:32px -22px 0;padding:16px 22px 20px;border-top:1px solid var(--rule)}
 .f-text{padding:0}
 /* Feature copy keeps to a readable line length, whatever the panel's width. */
-.f-text > p{max-width:65ch}
 .f-text h4{font-size:26px;font-weight:800}
 .f-text .aka{font-size:var(--fs-note);color:var(--ink-2);margin:6px 0 16px}
 .f-text .aka i{display:inline-block;max-width:100%;font-style:normal;background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:1px 7px}
@@ -390,7 +398,7 @@ section{padding:88px 0 0}
 .pk-total{margin:6px 8px 18px;background:var(--paper);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
 .pk-total .big{font:800 30px Overpass,sans-serif;line-height:1.1}
 .pk-total .small{color:var(--ink-2)}
-.pk-note{margin-top:18px;font-size:var(--fs-note);color:var(--ink-2);max-width:80ch}
+.pk-note{margin-top:18px;font-size:var(--fs-note);color:var(--ink-2)}
 
 /* ---------- paint and interior colors ---------- */
 /* The photos sit on a light studio backdrop in both themes, since a black car vanishes on a dark card. */

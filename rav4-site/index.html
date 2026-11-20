@@ -14,13 +14,13 @@
 <body>
 
 <header class="topbar">
-  <div class="wrap">
+  <div class="wrap wide">
     <a class="brand" href="#top">RAV4 trim guide <span data-f="year">2027</span></a>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch light or dark mode">◐</button>
   </div>
 </header>
 <nav class="subnav" aria-label="Sections">
-  <div class="wrap subnav-row"><div class="nav">
+  <div class="wrap wide subnav-row"><div class="nav">
     <a href="#picker">Your priorities</a>
     <a href="#steps">Step-ups</a>
     <a href="#packages">Packages</a>
@@ -39,8 +39,8 @@
   <h1>Four <span data-f="year">2027</span> RAV4s, side by side</h1>
   <p class="lede">Three are the RAV4 Hybrid. They share the engine, all-wheel drive and body, and differ in comfort, cameras and looks. The fourth, the Plug-in Hybrid XSE, has a bigger battery you charge from an outlet, so short trips can run on electricity alone.</p>
 
-  <div class="road" role="group" aria-label="The four trims, lowest to highest price">
-    <div class="wrap"><div class="sl" data-sl>
+  <div class="road bleed" role="group" aria-label="The four trims, lowest to highest price">
+    <div class="road-in"><div class="sl" data-sl>
       <div class="sl-view"><div class="sl-track">
       <div class="car">
         <img src="img/colors/ext-4444-04V8.webp" data-photo="colors/ext-4444-04V8" sizes="(min-width: 1100px) 305px, 230px" alt="RAV4 XLE Premium in Meteor Shower (silver)" width="680" height="296">
@@ -77,7 +77,7 @@
       </div></div>
     </div></div>
   </div>
-  <div class="road-foot">
+  <div class="road-foot bleed">
     <span>Every price on this page includes Toyota's <b>$1,595 destination fee</b>. None include tax or registration.</span>
     <span id="mpgLine">Gas mileage: <b>41 mpg</b> (XLE Premium), <b>40 mpg</b> (XSE and Limited), combined. The <b>Plug-in XSE</b> goes about <b>50 miles</b> on a charge, then gets <b>39 mpg</b>.</span>
   </div>
@@ -99,7 +99,7 @@
         <span class="pill opt">Optional extra cost</span>
         <span class="pill no">Not offered</span>
       </div>
-      <div class="sl" data-sl data-sl-col="290" id="scoresSl"><div class="sl-view"><div class="sl-track scores" id="scores" aria-live="polite"></div></div></div>
+      <div class="sl bleed" data-sl data-sl-col="340" id="scoresSl"><div class="sl-view"><div class="sl-track scores" id="scores" aria-live="polite"></div></div></div>
     </div>
   </div>
 </section>
@@ -151,7 +151,7 @@
       <p class="lede">Toyota sells extras in packages that come in a fixed order. To get a package, you also have to buy every package above it on the list. Tap a package to see what the car would cost with it.</p>
     </div>
     <div class="pk-callouts" id="pkCallouts"></div>
-    <div class="sl tall" data-sl data-sl-col="290"><div class="sl-view"><div class="sl-track pk-grid" id="pkGrid"></div></div></div>
+    <div class="sl tall bleed" data-sl data-sl-col="340"><div class="sl-view"><div class="sl-track pk-grid" id="pkGrid"></div></div></div>
   </div>
 </section>
 
@@ -203,7 +203,7 @@
       <label class="toggle"><input type="checkbox" id="diffOnly" checked> Only show differences</label>
       <span class="count" id="specCount" aria-live="polite"></span>
     </div>
-    <div id="specList"></div>
+    <div id="specList" class="bleed"></div>
     <p class="spec-more">Option packages, and the Limited’s head-up display option, are listed with their prices under <a href="#packages">Option packages and prices</a>.</p>
   </div>
 </section>
