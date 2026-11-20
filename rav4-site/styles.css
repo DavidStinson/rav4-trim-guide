@@ -269,7 +269,7 @@ section .wrap > :last-child{margin-bottom:0}
 .f-text p{margin:0}
 .f-text h4{font-size:26px;font-weight:800}
 .f-text .aka{font-size:var(--fs-note);color:var(--ink-2);margin:6px 0 16px}
-.f-text .aka i{display:inline-block;max-width:100%;font-style:normal;background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:1px 7px}
+.f-text .aka i{font-style:normal;background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:1px 7px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .f-text .why{border-left:4px solid var(--lane);padding:2px 0 2px 14px;margin:var(--sp-tight) 0 0;color:var(--ink)}
 .f-text .why b{display:block;font-size:var(--fs-label);color:var(--ink-2);font-weight:700}
 .avail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 16px}
