@@ -118,7 +118,14 @@ const VIEW = (function(){
       if(tabbed){
         // One card at a time, full width, picked by name.
         if(tabs.children.length!==n) tabs.innerHTML = items.map((el,i)=>`<button type="button" data-i="${i}"><i style="background:${TRIMS[i].color}" aria-hidden="true"></i>${esc(TRIMS[i].name)}</button>`).join('');
-        [...tabs.children].forEach((b,i)=>b.setAttribute('aria-pressed', i===o));
+        // A card's flag ("Best match") shows on its tab too, since only one card is on screen at a time.
+        [...tabs.children].forEach((b,i)=>{
+          b.setAttribute('aria-pressed', i===o);
+          const f = items[i].dataset.flag || '', s = b.querySelector('.tab-flag');
+          if(f && !s) b.insertAdjacentHTML('beforeend', `<small class="tab-flag">${esc(f)}</small>`);
+          else if(s && !f) s.remove();
+          else if(s) s.textContent = f;
+        });
         sl.style.setProperty('--col', w+'px'); sl.style.setProperty('--gap', L.gap+'px');
         track.style.transform = o ? `translateX(${-o*(w+L.gap)}px)` : '';
         items.forEach((el,i)=>{ el.inert=i!==o; el.classList.toggle('sl-out', i!==o); });
@@ -146,9 +153,9 @@ const VIEW = (function(){
 
 /* ===================== PICKER ===================== */
 (function(){
-  const chips = $('#chips'), scores = $('#scores'), note = $('#emptyNote'), legend = $('#pickLegend');
+  const chips = $('#chips'), scores = $('#scores'), legend = $('#pickLegend');
   let picked = new Set(store.get('rav4-picks',[]));
-  chips.innerHTML = PRIORITIES.map(p=>`<button type="button" class="chip" data-id="${p.id}" aria-pressed="${picked.has(p.id)}"><span class="tick" aria-hidden="true">✓</span>${esc(p.label)}</button>`).join('');
+  chips.innerHTML = PRIORITIES.map(p=>`<button type="button" class="chip" data-id="${p.id}" aria-pressed="${picked.has(p.id)}"><span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2 5 8.5 9.5 3.5"/></svg></span>${esc(p.label)}</button>`).join('');
   chips.addEventListener('click',e=>{
     const b=e.target.closest('.chip'); if(!b) return;
     const id=b.dataset.id; picked.has(id)?picked.delete(id):picked.add(id);
@@ -162,11 +169,11 @@ const VIEW = (function(){
     const items = PRIORITIES.filter(p=>picked.has(p.id)).flatMap(rowsFor);
     // de-dupe features shared by two priorities
     const seen=new Set(); const rows=items.filter(r=>{const k=r.label; if(seen.has(k)) return false; seen.add(k); return true;});
-    // Before a pick, the four cards still show which trim is which, so the picker never looks empty.
-    note.hidden = rows.length>0; legend.hidden = rows.length===0;
+    // Before a pick, the four cards show only each trim's name and price, so the picker never looks empty.
+    legend.hidden = rows.length===0;
     const head = t=>`<h4><span style="color:${t.color}">${t.name}</span><span class="best-badge">Best match</span></h4><p class="score-price">${money(START[t.id])}</p>`;
     if(!rows.length){
-      scores.innerHTML = TRIMS.map(t=>`<div class="score idle">${head(t)}<div class="meter" aria-hidden="true"><i></i><i></i><i></i></div></div>`).join('');
+      scores.innerHTML = TRIMS.map(t=>`<div class="score idle">${head(t)}</div>`).join('');
       VIEW.refresh(); return;
     }
     const pts = TRIMS.map((t,i)=>rows.reduce((a,r)=>a+(r.trims[i][0]==='std'?1:r.trims[i][0]==='opt'?.5:0),0));
