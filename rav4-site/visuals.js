@@ -288,7 +288,7 @@ VIS.evDemo = ()=>{
         <div class="cost-row" style="--c:var(--xse)"><span>Hybrid XSE</span><span class="bar"><span id="evBarH"></span></span><b id="evCostH"></b></div>
         <div class="cost-row" style="--c:var(--phv)"><span>Plug-in XSE</span><span class="bar"><span id="evBarP"></span></span><b id="evCostP"></b></div>
       </div>
-      <p class="demo-summary" id="evSave" aria-live="polite"></p>
+      <div id="evSave" aria-live="polite"></div>
       <p class="note" style="margin:0">Uses the miles per day above and assumes you charge at home every night. Counts only gas and electricity, not insurance, upkeep or rebates.</p>
     </section>
   </div>`, init(root){
@@ -328,11 +328,11 @@ VIS.evDemo = ()=>{
         ? ` At this electricity price, a mile on electricity costs more than a mile on gas in the Hybrid, so ${saves?'driving more cuts into the savings':'the gap grows the more you drive'}.`
         : g>0 ? ` Past ${RANGE} miles both cars run on gas, and the Plug-in gets ${MPG_XSE-MPG_PHEV} mpg less, so longer days ${saves?'shave a little off the savings':'add a little to its cost'}.` : '';
       if(!saves){
-        $in('evSave').innerHTML = `<b>No fuel savings at these numbers.</b> The Plug-in would cost about ${money(-save)} more to fuel over ${YEARS} years, and it costs ${money(PREMIUM)} more to buy.${why}`;
+        $in('evSave').innerHTML = `<span class="note-tag">No savings with these figures</span><p class="demo-text">The Plug-in would cost about ${money(-save)} more to fuel over ${YEARS} years, and it costs ${money(PREMIUM)} more to buy.${why}</p>`;
       } else {
         const yrs = Math.round(PREMIUM/(save/YEARS));
         const back = yrs>20 ? 'more than 20 years' : `about ${Math.max(yrs,1)} year${yrs>1?'s':''}`;
-        $in('evSave').innerHTML = `<b>The Plug-in saves about ${money(save)} over ${YEARS} years</b> (${money(save/YEARS)} a year). It costs ${money(PREMIUM)} more to buy, so the fuel savings take ${back} to make that back.${why}`;
+        $in('evSave').innerHTML = `<span class="note-tag">Saves about ${money(save)} over ${YEARS} years</span><p class="demo-text">That’s about ${money(save/YEARS)} a year. The Plug-in costs ${money(PREMIUM)} more to buy, so the fuel savings take ${back} to make that back.${why}</p>`;
       }
     };
     [inp,days,gas,kwh].forEach(i=>i.addEventListener('input',set)); set();
