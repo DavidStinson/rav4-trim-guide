@@ -556,5 +556,20 @@ window.layoutCheck = function layoutCheck(){
     });
   }
 
+  // 27. The camera demo's toggle names the cameras only, not the trims (who has which is in the panel's
+  //     who-has-it column), and its result is plain text with no box, starting level with the toggle
+  //     where the two sit side by side (David, demo results walkthrough).
+  {
+    const demo = document.querySelector('#f-cam360 .demo'), seg = demo && demo.querySelector('.seg'), sum = document.getElementById('camSummary');
+    if(!demo || !seg || !sum) fails.push('camera demo: toggle (.seg) or result (#camSummary) not found');
+    else {
+      [...seg.querySelectorAll('button')].forEach(b => { if(/XLE|XSE|Limited|Plug-in|other three/i.test(b.textContent)) fails.push(`camera demo: toggle "${b.textContent.trim()}" names trims`); });
+      const cs = getComputedStyle(sum);
+      if(!/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor) || parseFloat(cs.paddingLeft) > 0) fails.push(`camera demo: result has a box (background ${cs.backgroundColor}, padding ${cs.paddingLeft}) at ${W}px; expected plain text`);
+      const a = seg.getBoundingClientRect(), b = sum.getBoundingClientRect();
+      if(b.left - a.left > 200 && Math.abs(b.top - a.top) > 2) fails.push(`camera demo: result starts ${Math.round(b.top - a.top)}px below the toggle at ${W}px; expected level with it`);
+    }
+  }
+
   return fails;
 };
