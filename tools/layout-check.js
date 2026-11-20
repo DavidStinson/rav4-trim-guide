@@ -451,11 +451,10 @@ window.layoutCheck = function layoutCheck(){
   }
 
   // 23. Inside each section's header, the lead sits close under its heading and the content stands clear
-  //     of the lead, in proportion to the section gap (David picked 16 / 48 after the sections moved
-  //     apart): 16px from heading to lead and 48px from the header to the content, 12px and 32px
-  //     on a phone.
+  //     of the lead (David: "8 above / 24 below"): 8px from heading to lead and 24px from the header to
+  //     the content, at every width.
   {
-    const [head, after] = W <= 640 ? [12, 32] : [16, 48];
+    const [head, after] = [8, 24];
     document.querySelectorAll('main .sec-head, body > section .sec-head').forEach(h => {
       if(!visible(h)) return;
       const id = h.closest('section')?.id || 'a section', h2 = h.querySelector('h2'), next = h2?.nextElementSibling, body = h.nextElementSibling;
@@ -473,9 +472,9 @@ window.layoutCheck = function layoutCheck(){
   // 24. Features steps down from the section gap: 72px before each group heading, 32px between panels,
   //     and 24px from a group heading to its first panel, so a heading sits closer to its panels than
   //     the panels sit to each other (David picked 32 / 72 / 24). The group links sit the header gap
-  //     (check 23) above the first group. On a phone: 48, 20 and 16.
+  //     (check 23, 24px) above the first group. On a phone: 48, 20 and 16.
   {
-    const [group, panel, head, nav] = W <= 640 ? [48, 20, 16, 32] : [72, 32, 24, 48];
+    const [group, panel, head, nav] = W <= 640 ? [48, 20, 16, 24] : [72, 32, 24, 24];
     const top = el => el.getBoundingClientRect().top, bot = el => el.getBoundingClientRect().bottom;
     const want = (g, w, what) => { if(Math.abs(g - w) > 1) fails.push(`features: ${Math.round(g)}px ${what} at ${W}px; expected ${w}`); };
     const groups = [...document.querySelectorAll('#features .fgroup')].filter(visible), navEl = document.querySelector('#features .group-nav');
