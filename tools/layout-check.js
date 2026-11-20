@@ -797,7 +797,8 @@ window.layoutCheck = function layoutCheck(){
       if(last && !last.classList.contains('avail') && !near(R(card).bottom - R(last).bottom, PAD)) fails.push(`${where(last)}: ends ${Math.round(R(card).bottom - R(last).bottom)}px above the card's bottom at ${W}px; expected ${PAD}`);
       // Tight steps.
       card.querySelectorAll('figcaption, .demo-cap, .demo-cols .cap').forEach(c => { const prev = c.previousElementSibling; if(visible(c) && prev && visible(prev)) gap(prev, c, sp.tight, `${where(c)} under its picture`); });
-      card.querySelectorAll('.f-text .why').forEach(w => { const prev = w.previousElementSibling; if(visible(w) && prev) gap(prev, w, sp.tight, `${where(w)} under the description`); });
+      // "Why it matters" sits 24px under the description in every card, the camera card included (David).
+      card.querySelectorAll('.f-text .why').forEach(w => { const prev = w.previousElementSibling; if(visible(w) && prev) gap(prev, w, 24, `${where(w)} under the description`); });
       card.querySelectorAll('.cam-seg').forEach(t => { const next = t.nextElementSibling; if(visible(t) && next) gap(t, next, sp.tight, `${where(t)} above what it controls`); });
       // The plug-in calculator: each block sits one part step from the rule above it, and the rule one part step below what came before.
       card.querySelectorAll('.ev-block').forEach(b => {
