@@ -615,7 +615,7 @@ window.layoutCheck = function layoutCheck(){
     const sliders = ['evMiles', 'evDays', 'evGas', 'evKwh'].map(id => document.getElementById(id));
     [['evSum', [[{evMiles: 30}, /^All 30 miles electric$/], [{evMiles: 80}, /^\d+ miles electric, \d+ on gas$/]]],
      ['chgSum', [[{evMiles: 30}, /^\d+½? hours? for your typical day of driving, on a regular outlet$/], [{evMiles: 5}, /^\d+½? (minutes|hours?) for your typical day of driving, on a regular outlet$/]]],
-     ['evSave', [[{evMiles: 30}, /^Saves about \$[\d,]+ over 5 years$/], [{evMiles: 30, evGas: 2.5, evKwh: 40}, /^No savings with these figures$/]]]
+     ['evSave', [[{evMiles: 30}, /^Saves about \$[\d,]+ over 5 years of your typical driving$/], [{evMiles: 30, evGas: 2.5, evKwh: 40}, /^No savings with these figures$/]]]
     ].forEach(([id, cases]) => {
       const box = document.getElementById(id);
       if(!box || sliders.some(s => !s)) { fails.push(`plug-in demo: result (#${id}) or one of its sliders not found`); return; }
@@ -855,5 +855,16 @@ window.layoutCheck = function layoutCheck(){
       fails.push(`${card.id}: its only photo shows at ${Math.round(r.width)}x${Math.round(r.height)} at ${W}px; its own shape is ${img.naturalWidth}x${img.naturalHeight}`);
   });
 
+
+  // 38. "Toyota calls it" reads as one sentence: Toyota's name follows the label on the same line and wraps
+  //     like text, each line keeping its own rounded box (David: an inline effect, not a block).
+  document.querySelectorAll('.f-text .aka').forEach(p => {
+    const name = p.querySelector('i'); if(!name || !visible(p)) return;
+    const cs = getComputedStyle(name), what = `${p.closest('.feature')?.id} "Toyota calls it"`;
+    if(cs.display !== 'inline') fails.push(`${what}: Toyota's name is display:${cs.display} at ${W}px; expected inline`);
+    if((cs.boxDecorationBreak || cs.webkitBoxDecorationBreak) !== 'clone') fails.push(`${what}: wrapped lines of Toyota's name don't each get their own box at ${W}px`);
+    const rg = document.createRange(); rg.selectNodeContents(p.firstChild); const label = rg.getClientRects()[0], first = name.getClientRects()[0];
+    if(label && first && Math.abs(first.top - label.top) > 4) fails.push(`${what}: Toyota's name starts on a new line at ${W}px, under its label`);
+  });
   return fails;
 };
