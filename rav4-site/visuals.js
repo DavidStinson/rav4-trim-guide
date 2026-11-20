@@ -332,7 +332,7 @@ VIS.evDemo = ()=>{
       } else {
         const yrs = Math.round(PREMIUM/(save/YEARS));
         const back = yrs>20 ? 'more than 20 years' : `about ${Math.max(yrs,1)} year${yrs>1?'s':''}`;
-        $in('evSave').innerHTML = `<span class="note-tag">Saves about ${money(save)} over ${YEARS} years</span><p class="demo-text">That’s about ${money(save/YEARS)} a year. The Plug-in costs ${money(PREMIUM)} more to buy, so the fuel savings take ${back} to make that back.${why}</p>`;
+        $in('evSave').innerHTML = `<span class="note-tag">Saves about ${money(save)} over ${YEARS} years of your typical driving</span><p class="demo-text">That’s about ${money(save/YEARS)} a year. The Plug-in costs ${money(PREMIUM)} more to buy, so the fuel savings take ${back} to make that back.${why}</p>`;
       }
     };
     [inp,days,gas,kwh].forEach(i=>i.addEventListener('input',set)); set();
