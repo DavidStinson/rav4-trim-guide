@@ -7,6 +7,9 @@
 // Toyota's build-tool renders come at most 4000px wide (cropped to the car, the seats' screen or the
 // roof), the press photos at most 3600px, and the Edmunds photo at 1200px.
 const SOURCE_WIDTH = [
+  // The seat close-up loses 18px on the left, where Toyota's source has a white band. Listed before RHV_,
+  // since the first match wins.
+  [/^RHV_MY26_0039$/, 3582],
   [/^colors\/ext-/, 3022], [/^colors\/rear-/, 2222], [/^colors\/int-/, 4000],
   [/^roof-/, 4000], [/^scr-/, 1244], [/^shifter-/, 1200], [/^RHV_/, 3600], [/^backup-edmunds$/, 1200],
 ];
