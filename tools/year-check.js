@@ -206,11 +206,14 @@ window.yearCheck = function yearCheck(year){
     const lp = pressed('#cpPaint').join();
     if(COLORS.ltd.paint[lp] !== 0) fails.push(`colors: Ice Cap on the Limited fell back to ${lp}; expected an included paint`);
     if(!note().startsWith("The Limited doesn't have the same paint") || !note().endsWith('as the XLE Premium you had picked. This shows the closest match.')) fails.push(`colors: switching Ice Cap to the Limited says "${note()}"; expected the paint message`);
-    // Picking a paint on the same model hides the note but keeps its space, so nothing below moves.
+    // Picking a paint on the same model hides the note. Beside the model toggle it keeps its space, so nothing
+    // below moves; under the toggle (narrow screens) it takes none, so no empty band is left (David).
     const noteEl = cp.querySelector('#cpNote'), noteH = noteEl.getBoundingClientRect().height;
+    const beside = noteEl.closest('.cp-note').getBoundingClientRect().top < cp.querySelector('#cpModel').getBoundingClientRect().bottom - 1;
     click(`#cpPaint [data-code="0089"]`);
-    if(getComputedStyle(noteEl).visibility !== 'hidden') fails.push(`colors: note should hide after picking a paint: ${note()}`);
-    if(Math.abs(noteEl.getBoundingClientRect().height - noteH) > 1) fails.push('colors: hiding the note changed its height');
+    if(getComputedStyle(noteEl).visibility !== 'hidden' && noteEl.getClientRects().length) fails.push(`colors: note should hide after picking a paint: ${note()}`);
+    if(beside && Math.abs(noteEl.getBoundingClientRect().height - noteH) > 1) fails.push('colors: hiding the note beside the toggle changed its height');
+    if(!beside && noteEl.closest('.cp-note').getClientRects().length) fails.push('colors: the hidden note under the toggle still takes room');
     // Picking a paint keeps keyboard focus on that paint's button (the list is redrawn on each pick).
     click('#cpPaint [data-code="0218"]');
     if(document.activeElement?.dataset?.code !== '0218' || !document.activeElement.isConnected) fails.push(`colors: focus after picking a paint is on ${document.activeElement?.outerHTML?.slice(0,60)}`);

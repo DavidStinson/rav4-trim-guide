@@ -7,6 +7,7 @@ window.layoutCheck = function layoutCheck(){
   const W = innerWidth;
   // The colors header's height before any check switches models (and so before any switch message), for check 26.
   const cpTopAtLoad = document.getElementById('cpNote')?.textContent.trim() ? null : document.querySelector('.cp-top')?.getBoundingClientRect().height;
+  const cpModelAtLoad = document.getElementById('cpModel')?.getBoundingClientRect().height;
   // What the reader sees, not what the markup says: a `hidden` element that CSS still displays counts as visible.
   const visible = el => getComputedStyle(el).display !== 'none' && el.getClientRects().length > 0;
   const sliders = [...document.querySelectorAll('[data-sl]')].filter(visible);
@@ -563,9 +564,11 @@ window.layoutCheck = function layoutCheck(){
         if(r < 4.5) fails.push(`.year-diff: "${el.textContent.trim().slice(0, 30)}" is ${r.toFixed(2)}:1 on its card; needs 4.5:1`);
       });
     }
-    // The colors switch message sits in a box filled like the model toggle beside it (David), and its space is
-    // always reserved, so nothing below moves when it appears or goes (David: fix the layout shift). Switching
-    // from the Plug-in XSE to the XLE Premium always changes the paint, so it brings the message up.
+    // The colors switch message sits in a box filled like the model toggle beside it (David). Where it sits
+    // beside the toggle its space is always reserved, so nothing below moves when it appears or goes (David:
+    // fix the layout shift). Where it drops under the toggle (a phone), an empty reserved space read as a
+    // blank band, so there it takes no room until it shows (David). Switching from the Plug-in XSE to the XLE
+    // Premium always changes the paint, so it brings the message up.
     const cpNote = document.getElementById('cpNote'), cpModel = document.getElementById('cpModel'), cpTop = document.querySelector('.cp-top');
     if(cpNote && cpModel && cpTop && visible(cpModel)) {
       const was = cpModel.querySelector('button[aria-pressed="true"]'), btn = t => cpModel.querySelector(`button[data-t="${t}"]`);
@@ -576,7 +579,10 @@ window.layoutCheck = function layoutCheck(){
       else {
         const want = getComputedStyle(cpModel).backgroundColor, got = getComputedStyle(box).backgroundColor;
         if(got !== want) fails.push(`colors switch message: background ${got}; expected ${want}, the model toggle's fill, at ${W}px`);
-        if(before !== null && Math.abs(tall() - before) > 1) fails.push(`colors panel: the header grows from ${before}px to ${tall()}px when the switch message appears at ${W}px; its space should be reserved`);
+        const under = box.getBoundingClientRect().top >= cpModel.getBoundingClientRect().bottom - 1;
+        const pad = parseFloat(getComputedStyle(cpTop).paddingTop) + parseFloat(getComputedStyle(cpTop).paddingBottom);
+        if(before !== null && !under && Math.abs(tall() - before) > 1) fails.push(`colors panel: the header grows from ${before}px to ${tall()}px when the switch message appears at ${W}px; its space should be reserved`);
+        if(before !== null && under && before > Math.round(cpModelAtLoad + pad) + 1) fails.push(`colors panel: ${before - Math.round(cpModelAtLoad + pad)}px of empty space under the model toggle before any message at ${W}px; it should take no room until it shows`);
         if(W >= 1100 && box.getBoundingClientRect().height > cpModel.getBoundingClientRect().height + 1) fails.push(`colors switch message is ${Math.round(box.getBoundingClientRect().height)}px tall beside a ${Math.round(cpModel.getBoundingClientRect().height)}px toggle at ${W}px; it should be no taller`);
       }
       if(was) was.click();
