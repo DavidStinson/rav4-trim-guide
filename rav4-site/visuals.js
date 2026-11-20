@@ -148,35 +148,49 @@ VIS.mirrorDemo = ()=>{
   }};
 };
 
-// --- Head-up display: the view through the windshield, with the display floating just above the hood ---
-// Wide like the card: sky, a road to the horizon, the pillars and the top of the dashboard. The shaded box
-// behind the readings is only for the drawing (the caption says so); the speed differs from the limit
-// so the two can't be read as one number (David).
+// --- Head-up display: the view from the driver's seat, with the display floating just above the hood ---
+// Wide like the card. The driver sits left of the car's center, so the road runs straight ahead of the
+// steering wheel, the center line passes to the left, and the display floats in front of the driver, over
+// the wheel. The windshield is framed by the roof, the pillars and the dashboard, with the mirror at the
+// top center. The shaded box behind the readings is only for the drawing (the caption says so); the speed
+// differs from the limit so the two can't be read as one number (David).
 VIS.hudDemo = ()=>{
-  const C = '#7FF2D2';
-  // Lane dashes shrink toward the vanishing point at (440,170).
-  const dash = (y1, y2)=>{ const w = y=>1.5 + (y - 170) * 0.035; return `M${440-w(y1)} ${y1} L${440+w(y1)} ${y1} L${440+w(y2)} ${y2} L${440-w(y2)} ${y2} Z`; };
+  const C = '#7FF2D2', VX = 300, VY = 160; // vanishing point, straight ahead of the driver
+  // A painted line from the vanishing point to x at the bottom; dashes shrink toward the horizon.
+  const line = (x, from, to, w0)=>{ const at = t=>[VX + (x - VX) * t, VY + (340 - VY) * t], hw = t=>.6 + w0 * t;
+    const [ax, ay] = at(from), [bx, by] = at(to); return `M${ax-hw(from)} ${ay} L${ax+hw(from)} ${ay} L${bx+hw(to)} ${by} L${bx-hw(to)} ${by} Z`; };
+  const glass = 'M120 34 Q440 16 760 34 Q782 36 788 56 L850 300 L30 300 L92 56 Q98 36 120 34 Z';
   return {html:`
   <div class="mini-demo">
-    <svg viewBox="0 0 880 340" role="img" aria-labelledby="hudT"><title id="hudT">The view through the windshield: the speed, the speed limit and a navigation arrow float just above the hood</title>
-      <defs><linearGradient id="hudSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FB9DC"/><stop offset="1" stop-color="#DCEAF3"/></linearGradient></defs>
-      <rect width="880" height="172" fill="url(#hudSky)"/>
-      <path d="M0 172 Q120 140 250 160 T520 156 T880 166 V180 H0 Z" fill="#8FA58A"/>
-      <rect y="170" width="880" height="170" fill="#7F9A6E"/>
-      <path d="M432 170 L448 170 L800 340 L80 340 Z" fill="#5E6468"/>
-      <path d="${dash(176,184)} ${dash(196,212)} ${dash(236,262)} ${dash(296,340)}" fill="#F2B705"/>
-      <path d="M0 0 H880 V26 Q440 6 0 26 Z" fill="#2B3034"/>
-      <path d="M0 0 H96 L22 316 H0 Z" fill="#2B3034"/>
-      <path d="M880 0 H784 L858 316 H880 Z" fill="#2B3034"/>
-      <path d="M0 340 V306 Q440 268 880 306 V340 Z" fill="#202427"/>
+    <svg viewBox="0 0 880 340" role="img" aria-labelledby="hudT"><title id="hudT">The view from the driver's seat: the speed, the speed limit and a navigation arrow float on the windshield just above the hood, in front of the steering wheel</title>
+      <defs>
+        <linearGradient id="hudSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FB9DC"/><stop offset="1" stop-color="#DCEAF3"/></linearGradient>
+        <clipPath id="hudGlass"><path d="${glass}"/></clipPath>
+      </defs>
+      <rect width="880" height="340" fill="#2B3034"/>
+      <g clip-path="url(#hudGlass)">
+        <rect width="880" height="${VY + 2}" fill="url(#hudSky)"/>
+        <path d="M0 ${VY + 2} Q140 128 300 150 T620 140 T880 154 V${VY + 10} H0 Z" fill="#8FA58A"/>
+        <rect y="${VY}" width="880" height="${340 - VY}" fill="#7F9A6E"/>
+        <path d="M${VX - 6} ${VY} L${VX + 6} ${VY} L980 340 L-420 340 Z" fill="#5E6468"/>
+        <path d="${line(-60, .04, .1, 3)} ${line(-60, .2, .32, 3)} ${line(-60, .48, .7, 3)}" fill="#F2B705"/>
+        <path d="${line(860, 0, 1, 4)}" fill="#E8EAEA"/>
+        <path d="M0 300 Q440 262 880 300 V340 H0 Z" fill="#46525C"/>
+        <path d="M120 292 Q440 262 760 292" fill="none" stroke="#6C7A85" stroke-width="3"/>
+        <path d="M560 40 L640 40 L520 300 L440 300 Z" fill="#fff" opacity=".07"/>
+      </g>
+      <path d="${glass}" fill="none" stroke="#3A4146" stroke-width="6"/>
+      <path class="hud-mirror" d="M434 0 H446 V30 H434 Z M392 30 H488 Q496 30 496 38 V58 Q496 66 488 66 H392 Q384 66 384 58 V38 Q384 30 392 30 Z" fill="#1E2225"/>
+      <path d="M0 340 V302 Q90 296 150 290 Q300 252 450 290 Q660 300 880 304 V340 Z" fill="#202427"/>
+      <path class="hud-wheel" d="M134 340 A250 250 0 0 1 466 340" fill="none" stroke="#131618" stroke-width="24"/>
       <g opacity=".95">
-        <rect x="306" y="192" width="284" height="84" rx="12" fill="#0E2A3A" opacity=".4"/>
-        <path class="nav-arrow" d="M334 262 V228 H358 M348 216 L362 228 L348 240" fill="none" stroke="${C}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-        <text class="hud-speed" x="446" y="242" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="48" fill="${C}">42</text>
-        <text x="446" y="266" text-anchor="middle" font-size="18" fill="${C}">mph</text>
-        <rect x="514" y="200" width="60" height="68" rx="6" fill="#fff" opacity=".92"/>
-        <text x="544" y="222" text-anchor="middle" font-size="17" fill="#222">LIMIT</text>
-        <text class="hud-limit" x="544" y="256" text-anchor="middle" font-size="30" font-weight="800" font-family="Overpass" fill="#222">45</text>
+        <rect x="168" y="178" width="264" height="80" rx="12" fill="#0E2A3A" opacity=".4"/>
+        <path class="nav-arrow" d="M196 246 V214 H220 M210 202 L224 214 L210 226" fill="none" stroke="${C}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <text class="hud-speed" x="294" y="226" text-anchor="middle" font-family="Overpass" font-weight="800" font-size="48" fill="${C}">42</text>
+        <text x="294" y="250" text-anchor="middle" font-size="18" fill="${C}">mph</text>
+        <rect x="356" y="186" width="60" height="64" rx="6" fill="#fff" opacity=".92"/>
+        <text x="386" y="207" text-anchor="middle" font-size="17" fill="#222">LIMIT</text>
+        <text class="hud-limit" x="386" y="240" text-anchor="middle" font-size="30" font-weight="800" font-family="Overpass" fill="#222">45</text>
       </g>
     </svg>
     <p class="cap">The shaded box is only there to make the drawing easier to read. On the real windshield the readings float on their own, with no box behind them.</p>
