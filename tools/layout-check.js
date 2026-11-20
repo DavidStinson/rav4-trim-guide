@@ -462,8 +462,11 @@ window.layoutCheck = function layoutCheck(){
         const g = next.getBoundingClientRect().top - h2.getBoundingClientRect().bottom;
         if(Math.abs(g - head) > 1) fails.push(`${id}: ${Math.round(g)}px from the heading to the lead at ${W}px; expected ${head}`);
       }
-      if(body && visible(body)) {
-        const g = body.getBoundingClientRect().top - h.getBoundingClientRect().bottom;
+      // Measured from the header's last line of text, not the header's box, so a stray margin on the
+      // lead can't hide inside the header and widen the gap unseen.
+      const last = [...h.children].filter(visible).at(-1);
+      if(body && visible(body) && last) {
+        const g = body.getBoundingClientRect().top - last.getBoundingClientRect().bottom;
         if(Math.abs(g - after) > 1) fails.push(`${id}: ${Math.round(g)}px from the header to the content at ${W}px; expected ${after}`);
       }
     });
@@ -471,10 +474,10 @@ window.layoutCheck = function layoutCheck(){
 
   // 24. Features steps down from the section gap: 72px before each group heading, 32px between panels,
   //     and 24px from a group heading to its first panel, so a heading sits closer to its panels than
-  //     the panels sit to each other (David picked 32 / 72 / 24). The group links sit the header gap
-  //     (check 23, 24px) above the first group. On a phone: 48, 20 and 16.
+  //     the panels sit to each other (David picked 32 / 72 / 24). The group links sit 32px above the
+  //     first group, a little more than a group heading to its panel. On a phone: 48, 20, 16 and 32.
   {
-    const [group, panel, head, nav] = W <= 640 ? [48, 20, 16, 24] : [72, 32, 24, 24];
+    const [group, panel, head, nav] = W <= 640 ? [48, 20, 16, 32] : [72, 32, 24, 32];
     const top = el => el.getBoundingClientRect().top, bot = el => el.getBoundingClientRect().bottom;
     const want = (g, w, what) => { if(Math.abs(g - w) > 1) fails.push(`features: ${Math.round(g)}px ${what} at ${W}px; expected ${w}`); };
     const groups = [...document.querySelectorAll('#features .fgroup')].filter(visible), navEl = document.querySelector('#features .group-nav');
