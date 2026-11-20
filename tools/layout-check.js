@@ -883,11 +883,12 @@ window.layoutCheck = function layoutCheck(){
       const sp = svg.querySelector('.hud-speed')?.textContent.trim(), lim = svg.querySelector('.hud-limit')?.textContent.trim();
       if(!sp || !lim || sp === lim) fails.push(`#f-hud: the speed (${sp}) and the speed limit (${lim}) should both show and differ`);
       if(!/shaded box/i.test(panel.querySelector('.cap')?.textContent || '')) fails.push('#f-hud: no caption saying the shaded box is only for the drawing');
-      // A windshield seen from the driver's seat (David: the first drawing didn't read as one): the display
-      // floats in front of the driver, left of the car's center, above a steering wheel, under a mirror.
-      const sb = svg.querySelector('.hud-speed')?.getBoundingClientRect();
-      if(sb && sb.left + sb.width / 2 > s.left + s.width / 2) fails.push(`#f-hud: the display sits right of center at ${W}px; it floats in front of the driver, on the left`);
-      ['.hud-wheel', '.hud-mirror'].forEach(k => { if(!svg.querySelector(k)) fails.push(`#f-hud: the windshield view has no ${k.slice(5)}`); });
+      // A windshield seen from the driver's seat, like Toyota's own HUD photo (David): the glass fills the
+      // view, cut by the left pillar and the long flat dashboard, with the top of the steering wheel; the
+      // display floats in front of the driver, over the wheel.
+      ['.hud-wheel', '.hud-pillar'].forEach(k => { if(!svg.querySelector(k)) fails.push(`#f-hud: the windshield view has no ${k.slice(5)}`); });
+      const sb = svg.querySelector('.hud-speed')?.getBoundingClientRect(), wb = svg.querySelector('.hud-wheel')?.getBoundingClientRect();
+      if(sb && wb && (sb.left + sb.width / 2 < wb.left || sb.left + sb.width / 2 > wb.right)) fails.push(`#f-hud: the display isn't over the steering wheel at ${W}px`);
     }
     if(id === 'screen') {
       const [a, b] = [...svg.querySelectorAll('.scr')].map(r => r.getBoundingClientRect()).sort((x, y) => x.width - y.width); // smaller first
