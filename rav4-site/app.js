@@ -910,3 +910,37 @@ function mergeSpecs(raw){
     }
   }).observe(document.body, {subtree:true, childList:true, characterData:true});
 })();
+
+/* ===================== HYPHENATED NAMES STAY WHOLE =====================
+   Names, headings and labels never break a line at a hyphen (David chose this; layout check 40):
+   "Plug-in XSE", "Head-Up Display", "bird’s-eye view". Running text may still break there. Each
+   hyphenated word in them is wrapped in a no-wrap span, so the text itself stays the same for copying
+   and find-in-page. Labels that a slider or demo renders later get the same treatment. */
+(function(){
+  const SEL = 'h1, h2, h3, h4, h5, h6, th, button, .name, .from, .to, .tn, .pill, .pn, .cp-name, .best-badge';
+  const WORD = /[\p{L}\p{N}’']+(?:-[\p{L}\p{N}’']+)+/gu;
+  const wrap = n=>{
+    const t = n.data;
+    if(!t.includes('-') || n.parentElement.closest('.nw, svg')) return;
+    const f = document.createDocumentFragment(); let at = 0;
+    for(const m of t.matchAll(WORD)){
+      const s = document.createElement('span'); s.className = 'nw'; s.textContent = m[0];
+      f.append(t.slice(at, m.index), s); at = m.index + m[0].length;
+    }
+    if(!at) return;
+    f.append(t.slice(at)); n.replaceWith(f);
+  };
+  const scan = el=>{
+    const texts = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for(let n = walk.nextNode(); n; n = walk.nextNode()) texts.push(n);
+    texts.forEach(wrap);
+  };
+  const all = root=>{ const own = root.closest?.(SEL); if(own) scan(own); else root.querySelectorAll?.(SEL).forEach(scan); };
+  all(document.body);
+  new MutationObserver(list=>{
+    for(const m of list){
+      const el = m.target.nodeType === 1 ? m.target : m.target.parentElement;
+      if(el) all(el);
+    }
+  }).observe(document.body, {subtree:true, childList:true, characterData:true});
+})();

@@ -187,6 +187,8 @@ section .wrap > :last-child{margin-bottom:0}
 .sec-head > *{margin:0}
 
 /* ---------- status pills ---------- */
+/* A hyphenated word in a name or label, kept on one line (app.js, layout check 40). */
+.nw{white-space:nowrap}
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-label);font-weight:700;padding:3px 10px 3px 8px;border-radius:999px;white-space:nowrap;line-height:1.4}
 .pill svg{width:15px;height:15px;flex:none}
 .pill.std{background:var(--sign-soft);color:var(--sign)}
