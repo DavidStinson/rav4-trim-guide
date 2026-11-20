@@ -429,11 +429,11 @@ window.layoutCheck = function layoutCheck(){
   }
 
   // 22. Sections stand well apart, all by the same amount (David, after the rework: "double the spacing
-  //     between each section" and "unify the space between the sections"). The gap from the end of one
-  //     section's visible content to the next section's heading is 176px on a laptop (twice the old 88px),
-  //     144px on a tablet and 112px on a phone, where the screen is short; every gap within 2px of that.
+  //     between each section" and "unify the space between the sections", then "cut this to 120"). The gap
+  //     from the end of one section's visible content to the next section's heading is 120px on a laptop,
+  //     96px on a tablet and 80px on a phone, where the screen is short; every gap within 2px of that.
   {
-    const want = W >= 1100 ? 176 : W <= 640 ? 112 : 144;
+    const want = W >= 1100 ? 120 : W <= 640 ? 80 : 96;
     const secs = [...document.querySelectorAll('main ~ section, body > section, main section')].filter((el, i, a) => visible(el) && a.indexOf(el) === i && el.querySelector('.sec-head h2'));
     secs.forEach(sec => {
       const prev = sec.previousElementSibling;
@@ -451,8 +451,8 @@ window.layoutCheck = function layoutCheck(){
   }
 
   // 23. Inside each section's header, the lead sits close under its heading and the content stands clear
-  //     of the lead, in proportion to the doubled section gap (David picked 16 / 48 after the sections
-  //     moved apart): 16px from heading to lead and 48px from the header to the content, 12px and 32px
+  //     of the lead, in proportion to the section gap (David picked 16 / 48 after the sections moved
+  //     apart): 16px from heading to lead and 48px from the header to the content, 12px and 32px
   //     on a phone.
   {
     const [head, after] = W <= 640 ? [12, 32] : [16, 48];
@@ -467,6 +467,26 @@ window.layoutCheck = function layoutCheck(){
         const g = body.getBoundingClientRect().top - h.getBoundingClientRect().bottom;
         if(Math.abs(g - after) > 1) fails.push(`${id}: ${Math.round(g)}px from the header to the content at ${W}px; expected ${after}`);
       }
+    });
+  }
+
+  // 24. Features steps down from the section gap: 72px before each group heading, 32px between panels,
+  //     and 24px from a group heading to its first panel, so a heading sits closer to its panels than
+  //     the panels sit to each other (David picked 32 / 72 / 24). The group links sit the header gap
+  //     (check 23) above the first group. On a phone: 48, 20 and 16.
+  {
+    const [group, panel, head, nav] = W <= 640 ? [48, 20, 16, 32] : [72, 32, 24, 48];
+    const top = el => el.getBoundingClientRect().top, bot = el => el.getBoundingClientRect().bottom;
+    const want = (g, w, what) => { if(Math.abs(g - w) > 1) fails.push(`features: ${Math.round(g)}px ${what} at ${W}px; expected ${w}`); };
+    const groups = [...document.querySelectorAll('#features .fgroup')].filter(visible), navEl = document.querySelector('#features .group-nav');
+    if(!groups.length) fails.push('features: no feature groups found');
+    if(groups.length && navEl && visible(navEl)) want(top(groups[0].querySelector('h3')) - bot(navEl), nav, 'from the group links to the first group');
+    groups.forEach((g, i) => {
+      const h3 = g.querySelector(':scope > h3'), panels = [...g.querySelectorAll(':scope > .feature')].filter(visible);
+      if(!h3 || !panels.length) return;
+      want(top(panels[0]) - bot(h3), head, `from the ${g.id} heading to its first panel`);
+      panels.slice(1).forEach((p, k) => want(top(p) - bot(panels[k]), panel, `between ${panels[k].id || 'a panel'} and ${p.id || 'the next'}`));
+      if(groups[i + 1]) want(top(groups[i + 1].querySelector('h3')) - bot(panels.at(-1)), group, `before the ${groups[i + 1].id} heading`);
     });
   }
 
