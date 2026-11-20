@@ -731,7 +731,8 @@ function mergeSpecs(raw){
     const b = document.createElement('button');
     b.type='button'; b.className='zoom'; b.dataset.i=i;
     b.setAttribute('aria-label','Expand photo: '+img.alt);
-    img.replaceWith(b); b.append(img); b.insertAdjacentHTML('beforeend',ZOOM_ICON);
+    // The hero's four cars still open larger, but without the icon (David).
+    img.replaceWith(b); b.append(img); if(!b.closest('.car')) b.insertAdjacentHTML('beforeend',ZOOM_ICON);
     return b;
   });
   const dlg=$('#lightbox'), big=$('#lbImg'), stage=$('#lbStage'), cap=$('#lbCap'), count=$('#lbCount');
